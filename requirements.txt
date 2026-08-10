@@ -1,0 +1,27 @@
+# AI Kavach CRS — Python Dependencies
+# Install: pip install -r requirements.txt
+
+# === LLM & Agent Framework ===
+openai>=1.40.0
+# langgraph / langchain are NOT used by the current code. The orchestrator
+# dispatches agents with concurrent.futures. Kept here only as a placeholder
+# for a planned graph-based rewrite; safe to drop.
+# langgraph>=0.4.0
+# langchain-openai>=0.3.0
+# langchain-core>=0.3.0
+
+# === Code Analysis ===
+tree-sitter>=0.24.0
+tree-sitter-c>=0.23.0
+tree-sitter-cpp>=0.23.0
+
+# === Configuration & Utilities ===
+python-dotenv>=1.0.0
+pydantic>=2.0.0
+rich>=13.0.0
+
+# === SARIF Parsing ===
+# semgrep is installed separately: pip install semgrep
+
+# === Testing ===
+pytest>=8.0.0

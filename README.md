@@ -1,0 +1,247 @@
+# AI Kavach CRS — Autonomous Cyber Reasoning System
+
+An autonomous Cyber Reasoning System for the **Indian Army Terrier Cyber Quest 2026**.
+
+AI Kavach **finds** memory-safety bugs in C/C++ by fuzzing, **locates** them from
+the crash's own stack trace, **explains and patches** them with a multi-agent LLM
+ensemble, and — the part that matters — **proves the fix** by rebuilding the code
+and replaying the exact crashing input against the patched binary.
+
+Then it goes further: it **tries to break its own patches**. A fix that merely
+turns the gates green is not trusted until re-fuzzing and differential testing
+have failed to falsify it.
+
+If a patch cannot be shown to work, it is not reported as working.
+
+**Latest measured run:** 31/31 targets patched, 15/15 dynamically proven against
+the original exploit, 28/28 patches survived falsification, $0.041 total.
+Full detail and caveats in [`benchmark.md`](benchmark.md).
+
+---
+
+## Quick Start
+
+```bash
+conda activate ai_kavach
+pip install -r requirements.txt
+
+# Verify configuration (models come from .env)
+python -c "from config import get_llm_config; print(get_llm_config()['models'])"
+```
+
+**Run the benchmark**
+
+```bash
+# Everything: curated suites + fuzz-discovery + hardening + memory
+python benchmark.py --suite all --fuzz --harden --memory --fuzz-seconds 30
+
+# Just the curated suites plus fuzz-discovery
+python benchmark.py --suite all --fuzz --fuzz-seconds 30
+
+# Re-run only specific targets (e.g. ones that failed)
+python benchmark.py --suite synthetic --only SYN-06-OFF-BY-ONE,SYN-09-CMD-INJECTION
+
+# Just the curated suites
+python benchmark.py --suite all
+
+# Only the fuzz-discovery suite
+python benchmark.py --suite fuzz --fuzz-seconds 30
+
+# One suite, quick pass
+python benchmark.py --suite synthetic --limit 5
+```
+
+**Run against your own code**
+
+```bash
+python -m src.main --target /path/to/code \
+    --build-cmd 'clang -fsanitize=address,undefined -fno-sanitize-recover=all "{src}" -o "{bin}"' \
+    --pov-cmd   'sh repro.sh "{bin}"' \
+    --test-cmd  'make check'
+```
+
+`{src}`, `{srcdir}`, `{bin}` and `{workspace}` are substituted with the *patched*
+copy — so your commands test the patch, not the original. `--pov-cmd` must exit
+**0 only when the vulnerability is absent**. Without it the PoV gate is skipped
+and the run will tell you the patch is unproven.
+
+**Run the tests**
+
+```bash
+python -m pytest tests/unit -q     # 71 tests, no API calls, no network
+```
+
+---
+
+## What is actually implemented
+
+| Component | Status |
+|---|---|
+| Coverage-guided fuzzing | **Working** — libFuzzer *and* AFL++ drive one shared harness (`src/analysis_engine/fuzzer_manager.py`) |
+| Crash triage & deduplication | **Working** — replays each crash, parses the sanitizer report, maps crash class → CWE, clusters by root cause (`crash_triage.py`). Uses CASR when `casr-san` is on PATH, native ASan triage otherwise |
+| Fuzz → triage → patch → verify | **Working** — `src/fuzz_pipeline.py`, via `benchmark.py --fuzz` |
+| Semgrep static analysis → SARIF | **Working** — `p/security-audit` ruleset, SARIF v2.1.0 |
+| Tree-sitter AST context engine | **Working** — pulls the enclosing function plus the structs/typedefs it references |
+| Multi-agent ensemble (Alpha/Beta/Gamma) | **Working** — parallel; among agents that clear every gate, the smallest patch wins |
+| Agent Delta (Critic) | **Working** — LLM-as-judge with a strict JSON verdict; diagnoses *why* a patch was rejected instead of handing the agent a raw sanitizer dump |
+| DRV verification loop | **Working** — apply → build (ASan+UBSan) → PoV replay → regression → static re-scan |
+| Patch hardening | **Working** — re-fuzzes the patched build and differential-tests it against the original, to catch patches that only *look* fixed (`--harden`) |
+| Agent memory | **Working** — working / episodic / semantic / procedural; only gate-validated fixes are ever learned (`--memory`) |
+| Benchmark harness + reporting | **Working** — every reported figure is measured; nothing is a constant |
+| Driller / angr concolic fallback | **Implemented, self-gated** — plateau detection and symbolic solving are real, but the engine runs a known-answer test first and **disables itself** where angr can't tie symbolic input to a comparison (it can't on arm64 macOS; it can on x86-64 Linux) |
+
+---
+
+## Verification model
+
+A patch is reported as validated **only** when every gate configured for that
+target actually ran and passed:
+
+| # | Gate | Check |
+|---|---|---|
+| 0 | **Apply** | The diff applies to a pristine copy. Exact context first; a content-matching fallback places hunks whose line numbers drifted and refuses any it cannot place *uniquely*. |
+| 1 | **Build** | Compiles under ASan + UBSan with `-fno-sanitize-recover=all`, so a sanitizer report is a hard failure, not a warning. |
+| 2 | **PoV replay** | The exact input that crashed the original is replayed against the **patched** binary and must no longer trip a sanitizer. |
+| 3 | **Regression** | A benign input must still exit 0, stay sanitizer-clean, and print what it used to. |
+| 4 | **Post-patch scan** | Semgrep must not report findings the original did not have. |
+
+### Hardening: gates alone are gameable
+
+Passing every gate is not proof. Two cheap attacks defeat gate-only verification,
+and both are what a model optimising for a green gate would naturally produce:
+
+| Attack | Clears every gate? | Caught by |
+|---|:---:|---|
+| **PoV overfitting** — special-case the crashing input (`if (size == 4) return;`) | yes | **Adversarial re-fuzzing** of the patched build |
+| **Functionality gutting** — disable the code path with an early `return` | yes | **Differential testing** against the original on benign inputs |
+
+`--harden` runs both. A patch that fails is downgraded, not reported as a fix.
+Both countermeasures are verified against deliberately-cheating patches in the
+test suite, and verified not to flag honest fixes.
+
+Three further rules keep the numbers meaningful:
+
+- **`SKIPPED` is never a pass.** A gate with no command is reported as skipped,
+  with the reason. Reports separate "the PoV proved the fix" from "no PoV existed".
+- **Every PoV is pre-flighted.** Before any agent runs, the target is compiled
+  *unpatched* and the PoV executed against it. A PoV that doesn't reproduce is
+  disabled — so a patch can never be credited for fixing something never shown broken.
+- **Targets with no runtime manifestation say so.** Weaknesses that can't be
+  demonstrated on this platform (leaks needing LSan, uninitialised reads needing
+  MSan, intra-struct overruns ASan can't see, races) carry a written reason in
+  `tests/benchmarks/targets.py` and are never counted as PoV-verified.
+- **Harnesses must respect the target's preconditions.** A fuzz harness that
+  passes a count exceeding the buffer it supplies makes a function *unfixable by
+  contract* and produces false failures. This bit us once; a regression test now
+  scans for it. See `tests/fuzz_harnesses/README.md`.
+
+---
+
+## Architecture
+
+```
+             ┌──────────────── DETECTION ────────────────┐
+             │                                           │
+  Semgrep (SARIF)                        Fuzzing (libFuzzer / AFL++)
+             │                            ASan + UBSan instrumented
+             │                                           │
+             │                                    crash inputs
+             │                                           ▼
+             │                            Crash Triage — replay, parse
+             │                            sanitizer report, dedup by
+             │                            root cause, map → CWE
+             │                                           │
+             │                          coverage plateau ├──▶ Driller / angr
+             │                                           │    (self-gated)
+             └──────────────┬────────────────────────────┘
+                            ▼
+                 Vulnerability Report  (file + line from the crash trace)
+                            │
+                            ▼
+                 Tree-sitter Context Engine
+              (function + structs + typedefs)
+                            │
+                            ▼
+                 Multi-Agent Orchestrator
+        ┌───────────────────┼───────────────────┐
+        ▼                   ▼                   ▼
+      Alpha               Beta                Gamma
+    (analyst)         (minimalist)        (SARIF fixer)
+        └───────────────────┼───────────────────┘
+                            ▼
+                  DRV Verification Loop
+       apply → build → PoV replay → regression → re-scan
+                            │
+              ┌─────────────┴─────────────┐
+              ▼                           ▼
+      failure fed back              Verified Patch
+      to the agents                (smallest wins)
+                                          │
+                                          ▼
+                              Audit Report — per-gate
+                              PASS / FAIL / SKIPPED
+```
+
+---
+
+## Project layout
+
+```
+benchmark.py                     Master benchmark harness (measured metrics only)
+config/                          Model + API configuration, agent system prompts
+src/
+  main.py                        CLI pipeline entry point
+  fuzz_pipeline.py               fuzz → triage → patch → verify
+  analysis_engine/
+    fuzzer_manager.py            libFuzzer + AFL++ build and campaign control
+    crash_triage.py              Crash replay, sanitizer parsing, dedup, CWE mapping
+    driller_monitor.py           angr concolic engine + AFL plateau detection
+    semgrep_runner.py            Static analysis → SARIF
+  context_engine/
+    tree_sitter_extractor.py     AST-aware context extraction
+  agent_orchestrator/
+    orchestrator.py              Parallel ensemble, winner selection, memory I/O
+    critic.py                    Agent Delta + the escalation policy
+    llm_client.py                OpenAI client, retries, token/cost accounting
+  memory/
+    store.py                     Working / episodic / semantic / procedural memory
+  patch_validator/
+    drv_loop.py                  The verification gates + deterministic loop control
+    hardening.py                 Re-fuzzing + differential falsification
+  reporting/
+    audit_report.py              Audit trail with real per-gate outcomes
+tests/
+  benchmarks/targets.py          Target manifest + verification contract per target
+  benchmarks/harness/            PoV and regression runner scripts
+  fuzz_harnesses/                libFuzzer-style harnesses + shared AFL driver
+  demo_vulns/                    20 synthetic vulnerable programs
+  unit/                          Unit tests
+```
+
+---
+
+## Platform notes
+
+- **libFuzzer:** Apple's `/usr/bin/clang` does not ship the fuzzer runtime.
+  Homebrew LLVM does, and is auto-detected at `/opt/homebrew/opt/llvm/bin/clang`.
+- **AFL++ on macOS:** aborts with `shmget() failed` under the default SysV
+  shared-memory limits. The fuzzer manager sets `AFL_MAP_SIZE=65536`
+  automatically, which works without root. For full-size maps: `sudo afl-system-config`.
+- **angr on arm64 macOS:** imports and explores, but fails its known-answer test,
+  so concolic results are disabled rather than reported. Works on x86-64 Linux.
+- **CASR:** not installed (needs Rust). The native triage engine is used and is
+  automatically superseded by CASR if it appears on PATH.
+
+Model configuration lives in `config/__init__.py` — `MODEL_ALPHA` / `MODEL_BETA` /
+`MODEL_GAMMA` environment variables, default `gpt-4o-mini`.
+
+---
+
+## Documentation
+
+| File | Contents |
+|---|---|
+| `architecture.md` | Full five-phase design and component diagram |
+| `benchmark.md` | Measured results from the latest run |
+| `INSTALLED.md` | Everything installed, with uninstall commands |
+| `validation_roadmap.md` | The broader validation plan |
