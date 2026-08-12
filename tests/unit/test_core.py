@@ -139,3 +139,29 @@ def test_unconfigured_gates_report_skipped_not_pass():
 def test_expand_leaves_unknown_braces_untouched():
     out = DRVLoop.expand('gcc "{src}" -o "{bin}" && echo ${x[1]}', {"src": "/a.c", "bin": "/b"})
     assert '"/a.c"' in out and '"/b"' in out and "${x[1]}" in out
+
+
+def test_preflight_handles_commands_containing_literal_braces():
+    """
+    Regression: preflight used str.format(**ctx), which raises KeyError on any
+    command containing literal braces — JSON payloads, shell brace expansion,
+    awk programs. The real-CVE target's regression command asserts on the output
+    `{"a":1}` and crashed the whole pre-flight before this was fixed.
+    """
+    from src.patch_validator.drv_loop import DRVLoop
+    ctx = {"src": "/tmp/a.c", "srcdir": "/tmp", "bin": "/tmp/b", "workspace": "/tmp/w"}
+    cmd = 'sh run.sh "{bin}" "minified: {\\"a\\":1}" \'{ "a" : 1 }\''
+    out = DRVLoop.expand(cmd, ctx)
+    assert "/tmp/b" in out                       # placeholder substituted
+    assert '{ "a" : 1 }' in out                  # literal JSON preserved
+    assert '{\\"a\\":1}' in out
+
+
+def test_preflight_uses_the_brace_safe_expander():
+    """Guard against reintroducing raw .format(**ctx) in the pre-flight path."""
+    import pathlib
+    src = pathlib.Path(__file__).parent.parent.parent / "benchmark.py"
+    assert ".format(**ctx)" not in src.read_text(), (
+        "benchmark.py must expand command templates with DRVLoop.expand; "
+        "str.format crashes on literal braces"
+    )

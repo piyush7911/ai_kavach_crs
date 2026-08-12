@@ -13,8 +13,9 @@ have failed to falsify it.
 
 If a patch cannot be shown to work, it is not reported as working.
 
-**Latest measured run:** 31/31 targets patched, 15/15 dynamically proven against
-the original exploit, 28/28 patches survived falsification, $0.041 total.
+**Latest measured run:** 37/37 targets patched (95% CI [90.6, 100]), 21/21
+dynamically proven against the original exploit, 34/34 patches survived
+falsification, $0.0521 total.
 Full detail and caveats in [`benchmark.md`](benchmark.md).
 
 ---
@@ -32,8 +33,8 @@ python -c "from config import get_llm_config; print(get_llm_config()['models'])"
 **Run the benchmark**
 
 ```bash
-# Everything: curated suites + fuzz-discovery + hardening + memory
-python benchmark.py --suite all --fuzz --harden --memory --fuzz-seconds 30
+# Everything: curated suites + fuzz-discovery + hardening + memory + formal proof
+python benchmark.py --suite all --fuzz --harden --memory --formal --fuzz-seconds 30
 
 # Just the curated suites plus fuzz-discovery
 python benchmark.py --suite all --fuzz --fuzz-seconds 30
@@ -68,7 +69,7 @@ and the run will tell you the patch is unproven.
 **Run the tests**
 
 ```bash
-python -m pytest tests/unit -q     # 71 tests, no API calls, no network
+python -m pytest tests/unit -q     # 95 tests, no API calls, no network
 ```
 
 ---
@@ -87,6 +88,8 @@ python -m pytest tests/unit -q     # 71 tests, no API calls, no network
 | DRV verification loop | **Working** — apply → build (ASan+UBSan) → PoV replay → regression → static re-scan |
 | Patch hardening | **Working** — re-fuzzes the patched build and differential-tests it against the original, to catch patches that only *look* fixed (`--harden`) |
 | Agent memory | **Working** — working / episodic / semantic / procedural; only gate-validated fixes are ever learned (`--memory`) |
+| Real published CVEs | **Working** — 3 real defects in unmodified upstream cJSON (CVE-2019-11835, CVE-2019-11834, GH-800); 3/3 patched, PoV-proven, and hardened. Self-contained in `tests/real_cve_suite/`; the only suite whose provenance is external |
+| Bounded formal verification | **Working** — CBMC proves the patched function safe for **all** inputs within a per-target unwind bound (`--formal`). Requires a proof harness; targets without one report `unavailable`, never proven |
 | Benchmark harness + reporting | **Working** — every reported figure is measured; nothing is a constant |
 | Driller / angr concolic fallback | **Implemented, self-gated** — plateau detection and symbolic solving are real, but the engine runs a known-answer test first and **disables itself** where angr can't tie symbolic input to a comparison (it can't on arm64 macOS; it can on x86-64 Linux) |
 
@@ -116,6 +119,14 @@ and both are what a model optimising for a green gate would naturally produce:
 | **Functionality gutting** — disable the code path with an early `return` | yes | **Differential testing** against the original on benign inputs |
 
 `--harden` runs both. A patch that fails is downgraded, not reported as a fix.
+
+**`--formal` goes further still.** Every check above is empirical — it runs the
+program on inputs we chose. CBMC compiles the patched function into a logical
+formula and asks an SMT solver whether *any* input violates a safety property.
+Measured value: an overfitted patch (`if (col == 1000000) return -1;`) **passes
+the PoV gate** and is **caught by CBMC**, on a target that has no fuzz harness
+so re-fuzzing could not have caught it either. The claim is always *bounded* —
+"no violation within unwind K" — and the bound is reported with the result.
 Both countermeasures are verified against deliberately-cheating patches in the
 test suite, and verified not to flag honest fixes.
 

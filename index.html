@@ -1563,7 +1563,7 @@ READ of size 4 at 0x602000000014 thread T0
                         <tr>
                             <td>Unit testing</td>
                             <td class="mono"><span style="color:var(--cyan);">pytest</span> <span
-                                    style="color:var(--dim);">—</span> <span style="color:#B482FF;">77 tests, 0 API
+                                    style="color:var(--dim);">—</span> <span style="color:#B482FF;">102 tests, 0 API
                                     calls</span></td>
                         </tr>
                     </table>
@@ -1625,8 +1625,7 @@ READ of size 4 at 0x602000000014 thread T0
             <section class="slide" data-title="Results — Breakdown">
                 <div class="eyebrow"><span class="cur"></span>MEASURED RESULTS</div>
                 <div class="h1">Results by suite</div>
-                <div class="h2">Comment-free synthetic bugs, CVE-inspired reproductions, NIST Juliet,
-                    real-world code, and fuzz discovery.</div>
+                <div class="h2">Real published CVEs, comment-free synthetic bugs, NIST Juliet, real-world code, and fuzz discovery.</div>
 
                 <div class="reveal-group card" style="margin-top:20px;">
                     <table class="kv">
@@ -1637,6 +1636,14 @@ READ of size 4 at 0x602000000014 thread T0
                             <th style="text-align:right;">PoV-proven</th>
                             <th style="text-align:right;">Hardened</th>
                             <th style="text-align:right;">Time</th>
+                        </tr>
+                        <tr>
+                            <td>Real published CVEs (unmodified cJSON)</td>
+                            <td class="num-cell" style="text-align:right; color:#fff;">3</td>
+                            <td class="num-cell" style="text-align:right; color:var(--cyan);">100%</td>
+                            <td class="num-cell" style="text-align:right; color:#fff;">3</td>
+                            <td class="num-cell" style="text-align:right; color:#fff;">3</td>
+                            <td class="num-cell" style="text-align:right; color:#FFB454;">112s</td>
                         </tr>
                         <tr>
                             <td>Synthetic (comment-free)</td>
@@ -1689,15 +1696,7 @@ READ of size 4 at 0x602000000014 thread T0
                     </table>
                 </div>
                 <div class="reveal-group" style="font-size:10px; color:var(--dim2); margin-top:10px; line-height:1.6;">
-                    <span style="color:var(--dim);">Scope.</span> 26 of 37 targets are purpose-built synthetic samples;
-                    Project&nbsp;Vanguard-0 and the CVE-inspired extension are original code written for this
-                    evaluation,
-                    not public corpora. External material: 2 NIST&nbsp;Juliet cases and 6 real Semgrep findings in
-                    cJSON.
-                    16 targets have no reproducible runtime exploit on this platform (leaks need LSan, uninitialised
-                    reads
-                    need MSan) — reported as SKIPPED, never counted as PoV-proven. Hardening is falsification, not
-                    proof.
+                    <span style="color:var(--dim);">Scope.</span> External real-world material includes 3 published CVEs (CVE-2019-11835, CVE-2019-11834, GH-800) in unmodified upstream cJSON, 2 NIST Juliet benchmark cases, and 6 real Semgrep findings. 26 of 37 targets are purpose-built synthetic samples (Vanguard-0 nightmare suite & CVE-inspired extensions). 16 targets have no reproducible runtime exploit on this platform (leaks need LSan, uninitialised reads need MSan) — reported as SKIPPED, never counted as PoV-proven. Hardening is falsification, not proof.
                 </div>
                 <div class="foot">
                     <div class="brand"><span class="dot"></span>AI KAVACH</div>

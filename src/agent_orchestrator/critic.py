@@ -195,10 +195,15 @@ class EscalationPolicy:
         self.stage_counts: dict[str, int] = {}
         self.total_failures = 0
         self.escalations: list[str] = []
+        # Gist of each rejected attempt, in order. Progress is judged from
+        # these, not from how many times a stage was reached.
+        self.attempt_gists: list[str] = []
 
-    def record_failure(self, stage: str) -> None:
+    def record_failure(self, stage: str, gist: str = "") -> None:
         self.stage_counts[stage] = self.stage_counts.get(stage, 0) + 1
         self.total_failures += 1
+        if gist:
+            self.attempt_gists.append(gist)
 
     def should_invoke_critic(self, stage: str) -> bool:
         if stage == "pov":
@@ -212,11 +217,30 @@ class EscalationPolicy:
         )
 
     def should_stop_early(self) -> bool:
-        """True when one stage keeps failing and nothing is improving."""
-        return any(
-            count >= self.GIVE_UP_AFTER_IDENTICAL_FAILURES
-            for count in self.stage_counts.values()
-        )
+        """
+        True only when the agent has stopped making progress — the last N
+        attempts were materially IDENTICAL.
+
+        This used to count failures per stage, which is a different and much
+        harsher rule than the constant's name promises: an agent that reached
+        the PoV gate four times with four genuinely different candidate fixes
+        was killed as if it had been looping. Repeatedly failing the same gate
+        with *different* attempts is the loop working, not the loop stuck —
+        each rejection carries a fresh sanitizer report and a fresh critic
+        diagnosis, which is exactly the signal the next attempt needs.
+
+        Identity is judged on the attempt gist, so this is only as good as
+        `WorkingMemory.summarise_patch`; that function must be able to tell
+        whole-function replacements apart, or every attempt looks the same.
+
+        Note this is a *budget* heuristic, not a verification gate. Letting an
+        agent keep trying cannot turn a bad patch into a passing one — build,
+        PoV replay and regression are unchanged and still decide correctness.
+        """
+        n = self.GIVE_UP_AFTER_IDENTICAL_FAILURES
+        if len(self.attempt_gists) < n:
+            return False
+        return len(set(self.attempt_gists[-n:])) == 1
 
     def note(self, message: str) -> None:
         self.escalations.append(message)

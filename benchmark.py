@@ -28,6 +28,7 @@ import json
 import platform
 import resource
 import shutil
+import math
 import statistics
 import sys
 import tempfile
@@ -47,10 +48,40 @@ from src.context_engine.tree_sitter_extractor import ContextExtractor
 from src.patch_validator.drv_loop import DRVLoop, GATE_PASS, GATE_SKIPPED
 from src.reporting.audit_report import AuditReportGenerator
 from src.patch_validator.hardening import PatchHardening, HardeningVerdict
+from src.patch_validator.formal import FormalVerifier, VerificationResult
 from src.memory import MemorySystem
 from tests.benchmarks.targets import Target, get_suite
 
 console = Console()
+
+
+def wilson_interval(successes: int, trials: int, z: float = 1.96) -> tuple[float, float]:
+    """
+    Wilson score confidence interval for a binomial proportion.
+
+    Reporting a bare "100%" from a single run of 37 targets overstates what the
+    sample supports. The normal approximation is useless at p=1 (it gives a
+    zero-width interval); the Wilson interval stays sensible at the boundary,
+    which is exactly where our results sit.
+
+    37/37 successes yields roughly [90.6%, 100%] at 95% confidence — still a
+    strong claim, and one that survives scrutiny.
+    """
+    if trials == 0:
+        return (0.0, 0.0)
+    p = successes / trials
+    denom = 1 + z ** 2 / trials
+    centre = (p + z ** 2 / (2 * trials)) / denom
+    margin = (z / denom) * math.sqrt(p * (1 - p) / trials + z ** 2 / (4 * trials ** 2))
+    return (max(0.0, centre - margin), min(1.0, centre + margin))
+
+
+def format_rate(successes: int, trials: int) -> str:
+    """Rate with its 95% Wilson interval, e.g. '100% [90.6, 100]'."""
+    if trials == 0:
+        return "n/a"
+    lo, hi = wilson_interval(successes, trials)
+    return f"{successes / trials * 100:.1f}% [{lo * 100:.1f}, {hi * 100:.1f}]"
 
 
 class PreflightResult:
@@ -105,7 +136,7 @@ def preflight(target: Target) -> PreflightResult:
             "bin": str(binary), "workspace": str(workspace),
         }
 
-        ok, detail = DRVLoop._run(target.build_command.format(**ctx), "Build", cwd=workspace)
+        ok, detail = DRVLoop._run(DRVLoop.expand(target.build_command, ctx), "Build", cwd=workspace)
         res.build_ok = ok
         if not ok:
             res.build_error = detail
@@ -113,7 +144,7 @@ def preflight(target: Target) -> PreflightResult:
 
         if target.pov_command:
             # PoV scripts exit non-zero when the vulnerability IS present.
-            ok, detail = DRVLoop._run(target.pov_command.format(**ctx), "PoV", cwd=workspace)
+            ok, detail = DRVLoop._run(DRVLoop.expand(target.pov_command, ctx), "PoV", cwd=workspace)
             res.pov_reproduces = not ok
             res.pov_detail = detail if not ok else "PoV did NOT reproduce on the original binary"
 
@@ -121,7 +152,7 @@ def preflight(target: Target) -> PreflightResult:
             # A regression test must pass on the ORIGINAL, otherwise it is
             # measuring a pre-existing failure rather than damage from a patch.
             ok, detail = DRVLoop._run(
-                target.regression_command.format(**ctx), "Regression", cwd=workspace
+                DRVLoop.expand(target.regression_command, ctx), "Regression", cwd=workspace
             )
             res.regression_baseline_ok = ok
             res.regression_detail = "" if ok else detail
@@ -130,13 +161,16 @@ def preflight(target: Target) -> PreflightResult:
 
 
 class BenchmarkHarness:
-    def __init__(self, output_dir="reports/benchmark_runs", parallel=True, harden=False, memory=False):
+    def __init__(self, output_dir="reports/benchmark_runs", parallel=True, harden=False,
+                 memory=False, formal=False):
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.parallel = parallel
         self.harden = harden
         self.hardener = PatchHardening() if harden else None
         self.hardening_verdicts: dict[str, HardeningVerdict] = {}
+        self.formal_results: dict[str, VerificationResult] = {}
+        self.formal = FormalVerifier() if formal else None
         self.memory = MemorySystem() if memory else None
         self.llm_client = LLMClient()
         self.extractor = ContextExtractor()
@@ -227,6 +261,17 @@ class BenchmarkHarness:
                                 pattern.hardened = True
                         self.memory.semantic.save()
 
+            if self.formal and result.status == "patched":
+                fr = self._verify_formally(t, result)
+                self.formal_results[t.id] = fr
+                if fr.status != "unavailable":
+                    colour = {"proven": "green", "violated": "red"}.get(fr.status, "yellow")
+                    console.print(f"      [{colour}]{fr.summary()}[/]")
+                    if fr.status == "violated":
+                        # A counterexample is a stronger signal than any test:
+                        # it exhibits an input on which the patch is still unsafe.
+                        result.status = "unresolved_formal"
+
             self._record(label, t, result, pf)
             console.print(f"      {result.summary()}")
 
@@ -275,6 +320,47 @@ class BenchmarkHarness:
                 evasion_command=t.evasion_command,
             )
 
+    def _verify_formally(self, t: Target, result: PipelineResult) -> VerificationResult:
+        """
+        Re-apply the winning patch and prove it with CBMC over all inputs.
+
+        Only targets with a proof harness are attempted; everything else is
+        reported `unavailable`, never as a pass.
+        """
+        import tempfile as _tf
+        harness = Path("tests/benchmarks/cbmc_harnesses") / f"{t.id}.c"
+        if not harness.exists():
+            r = VerificationResult()
+            r.detail = "no proof harness for this target"
+            return r
+
+        report = result.agent_reports.get(result.winning_agent) if result.winning_agent else None
+        winning = report.winning_iteration if report else None
+        if not winning:
+            r = VerificationResult(); r.detail = "no winning iteration"; return r
+
+        with _tf.TemporaryDirectory(prefix="kavach_formal_") as tmp:
+            work = Path(tmp)
+            try:
+                patched = DRVLoop._materialise(work, t.file_path, t.source_dir)
+            except FileNotFoundError as e:
+                r = VerificationResult(); r.detail = str(e); return r
+
+            applied = False
+            if winning.replacement:
+                name, source = winning.replacement
+                applied = self.extractor.replace_function(str(patched), name, source)
+            if not applied and winning.patch_diff:
+                applied, _ = DRVLoop._apply_patch(work, patched, winning.patch_diff)
+            if not applied:
+                r = VerificationResult()
+                r.detail = "could not re-apply the winning patch"
+                return r
+
+            return self.formal.verify_patched(
+                patched, harness, work, unwind=t.cbmc_unwind
+            )
+
     def _record(self, suite: str, t: Target, r: PipelineResult, pf: PreflightResult):
         """One row per target with fully measured per-target facts."""
         winning = None
@@ -307,6 +393,8 @@ class BenchmarkHarness:
             "Failure_Stages": ";".join(f"{k}:{v}" for k, v in stages.items()),
             "Seconds": round(r.elapsed_seconds, 2),
             "Cost_USD": round(r.total_cost_usd, 6),
+            "Formal": self.formal_results[t.id].status if t.id in self.formal_results else "",
+            "Formal_Unwind": self.formal_results[t.id].unwind if t.id in self.formal_results else "",
             "Hardening": self.hardening_verdicts[t.id].summary() if t.id in self.hardening_verdicts else "",
             "Hardening_Survived": self.hardening_verdicts[t.id].survived if t.id in self.hardening_verdicts else "",
         })
@@ -326,6 +414,7 @@ class BenchmarkHarness:
             "Targets_Excluded_Build_Failure": excluded,
             "Patched_All_Gates": len(patched),
             "Success_Rate": f"{len(patched) / len(targets) * 100:.1f}%" if targets else "n/a",
+            "Success_Rate_95CI": format_rate(len(patched), len(targets)),
             "Targets_With_Reproducible_PoV": len(pov_gated),
             "PoV_Verified_Fixes": len(pov_proven),
             "PoV_Verified_Rate": (
@@ -512,9 +601,11 @@ class BenchmarkHarness:
                 "targets_attempted": attempted,
                 "patched_all_configured_gates": patched,
                 "success_rate": f"{patched / attempted * 100:.1f}%" if attempted else "n/a",
+                "success_rate_95ci_wilson": format_rate(patched, attempted),
                 "targets_with_reproducible_pov": pov_gated,
                 "pov_verified_fixes": pov_proven,
                 "pov_verified_rate": f"{pov_proven / pov_gated * 100:.1f}%" if pov_gated else "n/a",
+                "pov_verified_rate_95ci_wilson": format_rate(pov_proven, pov_gated),
             },
             "suites": self.suites,
             "patch_quality": {
@@ -610,7 +701,8 @@ class BenchmarkHarness:
             "## 2. Totals",
             "",
             f"- Targets attempted: **{t['targets_attempted']}**",
-            f"- Passed every configured gate: **{t['patched_all_configured_gates']}** ({t['success_rate']})",
+            f"- Passed every configured gate: **{t['patched_all_configured_gates']}** "
+            f"({t['success_rate']}, 95% CI {t['success_rate_95ci_wilson'].split(' ',1)[1]})",
             f"- Targets with a PoV that provably reproduces on the unpatched original: "
             f"**{t['targets_with_reproducible_pov']}**",
             f"- Fixes proven by PoV replay: **{t['pov_verified_fixes']}** ({t['pov_verified_rate']})",
@@ -683,7 +775,7 @@ class BenchmarkHarness:
 def main():
     parser = argparse.ArgumentParser(description="AI Kavach CRS benchmark harness")
     parser.add_argument("--suite",
-                        choices=["synthetic", "juliet", "real_world", "all", "fuzz"],
+                        choices=["synthetic", "juliet", "real_world", "real_cve", "all", "fuzz"],
                         required=True,
                         help="'fuzz' runs ONLY the fuzz-discovery suite (implies --fuzz)")
     parser.add_argument("--sequential", action="store_true",
@@ -696,6 +788,11 @@ def main():
                         help=("Enable cross-run agent memory: recall validated fix "
                               "patterns for similar bugs, and learn from this run. "
                               "Off by default so benchmark runs stay reproducible."))
+    parser.add_argument("--formal", action="store_true",
+                        help=("Prove the winning patch with CBMC over ALL inputs within a "
+                              "per-target unwind bound. Requires a proof harness in "
+                              "tests/benchmarks/cbmc_harnesses/; targets without one are "
+                              "reported 'unavailable', never as proven."))
     parser.add_argument("--harden", action="store_true",
                         help=("After a patch passes every gate, try to FALSIFY it: "
                               "re-fuzz the patched build for an overfitted fix, and "
@@ -709,15 +806,16 @@ def main():
     args = parser.parse_args()
 
     setup_logging(verbose=False)
-    harness = BenchmarkHarness(parallel=not args.sequential, harden=args.harden, memory=args.memory)
+    harness = BenchmarkHarness(parallel=not args.sequential, harden=args.harden, memory=args.memory, formal=args.formal)
 
     if args.suite == "fuzz":
         suite_names = []
         args.fuzz = True
     else:
-        suite_names = (["synthetic", "juliet", "real_world"]
+        suite_names = (["synthetic", "juliet", "real_world", "real_cve"]
                        if args.suite == "all" else [args.suite])
-    pretty = {"synthetic": "Synthetic", "juliet": "NIST Juliet", "real_world": "Real World (cJSON)"}
+    pretty = {"synthetic": "Synthetic", "juliet": "NIST Juliet",
+              "real_world": "Real World (cJSON)", "real_cve": "Real CVE (published)"}
 
     only = {t.strip() for t in args.only.split(",")} if args.only else None
 

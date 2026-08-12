@@ -103,7 +103,37 @@ reasoning. Not derived from any public dataset.
 | VANGUARD-03-MACRO-UNDERFLOW | CWE-191 | Allocation size wraps through chained macros `CALC_ALLOC_SZ` → `EXPAND_BUF` | PATCHED | beta | SURVIVED — differential, 22 inputs |
 | VANGUARD-04-RTOS-URI-TRAVERSAL | CWE-22 | Custom `rtos://` URI concatenated into a storage root without sanitisation | PATCHED | beta | SURVIVED — evasion battery, no bypass |
 
-### B. CVE-inspired synthetic extension
+### B. Real published CVEs — unmodified upstream source
+
+The only suite whose provenance is external. Each tree is upstream cJSON checked
+out at the commit immediately *before* the security fix landed, so the defect is
+the one that shipped. Self-contained and re-runnable via `tests/real_cve_suite/`.
+
+| Target | Defect | Observed outcome | Hardening |
+| :--- | :--- | :--- | :--- |
+| CVE-2019-11835 `cJSON_Minify` | On an unterminated `/*` the scan loop halts at the NUL and the following `json += 2` steps past it | **PATCHED** (agent beta) | SURVIVED — differential, 25 inputs |
+| GH-800 `parse_object` | After a comma the parser never checked that anything follows, so a trailing comma in a length-bounded buffer reads past the allocation | **PATCHED** (agent alpha) | SURVIVED — differential, 25 inputs |
+| CVE-2019-11834 `parse_string` | `*input_end != '"'` was evaluated *before* the bounds check; `&&` is ordered, so the dereference happens first | **PATCHED** (agent gamma) | SURVIVED — differential, 25 inputs |
+
+**Latest full run: 3/3 passed all gates, 3/3 PoV-proven, 3/3 survived hardening.**
+
+Every target was validated in both directions before being accepted — the PoV
+reproduces on the vulnerable commit and the upstream fix resolves it:
+
+```
+CVE-2019-11835  '/*'                       -> heap-buffer-overflow READ cJSON.c:2642
+CVE-2019-11834  '"abc'                     -> heap-buffer-overflow READ cJSON.c:660
+GH-800          '{"1":1,' (exact-size buf) -> heap-buffer-overflow READ
+```
+
+GH-800 has **no assigned CVE**; the upstream commit references GitHub issue #800.
+It is named for the issue rather than given an invented CVE number.
+
+#### Deterministic Patch Repair via Critic Feedback
+
+All 3 real-world CVE targets in unmodified upstream cJSON are successfully patched, PoV-proven, and hardened against regression. Format-aware patch gisting and working memory prevent attempt oscillation, enabling agents to iteratively refine candidate fixes guided by Agent Delta's structured JSON diagnostic feedback.
+
+### C. CVE-inspired synthetic extension### C. CVE-inspired synthetic extension### C. CVE-inspired synthetic extension
 
 Original ~30–50 line reproductions of the *shape* of well-known bug classes.
 **Not** the referenced upstream code or CVEs.
@@ -113,7 +143,7 @@ Original ~30–50 line reproductions of the *shape* of well-known bug classes.
 | SYNTH-TIFF-CROP-OOB | CWE-125 | Crop box indexed against the source image without validating it against the image's real extent (modelled on the shape of CVE-2016-5321) | PATCHED | gamma | SURVIVED — re-fuzz clean |
 | SYNTH-SERVICE-STACK-OVERFLOW | CWE-121 | Unbounded `strcpy` into a fixed 64-byte packet body (styled after a CGC service) | PATCHED | alpha | SURVIVED — differential, 25 inputs |
 
-### C. Synthetic 0-day suite (20 targets, comment-free)
+### D. Synthetic 0-day suite (20 targets, comment-free)
 
 | ID | Vulnerability | CWE | Patch strategy |
 | :--- | :--- | :--- | :--- |
@@ -138,7 +168,7 @@ Original ~30–50 line reproductions of the *shape* of well-known bug classes.
 | SYN-19 | AST macro use-after-free | CWE-416 | `SAFE_FREE` expansion made explicit |
 | SYN-20 | AST opaque pointer uninit | CWE-457 | `OpaqueState` layout resolved for `memset` |
 
-### D. Fuzz Discovery — fuzz → triage → locate → patch → verify
+### E. Fuzz Discovery — fuzz → triage → locate → patch → verify
 
 The fuzzer receives a harness, not a bug location. File and line come from the
 crash's own stack trace; the crashing input then becomes the PoV gate.

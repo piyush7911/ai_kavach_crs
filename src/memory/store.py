@@ -42,6 +42,7 @@ Two further guards against the documented failure modes:
     influence instead of silently misleading forever.
 """
 
+import hashlib
 import json
 import logging
 import re
@@ -97,21 +98,61 @@ class WorkingMemory:
     @staticmethod
     def summarise_patch(patch: str) -> str:
         """
-        One-line gist of a patch: the lines it adds, minus noise.
+        One-line gist of a patch, used both to show the agent what it has
+        already tried and to decide whether two attempts are the same.
 
-        Full patches would blow up the prompt; the added lines are what
-        distinguishes one attempt from another.
+        Two formats reach this function and they need different handling. A
+        unified diff is characterised by the lines it ADDS. A whole-function
+        replacement — which the escalation policy *forces* after repeated apply
+        failures — has no `+` lines at all, so the old diff-only logic fell back
+        to "first three non-empty lines". For a replacement those are the
+        signature and the opening brace: identical for every attempt at the same
+        function. Every distinct attempt therefore collapsed to one gist, which
+        made the ledger useless ("do not repeat these" listing the same entry
+        repeatedly) and made `has_tried` report false positives.
+
+        A digest over the whole normalised body is appended so that two attempts
+        can never be judged identical unless they really are, however long they
+        are or however much they share a prefix.
         """
         if not patch:
             return "(no patch produced)"
-        added = [
-            line[1:].strip() for line in patch.splitlines()
-            if line.startswith("+") and not line.startswith("+++")
-        ]
-        if not added:
-            added = [l.strip() for l in patch.splitlines() if l.strip()][:3]
-        gist = "; ".join(a for a in added if a)[:180]
-        return gist or "(no effective change)"
+
+        lines = patch.splitlines()
+        is_diff = any(
+            line.startswith(("+", "-")) and not line.startswith(("+++", "---"))
+            for line in lines
+        )
+
+        if is_diff:
+            body = [
+                line[1:].strip() for line in lines
+                if line.startswith("+") and not line.startswith("+++")
+            ]
+            salient = body
+        else:
+            body = [
+                l.strip() for l in lines
+                if l.strip() and not l.strip().startswith(("//", "/*", "*", "*/"))
+            ]
+            # For a replacement, the interesting part is the control flow and the
+            # bounds tests — that is where a memory-safety fix lives. The
+            # signature and bare braces are shared by every attempt.
+            salient = [
+                l for l in body
+                if any(tok in l for tok in (
+                    "if", "while", "for", "return",
+                    "<", ">", "==", "!=", "&&", "||",
+                ))
+            ] or body
+
+        body = [b for b in body if b]
+        if not body:
+            return "(no effective change)"
+
+        digest = hashlib.sha1(" ".join(body).encode("utf-8", "replace")).hexdigest()[:8]
+        gist = "; ".join(s for s in salient if s)[:180]
+        return f"{gist or '(no effective change)'} [{digest}]"
 
     def render(self) -> str:
         """Render the ledger for injection into the next prompt."""

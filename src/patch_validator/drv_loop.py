@@ -227,7 +227,7 @@ class DRVLoop:
                     "whole corrected function in a ```c block starting with "
                     "`// FUNCTION: <name>`, OR a unified diff in a ```diff block."
                 )
-                policy.record_failure("generation")
+                policy.record_failure("generation", gist="(no patch produced)")
                 feedback = result.error_feedback
                 continue
 
@@ -245,10 +245,19 @@ class DRVLoop:
                 break
 
             # --- the patch was rejected: diagnose before trying again ---
-            policy.record_failure(result.failure_stage or "unknown")
+            attempted = result.patch_diff or (
+                result.replacement[1] if result.replacement else ""
+            )
+            # The policy needs the gist, not just the stage: four different
+            # attempts that each fail the PoV gate are progress, four identical
+            # ones are a loop, and only the latter is worth giving up on.
+            policy.record_failure(
+                result.failure_stage or "unknown",
+                gist=working.summarise_patch(attempted),
+            )
             working.record(
                 iteration=iteration, agent=agent_name,
-                patch=result.patch_diff or (result.replacement[1] if result.replacement else ""),
+                patch=attempted,
                 rejected_by=result.failure_stage or "unknown",
             )
             feedback = result.error_feedback

@@ -23,6 +23,7 @@ Command templates support these placeholders:
     {harness}    this directory (holds the pov/regression runner scripts)
 """
 
+import shlex
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
@@ -69,6 +70,10 @@ class Target:
     # bypass variants against the PATCHED build. Re-fuzzing cannot falsify such
     # a fix (there is no crash to find), so without this they go unhardened.
     evasion_command: Optional[str] = None
+    # Loop unwind bound for CBMC. A proof is only as strong as this bound, so it
+    # is declared per target rather than guessed globally; a target with a
+    # harness in tests/benchmarks/cbmc_harnesses/ is formally verified.
+    cbmc_unwind: int = 16
     severity: str = "critical"
     source: str = "sanitizer_crash"      # sanitizer_crash | semgrep | side_effect
 
@@ -83,14 +88,16 @@ class Target:
 
 def _pov(*args: str) -> str:
     """Sanitizer PoV: run {bin} on the crashing input, fail if a sanitizer fires."""
-    quoted = " ".join(f'"{a}"' for a in args)
+    # shlex.quote: an argument containing a double quote would otherwise break
+    # the shell wrapping and silently change the input under test.
+    quoted = " ".join(shlex.quote(a) for a in args)
     return f'sh "{HARNESS}/pov_run.sh" "{{bin}}" {quoted}'.rstrip()
 
 
 def _regress(expect: str, *args: str) -> str:
     """Regression: benign input must exit 0, stay sanitizer-clean, and still print `expect`."""
-    quoted = " ".join(f'"{a}"' for a in args)
-    return f'sh "{HARNESS}/regress_run.sh" "{{bin}}" "{expect}" {quoted}'.rstrip()
+    quoted = " ".join(shlex.quote(a) for a in args)
+    return f'sh "{HARNESS}/regress_run.sh" "{{bin}}" {shlex.quote(expect)} {quoted}'.rstrip()
 
 
 D = "tests/demo_vulns"
@@ -157,6 +164,7 @@ SYNTHETIC: list[Target] = [
         build_command=SINGLE_FILE_BUILD,
         pov_command=_pov("AAAA"),
         regression_command=_regress("Copied string: hi", "hi"),
+        cbmc_unwind=70,          # loop runs up to the 64-byte harness buffer + 1
     ),
     Target(
         id="SYN-07-FORMAT-STRING", suite="Synthetic", complexity="easy",
@@ -220,6 +228,7 @@ SYNTHETIC: list[Target] = [
         build_command=SINGLE_FILE_BUILD,
         pov_command=_pov("5", "10", "AAAA"),
         regression_command=_regress("Processed chunk", "10", "5", "AAAA"),
+        cbmc_unwind=20,
     ),
     Target(
         id="SYN-13-TOCTOU", suite="Synthetic", complexity="hard",
@@ -404,13 +413,33 @@ REAL_WORLD: list[Target] = [
 ]
 
 
+
 ALL_TARGETS = SYNTHETIC + JULIET + REAL_WORLD
 
 
+def real_cve_targets() -> list[Target]:
+    """
+    Published CVEs in unmodified upstream source.
+
+    Imported lazily: tests/real_cve_suite/manifest.py imports Target and
+    SAN_CFLAGS from this module, so a top-level import here would be circular.
+    Returns [] when the vulnerable trees have not been materialised — run
+    `sh tests/real_cve_suite/setup.sh` to create them.
+    """
+    try:
+        from tests.real_cve_suite.manifest import REAL_CVE
+        return REAL_CVE
+    except Exception:
+        return []
+
+
 def get_suite(name: str) -> list[Target]:
+    if name == "real_cve":
+        return real_cve_targets()
+    if name == "all":
+        return ALL_TARGETS + real_cve_targets()
     return {
         "synthetic": SYNTHETIC,
         "juliet": JULIET,
         "real_world": REAL_WORLD,
-        "all": ALL_TARGETS,
     }[name]

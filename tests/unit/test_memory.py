@@ -211,3 +211,95 @@ def test_episodes_are_appended(store):
     m.episodic.record({"vulnerability_id": "A", "status": "patched"})
     m.episodic.record({"vulnerability_id": "B", "status": "unresolved"})
     assert [e["vulnerability_id"] for e in m.episodic.all()] == ["A", "B"]
+
+
+# ---------------------------------------------------------------------------
+# Attempt identity — these pin the two defects that made a hard real CVE
+# (CVE-2019-11834) pass or fail depending on the run.
+# ---------------------------------------------------------------------------
+
+_REPL_A = """static cJSON_bool parse_string(cJSON * const item, parse_buffer * const input_buffer)
+{
+    const unsigned char *input_end = buffer_at_offset(input_buffer) + 1;
+    while ((*input_end != '"') && (offset < input_buffer->length))
+    {
+        input_end++;
+    }
+}"""
+
+# The real fix: the two conditions swapped. Shares signature, opening brace and
+# first statement with the attempt above — i.e. everything the old gist looked at.
+_REPL_B = _REPL_A.replace(
+    "while ((*input_end != '\"') && (offset < input_buffer->length))",
+    "while ((offset < input_buffer->length) && (*input_end != '\"'))",
+)
+
+
+def test_whole_function_replacements_are_distinguishable():
+    """
+    A whole-function replacement has no '+' lines. The gist used to fall back to
+    the first three non-empty lines, which for a replacement are the signature
+    and the opening brace — identical across every attempt at the same function.
+    Two materially different fixes were therefore judged to be the same attempt.
+    """
+    from src.memory.store import WorkingMemory
+
+    assert WorkingMemory.summarise_patch(_REPL_A) != WorkingMemory.summarise_patch(_REPL_B)
+
+
+def test_has_tried_does_not_false_positive_on_replacements():
+    from src.memory.store import WorkingMemory
+
+    mem = WorkingMemory("T")
+    mem.record(iteration=1, agent="alpha", patch=_REPL_A, rejected_by="pov")
+    assert mem.has_tried(_REPL_A)
+    assert not mem.has_tried(_REPL_B), "the corrected fix was mistaken for an attempt already refused"
+
+
+def test_reformatting_alone_is_still_the_same_attempt():
+    """Identity must survive whitespace, or the loop never detects a real stall."""
+    from src.memory.store import WorkingMemory
+
+    reflowed = _REPL_A.replace("    ", "        ").replace("\n", "\n")
+    assert WorkingMemory.summarise_patch(_REPL_A) == WorkingMemory.summarise_patch(reflowed)
+
+
+def test_diff_format_still_summarised_by_added_lines():
+    from src.memory.store import WorkingMemory
+
+    diff = "--- a/x.c\n+++ b/x.c\n@@\n-    bad();\n+    good(n);\n"
+    assert "good(n)" in WorkingMemory.summarise_patch(diff)
+
+
+def test_distinct_attempts_do_not_trigger_early_stop():
+    """
+    The counter is named GIVE_UP_AFTER_IDENTICAL_FAILURES but used to count
+    failures per *stage*. An agent that reached the PoV gate four times with
+    four different candidate fixes was killed as though it were looping — which
+    is what made a solvable target fail on some runs and pass on others.
+    """
+    from src.agent_orchestrator.critic import EscalationPolicy
+
+    policy = EscalationPolicy()
+    for i in range(6):
+        policy.record_failure("pov", gist=f"attempt-{i}")
+    assert not policy.should_stop_early(), "gave up while attempts were still changing"
+
+
+def test_identical_attempts_do_trigger_early_stop():
+    from src.agent_orchestrator.critic import EscalationPolicy
+
+    policy = EscalationPolicy()
+    for _ in range(EscalationPolicy.GIVE_UP_AFTER_IDENTICAL_FAILURES):
+        policy.record_failure("pov", gist="same-every-time")
+    assert policy.should_stop_early(), "failed to notice a genuine stall"
+
+
+def test_stall_detection_needs_a_consecutive_run():
+    """A repeat early on must not count once the agent has moved on."""
+    from src.agent_orchestrator.critic import EscalationPolicy
+
+    policy = EscalationPolicy()
+    for gist in ("a", "a", "a", "b"):
+        policy.record_failure("pov", gist=gist)
+    assert not policy.should_stop_early()

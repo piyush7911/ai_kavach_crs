@@ -150,18 +150,23 @@ def test_repeated_apply_failures_force_the_replacement_format():
 
 
 def test_loop_stops_early_when_stuck():
+    """
+    Stuck means resubmitting the SAME attempt, which is what the gist identifies.
+    This test previously passed no gist and relied on a per-stage failure count,
+    which also killed agents whose attempts were still changing.
+    """
     policy = EscalationPolicy()
     for _ in range(3):
-        policy.record_failure("pov")
+        policy.record_failure("pov", gist="the-same-wrong-fix")
     assert not policy.should_stop_early()
-    policy.record_failure("pov")
+    policy.record_failure("pov", gist="the-same-wrong-fix")
     assert policy.should_stop_early(), "budget should not be spent repeating a failure"
 
 
 def test_progress_does_not_trigger_early_stop():
     policy = EscalationPolicy()
     for stage in ("apply", "build", "pov", "regression"):
-        policy.record_failure(stage)
+        policy.record_failure(stage, gist=f"fix-attempt-for-{stage}")
     assert not policy.should_stop_early(), "different stages mean the agent is progressing"
 
 

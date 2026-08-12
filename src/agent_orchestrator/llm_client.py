@@ -32,6 +32,10 @@ class LLMClient:
         self.models = config["models"]
         self.max_tokens = config["max_tokens"]
         self.temperature = config["temperature"]
+        self.seed = config.get("seed")
+        # Backend build identifiers seen this run. If more than one appears, the
+        # results came from different server-side builds and are not comparable.
+        self.fingerprints: set[str] = set()
 
         # Token usage tracking. Agents run concurrently, so every mutation of
         # these counters is serialised — otherwise parallel mode silently
@@ -172,12 +176,19 @@ class LLMClient:
         """Call OpenAI API with exponential backoff retry."""
         for attempt in range(max_retries):
             try:
-                return self.client.chat.completions.create(
+                kwargs = dict(
                     model=model,
                     messages=messages,
                     max_tokens=max_tokens,
                     temperature=self.temperature,
                 )
+                if self.seed is not None:
+                    kwargs["seed"] = self.seed
+                response = self.client.chat.completions.create(**kwargs)
+                fp = getattr(response, "system_fingerprint", None)
+                if fp:
+                    self.fingerprints.add(fp)
+                return response
             except RateLimitError as e:
                 wait = 2 ** attempt * 5  # 5s, 10s, 20s
                 logger.warning(f"Rate limited. Retrying in {wait}s... (attempt {attempt + 1}/{max_retries})")
@@ -306,6 +317,9 @@ class LLMClient:
             "total_input_tokens": total_in,
             "total_output_tokens": total_out,
             "estimated_cost_usd": round(cost, 6),
+            "seed": self.seed,
+            "temperature": self.temperature,
+            "system_fingerprints": sorted(self.fingerprints),
             "unpriced_tokens": unpriced_tokens,
             "unpriced_models": sorted(unpriced_models),
         }

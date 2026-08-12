@@ -18,14 +18,21 @@ export ASAN_OPTIONS MallocNanoZone
 output=$("$@" 2>&1)
 rc=$?
 
+# On failure the captured output MUST be emitted. The DRV loop feeds this text
+# back to the repair agent, and Agent Delta diagnoses from it. Swallowing it
+# left agents with "your patch still crashes" and nothing else — no faulting
+# line, no stack, no crash class — which is close to useless as feedback.
 case "$output" in
     *"AddressSanitizer"*|*"UndefinedBehaviorSanitizer"*|*"runtime error:"*|*"LeakSanitizer"*)
+        echo "$output"
         exit 1
         ;;
 esac
 
 # 128+N indicates death by signal N (SIGSEGV=139, SIGABRT=134, SIGBUS=138).
 if [ "$rc" -ge 128 ]; then
+    echo "process died on signal (exit $rc); output follows:"
+    echo "$output"
     exit 1
 fi
 

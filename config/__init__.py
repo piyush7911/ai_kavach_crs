@@ -34,7 +34,13 @@ def get_llm_config() -> dict:
             "beta": 2048,   # Short, minimal patches
             "gamma": 2048,  # CWE-template patches
         },
-        "temperature": 0.2,  # Low temperature for deterministic patches
+        # Greedy decoding. Note this does NOT make the API deterministic:
+        # batch-dependent floating-point reduction order and tie-breaking between
+        # equally-probable tokens still vary. `seed` below plus the recorded
+        # system_fingerprint make a deviation *detectable* even when it cannot
+        # be eliminated.
+        "temperature": 0.0,
+        "seed": int(os.getenv("KAVACH_SEED", "1337")),
     }
 
 

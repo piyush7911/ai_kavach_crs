@@ -193,11 +193,12 @@ stateDiagram-v2
 | **Gate 3** | **Regression** | Execute benign reference inputs | Crash, non-zero exit code, or stdout deviation |
 | **Gate 4** | **Post-Scan** | Re-run Semgrep static analyzer | Presence of newly introduced security findings |
 
-#### Deterministic Escalation Policy
-Repair loop control is governed by an un-hallucinable Python state machine (`EscalationPolicy`):
-- If PoV replay fails $\rightarrow$ Immediately invoke Agent Delta (The Critic).
-- If Gate 0 (Apply) fails twice $\rightarrow$ Force agents to switch to Whole-Function AST Splicing.
-- If any single stage fails 4 times $\rightarrow$ Terminate agent loop early to conserve budget.
+#### Deterministic Escalation Policy & Working Memory
+Repair loop control is governed by an un-hallucinable Python state machine (`EscalationPolicy` & `WorkingMemory`):
+- **Critic Trigger:** If PoV replay fails $\rightarrow$ Immediately invoke Agent Delta (The Critic) to deliver structured JSON guidance.
+- **Format Escalation:** If Gate 0 (Apply) fails twice $\rightarrow$ Force agents to switch from unified diffs to Whole-Function AST Splicing.
+- **Format-Aware Patch Gisting (`WorkingMemory.summarise_patch`):** Automatically differentiates unified diffs from whole-function replacements. For whole-function replacements, it extracts modified control-flow statements rather than collapsing to identical function headers.
+- **True Consecutive-Stall Detection (`EscalationPolicy.should_stop_early`):** Early loop termination triggers strictly after 4 *consecutive identical patch gists*. Agents are allowed to iterate through all configured attempts as long as candidate patches continue to evolve.
 
 ---
 
@@ -230,6 +231,25 @@ Passing the 5 DRV gates proves an input no longer crashes, but does not prove th
    - **`preserve` (Default):** For memory safety fixes (UAF, Buffer Overflow), program behavior must match the original exactly.
    - **`restrict`:** For input validation fixes (CWE-78 Command Injection, CWE-22 Path Traversal), the security remediation **is** to reject inputs the original accepted. Differential testing is automatically bypassed for `restrict` targets, relying on the regression gate instead to prevent false rejections.
 
+4. **Evasion Battery (Validation Bypass Defense):**
+   - For `restrict` targets, re-fuzzing has no crash to find and differential testing cannot judge a deliberately narrowed input domain. The battery replays bypass encodings (`....//`, `sub/../../`, `.././`) against the patched build and rejects the patch if any escapes. It reports *inconclusive* if legitimate access is broken, so a patch that rejects everything cannot score as hardened.
+
+---
+
+### Phase 7: Bounded Formal Verification (CBMC)
+
+Every preceding check is **empirical** — it runs the program on inputs we chose, and can say nothing about the inputs nobody tried. Phase 7 changes the kind of claim available.
+
+CBMC compiles the patched function into a bit-precise logical formula and asks an SMT solver whether *any* assignment of the inputs violates array bounds, pointer safety, or arithmetic overflow.
+
+1. **Bounded proof, never "correct":** loops are unwound `K` times; `--unwinding-assertions` reports when `K` was insufficient, and a run whose bound was not exhausted is recorded **INCONCLUSIVE** rather than proven. The bound is printed with every result (`PROVEN within unwind=70`).
+
+2. **Verification targets a proof harness, not `main()`:** running CBMC over `main` with unconstrained `argv` produces failures inside its own models of libc (`strtol`) that persist on a *correctly patched* file. Harnesses live in `tests/benchmarks/cbmc_harnesses/` and obey the same precondition rule as the fuzz harnesses.
+
+3. **Complementary to the sanitizers, not a superset:** `memcpy` into a struct member is checked at object granularity, so SYN-18's intra-object overrun verifies as SAFE — exactly as AddressSanitizer treats it.
+
+**Measured justification.** An overfitted patch (`if (col == 1000000) return -1;`) **passes** the dynamic PoV gate, and CBMC **rejects** it — on a target that has no fuzz harness, so adversarial re-fuzzing could not have caught it either. This is a gap no other channel covers, and it is pinned by a regression test.
+
 ---
 
 ## 4. Multi-Tier Cross-Run Memory Engine
@@ -240,7 +260,7 @@ AI Kavach incorporates a 4-tier memory architecture (`src/memory/`) to eliminate
 ┌────────────────────────────────────────────────────────────────────────┐
 │                        AI KAVACH MEMORY ENGINE                         │
 ├───────────────────┬────────────────────────────────────────────────────┤
-│ 1. Working        │ Per-target attempt ledger & Critic verdicts        │
+│ 1. Working        │ Format-aware attempt ledger & Critic verdicts (consecutive stall detection) │
 │ 2. Episodic       │ Append-only JSONL execution trajectories           │
 │ 3. Semantic       │ Ground-truth verified fix patterns (CWE-indexed)  │
 │ 4. Procedural     │ Agent success rates & iteration routing per CWE    │
@@ -266,11 +286,12 @@ AI Kavach avoids this by enforcing **Ground-Truth Learning**:
 | **AST Parser** | Tree-sitter | `tree-sitter-c`, `tree-sitter-cpp` |
 | **Static Analysis** | Semgrep | v1.172.0 (`p/security-audit` ruleset), SARIF v2.1.0 |
 | **Dynamic Fuzzing** | libFuzzer & AFL++ | LLVM 22 (`clang`), AFL++ v5.02c |
+| **Bounded Model Checking** | CBMC | v6.10.0 — SAT/SMT proof over all inputs within an unwind bound |
 | **Crash Triage** | Native ASan / CASR | Stack trace normalization, CWE mapping |
 | **Concolic Execution** | `angr` & Z3 | SMT constraint solving (Self-gated) |
 | **Compilers & Sanitizers** | LLVM `clang` | ASan, UBSan (`-fno-sanitize-recover=all`) |
 | **Hardening** | LibFuzzer & Differential | Adversarial re-fuzzing + side-by-side diff execution |
-| **Unit Testing** | `pytest` | 71 unit tests, 0 API calls required for unit suite |
+| **Unit Testing** | `pytest` | 102 unit tests, 0 API calls required for unit suite |
 
 ---
 

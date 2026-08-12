@@ -377,3 +377,44 @@ def test_evasion_battery_alone_counts_as_hardened():
 
 def test_evasion_failure_makes_verdict_not_survived():
     assert not HardeningVerdict(evasion_checked=True, evaded=True).survived
+
+
+# --- PoV feedback quality ---------------------------------------------------
+# The DRV loop feeds the PoV gate's output back to the repair agent, and Agent
+# Delta diagnoses from it. pov_run.sh captured the sanitizer report and then
+# discarded it, so every PoV failure reached the agents as "your patch still
+# crashes" with a blank report.
+
+def test_pov_runner_emits_the_sanitizer_report_on_failure(tmp_path):
+    """A failing PoV must return the diagnostic, not just a non-zero exit."""
+    src = _write(tmp_path, "crash.c", """
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+/* p[0] is printed so the write is not dead-store eliminated at -O1. */
+int main(void){ char*p=malloc(4); memset(p,'A',64); printf("%c", p[0]); free(p); return 0; }
+""")
+    binary = tmp_path / "crash"
+    # -O0 explicitly: at -O1 the compiler shrinks the 64-byte memset to the one
+    # byte that is actually read, and the overflow disappears.
+    assert subprocess.run(
+        f'clang -fsanitize=address,undefined -fno-sanitize-recover=all -g -O0 '
+        f'"{src}" -o "{binary}"', shell=True, capture_output=True).returncode == 0
+
+    runner = Path(__file__).parent.parent / "benchmarks" / "harness" / "pov_run.sh"
+    r = subprocess.run(["sh", str(runner), str(binary)], capture_output=True, text=True)
+
+    assert r.returncode == 1, "vulnerable binary must fail the PoV gate"
+    combined = r.stdout + r.stderr
+    assert "AddressSanitizer" in combined, "the sanitizer report must reach the agent"
+    assert "heap-buffer-overflow" in combined, "the crash class must reach the agent"
+
+
+def test_pov_runner_stays_quiet_on_success(tmp_path):
+    """A passing PoV should not spam the log with output."""
+    src = _write(tmp_path, "ok.c", "int main(void){ return 0; }\n")
+    binary = tmp_path / "ok"
+    assert _build(src, binary)
+    runner = Path(__file__).parent.parent / "benchmarks" / "harness" / "pov_run.sh"
+    r = subprocess.run(["sh", str(runner), str(binary)], capture_output=True, text=True)
+    assert r.returncode == 0

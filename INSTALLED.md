@@ -36,6 +36,7 @@ capstone, …). Removing it cleanly is easiest by recreating the conda env.
 |---|---|---|---|---|
 | **afl++** | Coverage-guided fuzzing (`afl-fuzz`, `afl-clang-fast`) | **added 2026-08-07**, v5.02c | `brew install afl++` | `brew uninstall afl++` |
 | **llvm** | Pulled in as an afl++ dependency; its clang provides the **libFuzzer** runtime that Apple's clang lacks | **added 2026-08-07**, v22.1.8 | `brew install llvm` | `brew uninstall llvm` |
+| **cbmc** | Bounded model checking — proves absence of a bug class over ALL inputs within an unwind bound, complementing sanitizers (which only observe the inputs actually executed) | **added 2026-08-10**, v6.10.0 | `brew install cbmc` | `brew uninstall cbmc` |
 | clang (Apple) | Compiler + ASan/UBSan for the DRV gates | pre-existing | Xcode CLT | n/a |
 | patch, git | Patch application, repo cloning | pre-existing | — | n/a |
 | CASR | Crash triage | **NOT installed** — needs Rust/cargo, which is absent. A native ASan triage engine (`src/analysis_engine/crash_triage.py`) is used instead and is auto-superseded by CASR if it ever appears on PATH. | `cargo install casr` | `cargo uninstall casr` |
@@ -56,6 +57,18 @@ capstone, …). Removing it cleanly is easiest by recreating the conda env.
   `DrillerEngine.self_test()` detects this and disables concolic reporting, so no
   meaningless "solved" inputs are ever produced. On x86-64 Linux the same code path
   self-tests successfully.
+
+- **CBMC scope (measured, not assumed):** CBMC verifies a *proof harness* over a
+  function with nondeterministic inputs — not `main()`. Running it on `main()`
+  with unconstrained `argv` produces failures inside CBMC's model of libc
+  (`strtol`), which persist even on a correctly patched file, so whole-program
+  runs are not a usable signal here. With a proper harness it proves array
+  bounds, pointer safety and arithmetic overflow over *all* inputs within the
+  unwind bound.
+  It does **not** detect the intra-object overrun in SYN-18: `memcpy` into a
+  struct member is checked at object granularity, exactly as AddressSanitizer
+  does, so writing 100 bytes into the ~104-byte enclosing struct verifies as
+  safe. CBMC is therefore complementary to the sanitizers, not a superset.
 
 ## Artifacts written under the project (safe to delete)
 
