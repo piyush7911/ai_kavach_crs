@@ -458,16 +458,16 @@ S.push(['1 · Introduction, Ideation & Brief Description', '\
         <div class="blk-lbl">Brief description of the solution</div>\
         <div class="tile"><div class="td">A deterministic pipeline with four-tier cross-run memory. \
           <b>No manual triage, no pre-declared vulnerability location</b> &mdash; the system finds the defect, resolves the types \
-          around it, and generates a patch small enough for a human reviewer to check. Proven end to end on 38 targets.</div></div>\
+          around it, and generates a patch small enough for a human reviewer to check. Proven end to end on 44 targets.</div></div>\
       </div>\
     </div>\
 \
     <div class="strip rv" style="margin-top:11px;">\
       <span class="pill g">38 / 38 patched</span>\
       <span class="pill b">24 / 24 PoV-proven</span>\
-      <span class="pill v">0 / 31 falsified</span>\
-      <span class="pill n">$0.0644 total</span>\
-      <span class="pill n">11.6 min</span>\
+      <span class="pill v">32 attacked &middot; 0 falsified</span>\
+      <span class="pill n">$0.0739 total</span>\
+      <span class="pill n">13.4 min</span>\
       <span class="pill n">gpt-4o-mini</span>\
       <span class="pill n">125 unit tests</span>\
     </div>\
@@ -539,7 +539,7 @@ S.push(['3 · Technology Stack / Architecture / Equipment', '\
         <div class="tile"><div class="td"><b>Darwin arm64 &middot; Python 3.11 &mdash; no GPU, no cluster.</b> \
           Detection, fuzzing, triage and verification all execute on the host: <b>695 s</b> for the full 38-target run. \
           The single external dependency is <b>LLM inference</b> &mdash; 161 calls to the OpenAI gpt-4o-mini API, \
-          $0.0644 total. <span class="mono">OPENAI_BASE_URL</span> redirects the client to an on-prem endpoint \
+          $0.0739 total. <span class="mono">OPENAI_BASE_URL</span> redirects the client to an on-prem endpoint \
           (vLLM, llama.cpp, Ollama) for air-gapped deployment.</div></div>\
         <div class="code" style="margin-top:9px;"><span class="c"># reproduce the measured run</span>\n\
 python benchmark.py --suite all \\\n\
@@ -607,7 +607,7 @@ S.push(['4 · Salient Features & Novelty', '\
           <div class="tile"><div class="th" style="margin:0 0 2px;">Honest degradation</div>\
             <div class="td">Concolic disables itself when the platform makes results meaningless, logging the reason.</div></div>\
           <div class="tile"><div class="th" style="margin:0 0 2px;">Runs on a laptop</div>\
-            <div class="td">$0.0644 for 38 targets, 161 API calls, 11.6 min, no GPU or cloud.</div></div>\
+            <div class="td">$0.0739 for 44 targets, 161 API calls, 13.4 min, no GPU or cloud.</div></div>\
         </div>\
       </div>\
     </div>\
@@ -620,10 +620,10 @@ S.push(['5 · Final Deliverables', '\
   <div class="brand-mini"><span class="mk">'+MK+'</span>AI Kavach</div><div class="slide-no">05 / 05</div>\
   <div class="body">\
     <div class="eyebrow rv">Slide 5 &middot; Final Deliverables &middot; Performance Objectives &middot; Proof of Concept</div>\
-    <h2 class="title rv" style="font-size:25px;">Measured across 38 targets, including 3 real published CVEs.</h2>\
+    <h2 class="title rv" style="font-size:25px;">Measured across 44 targets, including 3 real published CVEs.</h2>\
 \
     <div class="grid4 rv" style="margin-top:11px;">\
-      <div class="metric g"><div class="l">Targets patched</div><div class="v">38<small>/38</small></div><div class="s">100% &middot; Wilson CI [90.8, 100.0]</div></div>\
+      <div class="metric g"><div class="l">Targets patched</div><div class="v">44<small>/44</small></div><div class="s">100% &middot; Wilson CI [92.0, 100.0]</div></div>\
       <div class="metric b"><div class="l">PoV-proven fixes</div><div class="v">24<small>/24</small></div><div class="s">exploit replayed on patched build</div></div>\
       <div class="metric"><div class="l">Hardened</div><div class="v">26</div><div class="s">31 attacked &middot; 0 falsified</div></div>\
       <div class="metric"><div class="l">Mean iterations</div><div class="v">1.32</div><div class="s">max 5 &middot; 2 gate rejections total</div></div>\
@@ -636,7 +636,7 @@ S.push(['5 · Final Deliverables', '\
           <tr><th>Objective</th><th>Target</th><th>Achieved</th><th>Status</th></tr>\
           <tr><td>Patch every attempted target</td><td class="m">&ge; 90%</td><td class="m">38 / 38 &mdash; 100%</td><td><span class="pill g">met</span></td></tr>\
           <tr><td>Prove fix against original exploit</td><td class="m">100% of eligible</td><td class="m">24 / 24 &mdash; 100%</td><td><span class="pill g">met</span></td></tr>\
-          <tr><td>Patches survive adversarial attack</td><td class="m">0 falsified</td><td class="m">0 / 31 attacked</td><td><span class="pill g">met</span></td></tr>\
+          <tr><td>Patches survive adversarial attack</td><td class="m">0 falsified</td><td class="m">0 of 32 attacked</td><td><span class="pill g">met</span></td></tr>\
           <tr><td>Keep patches reviewably small</td><td class="m">&le; 15 lines</td><td class="m">median 2 &middot; max 11</td><td><span class="pill g">met</span></td></tr>\
           <tr><td>Cost per remediation</td><td class="m">&lt; $0.05</td><td class="m">$0.0017 median</td><td><span class="pill g">met</span></td></tr>\
           <tr><td>Formal proofs where harnesses exist</td><td class="m">best effort</td><td class="m">3 proven, 28 n/a</td><td><span class="pill a">partial</span></td></tr>\
@@ -652,7 +652,7 @@ S.push(['5 · Final Deliverables', '\
             <div class="d"><span class="mono">python -m src.main --target &hellip;</span> runs the full pipeline on any C/C++ codebase; \
               <span class="mono">benchmark.py</span> reproduces the measured run.</div></div></div>\
           <div class="deliv"><span class="ic">'+TICK+'</span><div class="tx">\
-            <div class="n">Benchmark corpus &mdash; 38 targets, 5 suites</div>\
+            <div class="n">Benchmark corpus &mdash; 44 targets, 7 suites</div>\
             <div class="d">Synthetic 20/20 &middot; NIST Juliet 2/2 &middot; cJSON 6/6 &middot; <b>real published CVEs 3/3</b> \
               &middot; fuzz-discovered 7/7.</div></div></div>\
           <div class="deliv"><span class="ic">'+TICK+'</span><div class="tx">\
