@@ -165,3 +165,158 @@ def test_pov_command_uses_only_absolute_paths(tmp_path):
     assert "SYN-02-DEEP-TYPEDEF.c" in cmd      # the matching harness
     assert "afl_driver.c" in cmd
     assert "pov_run.sh" in cmd
+
+
+# ---------------------------------------------------------------------------
+# Crash attribution under inlining
+#
+# These pin the three defects that made a real fuzzer-discovered double-free
+# (SYN-05) unrepairable: the pipeline skipped it as "crash location unresolved"
+# because triage blamed libFuzzer instead of the target.
+# ---------------------------------------------------------------------------
+
+# Verbatim shape of the report SYN-05 produces at -O1, where `process_data` is
+# inlined into the harness so the faulting frame is scaffolding and the target
+# appears only in the "freed by" stack.
+_INLINED_DOUBLE_FREE = """\
+==11682==ERROR: AddressSanitizer: attempting double-free on 0x60c000000ac0 in thread T0:
+    #0 0x0001010d8f10 in free+0x74 (libclang_rt.asan_osx_dynamic.dylib:arm64+0x54f10)
+    #1 0x0001009c0b14 in LLVMFuzzerTestOneInput SYN-05-DOUBLE-FREE.c:16
+    #2 0x0001009dca28 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) FuzzerLoop.cpp:619
+    #3 0x0001009ce56c in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) FuzzerDriver.cpp:871
+    #4 0x0001009f9074 in main FuzzerMain.cpp:20
+    #5 0x0001840244e0 in start+0x1b4c (dyld:arm64e+0x204e0)
+
+0x60c000000ac0 is located 0 bytes inside of 128-byte region [0x60c000000ac0,0x60c000000b40)
+freed by thread T0 here:
+    #0 0x0001010d8f10 in free+0x74 (libclang_rt.asan_osx_dynamic.dylib:arm64+0x54f10)
+    #1 0x0001009c0cd0 in process_data 05_double_free_conditional.c:12
+    #2 0x0001009c0b14 in LLVMFuzzerTestOneInput SYN-05-DOUBLE-FREE.c:16
+"""
+
+
+def test_double_free_class_is_the_defect_not_the_verb():
+    """
+    ASan words this as "attempting double-free on 0x…". A bare word capture
+    produced the class "attempting", which maps to no CWE and blurs clustering.
+    """
+    from src.analysis_engine.crash_triage import CrashTriage
+
+    sig = CrashTriage.parse_sanitizer_report(_INLINED_DOUBLE_FREE)
+    assert sig.crash_class == "double-free"
+    assert sig.cwe_and_severity[0] == "CWE-415"
+
+
+def test_libfuzzer_driver_frames_never_win_the_crash_location():
+    """
+    libFuzzer's entry point is a plain `main`, so a `fuzzer::` filter misses it.
+    Without excluding its driver units the first non-noise frame of an inlined
+    crash is `main FuzzerMain.cpp:20` and the bug is blamed on the fuzzer.
+    """
+    from pathlib import Path
+    from src.analysis_engine.crash_triage import CrashTriage
+
+    sig = CrashTriage.parse_sanitizer_report(
+        _INLINED_DOUBLE_FREE, source_root=Path(__file__).parent.parent
+    )
+    assert "Fuzzer" not in sig.file_path
+    assert sig.file_path.endswith("05_double_free_conditional.c")
+    assert sig.line_number == 12
+
+
+def test_target_frame_is_preferred_over_scaffolding_even_when_deeper():
+    """
+    The in-root frame must win regardless of position. Here the only target
+    frame is in the secondary "freed by" stack, below several scaffolding
+    frames — which is exactly what inlining produces.
+    """
+    from pathlib import Path
+    from src.analysis_engine.crash_triage import CrashTriage
+
+    root = Path(__file__).parent.parent
+    with_root = CrashTriage.parse_sanitizer_report(_INLINED_DOUBLE_FREE, source_root=root)
+    assert Path(with_root.file_path).exists(), (
+        "resolved location must be a real file the orchestrator can open"
+    )
+
+
+def test_source_root_actually_filters():
+    """
+    The root check previously computed `relative_to` and discarded the result,
+    so passing a source_root changed nothing. Here a third-party frame precedes
+    the target frame and neither is scaffolding: only a working root check can
+    tell them apart.
+    """
+    from pathlib import Path
+    from src.analysis_engine.crash_triage import CrashTriage
+
+    report = """\
+==1==ERROR: AddressSanitizer: heap-use-after-free on address 0x602000000010
+    #0 0x1 in vendor_helper /opt/vendor/thirdparty.c:88
+    #1 0x2 in process_data 05_double_free_conditional.c:12
+"""
+    root = Path(__file__).parent.parent
+
+    with_root = CrashTriage.parse_sanitizer_report(report, source_root=root)
+    assert with_root.file_path.endswith("05_double_free_conditional.c"), (
+        "the frame under the source root must win over an earlier foreign frame"
+    )
+
+    without_root = CrashTriage.parse_sanitizer_report(report)
+    assert without_root.file_path == "/opt/vendor/thirdparty.c", (
+        "with no root to filter by, the first frame is all we can report"
+    )
+
+
+# ---------------------------------------------------------------------------
+# LeakSanitizer availability
+#
+# This project recorded "LeakSanitizer is not supported on darwin-arm64" and
+# left CWE-401 with no runtime gate on that basis. The blocker was the
+# TOOLCHAIN, not the platform: Apple's ASan runtime answers detect_leaks=1 with
+# "not supported on this platform", Homebrew LLVM's runtime does not.
+# ---------------------------------------------------------------------------
+
+def test_leak_pov_discriminates_the_weakness_not_the_binary(tmp_path):
+    """
+    The gate must fail on the leaking path and pass everywhere else — including
+    on the ORIGINAL binary's benign path. A gate that simply fails on the
+    unpatched binary would prove nothing about the leak.
+    """
+    import subprocess
+    from pathlib import Path
+    import pytest
+
+    from tests.benchmarks.targets import _LSAN_CLANG, SAN_CFLAGS
+
+    if not _LSAN_CLANG:
+        pytest.skip("no LeakSanitizer-capable clang on this host")
+
+    root = Path(__file__).parent.parent.parent
+    original = root / "tests" / "demo_vulns" / "17_memory_leak_error_path.c"
+    runner = root / "tests" / "benchmarks" / "harness" / "pov_leak.sh"
+
+    fixed = tmp_path / "fixed.c"
+    fixed.write_text(original.read_text().replace(
+        "        return -1; ", "        free(log_msg);\n        return -1; ", 1))
+
+    def build(src, out):
+        cmd = f'"{_LSAN_CLANG}" {SAN_CFLAGS} "{src}" -o "{out}"'
+        assert subprocess.run(cmd, shell=True, capture_output=True).returncode == 0
+
+    orig_bin, fixed_bin = tmp_path / "orig", tmp_path / "fixed"
+    build(original, orig_bin)
+    build(fixed, fixed_bin)
+
+    def gate(binary, arg):
+        return subprocess.run(
+            f'sh "{runner}" "{binary}" {arg}', shell=True, capture_output=True
+        ).returncode
+
+    assert gate(orig_bin, "-1") == 1, "the leak must reproduce on the original"
+    assert gate(fixed_bin, "-1") == 0, "a patch that frees must clear the gate"
+    assert gate(orig_bin, "10") == 0, (
+        "the benign path leaks nothing even unpatched — otherwise the gate is "
+        "detecting the binary rather than the weakness"
+    )
+    assert gate(fixed_bin, "10") == 0

@@ -259,7 +259,47 @@ class LLMClient:
             # A replacement must actually look like a definition of that function.
             if source and name in source and "{" in source and "}" in source:
                 return name, source
+
+        # No marker. Models routinely return the corrected function in a plain
+        # ```c block and omit the header, and rejecting those as "no patch was
+        # found" wastes the whole iteration budget on a formatting detail —
+        # observed as five consecutive `generation` failures from one agent on a
+        # target it had otherwise analysed correctly.
+        #
+        # The function name is inferred from the block's own definition instead.
+        # This is not a shortcut past verification: the name still has to resolve
+        # against the file's AST in `_apply_replacement`, and a wrong guess fails
+        # there rather than silently patching the wrong function. Every gate
+        # still runs afterwards.
+        for block in blocks:
+            name = LLMClient._infer_function_name(block)
+            if name:
+                return name, block.strip()
         return None
+
+    # A C function definition opening a body: optional qualifiers and return
+    # type, the name, a parameter list, then `{`. Deliberately strict — it must
+    # not match a call, a declaration ending in `;`, or a control statement.
+    _DEFINITION = re.compile(
+        r"^[A-Za-z_][\w\s\*\(\),]*?\b([A-Za-z_]\w*)\s*\([^;{]*\)\s*\{",
+        re.MULTILINE,
+    )
+    _NOT_A_FUNCTION = {"if", "for", "while", "switch", "return", "sizeof", "do"}
+
+    @classmethod
+    def _infer_function_name(cls, block: str) -> Optional[str]:
+        """
+        Name of the single function defined in a code block, or None.
+
+        Returns None when the block defines zero or several functions: with more
+        than one there is no way to tell which the model meant to replace, and
+        guessing would splice a function into the wrong AST range.
+        """
+        names = [
+            m.group(1) for m in cls._DEFINITION.finditer(block)
+            if m.group(1) not in cls._NOT_A_FUNCTION
+        ]
+        return names[0] if len(names) == 1 else None
 
     @staticmethod
     def _extract_analysis(response: str, agent_name: str) -> str:

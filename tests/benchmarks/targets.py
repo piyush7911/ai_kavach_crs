@@ -15,12 +15,18 @@ manifestation on this platform. The reason is recorded in `pov_na_reason`
 and is printed verbatim in the reports — a target without a PoV is never
 counted as "PoV verified".
 
-Command templates support these placeholders:
+Command templates support exactly these placeholders, and no others:
     {src}        absolute path to the patched source file in the workspace
     {srcdir}     directory containing {src}
     {bin}        absolute path the build should produce
     {workspace}  workspace root
-    {harness}    this directory (holds the pov/regression runner scripts)
+
+`DRVLoop.expand` substitutes those four by literal replacement and deliberately
+leaves every other brace alone, so shell brace expansion, awk programs and
+`${arr[1]}` survive intact. The consequence worth knowing: an invented
+placeholder is NOT an error — it is passed through verbatim and the command
+fails later for a confusing reason. The path to the runner scripts is therefore
+baked in by the `_pov` / `_regress` helpers below rather than templated.
 """
 
 import shlex
@@ -38,6 +44,32 @@ SAN_CFLAGS = (
 )
 
 SINGLE_FILE_BUILD = f'clang {SAN_CFLAGS} "{{src}}" -o "{{bin}}"'
+
+# LeakSanitizer is absent from APPLE's AddressSanitizer runtime — a binary built
+# with /usr/bin/clang answers `detect_leaks=1` with "detect_leaks is not
+# supported on this platform". Homebrew LLVM's runtime does support it, on this
+# same arm64 host. Measured, not assumed.
+#
+# This project recorded the blanket claim "LeakSanitizer is unsupported on
+# darwin-arm64", which is why CWE-401 had no runtime gate. The toolchain was the
+# variable, not the platform. Targets whose weakness IS a leak build with the
+# runtime that can observe it; if that toolchain is absent the gate is skipped
+# with a written reason rather than silently passing.
+_LSAN_CLANG = next(
+    (p for p in ("/opt/homebrew/opt/llvm/bin/clang", "/usr/local/opt/llvm/bin/clang")
+     if Path(p).exists()),
+    None,
+)
+LEAK_BUILD = (
+    f'"{_LSAN_CLANG}" {SAN_CFLAGS} "{{src}}" -o "{{bin}}"'
+    if _LSAN_CLANG else SINGLE_FILE_BUILD
+)
+
+
+def _pov_leak(*args: str) -> str:
+    """Leak PoV: LeakSanitizer must report nothing on the patched binary."""
+    quoted = " ".join(shlex.quote(a) for a in args)
+    return f'sh "{HARNESS}/pov_leak.sh" "{{bin}}" {quoted}'.rstrip()
 
 
 @dataclass
@@ -261,34 +293,74 @@ SYNTHETIC: list[Target] = [
         file_path=f"{D}/15_hardcoded_key.c", line_number=5,
         cwe_id="CWE-321", description="Hardcoded cryptographic key in source",
         build_command=SINGLE_FILE_BUILD, source="static",
-        pov_command=None,
-        pov_na_reason=(
-            "A hardcoded secret has no runtime crash signature; it is a "
-            "statically-observable weakness only."
+        # A PoV does not have to be a crash. The contract is "exit 0 only when
+        # the weakness is absent", and for a hardcoded secret that is decidable:
+        # `strings` the built binary for the literal. It fails on the unpatched
+        # original and passes only once the value stops being compiled in, so
+        # pre-flight validates it like any other PoV.
+        #
+        # Without this gate nothing in the repair loop tested the actual
+        # weakness — build and regression both pass a patch that ignores it, and
+        # one duly "validated" at iteration 1 by adding an unrelated NULL check
+        # and leaving the key in place. The gate gives the agent the feedback it
+        # needs to iterate.
+        pov_command=(
+            f'sh "{HARNESS}/secret_scan.sh" "{{bin}}" '
+            f'{shlex.quote("SUPER_SECRET_AES_KEY_12345")} '
+            f'{shlex.quote("Encrypting data")} hello'
         ),
         regression_command=_regress("Encrypting data", "hello"),
+        # The program PRINTS the key, so removing the hardcoded literal must
+        # change stdout. Holding this to `preserve` demands behavioural
+        # equivalence with the vulnerable original, which is unsatisfiable while
+        # actually fixing CWE-321 — a correct patch was falsified for exactly
+        # this reason ("output changed on benign input '42'").
+        #
+        # No evasion_command: the only discriminator we have is the one the PoV
+        # gate already applies, and re-running it post-hoc would manufacture a
+        # hardening pass out of evidence already counted. This target is
+        # PoV-proven and honestly reports as NOT HARDENED.
+        behaviour_contract="replace",
     ),
     Target(
         id="SYN-16-TYPE-CONFUSION", suite="Synthetic", complexity="hard",
-        file_path=f"{D}/16_type_confusion.c", line_number=16,
-        cwe_id="CWE-843", description="Union member written as int, read as char*",
+        file_path=f"{D}/16_type_confusion.c", line_number=10,
+        cwe_id="CWE-843",
+        description=(
+            "Union member written as int (uid.id = atoi(raw)) and then read as "
+            "char* by the very next statement, dereferencing an integer as a "
+            "pointer"
+        ),
         build_command=SINGLE_FILE_BUILD,
         pov_command=_pov(),
-        regression_command=None,
-        regression_na_reason=(
-            "The program's only code path is the vulnerable one; there is no "
-            "benign input to regress against. The PoV gate alone decides it."
-        ),
+        # The confusion is created and consumed inside render_user, so the
+        # labelled line, the PoV path and the fuzz harness all address the same
+        # function and a patch confined to it can succeed. Previously the label
+        # pointed at one copy of the bug while the harness attacked another
+        # function entirely, and re-fuzzing blamed the agent for a defect
+        # outside the scope it was given.
+        regression_command=_regress("-", "42"),
     ),
     Target(
         id="SYN-17-MEMORY-LEAK", suite="Synthetic", complexity="easy",
         file_path=f"{D}/17_memory_leak_error_path.c", line_number=9,
         cwe_id="CWE-401", description="Allocation leaked on the early-return error path",
-        build_command=SINGLE_FILE_BUILD, source="static",
-        pov_command=None,
+        # Built with the Homebrew LLVM runtime, which ships LeakSanitizer;
+        # Apple's does not. See LEAK_BUILD above.
+        build_command=LEAK_BUILD, source="static",
+        # `-1` takes the error path that returns without freeing log_msg.
+        # Verified in all four directions before being trusted: the original
+        # leaks on -1 and is clean on 10, and a patch that frees before the early
+        # return is clean on both — so the gate discriminates the weakness, not
+        # the binary.
+        pov_command=_pov_leak("-1") if _LSAN_CLANG else None,
         pov_na_reason=(
-            "Leak detection requires LeakSanitizer, which is not supported on "
-            "darwin-arm64. The leak is real but cannot be gated at runtime here."
+            ""
+            if _LSAN_CLANG else
+            "Leak detection needs a LeakSanitizer-capable runtime. Apple's clang "
+            "ships none and no Homebrew LLVM was found at "
+            "/opt/homebrew/opt/llvm or /usr/local/opt/llvm, so the leak cannot "
+            "be gated at runtime on this host."
         ),
         regression_command=_regress("-", "10"),
     ),

@@ -199,9 +199,38 @@ int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {
 # --- verdict semantics -----------------------------------------------------
 
 def test_verdict_survived_requires_both_checks_clean():
-    assert HardeningVerdict().survived
-    assert not HardeningVerdict(overfitted=True).survived
-    assert not HardeningVerdict(diverged=True).survived
+    """A clean verdict must come from a check that actually ran."""
+    assert not HardeningVerdict().survived, (
+        "an empty verdict means nothing was attempted, not that the patch held"
+    )
+    assert HardeningVerdict(overfitting_checked=True).survived
+    assert not HardeningVerdict(overfitting_checked=True, overfitted=True).survived
+    assert not HardeningVerdict(differential_checked=True, inputs_tested=9, diverged=True).survived
+
+
+def test_falsified_and_survived_are_not_opposites():
+    """
+    `falsified` decides whether to downgrade a result; `survived` decides
+    whether it earned the hardening bar. A patch nothing could test is neither.
+    """
+    nothing_ran = HardeningVerdict()
+    assert not nothing_ran.falsified, "no check ran, so nothing was disproved"
+    assert not nothing_ran.survived, "no check ran, so nothing was proved either"
+
+
+def test_zero_input_differential_is_not_evidence():
+    """
+    The differ skips inputs on which the ORIGINAL crashes, so a target whose
+    only code path is the vulnerable one yields "differential(0 inputs):
+    behaviour preserved". Counting that as survival credits a patch that nobody
+    managed to attack — SYN-16 produced exactly this verdict.
+    """
+    vacuous = HardeningVerdict(differential_checked=True, inputs_tested=0)
+    assert not vacuous.has_evidence
+    assert not vacuous.survived
+
+    real = HardeningVerdict(differential_checked=True, inputs_tested=1)
+    assert real.has_evidence and real.survived
 
 
 def test_verdict_summary_mentions_what_ran():

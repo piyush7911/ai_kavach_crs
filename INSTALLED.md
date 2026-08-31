@@ -1,6 +1,6 @@
 # AI Kavach CRS — Installation & Dependency Tracker
 # Everything installed for this project, so it can be removed cleanly later.
-# Last updated: 2026-08-07
+# Last updated: 2026-08-30
 
 ## Conda Environment
 - **Name:** `ai_kavach`
@@ -23,6 +23,8 @@
 | pytest | Unit tests | in use | `pip uninstall pytest` |
 | semgrep | Static analysis → SARIF | in use (v1.172.0) | `pip uninstall semgrep` |
 | **angr** | Symbolic execution for Driller | **added 2026-08-07** | `pip uninstall angr` |
+| Pillow, lxml | Pulled in transitively while evaluating `python-pptx` for a deck deliverable that was then dropped. `python-pptx` and `XlsxWriter` were uninstalled; these two were left because they are common transitive dependencies and removing them risks other packages. Nothing in `src/` imports them. | left installed, unused | `pip uninstall Pillow lxml` |
+| ~~python-pptx~~ | — | installed 2026-08-30, **removed the same day** (deck step dropped) | already uninstalled |
 | ~~langgraph~~ | — | **NOT used**; commented out of requirements.txt | `pip uninstall langgraph` |
 | ~~langchain-openai~~ | — | **NOT used**; commented out | `pip uninstall langchain-openai` |
 | ~~langchain-core~~ | — | **NOT used**; commented out | `pip uninstall langchain-core` |

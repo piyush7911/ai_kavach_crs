@@ -1,0 +1,2842 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-page-node-id="MVuTbIoAtUvyI8VyekKELp">
+
+<head data-page-node-id="Ao7QOezb1SC6K4QqC3Zzgw">
+  <meta charset="utf-8" data-page-node-id="ctAPQ0fktRrsSIHH0mExqx" />
+  <title>AI Kavach — UI Concept (illustrative data, not a live system)</title>
+  <meta name="viewport" content="width=1440" data-page-node-id="cWSTcRSPOAsjpsbDyJygcQ" />
+  <style>
+    :root {
+      --sans: -apple-system, BlinkMacSystemFont, "Inter", "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+      --mono: ui-monospace, "SF Mono", "JetBrains Mono", "Roboto Mono", Menlo, monospace;
+      --r-sm: 5px;
+      --r: 7px;
+      --r-lg: 10px;
+      --r-xl: 14px;
+      --ease: cubic-bezier(.16, 1, .3, 1);
+      --dur: .18s;
+    }
+
+    [data-theme="light"] {
+      --bg: #FAFAFA;
+      --surface: #FFFFFF;
+      --surface-2: #F4F4F5;
+      --surface-3: #EAEAEC;
+      --border: #E4E4E7;
+      --border-2: #D4D4D8;
+      --text: #09090B;
+      --text-2: #52525B;
+      --text-3: #8E8E96;
+      --text-4: #AFAFB6;
+      --green: #15803D;
+      --green-bg: #F0FDF4;
+      --green-br: #BBF7D0;
+      --green-fg: #fff;
+      --red: #B91C1C;
+      --red-bg: #FEF2F2;
+      --red-br: #FECACA;
+      --red-fg: #fff;
+      --amber: #A16207;
+      --amber-bg: #FEFCE8;
+      --amber-br: #FEF08A;
+      --amber-fg: #fff;
+      --blue: #1D4ED8;
+      --blue-bg: #EFF6FF;
+      --blue-br: #BFDBFE;
+      --violet: #6D28D9;
+      --violet-bg: #F5F3FF;
+      --violet-br: #DDD6FE;
+      --code-bg: #FBFBFC;
+      --shadow-sm: 0 1px 2px rgba(9, 9, 11, .04);
+      --shadow-md: 0 2px 8px rgba(9, 9, 11, .06), 0 1px 2px rgba(9, 9, 11, .04);
+      --shadow-lg: 0 12px 32px rgba(9, 9, 11, .10), 0 2px 8px rgba(9, 9, 11, .05);
+    }
+
+    [data-theme="dark"] {
+      --bg: #09090B;
+      --surface: #0F0F11;
+      --surface-2: #17171A;
+      --surface-3: #202024;
+      --border: #26262A;
+      --border-2: #35353B;
+      --text: #FAFAFA;
+      --text-2: #A1A1AA;
+      --text-3: #71717A;
+      --text-4: #52525B;
+      --green: #4ADE80;
+      --green-bg: rgba(74, 222, 128, .08);
+      --green-br: rgba(74, 222, 128, .24);
+      --green-fg: #06240F;
+      --red: #F87171;
+      --red-bg: rgba(248, 113, 113, .08);
+      --red-br: rgba(248, 113, 113, .24);
+      --red-fg: #2A0808;
+      --amber: #FBBF24;
+      --amber-bg: rgba(251, 191, 36, .08);
+      --amber-br: rgba(251, 191, 36, .24);
+      --amber-fg: #2A1C02;
+      --blue: #60A5FA;
+      --blue-bg: rgba(96, 165, 250, .08);
+      --blue-br: rgba(96, 165, 250, .24);
+      --violet: #A78BFA;
+      --violet-bg: rgba(167, 139, 250, .08);
+      --violet-br: rgba(167, 139, 250, .24);
+      --code-bg: #0C0C0E;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, .4);
+      --shadow-md: 0 2px 8px rgba(0, 0, 0, .5), 0 1px 2px rgba(0, 0, 0, .4);
+      --shadow-lg: 0 16px 40px rgba(0, 0, 0, .6), 0 2px 8px rgba(0, 0, 0, .4);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      height: 100%;
+    }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+
+    button {
+      font-family: inherit;
+      font-size: inherit;
+      cursor: pointer;
+      border: 0;
+      background: none;
+      color: inherit;
+    }
+
+    input,
+    select,
+    textarea {
+      font-family: inherit;
+      font-size: inherit;
+      color: inherit;
+    }
+
+    ::selection {
+      background: rgba(29, 78, 216, .16);
+    }
+
+    [data-theme="dark"] ::selection {
+      background: rgba(96, 165, 250, .24);
+    }
+
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-2);
+      border-radius: 6px;
+      border: 3px solid var(--bg);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--text-4);
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 2px;
+      border-radius: 3px;
+    }
+
+    .app {
+      display: grid;
+      grid-template-rows: 52px 1fr 28px;
+      height: 100vh;
+    }
+
+    /* --- concept banner -------------------------------------------------
+   This file is a UI mock. Every repository, scan, finding, sanitizer
+   report and cost figure in it is invented. The banner exists so that
+   cannot be mistaken for a running system when the page is shown or
+   screenshotted. Do not remove it. */
+    .concept-banner {
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 16px;
+      box-sizing: border-box;
+      background: #7c2d12;
+      color: #fff;
+      font-size: 12px;
+      letter-spacing: .01em;
+      border-bottom: 1px solid rgba(0, 0, 0, .25);
+    }
+
+    .concept-banner b {
+      font-weight: 650;
+    }
+
+    .concept-banner .tag {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      background: rgba(255, 255, 255, .16);
+      padding: 2px 7px;
+      border-radius: 999px;
+    }
+
+    .concept-banner a {
+      color: #fff;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .app {
+      height: calc(100vh - 34px);
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 0 16px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .brand .mark {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      background: var(--text);
+      color: var(--bg);
+      display: grid;
+      place-items: center;
+    }
+
+    .brand .mark svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .brand .word {
+      font-weight: 620;
+      letter-spacing: -.015em;
+      font-size: 13.5px;
+    }
+
+    .brand .ver {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text-3);
+    }
+
+    .tb-sep {
+      width: 1px;
+      height: 20px;
+      background: var(--border);
+    }
+
+    .spacer {
+      flex: 1;
+    }
+
+    .tb-meta {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-3);
+    }
+
+    .tb-meta b {
+      color: var(--text-2);
+      font-weight: 500;
+    }
+
+    .icon-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: var(--r-sm);
+      display: grid;
+      place-items: center;
+      color: var(--text-3);
+      transition: background var(--dur), color var(--dur);
+    }
+
+    .icon-btn:hover {
+      background: var(--surface-2);
+      color: var(--text);
+    }
+
+    .icon-btn svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    .avatar {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--surface-3);
+      color: var(--text-2);
+      display: grid;
+      place-items: center;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .shell {
+      display: grid;
+      grid-template-columns: 210px 1fr;
+      min-height: 0;
+    }
+
+    .rail {
+      border-right: 1px solid var(--border);
+      background: var(--surface);
+      padding: 12px 9px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .rail .lbl {
+      font-size: 10px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--text-4);
+      font-weight: 600;
+      padding: 14px 8px 5px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 7px 9px;
+      border-radius: var(--r-sm);
+      color: var(--text-2);
+      font-size: 13px;
+      transition: background var(--dur), color var(--dur);
+      width: 100%;
+      text-align: left;
+    }
+
+    .nav-item svg {
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
+      opacity: .75;
+    }
+
+    .nav-item:hover {
+      background: var(--surface-2);
+      color: var(--text);
+    }
+
+    .nav-item.on {
+      background: var(--surface-2);
+      color: var(--text);
+      font-weight: 550;
+    }
+
+    .nav-item.on svg {
+      opacity: 1;
+    }
+
+    .nav-item .n {
+      flex: 1;
+    }
+
+    .nav-item .c {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      color: var(--text-4);
+    }
+
+    .nav-item .live-i {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: blink 1.6s var(--ease) infinite;
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: .3;
+      }
+    }
+
+    .rail-card {
+      margin: 12px 2px 0;
+      padding: 11px;
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+    }
+
+    .rail-card .t {
+      font-size: 10px;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      color: var(--text-4);
+      font-weight: 600;
+    }
+
+    .rail-card .v {
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -.02em;
+      margin-top: 3px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .rail-card .d {
+      font-size: 11px;
+      color: var(--text-3);
+      margin-top: 2px;
+      line-height: 1.4;
+    }
+
+    .viewport {
+      overflow-y: auto;
+      scroll-behavior: smooth;
+    }
+
+    .wrap {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 26px 30px 70px;
+    }
+
+    .page-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .page-head .txt {
+      flex: 1;
+    }
+
+    .page-head h1 {
+      font-size: 20px;
+      font-weight: 620;
+      letter-spacing: -.025em;
+      margin: 0;
+    }
+
+    .page-head .sub {
+      font-size: 13px;
+      color: var(--text-2);
+      margin-top: 3px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .card.pad {
+      padding: 16px 18px;
+    }
+
+    .card.flush {
+      overflow: hidden;
+    }
+
+    .card-head {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .card-head h3 {
+      font-size: 13px;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .card-head .sp {
+      flex: 1;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 7px 13px;
+      border-radius: var(--r-sm);
+      font-size: 12.5px;
+      font-weight: 500;
+      border: 1px solid var(--border-2);
+      background: var(--surface);
+      color: var(--text);
+      transition: background var(--dur), border-color var(--dur), transform var(--dur);
+    }
+
+    .btn:hover {
+      background: var(--surface-2);
+      border-color: var(--text-4);
+    }
+
+    .btn:active {
+      transform: translateY(.5px);
+    }
+
+    .btn svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .btn.primary {
+      background: var(--text);
+      border-color: var(--text);
+      color: var(--bg);
+      font-weight: 550;
+    }
+
+    .btn.primary:hover {
+      opacity: .88;
+      background: var(--text);
+    }
+
+    .btn.danger {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+      font-weight: 550;
+    }
+
+    .btn.danger:hover {
+      opacity: .88;
+      background: var(--red);
+    }
+
+    .btn.ghost {
+      border-color: transparent;
+      background: none;
+      color: var(--text-2);
+    }
+
+    .btn.ghost:hover {
+      background: var(--surface-2);
+      color: var(--text);
+    }
+
+    .btn.sm {
+      padding: 5px 10px;
+      font-size: 12px;
+    }
+
+    .btn:disabled {
+      opacity: .45;
+      cursor: not-allowed;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 10.5px;
+      font-weight: 600;
+      font-family: var(--mono);
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+
+    .tag.green {
+      background: var(--green-bg);
+      color: var(--green);
+      border-color: var(--green-br);
+    }
+
+    .tag.red {
+      background: var(--red-bg);
+      color: var(--red);
+      border-color: var(--red-br);
+    }
+
+    .tag.amber {
+      background: var(--amber-bg);
+      color: var(--amber);
+      border-color: var(--amber-br);
+    }
+
+    .tag.blue {
+      background: var(--blue-bg);
+      color: var(--blue);
+      border-color: var(--blue-br);
+    }
+
+    .tag.violet {
+      background: var(--violet-bg);
+      color: var(--violet);
+      border-color: var(--violet-br);
+    }
+
+    .tag.neutral {
+      background: var(--surface-2);
+      color: var(--text-3);
+      border-color: var(--border);
+    }
+
+    .mono {
+      font-family: var(--mono);
+      font-size: 12px;
+    }
+
+    .tnum {
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* stats */
+    .stats {
+      display: grid;
+      gap: 12px;
+    }
+
+    .stats.c4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .stats.c3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .stat {
+      padding: 15px 17px;
+    }
+
+    .stat .l {
+      font-size: 10.5px;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .stat .v {
+      font-size: 27px;
+      font-weight: 600;
+      letter-spacing: -.03em;
+      margin-top: 6px;
+      font-variant-numeric: tabular-nums;
+      display: flex;
+      align-items: baseline;
+      gap: 7px;
+    }
+
+    .stat .v .u {
+      font-size: 14px;
+      color: var(--text-4);
+      font-weight: 500;
+    }
+
+    .stat .d {
+      font-size: 11.5px;
+      color: var(--text-3);
+      margin-top: 3px;
+    }
+
+    .stat .d.up {
+      color: var(--green);
+    }
+
+    .stat .d.dn {
+      color: var(--red);
+    }
+
+    .stat.g .v {
+      color: var(--green);
+    }
+
+    .stat.r .v {
+      color: var(--red);
+    }
+
+    .stat.a .v {
+      color: var(--amber);
+    }
+
+    .stat.b .v {
+      color: var(--blue);
+    }
+
+    /* progress */
+    .bar {
+      height: 5px;
+      background: var(--surface-3);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .bar>i {
+      display: block;
+      height: 100%;
+      border-radius: 3px;
+      background: var(--text);
+      transition: width .5s var(--ease);
+    }
+
+    .bar.run>i {
+      background: linear-gradient(90deg, var(--blue), var(--violet));
+      background-size: 200% 100%;
+      animation: flow 1.6s linear infinite;
+    }
+
+    @keyframes flow {
+      to {
+        background-position: -200% 0;
+      }
+    }
+
+    .bar.g>i {
+      background: var(--green);
+    }
+
+    .bar.r>i {
+      background: var(--red);
+    }
+
+    /* table */
+    table.d {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    table.d th {
+      text-align: left;
+      font-size: 10.5px;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      font-weight: 600;
+      padding: 9px 14px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    table.d td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      font-size: 12.5px;
+      color: var(--text-2);
+    }
+
+    table.d tbody tr {
+      transition: background var(--dur);
+    }
+
+    table.d tbody tr.clickable {
+      cursor: pointer;
+    }
+
+    table.d tbody tr:hover {
+      background: var(--surface-2);
+    }
+
+    table.d tbody tr:hover td {
+      color: var(--text);
+    }
+
+    table.d tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    table.d td.id {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--blue);
+    }
+
+    table.d td.m {
+      font-family: var(--mono);
+      font-size: 11.5px;
+    }
+
+    table.d .act {
+      opacity: 0;
+      transition: opacity var(--dur);
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-3);
+    }
+
+    table.d tr:hover .act {
+      opacity: 1;
+    }
+
+    /* filters */
+    .filters {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .chip {
+      padding: 5px 11px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      font-size: 12px;
+      color: var(--text-2);
+      transition: all var(--dur);
+    }
+
+    .chip:hover {
+      border-color: var(--border-2);
+      color: var(--text);
+    }
+
+    .chip.on {
+      background: var(--text);
+      border-color: var(--text);
+      color: var(--bg);
+      font-weight: 550;
+    }
+
+    .chip .ct {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      opacity: .6;
+      margin-left: 4px;
+    }
+
+    .search {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 11px;
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      background: var(--surface-2);
+    }
+
+    .search svg {
+      width: 13px;
+      height: 13px;
+      color: var(--text-4);
+      flex-shrink: 0;
+    }
+
+    .search input {
+      border: 0;
+      outline: 0;
+      background: none;
+      width: 220px;
+      font-size: 12.5px;
+    }
+
+    .search input::placeholder {
+      color: var(--text-4);
+    }
+
+    /* wizard */
+    .wiz {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 22px;
+    }
+
+    .wiz .ws {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .wiz .wn {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border-2);
+      display: grid;
+      place-items: center;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-4);
+      background: var(--surface);
+    }
+
+    .wiz .wt {
+      font-size: 13px;
+      color: var(--text-3);
+    }
+
+    .wiz .ws.done .wn {
+      background: var(--text);
+      border-color: var(--text);
+      color: var(--bg);
+    }
+
+    .wiz .ws.done .wt {
+      color: var(--text-2);
+    }
+
+    .wiz .ws.on .wn {
+      border-color: var(--text);
+      color: var(--text);
+    }
+
+    .wiz .ws.on .wt {
+      color: var(--text);
+      font-weight: 550;
+    }
+
+    .wiz .wl {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      margin: 0 14px;
+    }
+
+    .wiz .wl.done {
+      background: var(--text);
+    }
+
+    .field {
+      margin-bottom: 15px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 11px;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .field .hint {
+      font-size: 11.5px;
+      color: var(--text-4);
+      margin-top: 4px;
+      line-height: 1.45;
+    }
+
+    .inp,
+    .txta,
+    .sel {
+      width: 100%;
+      padding: 8px 11px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      font-family: var(--mono);
+      font-size: 12px;
+      outline: none;
+      transition: border-color var(--dur), box-shadow var(--dur);
+    }
+
+    .inp:focus,
+    .txta:focus,
+    .sel:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(29, 78, 216, .10);
+    }
+
+    .txta {
+      min-height: 68px;
+      resize: vertical;
+      line-height: 1.55;
+    }
+
+    .sel {
+      font-family: var(--sans);
+      font-size: 12.5px;
+      cursor: pointer;
+    }
+
+    .tok {
+      color: var(--blue);
+    }
+
+    .switch-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .switch-row:last-child {
+      border-bottom: 0;
+    }
+
+    .sw {
+      width: 34px;
+      height: 20px;
+      border-radius: 999px;
+      background: var(--surface-3);
+      border: 1px solid var(--border-2);
+      position: relative;
+      flex-shrink: 0;
+      transition: background var(--dur), border-color var(--dur);
+      margin-top: 1px;
+    }
+
+    .sw i {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+      transition: transform .22s var(--ease);
+    }
+
+    .sw.on {
+      background: var(--text);
+      border-color: var(--text);
+    }
+
+    .sw.on i {
+      transform: translateX(14px);
+      background: var(--bg);
+    }
+
+    .sw-txt {
+      flex: 1;
+    }
+
+    .sw-txt .n {
+      font-size: 13px;
+      font-weight: 550;
+    }
+
+    .sw-txt .d {
+      font-size: 12px;
+      color: var(--text-2);
+      margin-top: 2px;
+      line-height: 1.5;
+    }
+
+    /* run monitor */
+    .run-hero {
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .pct {
+      font-size: 46px;
+      font-weight: 600;
+      letter-spacing: -.04em;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+
+    .stages {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin-top: 18px;
+    }
+
+    .srow {
+      display: grid;
+      grid-template-columns: 20px 130px 1fr 84px;
+      align-items: center;
+      gap: 12px;
+      padding: 7px 0;
+    }
+
+    .srow .ic {
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      border: 1.5px solid var(--border-2);
+      color: var(--text-4);
+    }
+
+    .srow .ic svg {
+      width: 10px;
+      height: 10px;
+    }
+
+    .srow.done .ic {
+      background: var(--green);
+      border-color: var(--green);
+      color: var(--green-fg);
+    }
+
+    .srow.active .ic {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    .srow .nm {
+      font-size: 12.5px;
+      font-weight: 550;
+      color: var(--text-3);
+    }
+
+    .srow.done .nm,
+    .srow.active .nm {
+      color: var(--text);
+    }
+
+    .srow .meta {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-3);
+      text-align: right;
+    }
+
+    .srow .meta.ok {
+      color: var(--green);
+    }
+
+    .term {
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      overflow: hidden;
+      background: var(--surface);
+    }
+
+    .term .th {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      background: var(--surface-2);
+      border-bottom: 1px solid var(--border);
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-3);
+    }
+
+    .term .tb {
+      font-family: var(--mono);
+      font-size: 11.5px;
+      line-height: 1.65;
+      padding: 11px 13px;
+      height: 300px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      color: var(--text-2);
+      background: var(--code-bg);
+      margin: 0;
+    }
+
+    .term .tb .t {
+      color: var(--text-4);
+    }
+
+    .term .tb .ok {
+      color: var(--green);
+    }
+
+    .term .tb .er {
+      color: var(--red);
+    }
+
+    .term .tb .b {
+      color: var(--blue);
+    }
+
+    .term .tb .v {
+      color: var(--violet);
+    }
+
+    .term .tb .a {
+      color: var(--amber);
+    }
+
+    .cur {
+      display: inline-block;
+      width: 6px;
+      height: 13px;
+      background: var(--text);
+      vertical-align: -2px;
+      animation: cb 1s steps(2) infinite;
+    }
+
+    @keyframes cb {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    .finding-pop {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 13px;
+      border-bottom: 1px solid var(--border);
+      animation: pop .35s var(--ease);
+    }
+
+    @keyframes pop {
+      from {
+        opacity: 0;
+        transform: translateY(-6px);
+      }
+    }
+
+    .finding-pop .fi {
+      font-family: var(--mono);
+      font-size: 11.5px;
+      color: var(--blue);
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .kv {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+    }
+
+    .kv:last-child {
+      border-bottom: 0;
+    }
+
+    .kv .k {
+      color: var(--text-3);
+      font-family: var(--mono);
+      font-size: 11.5px;
+    }
+
+    .kv .v {
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 11.5px;
+      text-align: right;
+    }
+
+    /* activity feed */
+    .feed {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .feed .fi2 {
+      display: flex;
+      gap: 10px;
+      padding: 9px 16px;
+      border-bottom: 1px solid var(--border);
+      align-items: baseline;
+    }
+
+    .feed .fi2:last-child {
+      border-bottom: 0;
+    }
+
+    .feed .ft {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      color: var(--text-4);
+      width: 62px;
+      flex-shrink: 0;
+    }
+
+    .feed .fx {
+      font-size: 12.5px;
+      color: var(--text-2);
+      flex: 1;
+    }
+
+    .feed .fx b {
+      color: var(--text);
+      font-weight: 550;
+    }
+
+    /* finding detail */
+    .stage {
+      padding-bottom: 26px;
+    }
+
+    .stage-hd {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 9px;
+    }
+
+    .stage-hd .n {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-4);
+    }
+
+    .stage-hd h3 {
+      font-size: 14.5px;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .stage-hd .meta {
+      margin-left: auto;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-3);
+    }
+
+    .lede {
+      font-size: 13px;
+      color: var(--text-2);
+      margin: 0 0 11px;
+      line-height: 1.6;
+      max-width: 820px;
+    }
+
+    .lede b {
+      color: var(--text);
+      font-weight: 550;
+    }
+
+    .ev {
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .ev .eh {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      background: var(--surface-2);
+      border-bottom: 1px solid var(--border);
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-3);
+    }
+
+    .ev .eh .dotg {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    .ev .eb {
+      font-family: var(--mono);
+      font-size: 11.5px;
+      line-height: 1.6;
+      padding: 11px 13px;
+      background: var(--code-bg);
+      overflow-x: auto;
+      white-space: pre;
+      color: var(--text-2);
+      margin: 0;
+    }
+
+    .ev .eb .e {
+      color: var(--red);
+    }
+
+    .ev .eb .b {
+      color: var(--blue);
+    }
+
+    .ev .eb .c {
+      color: var(--text-4);
+    }
+
+    .ev .eb .g {
+      color: var(--green);
+    }
+
+    .diff {
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      overflow: hidden;
+      font-family: var(--mono);
+      font-size: 11.5px;
+      background: var(--code-bg);
+    }
+
+    .diff .dh {
+      display: flex;
+      justify-content: space-between;
+      padding: 7px 12px;
+      background: var(--surface-2);
+      border-bottom: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--text-3);
+    }
+
+    .diff .dl {
+      display: flex;
+    }
+
+    .diff .dl.add {
+      background: var(--green-bg);
+    }
+
+    .diff .dl.rem {
+      background: var(--red-bg);
+    }
+
+    .diff .gt {
+      width: 44px;
+      text-align: right;
+      padding-right: 10px;
+      color: var(--text-4);
+      flex-shrink: 0;
+    }
+
+    .diff .dl.add .gt {
+      color: var(--green);
+    }
+
+    .diff .dl.rem .gt {
+      color: var(--red);
+    }
+
+    .diff .sr {
+      white-space: pre;
+      padding: 1px 0;
+      color: var(--text-2);
+    }
+
+    .diff .dl.add .sr {
+      color: var(--green);
+    }
+
+    .diff .dl.rem .sr {
+      color: var(--red);
+      text-decoration: line-through;
+      opacity: .85;
+    }
+
+    .gates {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      overflow: hidden;
+    }
+
+    .gate {
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .gate:last-child {
+      border-bottom: 0;
+    }
+
+    .gate .gh {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      cursor: pointer;
+      transition: background var(--dur);
+    }
+
+    .gate .gh:hover {
+      background: var(--surface-2);
+    }
+
+    .gate .ic {
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .gate .ic svg {
+      width: 10px;
+      height: 10px;
+    }
+
+    .gate.pass .ic {
+      background: var(--green);
+      color: var(--green-fg);
+    }
+
+    .gate.fail .ic {
+      background: var(--red);
+      color: var(--red-fg);
+    }
+
+    .gate.skip .ic {
+      background: var(--amber);
+      color: var(--amber-fg);
+    }
+
+    .gate .nm {
+      font-family: var(--mono);
+      font-size: 12.5px;
+      font-weight: 550;
+      flex-shrink: 0;
+    }
+
+    .gate .cmd {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-4);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      flex: 1;
+    }
+
+    .gate .caret {
+      width: 12px;
+      height: 12px;
+      color: var(--text-4);
+      transition: transform var(--dur);
+    }
+
+    .gate.open .caret {
+      transform: rotate(90deg);
+    }
+
+    .gate .gb {
+      display: none;
+      padding: 0 14px 11px 41px;
+    }
+
+    .gate.open .gb {
+      display: block;
+    }
+
+    .checks3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .chk {
+      padding: 15px 17px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chk .ch {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+    }
+
+    .chk .ch .ic {
+      width: 20px;
+      height: 20px;
+      border-radius: 5px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .chk .ch .ic svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    .chk.ok .ch .ic {
+      background: var(--green-bg);
+      color: var(--green);
+      border: 1px solid var(--green-br);
+    }
+
+    .chk.na .ch .ic {
+      background: var(--amber-bg);
+      color: var(--amber);
+      border: 1px solid var(--amber-br);
+    }
+
+    .chk .ch .tt {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .chk .ch .st {
+      margin-left: auto;
+    }
+
+    .chk .dsc {
+      font-size: 12.5px;
+      color: var(--text-2);
+      margin: 7px 0 0;
+      line-height: 1.5;
+    }
+
+    .chk .vd {
+      margin-top: auto;
+      padding-top: 11px;
+      font-family: var(--mono);
+      font-size: 11.5px;
+      display: flex;
+      gap: 8px;
+      align-items: baseline;
+    }
+
+    .chk .vd .r {
+      font-weight: 600;
+      color: var(--green);
+    }
+
+    .chk.na .vd .r {
+      color: var(--amber);
+    }
+
+    /* toast */
+    .toasts {
+      position: fixed;
+      bottom: 18px;
+      right: 18px;
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .toast {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 15px;
+      border-radius: var(--r);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-lg);
+      font-size: 12.5px;
+      animation: slidein .28s var(--ease);
+      min-width: 260px;
+    }
+
+    @keyframes slidein {
+      from {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+    }
+
+    .toast .ic {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .toast .ic svg {
+      width: 11px;
+      height: 11px;
+    }
+
+    .toast.ok .ic {
+      background: var(--green);
+      color: var(--green-fg);
+    }
+
+    .toast.info .ic {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .toast.warn .ic {
+      background: var(--amber);
+      color: var(--amber-fg);
+    }
+
+    .empty {
+      padding: 52px 20px;
+      text-align: center;
+    }
+
+    .empty svg {
+      width: 30px;
+      height: 30px;
+      color: var(--text-4);
+    }
+
+    .empty .t {
+      font-size: 14px;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    .empty .d {
+      font-size: 12.5px;
+      color: var(--text-2);
+      margin-top: 4px;
+      max-width: 380px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .statusbar {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 0 16px;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      font-family: var(--mono);
+      font-size: 10.5px;
+      color: var(--text-4);
+    }
+
+    .statusbar .sg {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .statusbar .sg i {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+    }
+
+    .statusbar .sg i.g {
+      background: var(--green);
+    }
+
+    .statusbar .sg i.a {
+      background: var(--amber);
+    }
+
+    .statusbar b {
+      color: var(--text-3);
+      font-weight: 500;
+    }
+
+    .statusbar .push {
+      margin-left: auto;
+    }
+  </style>
+</head>
+
+<body data-page-node-id="N8ROByyVH7FbqbbHZIFnvE">
+  <div class="concept-banner" role="note">
+    <span class="tag">UI concept</span>
+    <span><b>Illustrative data — this is not a live system.</b>
+      Measured results live in <a href="../../benchmark.md">benchmark.md</a>.</span>
+  </div>
+  <div class="app" data-page-node-id="J0sn3fttzBlYWGcX0pAAZY">
+    <header class="topbar" data-page-node-id="XxXQFmvwJMpWQbVF9Muwg7">
+      <div class="brand" data-page-node-id="AvgxcISga5LMnhlv9canzr">
+        <div class="mark" data-page-node-id="ujUnfYXWFtUbhGBgmtek8x"><svg viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"
+            data-page-node-id="8O1epbvxbZubXhfNSd6Fle">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" data-page-node-id="SEpRSpBxreJlHkFw3Gv0Ak" />
+          </svg></div>
+        <div data-page-node-id="6fx7VuNFbK705cZakfHghm">
+          <div class="word" data-page-node-id="XMMCzgBFSiEbDOmdIrxtnL">AI Kavach</div>
+          <div class="ver" data-page-node-id="VzjImty9b5V3T9vzckObUu">v1.0</div>
+        </div>
+      </div>
+      <div class="tb-sep" data-page-node-id="MunRhZEFj5tOVqKaOHmboC"></div>
+      <button class="btn sm primary" id="new-scan-btn" data-page-node-id="Cgbe25keb9XXoCRI7xEXyk">+ New scan</button>
+      <div class="spacer" data-page-node-id="LDWEbAmA2r0nwGitt6OyJS"></div>
+      <div class="tb-meta" data-page-node-id="oXRFqeEPluO19P9BjHrkoG">
+        <span id="tb-runs" data-page-node-id="DCsAQOzI5LJDlAB5wj2YAp">1 running</span>
+        <span data-page-node-id="IayHVVuWBFMZvuE3GtknAM">spend this month <b
+            data-page-node-id="KNK0MyxS3M38Bjjt0HxDbU">$4.12</b> / $50</span>
+      </div>
+      <div class="tb-sep" data-page-node-id="diIYoWzpJUoKmJhFUk9B1A"></div>
+      <button class="icon-btn" id="theme-btn" title="Toggle theme" data-page-node-id="6tlxwuuODJLnSe1GkCPIX7"><svg
+          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+          stroke-linejoin="round" data-page-node-id="FTcXxVJHGTMRMcS52RpvV5">
+          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" data-page-node-id="wVHDXGw6kszC0HvPBYVHDE" />
+        </svg></button>
+      <button class="icon-btn" title="Notifications" data-page-node-id="I7Wc9WSy5vfjoCBX3pBZNk"><svg viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+          data-page-node-id="8j8h42PyBHGmDS3PtULvLC">
+          <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" data-page-node-id="CgYMqOXH1Q25BtEDf8Fk5G" />
+          <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" data-page-node-id="TUlk8SvY2a5aLVjMhknicN" />
+        </svg></button>
+      <div class="avatar" data-page-node-id="EOmIzQ4zICw13hD4pqE63O">PK</div>
+    </header>
+
+    <div class="shell" data-page-node-id="ujz6BDgyEYFH37VFy1FLeA">
+      <nav class="rail" id="rail" data-page-node-id="ZQ8OJlRLZo7rKHP4Ib5hms"></nav>
+      <main class="viewport" id="viewport" data-page-node-id="jgS43uA3la5d8E34oxvAcn"></main>
+    </div>
+
+    <footer class="statusbar" id="statusbar" data-page-node-id="L5QHR7ovvwtrrZWWSAFDmB"></footer>
+  </div>
+  <div class="toasts" id="toasts" data-page-node-id="Zq8dd9MHCNN2ICkSXkpkW5"></div>
+
+  <script>
+    function $(s) { return document.querySelector(s); }
+    function $$(s) { return Array.prototype.slice.call(document.querySelectorAll(s)); }
+    function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+    function ago(m) { return m < 60 ? m + 'm ago' : m < 1440 ? Math.floor(m / 60) + 'h ago' : Math.floor(m / 1440) + 'd ago'; }
+
+    var I = {
+      home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>',
+      plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>',
+      list: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>',
+      bug: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6a4 4 0 0 1 8 0"/><rect x="6" y="6" width="12" height="14" rx="6"/><path d="M2 12h4M18 12h4M2 17h4M18 17h4M2 7h4M18 7h4"/></svg>',
+      doc: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg>',
+      cog: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',
+      play: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="6,3 20,12 6,21"/></svg>',
+      tick: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11-5-5"/></svg>',
+      cross: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>',
+      warn: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>',
+      caret: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>',
+      down: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5M12 15V3"/></svg>',
+      spin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-6.2-8.6"/></svg>',
+      back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>',
+      inbox: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>'
+    };
+
+    /* ═══ DATA ═══════════════════════════════════════════════════════════ */
+    var TARGETS = [
+      { id: 't1', name: 'cjson', path: '/srv/repos/cjson', lang: 'C', files: 14, loc: 4820, scanMinAgo: 1430, open: 0, total: 6, status: 'clean' },
+      { id: 't2', name: 'rtos-netstack', path: '/srv/repos/rtos-netstack', lang: 'C', files: 63, loc: 21480, scanMinAgo: 264, open: 4, total: 11, status: 'findings' },
+      { id: 't3', name: 'libproto', path: '/srv/repos/libproto', lang: 'C++', files: 38, loc: 12340, scanMinAgo: 92, open: 2, total: 7, status: 'findings' },
+      { id: 't4', name: 'auth-gateway', path: '/srv/repos/auth-gateway', lang: 'C', files: 27, loc: 8910, scanMinAgo: 1512, open: 0, total: 3, status: 'clean' },
+      { id: 't5', name: 'telemetry-agent', path: '/srv/repos/telemetry-agent', lang: 'C', files: 19, loc: 6240, scanMinAgo: null, open: 0, total: 0, status: 'never' }
+    ];
+
+    var SCANS = [
+      { id: 'S-1042', target: 'libproto', status: 'running', progress: 64, startMin: 12, findings: 7, cost: 0.0181, trigger: 'manual', user: 'pk' },
+      { id: 'S-1041', target: 'rtos-netstack', status: 'completed', progress: 100, startMin: 264, durMin: 23, findings: 11, cost: 0.0412, trigger: 'scheduled', user: 'system' },
+      { id: 'S-1040', target: 'cjson', status: 'completed', progress: 100, startMin: 1430, durMin: 8, findings: 6, cost: 0.0143, trigger: 'manual', user: 'pk' },
+      { id: 'S-1039', target: 'auth-gateway', status: 'completed', progress: 100, startMin: 1512, durMin: 11, findings: 3, cost: 0.0098, trigger: 'webhook', user: 'ci' },
+      { id: 'S-1038', target: 'libproto', status: 'failed', progress: 31, startMin: 1590, durMin: 3, findings: 0, cost: 0.0031, trigger: 'manual', user: 'pk' },
+      { id: 'S-1037', target: 'rtos-netstack', status: 'cancelled', progress: 47, startMin: 2880, durMin: 6, findings: 4, cost: 0.0088, trigger: 'manual', user: 'am' },
+      { id: 'S-1036', target: 'cjson', status: 'completed', progress: 100, startMin: 4300, durMin: 9, findings: 5, cost: 0.0131, trigger: 'scheduled', user: 'system' }
+    ];
+
+    var FINDINGS = [
+      { id: 'F-0881', scan: 'S-1041', target: 'rtos-netstack', cwe: 'CWE-122', sev: 'CRITICAL', file: 'src/tls/record.c', line: 412, status: 'patch-ready', agent: 'beta', lines: 2, pov: 'proven', hardened: 'survived', by: 'fuzzer', min: 264 },
+      { id: 'F-0880', scan: 'S-1041', target: 'rtos-netstack', cwe: 'CWE-190', sev: 'CRITICAL', file: 'src/net/buffer.c', line: 88, status: 'patch-ready', agent: 'alpha', lines: 1, pov: 'proven', hardened: 'survived', by: 'fuzzer', min: 264 },
+      { id: 'F-0879', scan: 'S-1041', target: 'rtos-netstack', cwe: 'CWE-416', sev: 'HIGH', file: 'src/net/session.c', line: 203, status: 'patch-ready', agent: 'alpha', lines: 1, pov: 'proven', hardened: 'survived', by: 'static', min: 264 },
+      { id: 'F-0878', scan: 'S-1041', target: 'rtos-netstack', cwe: 'CWE-125', sev: 'HIGH', file: 'src/tls/handshake.c', line: 76, status: 'patching', agent: 'beta', lines: 0, pov: 'proven', hardened: null, by: 'fuzzer', min: 264 },
+      { id: 'F-0877', scan: 'S-1042', target: 'libproto', cwe: 'CWE-787', sev: 'CRITICAL', file: 'src/codec/frame.c', line: 154, status: 'patch-ready', agent: 'alpha', lines: 4, pov: 'proven', hardened: 'survived', by: 'fuzzer', min: 12 },
+      { id: 'F-0876', scan: 'S-1042', target: 'libproto', cwe: 'CWE-476', sev: 'HIGH', file: 'src/codec/frame.c', line: 201, status: 'patch-ready', agent: 'alpha', lines: 7, pov: 'proven', hardened: 'survived', by: 'fuzzer', min: 12 },
+      { id: 'F-0875', scan: 'S-1042', target: 'libproto', cwe: 'CWE-134', sev: 'MEDIUM', file: 'src/util/log.c', line: 44, status: 'patch-ready', agent: 'alpha', lines: 2, pov: 'no-pov', hardened: 'survived', by: 'static', min: 12 },
+      { id: 'F-0874', scan: 'S-1042', target: 'libproto', cwe: 'CWE-415', sev: 'HIGH', file: 'src/session/pool.c', line: 118, status: 'triaging', agent: null, lines: 0, pov: 'proven', hardened: null, by: 'fuzzer', min: 12 },
+      { id: 'F-0873', scan: 'S-1042', target: 'libproto', cwe: 'CWE-121', sev: 'MEDIUM', file: 'src/util/parse.c', line: 63, status: 'triaging', agent: null, lines: 0, pov: 'proven', hardened: null, by: 'fuzzer', min: 12 },
+      { id: 'F-0872', scan: 'S-1042', target: 'libproto', cwe: 'CWE-476', sev: 'MEDIUM', file: 'src/session/pool.c', line: 88, status: 'triaging', agent: null, lines: 0, pov: 'proven', hardened: null, by: 'fuzzer', min: 12 },
+      { id: 'F-0871', scan: 'S-1042', target: 'libproto', cwe: 'CWE-682', sev: 'LOW', file: 'src/util/bits.c', line: 29, status: 'triaging', agent: null, lines: 0, pov: 'no-pov', hardened: null, by: 'static', min: 12 },
+      { id: 'F-0861', scan: 'S-1040', target: 'cjson', cwe: 'CWE-125', sev: 'CRITICAL', file: 'cJSON.c', line: 3129, status: 'closed', agent: 'beta', lines: 2, pov: 'proven', hardened: 'survived', by: 'fuzzer', min: 1430 },
+      { id: 'F-0860', scan: 'S-1040', target: 'cjson', cwe: 'CWE-125', sev: 'CRITICAL', file: 'cJSON.c', line: 2901, status: 'closed', agent: 'alpha', lines: 4, pov: 'proven', hardened: 'survived', by: 'fuzzer', min: 1430 },
+      { id: 'F-0859', scan: 'S-1040', target: 'cjson', cwe: 'CWE-676', sev: 'MEDIUM', file: 'cJSON.c', line: 461, status: 'false-positive', agent: null, lines: 0, pov: 'no-pov', hardened: null, by: 'static', min: 1430 }
+    ];
+
+    var REPORTS = [
+      { id: 'R-311', name: 'rtos-netstack — full audit', type: 'Executive + technical', target: 'rtos-netstack', min: 240, fmt: 'PDF', size: '412 KB' },
+      { id: 'R-310', name: 'libproto — SARIF export', type: 'SARIF 2.1.0', target: 'libproto', min: 60, fmt: 'SARIF', size: '88 KB' },
+      { id: 'R-309', name: 'Q3 remediation summary', type: 'Executive', target: 'all targets', min: 2880, fmt: 'PDF', size: '1.2 MB' },
+      { id: 'R-308', name: 'cjson — patch bundle', type: 'Patch set + proofs', target: 'cjson', min: 1420, fmt: 'ZIP', size: '64 KB' },
+      { id: 'R-307', name: 'auth-gateway — CSV findings', type: 'Raw findings', target: 'auth-gateway', min: 1500, fmt: 'CSV', size: '12 KB' }
+    ];
+
+    var ACTIVITY = [
+      { min: 2, x: '<b>F-0877</b> patch verified on <b>libproto</b> — re-fuzz clean' },
+      { min: 5, x: '<b>F-0876</b> passed 5/5 gates · agent alpha · 7 lines' },
+      { min: 8, x: 'Scan <b>S-1042</b> entered Phase 6 hardening' },
+      { min: 11, x: '<b>F-0874</b> triaged: heap-use-after-free · CWE-416' },
+      { min: 14, x: 'Scan <b>S-1042</b> started on <b>libproto</b> by pk' },
+      { min: 52, x: 'Report <b>R-310</b> generated — SARIF export' },
+      { min: 240, x: 'Scan <b>S-1041</b> completed · 11 findings · $0.0412' },
+      { min: 266, x: '<b>F-0881</b> patch approved by pk' }
+    ];
+
+    var ENGINES = [
+      ['clang · libFuzzer', 'ok'], ['AFL++', 'ok'], ['Semgrep', 'ok'],
+      ['ASan + UBSan', 'ok'], ['CBMC', 'part'], ['CASR triage', 'off'], ['angr concolic', 'off']
+    ];
+
+    /* ═══ STATE ══════════════════════════════════════════════════════════ */
+    var view = 'dashboard';
+    var openFinding = null;
+    var openScan = null;
+    var wizStep = 1;
+    var wiz = { target: 't3', path: '/srv/repos/libproto', branch: 'main', build: 'clang -fsanitize=address,undefined -fno-sanitize-recover=all -g -O1 "{src}" -o "{bin}"', pov: 'sh tests/pov/run.sh "{bin}"', regr: 'make check', fuzz: true, harden: true, formal: false, memory: true, concurrency: 4, budget: 5 };
+    var fFilter = 'all';
+    var fQuery = '';
+    var preflightState = 'idle';
+    var ticker = null;
+
+    var NAV = [
+      { id: 'dashboard', icon: I.home, label: 'Dashboard' },
+      { id: 'newscan', icon: I.plus, label: 'New scan' },
+      { id: 'scans', icon: I.list, label: 'Scans' },
+      { id: 'findings', icon: I.bug, label: 'Findings', count: '8' },
+      { id: 'reports', icon: I.doc, label: 'Reports' },
+      { id: 'settings', icon: I.cog, label: 'Settings' }
+    ];
+
+    /* ═══ TOASTS ═════════════════════════════════════════════════════════ */
+    function toast(msg, kind) {
+      kind = kind || 'ok';
+      var ic = kind === 'ok' ? I.tick : kind === 'warn' ? I.warn : I.tick;
+      var el = document.createElement('div');
+      el.className = 'toast ' + kind;
+      el.innerHTML = '<span class="ic">' + ic + '</span><span>' + msg + '</span>';
+      $('#toasts').appendChild(el);
+      setTimeout(function () {
+        el.style.transition = 'opacity .25s, transform .25s';
+        el.style.opacity = '0'; el.style.transform = 'translateX(20px)';
+        setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 260);
+      }, 3200);
+    }
+
+    /* ═══ VIEWS ══════════════════════════════════════════════════════════ */
+    var V = {};
+
+    /* ── DASHBOARD ─────────────────────────────────────────────────────── */
+    V.dashboard = function () {
+      var active = SCANS.filter(function (s) { return s.status === 'running' || s.status === 'queued'; });
+      var open = FINDINGS.filter(function (f) { return f.status !== 'closed' && f.status !== 'false-positive'; });
+      var ready = FINDINGS.filter(function (f) { return f.status === 'patch-ready'; });
+      var crit = open.filter(function (f) { return f.sev === 'CRITICAL'; });
+      var spend = SCANS.reduce(function (a, s) { return a + s.cost; }, 0);
+
+      return '<div class="wrap">' +
+        '<div class="page-head"><div class="txt">' +
+        '<h1>Dashboard</h1>' +
+        '<div class="sub">' + TARGETS.length + ' repositories onboarded · ' + SCANS.length + ' scans · ' + open.length + ' open findings</div>' +
+        '</div>' +
+        '<button class="btn primary" data-go="newscan">' + I.plus + ' New scan</button>' +
+        '</div>' +
+
+        '<div class="stats c4" style="margin-bottom:14px;">' +
+        '<div class="card stat"><div class="l">Open findings</div>' +
+        '<div class="v">' + open.length + '<span class="u">' + crit.length + ' critical</span></div>' +
+        '<div class="d">' + ready.length + ' have a verified patch ready</div></div>' +
+        '<div class="card stat g"><div class="l">Fix rate</div>' +
+        '<div class="v">94<span class="u">%</span></div>' +
+        '<div class="d up">↑ 6% vs. last month</div></div>' +
+        '<div class="card stat a"><div class="l">Mean time to patch</div>' +
+        '<div class="v">18<span class="u">min</span></div>' +
+        '<div class="d">from detection to verified fix</div></div>' +
+        '<div class="card stat"><div class="l">Spend this month</div>' +
+        '<div class="v">$' + spend.toFixed(3) + '<span class="u">of $50</span></div>' +
+        '<div class="d"><span class="bar g" style="display:block;margin-top:5px;"><i style="width:' + Math.min(100, spend / 50 * 100).toFixed(0) + '%"></i></span></div></div>' +
+        '</div>' +
+
+        '<div style="display:grid;grid-template-columns:1.5fr 1fr;gap:14px;align-items:start;">' +
+
+        '<div class="card flush">' +
+        '<div class="card-head"><h3>Active scans</h3><span class="sp"></span>' +
+        '<button class="btn sm ghost" data-go="scans">View all</button></div>' +
+        (active.length ? active.map(function (s) {
+          return '<div style="padding:13px 16px;border-bottom:1px solid var(--border);cursor:pointer;" data-open-scan="' + s.id + '">' +
+            '<div style="display:flex;align-items:center;gap:10px;">' +
+            '<span class="tag blue">' + s.status + '</span>' +
+            '<span class="mono" style="font-weight:600;">' + s.id + '</span>' +
+            '<span class="mono" style="color:var(--text-3);">' + s.target + '</span>' +
+            '<span class="spacer" style="flex:1;"></span>' +
+            '<span class="mono tnum" style="font-size:12.5px;">' + s.progress + '%</span>' +
+            '</div>' +
+            '<div class="bar run" style="margin-top:9px;"><i style="width:' + s.progress + '%"></i></div>' +
+            '<div style="display:flex;gap:16px;margin-top:8px;font-family:var(--mono);font-size:11px;color:var(--text-3);">' +
+            '<span>' + s.findings + ' findings</span><span>$' + s.cost.toFixed(4) + '</span>' +
+            '<span>started ' + ago(s.startMin) + '</span><span>' + s.trigger + '</span>' +
+            '</div>' +
+            '</div>';
+        }).join("") :
+          '<div class="empty">' + I.inbox + '<div class="t">No active scans</div>' +
+          '<div class="d">Start a scan to find and patch vulnerabilities in your code.</div>' +
+          '<button class="btn primary" style="margin-top:14px;" data-go="newscan">New scan</button></div>') +
+        '</div>' +
+
+        '<div class="card flush">' +
+        '<div class="card-head"><h3>Findings by severity</h3></div>' +
+        '<div style="padding:14px 16px;">' +
+        [['CRITICAL', 'red', crit.length], ['HIGH', 'amber', open.filter(function (f) { return f.sev === 'HIGH'; }).length],
+        ['MEDIUM', 'blue', open.filter(function (f) { return f.sev === 'MEDIUM'; }).length],
+        ['LOW', 'neutral', open.filter(function (f) { return f.sev === 'LOW'; }).length]].map(function (r) {
+          var pct = open.length ? (r[2] / open.length * 100) : 0;
+          return '<div style="margin-bottom:12px;">' +
+            '<div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px;">' +
+            '<span class="tag ' + r[1] + '">' + r[0] + '</span>' +
+            '<span class="mono tnum" style="color:var(--text);">' + r[2] + '</span></div>' +
+            '<div class="bar"><i style="width:' + pct.toFixed(0) + '%"></i></div></div>';
+        }).join("") +
+        '<button class="btn sm" style="width:100%;margin-top:4px;" data-go="findings">Open findings</button>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+
+        '<div style="display:grid;grid-template-columns:1.5fr 1fr;gap:14px;align-items:start;margin-top:14px;">' +
+        '<div class="card flush">' +
+        '<div class="card-head"><h3>Recent activity</h3></div>' +
+        '<div class="feed">' + ACTIVITY.slice(0, 7).map(function (a) {
+          return '<div class="fi2"><span class="ft">' + ago(a.min) + '</span><span class="fx">' + a.x + '</span></div>';
+        }).join("") + '</div>' +
+        '</div>' +
+
+        '<div class="card flush">' +
+        '<div class="card-head"><h3>Detection engines</h3></div>' +
+        '<div style="padding:8px 16px 12px;">' + ENGINES.map(function (e) {
+          return '<div style="display:flex;align-items:center;gap:9px;padding:5px 0;font-size:12.5px;">' +
+            '<span class="tag ' + (e[1] === 'ok' ? 'green' : e[1] === 'part' ? 'blue' : 'amber') + '">' + (e[1] === 'ok' ? 'ready' : e[1] === 'part' ? 'partial' : 'off') + '</span>' +
+            '<span style="flex:1;">' + esc(e[0]) + '</span></div>';
+        }).join("") + '</div>' +
+        '</div>' +
+        '</div>' +
+
+        '<div class="card flush" style="margin-top:14px;">' +
+        '<div class="card-head"><h3>Repositories</h3><span class="sp"></span>' +
+        '<button class="btn sm ghost" data-go="newscan">Onboard a repository</button></div>' +
+        '<table class="d"><thead><tr><th>Repository</th><th>Language</th><th>Size</th><th>Last scan</th><th>Open</th><th>Status</th><th></th></tr></thead><tbody>' +
+        TARGETS.map(function (t) {
+          var st = t.status === 'clean' ? '<span class="tag green">clean</span>'
+            : t.status === 'never' ? '<span class="tag neutral">never scanned</span>'
+              : '<span class="tag red">' + t.open + ' open</span>';
+          return '<tr class="clickable" data-go="newscan" data-target="' + t.id + '">' +
+            '<td><span class="mono" style="color:var(--blue);">' + esc(t.name) + '</span>' +
+            '<div class="mono" style="font-size:10.5px;color:var(--text-4);margin-top:1px;">' + esc(t.path) + '</div></td>' +
+            '<td class="m">' + t.lang + '</td>' +
+            '<td class="m">' + t.files + ' files · ' + t.loc.toLocaleString() + ' LOC</td>' +
+            '<td class="m">' + (t.scanMinAgo === null ? '—' : ago(t.scanMinAgo)) + '</td>' +
+            '<td class="m">' + t.open + '</td>' +
+            '<td>' + st + '</td>' +
+            '<td><span class="act">scan →</span></td></tr>';
+        }).join("") +
+        '</tbody></table>' +
+        '</div>' +
+        '</div>';
+    };
+
+    /* ── NEW SCAN WIZARD ───────────────────────────────────────────────── */
+    V.newscan = function () {
+      var steps = [['1', 'Target'], ['2', 'Build & verify'], ['3', 'Phases & budget']];
+      var body = '';
+
+      if (wizStep === 1) {
+        body =
+          '<div class="field"><label>Repository</label>' +
+          '<select class="sel" id="w-target">' + TARGETS.map(function (t) {
+            return '<option value="' + t.id + '"' + (wiz.target === t.id ? ' selected' : '') + '>' + esc(t.name) + ' — ' + esc(t.path) + '</option>';
+          }).join("") + '</select>' +
+          '<div class="hint">Or point at a new path. The target must build on this host — the pipeline compiles every candidate patch.</div>' +
+          '</div>' +
+          '<div class="field"><label>Source path</label><input class="inp" id="w-path" value="' + esc(wiz.path) + '" /></div>' +
+          '<div class="row" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">' +
+          '<div class="field"><label>Branch / ref</label><input class="inp" id="w-branch" value="' + esc(wiz.branch) + '" /></div>' +
+          '<div class="field"><label>Language</label><select class="sel"><option>C</option><option>C++</option></select></div>' +
+          '</div>' +
+          '<div class="field"><label>Scan trigger</label>' +
+          '<select class="sel"><option>Run now</option><option>Schedule — nightly 02:00</option><option>Schedule — weekly Monday 06:00</option><option>On push (webhook)</option></select>' +
+          '<div class="hint">Scheduled scans re-run the same configuration against the latest ref.</div>' +
+          '</div>';
+      } else if (wizStep === 2) {
+        body =
+          '<div class="field"><label>Build command</label>' +
+          '<textarea class="txta" id="w-build">' + esc(wiz.build) + '</textarea>' +
+          '<div class="hint">Placeholders: <span class="tok">{src}</span> <span class="tok">{srcdir}</span> <span class="tok">{bin}</span> <span class="tok">{workspace}</span> — resolved against the patched copy, so gates test the patch, not the original.</div>' +
+          '</div>' +
+          '<div class="field"><label>Proof-of-vulnerability command</label>' +
+          '<textarea class="txta" id="w-pov">' + esc(wiz.pov) + '</textarea>' +
+          '<div class="hint">Must exit <b>0 only when the vulnerability is absent</b>. Without it the PoV gate reports SKIPPED and fixes cannot be proven.</div>' +
+          '</div>' +
+          '<div class="field"><label>Regression command</label><input class="inp" id="w-regr" value="' + esc(wiz.regr) + '" />' +
+          '<div class="hint">Run against a benign input to confirm the patch did not change correct behaviour.</div>' +
+          '</div>' +
+          '<div class="card pad" style="margin-top:6px;background:var(--surface-2);">' +
+          '<div style="display:flex;align-items:center;gap:10px;">' +
+          '<span style="font-size:12.5px;font-weight:600;flex:1;">Pre-flight check</span>' +
+          '<button class="btn sm" id="preflight-btn">' + (preflightState === 'done' ? 'Re-run' : 'Run check') + '</button>' +
+          '</div>' +
+          '<div class="hint" style="margin-top:4px;">Compiles the <b>unpatched</b> target and confirms the PoV reproduces a clean sanitizer crash. A scan cannot start until this passes.</div>' +
+          (preflightState !== 'idle' ? '<pre class="ev" style="margin-top:10px;background:var(--code-bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px 12px;font-family:var(--mono);font-size:11.5px;white-space:pre;overflow-x:auto;color:var(--text-2);">' +
+            '$ clang -fsanitize=address,undefined -fno-sanitize-recover=all -g -O1 src/codec/frame.c -o /tmp/pf/t\n' +
+            '<span style="color:var(--green)">[ok] build exit 0 · 1.24s</span>\n' +
+            '$ sh tests/pov/run.sh /tmp/pf/t\n' +
+            '<span style="color:var(--red)">==90412==ERROR: AddressSanitizer: heap-buffer-overflow</span>\n' +
+            '<span style="color:var(--blue)">    #0 0x10a3b4c1f in decode_frame src/codec/frame.c:154</span>\n' +
+            '<span style="color:var(--red)">SUMMARY: AddressSanitizer: heap-buffer-overflow src/codec/frame.c:154</span>\n' +
+            '<span style="color:var(--green)">[ok] PoV reproduces · crash class=heap-buffer-overflow · CWE-787</span>' +
+            '</pre>' : '') +
+          '</div>';
+      } else {
+        body =
+          '<div style="margin-bottom:6px;">' +
+          '<div class="switch-row"><div class="sw ' + (wiz.fuzz ? 'on' : '') + '" data-sw="fuzz"><i></i></div>' +
+          '<div class="sw-txt"><div class="n">Coverage-guided fuzzing</div>' +
+          '<div class="d">Builds the target under ASan+UBSan and runs a real libFuzzer campaign. Finds bugs static analysis misses — this is what discovered 7 of the 11 findings in the last rtos-netstack scan.</div></div></div>' +
+          '<div class="switch-row"><div class="sw ' + (wiz.harden ? 'on' : '') + '" data-sw="harden"><i></i></div>' +
+          '<div class="sw-txt"><div class="n">Phase 6 — patch hardening</div>' +
+          '<div class="d">Re-fuzzes the patched build and differential-tests it against the original, to catch patches that only turned the gates green. <b>Recommended always on.</b></div></div></div>' +
+          '<div class="switch-row"><div class="sw ' + (wiz.formal ? 'on' : '') + '" data-sw="formal"><i></i></div>' +
+          '<div class="sw-txt"><div class="n">Bounded formal verification (CBMC)</div>' +
+          '<div class="d">Discharges safety properties where a proof harness exists. Slower; only applies to some targets.</div></div></div>' +
+          '<div class="switch-row"><div class="sw ' + (wiz.memory ? 'on' : '') + '" data-sw="memory"><i></i></div>' +
+          '<div class="sw-txt"><div class="n">Cross-run memory recall</div>' +
+          '<div class="d">Recalls fix patterns proven on previous scans. Only gate-validated fixes are ever learned.</div></div></div>' +
+          '</div>' +
+          '<div class="row" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px;">' +
+          '<div class="field"><label>Concurrency</label>' +
+          '<select class="sel" id="w-conc">' + [1, 2, 4, 8].map(function (n) {
+            return '<option' + (wiz.concurrency === n ? ' selected' : '') + '>' + n + ' target' + (n > 1 ? 's' : '') + ' in parallel</option>';
+          }).join("") + '</select></div>' +
+          '<div class="field"><label>Spend cap for this scan</label>' +
+          '<select class="sel" id="w-budget">' + [2, 5, 10, 25].map(function (n) {
+            return '<option' + (wiz.budget === n ? ' selected' : '') + '>$' + n + '</option>';
+          }).join("") + '</select>' +
+          '<div class="hint">The run stops cleanly at the cap. Median spend is ~$0.002 per target.</div></div>' +
+          '</div>';
+      }
+
+      return '<div class="wrap">' +
+        '<div class="page-head"><div class="txt"><h1>New scan</h1>' +
+        '<div class="sub">Point AI Kavach at a repository. It will find memory-safety defects, generate patches for each, and prove the fixes hold.</div></div></div>' +
+
+        '<div class="wiz">' + steps.map(function (s, i) {
+          var cls = i + 1 < wizStep ? 'done' : i + 1 === wizStep ? 'on' : '';
+          return '<div class="ws ' + cls + '"><span class="wn">' + (i + 1 < wizStep ? '✓' : s[0]) + '</span>' +
+            '<span class="wt">' + s[1] + '</span></div>' +
+            (i < 2 ? '<span class="wl ' + (i + 1 < wizStep ? 'done' : '') + '"></span>' : '');
+        }).join("") + '</div>' +
+
+        '<div class="card pad" style="max-width:820px;">' + body + '</div>' +
+
+        '<div style="display:flex;gap:9px;margin-top:18px;max-width:820px;">' +
+        (wizStep > 1 ? '<button class="btn" id="w-back">' + I.back + ' Back</button>' : '') +
+        '<span style="flex:1;"></span>' +
+        (wizStep < 3 ? '<button class="btn primary" id="w-next">Continue</button>'
+          : '<button class="btn primary" id="w-launch">' + I.play + ' Start scan</button>') +
+        '</div>' +
+        '</div>';
+    };
+
+    /* ── SCANS ─────────────────────────────────────────────────────────── */
+    V.scans = function () {
+      return '<div class="wrap">' +
+        '<div class="page-head"><div class="txt"><h1>Scans</h1>' +
+        '<div class="sub">Every run, with its cost, findings and outcome. Click a running scan to watch it live.</div></div>' +
+        '<button class="btn primary" data-go="newscan">' + I.plus + ' New scan</button></div>' +
+
+        '<div class="card flush"><table class="d">' +
+        '<thead><tr><th>Scan</th><th>Target</th><th>Status</th><th>Progress</th><th>Findings</th><th>Duration</th><th>Cost</th><th>Trigger</th><th></th></tr></thead><tbody>' +
+        SCANS.map(function (s) {
+          var st = s.status === 'running' ? '<span class="tag blue">running</span>'
+            : s.status === 'completed' ? '<span class="tag green">completed</span>'
+              : s.status === 'failed' ? '<span class="tag red">failed</span>'
+                : s.status === 'cancelled' ? '<span class="tag neutral">cancelled</span>'
+                  : '<span class="tag amber">queued</span>';
+          var bar = '<div style="display:flex;align-items:center;gap:9px;min-width:130px;">' +
+            '<div class="bar ' + (s.status === 'running' ? 'run' : s.status === 'completed' ? 'g' : s.status === 'failed' ? 'r' : '') + '" style="flex:1;"><i style="width:' + s.progress + '%"></i></div>' +
+            '<span class="mono" style="font-size:11px;width:32px;text-align:right;">' + s.progress + '%</span></div>';
+          return '<tr class="clickable" data-open-scan="' + s.id + '">' +
+            '<td class="id">' + s.id + '</td>' +
+            '<td class="m">' + esc(s.target) + '</td>' +
+            '<td>' + st + '</td>' +
+            '<td>' + bar + '</td>' +
+            '<td class="m">' + (s.findings || '—') + '</td>' +
+            '<td class="m">' + (s.durMin ? s.durMin + ' min' : ago(s.startMin)) + '</td>' +
+            '<td class="m">$' + s.cost.toFixed(4) + '</td>' +
+            '<td class="m">' + s.trigger + '</td>' +
+            '<td><span class="act">' + (s.status === 'running' ? 'watch →' : 'open →') + '</span></td></tr>';
+        }).join("") +
+        '</tbody></table></div>' +
+        '</div>';
+    };
+
+    /* ── LIVE RUN ──────────────────────────────────────────────────────── */
+    V.run = function () {
+      var s = SCANS.filter(function (x) { return x.id === openScan; })[0];
+      if (!s) return '<div class="wrap">Not found</div>';
+      var STAGES = [
+        ['Detecting', s.progress > 8],
+        ['Triaging crashes', s.progress > 20],
+        ['Extracting context', s.progress > 30],
+        ['Agent ensemble', s.progress > 40],
+        ['DRV verification', s.progress > 55],
+        ['Phase 6 hardening', s.progress > 74],
+        ['Writing memory', s.progress > 92]
+      ];
+      var running = s.status === 'running';
+      var curStage = STAGES.filter(function (x) { return x[1]; }).length;
+      var live = FINDINGS.filter(function (f) { return f.scan === s.id; });
+
+      return '<div class="wrap">' +
+        '<div class="page-head"><div class="txt">' +
+        '<div style="display:flex;align-items:center;gap:10px;">' +
+        '<button class="btn sm ghost" data-go="scans">' + I.back + '</button>' +
+        '<h1 style="font-family:var(--mono);font-size:17px;">' + s.id + '</h1>' +
+        '<span class="tag ' + (running ? 'blue' : s.status === 'completed' ? 'green' : s.status === 'failed' ? 'red' : 'neutral') + '">' + s.status + '</span>' +
+        '<span class="mono" style="color:var(--text-3);font-size:12px;">' + esc(s.target) + '</span>' +
+        '</div>' +
+        '<div class="sub">Started ' + ago(s.startMin) + ' · ' + s.trigger + ' · by ' + s.user + '</div>' +
+        '</div>' +
+        (running ? '<button class="btn danger" id="cancel-run">Cancel scan</button>'
+          : '<button class="btn" id="rerun-run">' + I.play + ' Re-run</button>') +
+        '</div>' +
+
+        '<div class="run-hero">' +
+        '<div class="card pad">' +
+        '<div style="display:flex;align-items:flex-end;gap:16px;">' +
+        '<div class="pct">' + s.progress + '<span style="font-size:22px;color:var(--text-4);">%</span></div>' +
+        '<div style="flex:1;padding-bottom:6px;">' +
+        '<div class="bar ' + (running ? 'run' : 'g') + '" style="height:7px;"><i style="width:' + s.progress + '%"></i></div>' +
+        '<div class="mono" style="font-size:11.5px;color:var(--text-3);margin-top:7px;">' +
+        (running ? 'Stage ' + (curStage + 1) + ' of 7 · est. ' + Math.max(1, Math.round((100 - s.progress) / 6)) + ' min remaining'
+          : s.status === 'completed' ? 'Completed in ' + s.durMin + ' min' : 'Stopped at ' + s.progress + '%') +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '<div class="stages">' + STAGES.map(function (st, i) {
+          var active = running && i === curStage;
+          var done = st[1];
+          return '<div class="srow ' + (done ? 'done' : active ? 'active' : '') + '">' +
+            '<span class="ic">' + (done ? I.tick : active ? I.spin : '') + '</span>' +
+            '<span class="nm">' + st[0] + '</span>' +
+            '<span class="bar" style="height:4px;"><i style="width:' + (done ? 100 : active ? 55 : 0) + '%"></i></span>' +
+            '<span class="meta ' + (done ? 'ok' : '') + '">' + (done ? 'done' : active ? 'running' : 'queued') + '</span>' +
+            '</div>';
+        }).join("") + '</div>' +
+        '</div>' +
+
+        '<div style="display:flex;flex-direction:column;gap:12px;">' +
+        '<div class="card pad">' +
+        '<div class="stat" style="padding:0;"><div class="l">Findings</div>' +
+        '<div class="v">' + live.length + '</div>' +
+        '<div class="d">' + live.filter(function (f) { return f.status === 'patch-ready'; }).length + ' patch-ready · ' +
+        live.filter(function (f) { return f.status === 'triaging'; }).length + ' triaging</div></div>' +
+        '</div>' +
+        '<div class="card pad">' +
+        '<div class="stat" style="padding:0;"><div class="l">Spend</div>' +
+        '<div class="v">$' + s.cost.toFixed(4) + '</div>' +
+        '<div class="d">cap $' + (wiz.budget) + ' · ' + (s.cost / wiz.budget * 100).toFixed(1) + '% used</div></div>' +
+        '<div class="bar" style="margin-top:8px;"><i style="width:' + Math.min(100, s.cost / wiz.budget * 100).toFixed(0) + '%"></i></div>' +
+        '</div>' +
+        '<div class="card pad">' +
+        '<div class="stat" style="padding:0;"><div class="l">Agents active</div>' +
+        '<div class="v">' + (running ? 3 : 0) + '<span class="u">/ 3</span></div>' +
+        '<div class="d">alpha · beta · gamma</div></div>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+
+        '<div style="display:grid;grid-template-columns:1.35fr 1fr;gap:14px;margin-top:14px;align-items:start;">' +
+        '<div class="term">' +
+        '<div class="th"><span style="width:6px;height:6px;border-radius:50%;background:' + (running ? 'var(--green)' : 'var(--text-4)') + ';display:inline-block;"></span>' +
+        'live output<span style="flex:1;"></span>' + (running ? '' : '<span>stream ended</span>') + '</div>' +
+        '<pre class="tb" id="runlog"></pre>' +
+        '</div>' +
+
+        '<div class="card flush">' +
+        '<div class="card-head"><h3>Findings as they land</h3><span class="sp"></span>' +
+        '<span class="mono" style="font-size:11px;color:var(--text-3);">' + live.length + '</span></div>' +
+        '<div id="live-findings">' + live.map(function (f) {
+          return '<div class="finding-pop" data-open-finding="' + f.id + '" style="cursor:pointer;">' +
+            '<span class="tag ' + (f.sev === 'CRITICAL' ? 'red' : f.sev === 'HIGH' ? 'amber' : 'neutral') + '">' + f.sev.slice(0, 4) + '</span>' +
+            '<span class="fi">' + esc(f.file) + ':' + f.line + '</span>' +
+            '<span class="tag ' + (f.status === 'patch-ready' ? 'green' : 'neutral') + '">' + f.status + '</span>' +
+            '</div>';
+        }).join("") + '</div>' +
+        '</div>' +
+        '</div>' +
+        '</div>';
+    };
+
+    /* ── FINDINGS ──────────────────────────────────────────────────────── */
+    V.findings = function () {
+      if (openFinding) return findingDetail(openFinding);
+      var list = FINDINGS.filter(function (f) {
+        if (fFilter === 'open' && (f.status === 'closed' || f.status === 'false-positive')) return false;
+        if (fFilter === 'ready' && f.status !== 'patch-ready') return false;
+        if (fFilter === 'patching' && f.status !== 'patching') return false;
+        if (fFilter === 'triaging' && f.status !== 'triaging') return false;
+        if (fFilter === 'critical' && f.sev !== 'CRITICAL') return false;
+        if (fQuery) {
+          var q = fQuery.toLowerCase();
+          if ((f.id + f.target + f.cwe + f.file).toLowerCase().indexOf(q) === -1) return false;
+        }
+        return true;
+      });
+      var counts = {
+        all: FINDINGS.length,
+        open: FINDINGS.filter(function (f) { return f.status !== 'closed' && f.status !== 'false-positive'; }).length,
+        ready: FINDINGS.filter(function (f) { return f.status === 'patch-ready'; }).length,
+        patching: FINDINGS.filter(function (f) { return f.status === 'patching'; }).length,
+        triaging: FINDINGS.filter(function (f) { return f.status === 'triaging'; }).length,
+        critical: FINDINGS.filter(function (f) { return f.sev === 'CRITICAL'; }).length
+      };
+
+      return '<div class="wrap">' +
+        '<div class="page-head"><div class="txt"><h1>Findings</h1>' +
+        '<div class="sub">' + counts.open + ' open across ' + TARGETS.length + ' repositories. Click any row for the full evidence chain.</div></div>' +
+        '<button class="btn" id="export-csv">' + I.down + ' Export CSV</button></div>' +
+
+        '<div class="filters">' +
+        [['all', 'All'], ['open', 'Open'], ['critical', 'Critical'], ['ready', 'Patch ready'], ['patching', 'Patching'], ['triaging', 'Triaging']].map(function (f) {
+          return '<button class="chip ' + (fFilter === f[0] ? 'on' : '') + '" data-ff="' + f[0] + '">' + f[1] +
+            '<span class="ct">' + counts[f[0]] + '</span></button>';
+        }).join("") +
+        '<span style="flex:1;"></span>' +
+        '<div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>' +
+        '<input id="fq" placeholder="Filter by file, CWE, target…" value="' + esc(fQuery) + '" /></div>' +
+        '</div>' +
+
+        (list.length ? '<div class="card flush"><table class="d">' +
+          '<thead><tr><th>Finding</th><th>Severity</th><th>CWE</th><th>Location</th><th>Found by</th><th>Status</th><th>PoV</th><th>Patch</th><th>Hardened</th><th></th></tr></thead><tbody>' +
+          list.map(function (f) {
+            var st = f.status === 'patch-ready' ? '<span class="tag green">patch ready</span>'
+              : f.status === 'patching' ? '<span class="tag blue">patching</span>'
+                : f.status === 'triaging' ? '<span class="tag amber">triaging</span>'
+                  : f.status === 'closed' ? '<span class="tag neutral">closed</span>'
+                    : '<span class="tag neutral">false positive</span>';
+            return '<tr class="clickable" data-open-finding="' + f.id + '">' +
+              '<td class="id">' + f.id + '<div class="mono" style="font-size:10.5px;color:var(--text-4);margin-top:1px;">' + esc(f.target) + ' · ' + f.scan + '</div></td>' +
+              '<td><span class="tag ' + (f.sev === 'CRITICAL' ? 'red' : f.sev === 'HIGH' ? 'amber' : f.sev === 'MEDIUM' ? 'blue' : 'neutral') + '">' + f.sev + '</span></td>' +
+              '<td class="m">' + f.cwe + '</td>' +
+              '<td class="m">' + esc(f.file) + ':' + f.line + '</td>' +
+              '<td class="m">' + (f.by === 'fuzzer' ? 'fuzzing' : 'static') + '</td>' +
+              '<td>' + st + '</td>' +
+              '<td><span class="tag ' + (f.pov === 'proven' ? 'green' : 'amber') + '">' + (f.pov === 'proven' ? 'proven' : 'none') + '</span></td>' +
+              '<td class="m">' + (f.lines ? f.lines + ' lines' : '—') + '</td>' +
+              '<td class="m">' + (f.hardened === 'survived' ? 'yes' : '—') + '</td>' +
+              '<td><span class="act">open →</span></td></tr>';
+          }).join("") + '</tbody></table></div>'
+          : '<div class="card"><div class="empty">' + I.inbox + '<div class="t">No findings match</div>' +
+          '<div class="d">Try a different filter, or start a scan on a repository that has not been scanned yet.</div></div></div>') +
+        '</div>';
+    };
+
+    /* ── FINDING DETAIL ────────────────────────────────────────────────── */
+    var ASAN = {
+      'F-0877':
+        "==48211==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x60b0000012a4\n" +
+        "WRITE of size 4 at 0x60b0000012a4 thread T0\n" +
+        "    #0 0x104a7c1e0 in decode_frame src/codec/frame.c:154\n" +
+        "    #1 0x104a3b1f8 in LLVMFuzzerTestOneInput harness.c:19\n" +
+        "SUMMARY: AddressSanitizer: heap-buffer-overflow src/codec/frame.c:154 in decode_frame",
+      'F-0881':
+        "==12904==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x607000003ff8\n" +
+        "READ of size 2 at 0x607000003ff8 thread T0\n" +
+        "    #0 0x10b3c2210 in tls_record_read src/tls/record.c:412\n" +
+        "    #1 0x10b3c1f8a in LLVMFuzzerTestOneInput harness.c:22\n" +
+        "SUMMARY: AddressSanitizer: heap-buffer-overflow src/tls/record.c:412 in tls_record_read",
+      'F-0874':
+        "==55210==ERROR: AddressSanitizer: heap-use-after-free on address 0x60300000dead\n" +
+        "READ of size 8 at 0x60300000dead thread T0\n" +
+        "    #0 0x10cc12a40 in pool_release src/session/pool.c:118\n" +
+        "freed by thread T0 here:\n" +
+        "    #0 0x10cc12990 in pool_release src/session/pool.c:104\n" +
+        "SUMMARY: AddressSanitizer: heap-use-after-free src/session/pool.c:118 in pool_release"
+    };
+    var DIFFS = {
+      'F-0877': [
+        ["ctx", "static int decode_frame(frame_t *f, const uint8_t *buf, size_t n)"],
+        ["ctx", "{"],
+        ["rem", "    size_t count = read_u32(buf + 4);"],
+        ["add", "    if (n < 8 || n - 8 < sizeof(uint32_t)) return -EINVAL;"],
+        ["add", "    size_t count = read_u32(buf + 4);"],
+        ["add", "    if (count > (n - 8) / sizeof(entry_t)) return -EINVAL;"],
+        ["ctx", "    for (size_t i = 0; i < count; i++)"],
+        ["ctx", "        f->entries[i] = unpack(buf + 8 + i * sizeof(entry_t));"],
+        ["ctx", "    return 0;"],
+        ["ctx", "}"]
+      ],
+      'F-0881': [
+        ["ctx", "static ssize_t tls_record_read(tls_ctx *c, uint8_t *dst, size_t len)"],
+        ["ctx", "{"],
+        ["rem", "    uint16_t n = be16(c->hdr + 3);"],
+        ["add", "    if (c->hdr_len < 5) return -EPROTO;"],
+        ["add", "    uint16_t n = be16(c->hdr + 3);"],
+        ["add", "    if (n > len) n = len;"],
+        ["ctx", "    memcpy(dst, c->payload, n);"],
+        ["ctx", "    return n;"],
+        ["ctx", "}"]
+      ]
+    };
+
+    function findingDetail(id) {
+      var f = FINDINGS.filter(function (x) { return x.id === id; })[0];
+      if (!f) return '<div class="wrap">Not found</div>';
+      var asan = ASAN[id] || ASAN['F-0877'];
+      var diff = DIFFS[id] || DIFFS['F-0877'];
+      var isReady = f.status === 'patch-ready';
+
+      return '<div class="wrap">' +
+        '<div class="page-head"><div class="txt">' +
+        '<div style="display:flex;align-items:center;gap:10px;">' +
+        '<button class="btn sm ghost" data-back-findings="1">' + I.back + '</button>' +
+        '<h1 style="font-family:var(--mono);font-size:17px;">' + f.id + '</h1>' +
+        '<span class="tag ' + (f.sev === 'CRITICAL' ? 'red' : f.sev === 'HIGH' ? 'amber' : 'blue') + '">' + f.sev + '</span>' +
+        '<span class="tag blue">' + f.cwe + '</span>' +
+        '</div>' +
+        '<div class="sub">' + esc(f.target) + ' · <span class="mono">' + esc(f.file) + ':' + f.line + '</span> · found by ' + (f.by === 'fuzzer' ? 'coverage-guided fuzzing' : 'static analysis') + ' · ' + ago(f.min) + '</div>' +
+        '</div>' +
+        (isReady ? '<button class="btn primary" id="approve">Approve &amp; apply patch</button>' +
+          '<button class="btn" id="reject">Reject</button>' : '') +
+        '</div>' +
+
+        '<div class="stats c4" style="margin-bottom:14px;">' +
+        '<div class="card stat"><div class="l">Status</div><div class="v" style="font-size:19px;">' + f.status + '</div>' +
+        '<div class="d">agent ' + (f.agent || '—') + ' · ' + (f.lines || 0) + ' lines changed</div></div>' +
+        '<div class="card stat g"><div class="l">Verification gates</div><div class="v">5<span class="u">/5 pass</span></div>' +
+        '<div class="d">build · PoV · regression · scan</div></div>' +
+        '<div class="card stat ' + (f.pov === 'proven' ? 'g' : 'a') + '"><div class="l">Proof of vulnerability</div>' +
+        '<div class="v" style="font-size:19px;">' + (f.pov === 'proven' ? 'proven' : 'not available') + '</div>' +
+        '<div class="d">' + (f.pov === 'proven' ? 'original exploit replayed on patched build' : 'no reachable exploit on this host') + '</div></div>' +
+        '<div class="card stat ' + (f.hardened ? 'g' : 'a') + '"><div class="l">Phase 6 hardening</div>' +
+        '<div class="v" style="font-size:19px;">' + (f.hardened === 'survived' ? 'survived' : 'not run') + '</div>' +
+        '<div class="d">' + (f.hardened ? 'attacked and not falsified' : 'awaits a verified patch') + '</div></div>' +
+        '</div>' +
+
+        '<div class="card pad" style="margin-bottom:14px;">' +
+        '<div class="stage"><div class="stage-hd"><span class="n">01</span><h3>How it was found</h3>' +
+        '<span class="meta">' + (f.by === 'fuzzer' ? 'dynamic · libFuzzer' : 'static · Semgrep') + '</span></div>' +
+        '<p class="lede">' + (f.by === 'fuzzer'
+          ? 'A libFuzzer campaign under ASan+UBSan found the crashing input, and the crash\'s own stack trace supplied the file and line. <b>The location was not given to the system.</b>'
+          : 'Semgrep flagged the pattern against the <span class="mono">p/security-audit</span> ruleset. Static findings with no reachable exploit are reported unproven, not as fixed.') + '</p>' +
+        '<div class="ev"><div class="eh"><span class="dotg" style="background:var(--red);"></span>sanitizer report</div>' +
+        '<pre class="eb">' + esc(asan).replace(/(ERROR: AddressSanitizer:[^\n]*|SUMMARY:[^\n]*)/g, '<span class="e">$1</span>').replace(/(#\d+ 0x[0-9a-f]+ in [^\n]*)/g, '<span class="b">$1</span>') + '</pre></div>' +
+        '</div>' +
+
+        '<div class="stage"><div class="stage-hd"><span class="n">02</span><h3>Patch</h3>' +
+        '<span class="meta">' + (f.lines ? '+' + f.lines + ' lines · agent ' + f.agent : 'in progress') + '</span></div>' +
+        (f.lines
+          ? '<p class="lede">The smallest patch that cleared every gate. Among the agents that validated, the smallest diff wins.</p>' +
+          '<div class="diff"><div class="dh"><span>' + esc(f.file) + '</span><span>+' + f.lines + '</span></div>' +
+          diff.map(function (l, i) {
+            return '<div class="dl ' + (l[0] === 'add' ? 'add' : l[0] === 'rem' ? 'rem' : '') + '">' +
+              '<span class="gt">' + (f.line - 3 + i) + '</span>' +
+              '<span class="sr">' + (l[0] === 'add' ? '+ ' : l[0] === 'rem' ? '- ' : '  ') + esc(l[1]) + '</span></div>';
+          }).join("") + '</div>'
+          : '<p class="lede">The ensemble is still working. Agents alpha, beta and gamma are generating and verifying candidate patches in parallel.</p>') +
+        '</div>' +
+
+        '<div class="stage" style="padding-bottom:0;"><div class="stage-hd"><span class="n">03</span><h3>Verification</h3>' +
+        '<span class="meta">click a gate to see its output</span></div>' +
+        '<p class="lede">Each gate rebuilds the patched source in a fresh workspace and runs its command against that build. <span class="mono">SKIPPED</span> is never counted as a pass.</p>' +
+        '<div class="gates" id="gates">' +
+        [['apply', 'pass', 'splice corrected function by AST range', 'applied via function-replacement · matched 1 location'],
+        ['build', 'pass', 'clang -fsanitize=address,undefined -fno-sanitize-recover=all -g -O1', '[ok] exit 0 · 1.31s'],
+        ['pov', 'pass', 'replay the crashing input on the patched binary', '[ok] exit 0 · no sanitizer report'],
+        ['regression', 'pass', 'make check', '[ok] exit 0 · output identical to original'],
+        ['post_scan', 'pass', 're-run Semgrep on the patched file', '[ok] 0 new findings vs. the original']
+        ].map(function (g) {
+          return '<div class="gate ' + g[1] + '"><div class="gh">' +
+            '<span class="ic">' + I.tick + '</span><span class="nm">' + g[0] + '</span>' +
+            '<span class="cmd">' + esc(g[2]) + '</span><span class="caret">' + I.caret + '</span></div>' +
+            '<div class="gb"><pre class="eb" style="border:0;border-radius:var(--r-sm);white-space:pre-wrap;">' +
+            esc(g[3]).replace(/\[ok\]/g, '<span class="g">[ok]</span>') + '</pre></div></div>';
+        }).join("") +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+
+        '<div class="stage" style="padding-bottom:0;"><div class="stage-hd"><span class="n">04</span><h3>Phase 6 — hardening</h3>' +
+        '<span class="meta">' + (f.hardened ? 'survived' : 'not run') + '</span></div>' +
+        '<p class="lede">Passing the gates is necessary but not sufficient: a patch only has to stop one input to pass the PoV gate. These checks try to <b>falsify</b> it.</p>' +
+        '<div class="checks3">' +
+        '<div class="card chk ' + (f.hardened ? 'ok' : 'na') + '"><div class="ch"><span class="ic">' + (f.hardened ? I.tick : I.warn) + '</span>' +
+        '<span class="tt">Adversarial re-fuzz</span></div>' +
+        '<p class="dsc">Re-fuzzes the patched build seeded with the original crash. A new crash means the fix addressed one input, not the defect.</p>' +
+        '<div class="vd"><span class="r">' + (f.hardened ? '✓' : '—') + '</span><span>' + (f.hardened ? 'no new crash in 20s' : 'awaiting patch') + '</span></div></div>' +
+        '<div class="card chk ' + (f.hardened ? 'ok' : 'na') + '"><div class="ch"><span class="ic">' + (f.hardened ? I.tick : I.warn) + '</span>' +
+        '<span class="tt">Differential execution</span></div>' +
+        '<p class="dsc">Original and patched side by side on 25 benign inputs. Exit code, stdout and sanitizer state must match.</p>' +
+        '<div class="vd"><span class="r">' + (f.hardened ? '✓' : '—') + '</span><span>' + (f.hardened ? '25/25 preserved' : 'awaiting patch') + '</span></div></div>' +
+        '<div class="card chk na"><div class="ch"><span class="ic">' + I.warn + '</span>' +
+        '<span class="tt">Evasion battery</span><span class="st tag amber">n/a</span></div>' +
+        '<p class="dsc">Applies to input-validation fixes, where the failure mode is a payload slipping past the check. Not applicable to a memory-safety fix.</p>' +
+        '<div class="vd"><span class="r">—</span><span>not applicable</span></div></div>' +
+        '</div>' +
+        '</div>' +
+        '</div>';
+    }
+
+    /* ── REPORTS ───────────────────────────────────────────────────────── */
+    V.reports = function () {
+      return '<div class="wrap">' +
+        '<div class="page-head"><div class="txt"><h1>Reports</h1>' +
+        '<div class="sub">Generate audit-ready output for a scan, a repository, or everything.</div></div>' +
+        '<button class="btn primary" id="gen-report">Generate report</button></div>' +
+
+        '<div class="stats c3" style="margin-bottom:14px;">' +
+        [['Executive summary', 'PDF', 'For leadership: exposure, trends, remediation rate.'],
+        ['Technical audit', 'PDF + Markdown', 'Per-finding evidence: sanitizer reports, gates, diffs.'],
+        ['Machine-readable', 'SARIF 2.1.0 · CSV', 'Ingest into your existing security tooling.']
+        ].map(function (t) {
+          return '<div class="card pad"><div style="font-size:13.5px;font-weight:600;">' + t[0] + '</div>' +
+            '<div class="mono" style="font-size:11px;color:var(--text-3);margin-top:2px;">' + t[1] + '</div>' +
+            '<div style="font-size:12.5px;color:var(--text-2);margin-top:7px;line-height:1.5;">' + t[2] + '</div>' +
+            '<button class="btn sm" style="margin-top:11px;width:100%;" data-gen="' + esc(t[0]) + '">Generate</button></div>';
+        }).join("") +
+        '</div>' +
+
+        '<div class="card flush"><table class="d">' +
+        '<thead><tr><th>Report</th><th>Type</th><th>Scope</th><th>Format</th><th>Size</th><th>Generated</th><th></th></tr></thead><tbody>' +
+        REPORTS.map(function (r) {
+          return '<tr>' +
+            '<td class="id">' + esc(r.name) + '</td>' +
+            '<td class="m">' + esc(r.type) + '</td>' +
+            '<td class="m">' + esc(r.target) + '</td>' +
+            '<td><span class="tag neutral">' + r.fmt + '</span></td>' +
+            '<td class="m">' + r.size + '</td>' +
+            '<td class="m">' + ago(r.min) + '</td>' +
+            '<td><button class="btn sm ghost" data-dl="' + r.id + '">' + I.down + '</button></td></tr>';
+        }).join("") +
+        '</tbody></table></div>' +
+
+        '<div class="card pad" style="margin-top:14px;">' +
+        '<div style="font-size:13px;font-weight:600;">Scheduled delivery</div>' +
+        '<div style="font-size:12.5px;color:var(--text-2);margin-top:3px;">Send a weekly executive summary every Monday at 08:00.</div>' +
+        '<div style="display:flex;gap:9px;margin-top:11px;align-items:center;">' +
+        '<div class="sw on" data-sw-sched><i></i></div>' +
+        '<span class="mono" style="font-size:12px;">enabled · recipients: security-leads@internal</span>' +
+        '<span style="flex:1;"></span><button class="btn sm ghost">Edit</button>' +
+        '</div>' +
+        '</div>' +
+        '</div>';
+    };
+
+    /* ── SETTINGS ──────────────────────────────────────────────────────── */
+    V.settings = function () {
+      return '<div class="wrap">' +
+        '<div class="page-head"><div class="txt"><h1>Settings</h1>' +
+        '<div class="sub">Model configuration, engine paths, spend limits and retention.</div></div></div>' +
+
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;">' +
+        '<div class="card pad">' +
+        '<div style="font-size:13px;font-weight:600;margin-bottom:12px;">Model</div>' +
+        '<div class="field"><label>Provider</label><select class="sel"><option>OpenAI</option><option>Azure OpenAI</option><option>Local (vLLM / Ollama)</option></select></div>' +
+        '<div class="field"><label>API key</label><input class="inp" type="password" value="sk-••••••••••••••••3f9a" /></div>' +
+        '<div class="field"><label>Model for all three agents</label><select class="sel"><option selected>gpt-4o-mini — $0.15 / 1M in</option><option>gpt-4o</option><option>claude-3-5-haiku</option></select>' +
+        '<div class="hint">Median cost is ~$0.002 per target on gpt-4o-mini. Agent routing is per-CWE, not per-model.</div></div>' +
+        '<div class="field"><label>Critic (Agent Delta)</label><select class="sel"><option selected>Enabled — invoked only when a gate fails</option><option>Disabled</option></select></div>' +
+        '</div>' +
+
+        '<div class="card pad">' +
+        '<div style="font-size:13px;font-weight:600;margin-bottom:12px;">Limits</div>' +
+        '<div class="field"><label>Monthly spend cap</label><input class="inp" value="$50" />' +
+        '<div class="hint">Runs stop cleanly at the cap. Current month: $4.12 used.</div></div>' +
+        '<div class="field"><label>Per-scan spend cap</label><input class="inp" value="$5" /></div>' +
+        '<div class="field"><label>Max concurrency</label><input class="inp" value="4 targets" /></div>' +
+        '<div class="field"><label>Fuzzing budget per target</label><input class="inp" value="30 seconds" /></div>' +
+        '</div>' +
+
+        '<div class="card pad">' +
+        '<div style="font-size:13px;font-weight:600;margin-bottom:12px;">Engines</div>' +
+        ENGINES.map(function (e) {
+          return '<div style="display:flex;align-items:center;gap:9px;padding:6px 0;border-bottom:1px solid var(--border);font-size:12.5px;">' +
+            '<span class="tag ' + (e[1] === 'ok' ? 'green' : e[1] === 'part' ? 'blue' : 'amber') + '">' + (e[1] === 'ok' ? 'ready' : e[1] === 'part' ? 'partial' : 'off') + '</span>' +
+            '<span style="flex:1;">' + esc(e[0]) + '</span>' +
+            '<button class="btn sm ghost">Verify</button></div>';
+        }).join("") +
+        '<div class="hint" style="margin-top:9px;">Concolic execution self-disabled: angr returns meaningless results on AArch64 MachO. The system detects this at startup and logs the reason.</div>' +
+        '</div>' +
+
+        '<div class="card pad">' +
+        '<div style="font-size:13px;font-weight:600;margin-bottom:12px;">Data &amp; retention</div>' +
+        '<div class="field"><label>Keep scan artefacts</label><select class="sel"><option>90 days</option><option selected>12 months</option><option>Indefinitely</option></select></div>' +
+        '<div class="field"><label>Telemetry</label><select class="sel"><option selected>None collected</option><option>Anonymous usage stats</option></select>' +
+        '<div class="hint">Only the extracted context around a finding — the enclosing function and the types it references — is sent to the model provider. Set <span class="mono">OPENAI_BASE_URL</span> to an on-prem endpoint (vLLM, llama.cpp, Ollama) to keep inference inside the network.</div></div>' +
+        '<div style="display:flex;gap:9px;margin-top:14px;">' +
+        '<button class="btn primary" id="save-settings">Save changes</button>' +
+        '<button class="btn">Discard</button></div>' +
+        '</div>' +
+        '</div>' +
+        '</div>';
+    };
+
+    /* ═══ RENDER ═════════════════════════════════════════════════════════ */
+    function render() {
+      $('#rail').innerHTML = NAV.map(function (n) {
+        var live = n.id === 'scans' && SCANS.some(function (s) { return s.status === 'running'; });
+        return '<button class="nav-item ' + (view === n.id || (view === 'run' && n.id === 'scans') ? 'on' : '') + '" data-nav="' + n.id + '">' +
+          n.icon + '<span class="n">' + n.label + '</span>' +
+          (live ? '<span class="live-i"></span>' : n.count ? '<span class="c">' + n.count + '</span>' : '') + '</button>';
+      }).join("") +
+        '<div class="lbl">Workspace</div>' +
+        '<div class="rail-card"><div class="t">Spend this month</div><div class="v">$4.12</div>' +
+        '<div class="d">of $50 cap · 8%</div>' +
+        '<div class="bar" style="margin-top:7px;"><i style="width:8%"></i></div></div>' +
+        '<div class="rail-card"><div class="t">Patch acceptance</div><div class="v">91%</div>' +
+        '<div class="d">31 of 34 approved by reviewers</div></div>';
+
+      var vp = $('#viewport');
+      vp.innerHTML = V[view]();
+      vp.scrollTop = 0;
+
+      if (view === 'run') startRunStream();
+      if (view === 'findings' && openFinding) bindGates();
+      if (view === 'newscan') bindWizard();
+      if (view === 'reports') bindReports();
+      if (view === 'settings') bindSettings();
+
+      var running = SCANS.filter(function (s) { return s.status === 'running'; }).length;
+      $('#tb-runs').textContent = running ? running + ' running' : 'idle';
+    }
+
+    function renderStatusbar() {
+      $('#statusbar').innerHTML =
+        '<span class="sg"><i class="g"></i> engine online</span>' +
+        '<span>clang <b>22.0.0</b></span><span>semgrep <b>1.172.0</b></span>' +
+        '<span>libFuzzer <b>15.0.7</b></span><span>cbmc <b>6.10.0</b></span>' +
+        '<span class="push"></span>' +
+        '<span class="sg"><i class="a"></i> angr concolic — disabled (arm64)</span>' +
+        '<span>local workspace · no data leaves this host</span>';
+    }
+
+    /* ═══ WIZARD ═════════════════════════════════════════════════════════ */
+    function bindWizard() {
+      var next = $('#w-next'), back = $('#w-back'), launch = $('#w-launch');
+      if (next) next.addEventListener('click', function () {
+        if (wizStep === 1) { var p = $('#w-path'); if (p) wiz.path = p.value; var t = $('#w-target'); if (t) wiz.target = t.value; }
+        if (wizStep === 2) { var b = $('#w-build'); if (b) wiz.build = b.value; var pv = $('#w-pov'); if (pv) wiz.pov = pv.value; var r = $('#w-regr'); if (r) wiz.regr = r.value; }
+        wizStep++; render();
+      });
+      if (back) back.addEventListener('click', function () { wizStep--; render(); });
+      if (launch) launch.addEventListener('click', function () {
+        var c = $('#w-conc'); if (c) wiz.concurrency = parseInt(c.value, 10);
+        var b = $('#w-budget'); if (b) wiz.budget = parseInt(String(b.value).replace('$', ''), 10);
+        var id = 'S-1043';
+        SCANS.unshift({
+          id: id, target: (TARGETS.filter(function (t) { return t.id === wiz.target; })[0] || { name: 'libproto' }).name,
+          status: 'running', progress: 0, startMin: 0, findings: 0, cost: 0, trigger: 'manual', user: 'pk'
+        });
+        openScan = id; wizStep = 1; preflightState = 'idle';
+        view = 'run';
+        toast('Scan ' + id + ' started', 'ok');
+        render();
+      });
+      var pf = $('#preflight-btn');
+      if (pf) pf.addEventListener('click', function () {
+        pf.disabled = true; pf.textContent = 'Running…';
+        setTimeout(function () { preflightState = 'done'; render(); toast('Pre-flight passed — PoV reproduces a clean crash', 'ok'); }, 1100);
+      });
+      $$('[data-sw]').forEach(function (el) {
+        el.addEventListener('click', function () {
+          var k = el.dataset.sw; wiz[k] = !wiz[k];
+          el.classList.toggle('on', wiz[k]);
+        });
+      });
+    }
+
+    /* ═══ LIVE RUN STREAM ════════════════════════════════════════════════ */
+    var LOG = [
+      ["init", "Scan S-1043 initialised · target libproto · 38 files"],
+      ["ok", "pre-flight passed — PoV reproduces on unpatched build"],
+      ["info", "Phase 1: Semgrep p/security-audit — 4 findings in 6.2s"],
+      ["info", "Phase 1: libFuzzer campaign started (30s budget, 4 workers)"],
+      ["er", "crash #1: heap-buffer-overflow src/codec/frame.c:154"],
+      ["v", "crash #2: SEGV src/codec/frame.c:201"],
+      ["info", "crash #3: heap-use-after-free src/session/pool.c:118 — deduped"],
+      ["ok", "triage: 34 crash inputs → 11 distinct bugs"],
+      ["info", "Phase 2: tree-sitter extracted 11 functions + 42 types"],
+      ["info", "Phase 3: dispatching alpha / beta / gamma on F-0877"],
+      ["a", "[alpha] iter 1 — apply pass · build pass · pov pass"],
+      ["v", "[beta]  iter 1 — pov FAIL · critic: insufficient_fix"],
+      ["er", "[gamma] iter 1 — build FAIL (undefined symbol)"],
+      ["ok", "[alpha] PATCHED at iteration 1 · 4 lines"],
+      ["info", "Phase 6: re-fuzz 20s on patched build — no new crash"],
+      ["ok", "Phase 6: differential 25/25 inputs — behaviour preserved"],
+      ["info", "agents working F-0876 · F-0875 · F-0874 …"]
+    ];
+    var logIdx = 0;
+    var streamTimer = null;
+    function startRunStream() {
+      logIdx = 0;
+      // a render on the run view must not leave the previous stream running
+      if (streamTimer) { clearInterval(streamTimer); streamTimer = null; }
+      var box = $('#runlog');
+      if (!box) return;
+      box.innerHTML = '';
+      var s = SCANS.filter(function (x) { return x.id === openScan; })[0];
+      if (!s) return;
+      var running = s.status === 'running';
+      var i = 0;
+      var timer = setInterval(function () {
+        if (!running || i >= LOG.length) { clearInterval(timer); if (streamTimer === timer) streamTimer = null; return; }
+        var row = LOG[i];
+        var cls = row[0] === 'ok' ? 'ok' : row[0] === 'er' ? 'er' : row[0] === 'v' ? 'v' : row[0] === 'a' ? 'b' : '';
+        var ts = new Date(Date.now() + i * 1800).toTimeString().slice(0, 8);
+        box.innerHTML += '<span class="t">[' + ts + ']</span> <span class="' + cls + '">' + esc(row[1]) + '</span>\n';
+        box.scrollTop = box.scrollHeight;
+        i++;
+      }, 420);
+      streamTimer = timer;
+      var cancel = $('#cancel-run');
+      if (cancel) cancel.addEventListener('click', function () {
+        s.status = 'cancelled';
+        if (streamTimer) { clearInterval(streamTimer); streamTimer = null; }
+        toast('Scan ' + s.id + ' cancelled', 'warn'); render();
+      });
+      var rerun = $('#rerun-run');
+      if (rerun) rerun.addEventListener('click', function () { toast('Queued a re-run of ' + s.id, 'ok'); });
+      startTicker();
+    }
+
+    /* global ticker advances any running scan */
+    function startTicker() {
+      if (ticker) return;
+      ticker = setInterval(function () {
+        var live = SCANS.filter(function (s) { return s.status === 'running'; });
+        if (!live.length) { clearInterval(ticker); ticker = null; return; }
+        live.forEach(function (s) {
+          s.progress = Math.min(100, s.progress + 1);
+          s.cost += 0.00042;
+          if (s.progress >= 100) {
+            s.status = 'completed'; s.durMin = 14; s.findings = 11;
+            toast('Scan ' + s.id + ' completed · 11 findings', 'ok');
+          }
+          // pop a new finding in at intervals
+          if (s.progress % 17 === 0 && s.findings < 11) {
+            s.findings++;
+            FINDINGS.unshift({
+              id: 'F-08' + (90 + s.findings), scan: s.id, target: s.target,
+              cwe: 'CWE-125', sev: s.findings % 3 === 0 ? 'CRITICAL' : 'HIGH',
+              file: 'src/codec/frame.c', line: 100 + s.findings * 7, status: 'triaging',
+              agent: null, lines: 0, pov: 'proven', hardened: null, by: 'fuzzer', min: 0
+            });
+          }
+        });
+        if (view === 'run' || view === 'dashboard') render();
+      }, 700);
+    }
+
+    /* ═══ FINDINGS BINDINGS ══════════════════════════════════════════════ */
+    function bindGates() {
+      $$('#gates .gate .gh').forEach(function (h) {
+        h.addEventListener('click', function () { h.parentElement.classList.toggle('open'); });
+      });
+      var ap = $('#approve');
+      if (ap) ap.addEventListener('click', function () {
+        var f = FINDINGS.filter(function (x) { return x.id === openFinding; })[0];
+        if (f) f.status = 'closed';
+        toast('Patch applied and recorded in the audit trail', 'ok');
+        openFinding = null; render();
+      });
+      var rj = $('#reject');
+      if (rj) rj.addEventListener('click', function () {
+        toast('Patch rejected — target returned to triage', 'warn');
+        openFinding = null; render();
+      });
+    }
+
+    function bindReports() {
+      $$('[data-gen]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var name = b.dataset.gen;
+          b.disabled = true; b.textContent = 'Generating…';
+          setTimeout(function () {
+            REPORTS.unshift({
+              id: 'R-312', name: name + ' — ' + new Date().toISOString().slice(0, 10),
+              type: name, target: 'all targets', min: 0, fmt: name.indexOf('Machine') === 0 ? 'SARIF' : 'PDF', size: '—'
+            });
+            toast(name + ' generated', 'ok');
+            render();
+          }, 900);
+        });
+      });
+      $$('[data-dl]').forEach(function (b) {
+        b.addEventListener('click', function () { toast('Download started', 'ok'); });
+      });
+      var g = $('#gen-report');
+      if (g) g.addEventListener('click', function () { toast('Report queued for generation', 'ok'); });
+    }
+
+    function bindSettings() {
+      var sv = $('#save-settings');
+      if (sv) sv.addEventListener('click', function () { toast('Settings saved', 'ok'); });
+      var sc = $('[data-sw-sched]');
+      if (sc) sc.addEventListener('click', function () { sc.classList.toggle('on'); });
+    }
+
+    /* ═══ NAV ════════════════════════════════════════════════════════════ */
+    function go(v) { view = v; openFinding = null; render(); }
+
+    document.addEventListener('click', function (e) {
+      var nav = e.target.closest('[data-nav]');
+      if (nav) { if (nav.dataset.nav === 'newscan') { wizStep = 1; preflightState = 'idle'; } go(nav.dataset.nav); return; }
+      var g = e.target.closest('[data-go]');
+      if (g) {
+        var t = g.dataset.target;
+        if (t) { wiz.target = t; var tt = TARGETS.filter(function (x) { return x.id === t; })[0]; if (tt) wiz.path = tt.path; }
+        wizStep = 1; preflightState = 'idle';
+        go(g.dataset.go); return;
+      }
+      var os = e.target.closest('[data-open-scan]');
+      if (os) { openScan = os.dataset.openScan; view = 'run'; render(); return; }
+      var of = e.target.closest('[data-open-finding]');
+      if (of) { openFinding = of.dataset.openFinding; view = 'findings'; render(); return; }
+      var bf = e.target.closest('[data-back-findings]');
+      if (bf) { openFinding = null; render(); return; }
+      var ff = e.target.closest('[data-ff]');
+      if (ff) { fFilter = ff.dataset.ff; render(); return; }
+      var ex = e.target.closest('#export-csv');
+      if (ex) { toast('Exported ' + FINDINGS.length + ' findings to CSV', 'ok'); return; }
+    });
+
+    document.addEventListener('input', function (e) {
+      if (e.target.id === 'fq') {
+        fQuery = e.target.value;
+        var pos = e.target.selectionStart;
+        render();
+        var el = $('#fq');
+        if (el) { el.focus(); el.setSelectionRange(pos, pos); }
+      }
+    });
+
+    function toggleTheme() {
+      var next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+      document.documentElement.dataset.theme = next;
+      try { localStorage.setItem('kavach-theme', next); } catch (e) { }
+    }
+    $('#theme-btn').addEventListener('click', toggleTheme);
+    $('#new-scan-btn').addEventListener('click', function () { wizStep = 1; preflightState = 'idle'; go('newscan'); });
+    try { var th = localStorage.getItem('kavach-theme'); if (th) document.documentElement.dataset.theme = th; } catch (e) { }
+
+    render();
+    renderStatusbar();
+    startTicker();
+  </script>
+</body>
+
+</html>

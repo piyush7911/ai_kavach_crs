@@ -246,9 +246,14 @@ class BenchmarkHarness:
             if self.hardener and result.status == "patched":
                 verdict = self._harden_patch(t, result)
                 self.hardening_verdicts[t.id] = verdict
-                if not verdict.survived:
-                    # The patch cleared every gate but hardening falsified it.
+                if verdict.falsified:
+                    # The patch cleared every gate but hardening broke it.
                     # Downgrade it rather than report a fix we can't defend.
+                    #
+                    # Keyed on `falsified`, not `not survived`: a target with no
+                    # applicable falsification check has not been shown wrong,
+                    # so it keeps its gate result — it simply does not earn the
+                    # hardening bar, which `verdict.survived` reports separately.
                     result.status = "unresolved_hardening"
                     console.print(f"      [red]HARDENING FAILED: {verdict.summary()}[/]")
                 else:
@@ -503,7 +508,19 @@ class BenchmarkHarness:
         duration = round(time.time() - start, 2)
         self.suites.append({
             "Suite": "Fuzz Discovery", "Label": label,
-            "Targets_Attempted": len(eligible),
+            # Repair tasks actually created, which is the distinct bugs triage
+            # found — NOT the number of harnesses fuzzed.
+            #
+            # These are different units and the rollup in _summary() divides
+            # Patched_All_Gates by Targets_Attempted across every suite. Using
+            # the harness count here charged the repair rate for something that
+            # is not a repair outcome: a harness that fuzzes for its budget and
+            # finds no crash has no bug to fix, so counting it as an unfixed
+            # target understates the rate. (Measured: 8 harnesses → 7 bugs → 6
+            # fixed was being reported as 6/8 in the headline while this suite's
+            # own Success_Rate said 6/7.)
+            "Targets_Attempted": bugs_total,
+            "Harnesses_Fuzzed": len(eligible),
             "Targets_Excluded_Build_Failure": 0,
             "Patched_All_Gates": patched_total,
             "Success_Rate": f"{patched_total / bugs_total * 100:.1f}%" if bugs_total else "n/a",
@@ -571,8 +588,33 @@ class BenchmarkHarness:
             writer.writeheader()
             writer.writerows(rows)
 
+    @staticmethod
+    def check_suite_units(suites: list[dict]) -> None:
+        """
+        Reject a suite record whose numerator and denominator are different units.
+
+        The headline rate sums `Patched_All_Gates` over `Targets_Attempted`
+        across every suite, which is only meaningful if both count the same
+        thing. The Fuzz Discovery suite violated this: it set
+        `Targets_Attempted` to the number of harnesses fuzzed while
+        `Patched_All_Gates` counted distinct bugs repaired, so a harness that
+        found no crash was charged to the repair rate as a failure.
+
+        `patched > attempted` is the observable signature of that mistake and is
+        never legitimate, so it is raised rather than reported.
+        """
+        for s in suites:
+            attempted, patched = s["Targets_Attempted"], s["Patched_All_Gates"]
+            if patched > attempted:
+                raise ValueError(
+                    f"suite {s['Label']!r} reports {patched} patched of "
+                    f"{attempted} attempted — the two fields are counting "
+                    f"different things, so the headline rate would be wrong"
+                )
+
     def _build_summary(self, timestamp: str) -> dict:
         usage = self.llm_client.get_usage_summary()
+        self.check_suite_units(self.suites)
         attempted = sum(s["Targets_Attempted"] for s in self.suites)
         patched = sum(s["Patched_All_Gates"] for s in self.suites)
         pov_gated = sum(s["Targets_With_Reproducible_PoV"] for s in self.suites)

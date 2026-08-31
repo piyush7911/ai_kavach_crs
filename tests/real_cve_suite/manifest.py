@@ -81,11 +81,16 @@ _CANDIDATES = [
         line_number=660,
         cwe_id="CWE-125",
         description=(
-            "CVE-2019-11834: heap over-read in parse_string. The loop tested "
-            "`*input_end != '\"'` BEFORE checking the offset against the buffer "
-            "length, dereferencing one byte past the allocation on an "
-            "unterminated string literal. Upstream cJSON at commit b537ca7; "
-            "fixed in a167d9e by reordering the two conditions."
+            "CVE-2019-11834: heap over-read in parse_string. `input_end` is "
+            "dereferenced in TWO places without first confirming it is still "
+            "inside the buffer, and an unterminated string literal reaches both. "
+            "The scan loop tests `*input_end != '\"'` before the offset check "
+            "(C's && is ordered, so the read happens first), and the check "
+            "immediately after that loop dereferences `input_end` again on the "
+            "path where the loop stopped because the offset reached "
+            "input_buffer->length. A patch that addresses only the loop leaves "
+            "the second read reachable. Upstream cJSON at commit b537ca7; fixed "
+            "in a167d9e."
         ),
         driver="cjson_parse_driver.c",
         pov=_pov('"abc'),

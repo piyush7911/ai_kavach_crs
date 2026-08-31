@@ -4,18 +4,12 @@ typedef union {
     int id;
     char* name;
 } UserIdentifier;
-void print_user(UserIdentifier uid, int is_string) {
-    if (is_string) {
-        printf("User name: %s\n", uid.name);
-    } else {
-    }
-}
-void process_type_confusion() {
+void render_user(const char* raw) {
     UserIdentifier uid;
-    uid.id = 0x41414141; 
-    printf("User name: %s\n", uid.name); 
+    uid.id = atoi(raw);
+    printf("User name: %s\n", uid.name);
 }
-int main() {
-    process_type_confusion();
+int main(int argc, char* argv[]) {
+    render_user(argc > 1 ? argv[1] : "1094795585");
     return 0;
 }

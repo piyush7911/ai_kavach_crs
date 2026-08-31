@@ -13,10 +13,46 @@ have failed to falsify it.
 
 If a patch cannot be shown to work, it is not reported as working.
 
-**Latest measured run:** 37/37 targets patched (95% CI [90.6, 100]), 21/21
-dynamically proven against the original exploit, 34/34 patches survived
-falsification, $0.0521 total.
-Full detail and caveats in [`benchmark.md`](benchmark.md).
+**Latest measured run (2026-08-30):** 44/44 targets patched — 100%, 95% CI
+[92.0, 100.0] — 30/30 dynamically proven against the original exploit, $0.0739
+total, 125 unit tests green.
+
+Of the 44 patches, **32 were actively attacked and none broke**. Five had no
+applicable falsification check and are reported NOT HARDENED rather than counted
+as survivors — including two whose differential test compares *zero* inputs and
+which a previous run had wrongly credited. Full detail and caveats in
+[`benchmark.md`](benchmark.md).
+
+A 95% CI is quoted because 44/44 is not evidence of a 100% rate, and a corpus
+everything passes has stopped discriminating — the next useful step is harder
+targets, not a better score here.
+
+### Model and provider
+
+These results were measured with **`gpt-4o-mini`** via the OpenAI API — a small,
+cheap model, chosen deliberately: $0.0739 for 44 targets is the "lightweight"
+claim, and it holds only because the verification does the hard work rather than
+the model.
+
+**The provider is not fixed.** The client was written against the OpenAI
+*protocol*, not the OpenAI *service*, so any OpenAI-compatible endpoint works
+with no code change — a self-hosted **vLLM**, **llama.cpp**, **Ollama**, or an
+internal gateway:
+
+```bash
+export OPENAI_BASE_URL=http://10.0.0.5:8000/v1   # your local / on-prem endpoint
+export OPENAI_API_KEY=whatever-your-endpoint-wants
+export MODEL_ALPHA=... MODEL_BETA=... MODEL_GAMMA=...
+```
+
+That matters for air-gapped deployment, where LLM inference is the *only*
+component that needs a network at all — see
+[Running offline / air-gapped](#running-offline--air-gapped).
+
+Stated plainly: **patch quality on a different model is not measured here.** The
+verification gates are model-independent and would catch a weaker model's bad
+patches, but the pass rate would need re-measuring on whatever you deploy. That
+is one command.
 
 ---
 
@@ -69,7 +105,7 @@ and the run will tell you the patch is unproven.
 **Run the tests**
 
 ```bash
-python -m pytest tests/unit -q     # 95 tests, no API calls, no network
+python -m pytest tests/unit -q     # 125 tests, no API calls, no network
 ```
 
 ---
@@ -87,8 +123,8 @@ python -m pytest tests/unit -q     # 95 tests, no API calls, no network
 | Agent Delta (Critic) | **Working** — LLM-as-judge with a strict JSON verdict; diagnoses *why* a patch was rejected instead of handing the agent a raw sanitizer dump |
 | DRV verification loop | **Working** — apply → build (ASan+UBSan) → PoV replay → regression → static re-scan |
 | Patch hardening | **Working** — re-fuzzes the patched build and differential-tests it against the original, to catch patches that only *look* fixed (`--harden`) |
-| Agent memory | **Working** — working / episodic / semantic / procedural; only gate-validated fixes are ever learned (`--memory`) |
-| Real published CVEs | **Working** — 3 real defects in unmodified upstream cJSON (CVE-2019-11835, CVE-2019-11834, GH-800); 3/3 patched, PoV-proven, and hardened. Self-contained in `tests/real_cve_suite/`; the only suite whose provenance is external |
+| Agent memory | **Working** — working (attempt ledger, in-loop), episodic (trajectory log), semantic (cross-target fix patterns, recalled into the prompt with decaying confidence); only gate-validated fixes are ever learned (`--memory`). Procedural memory **records** which agent wins per CWE and how many iterations it took, but nothing consumes it yet — `preferred_agent_order()` and `suggested_iterations()` exist and are tested, and are not wired into routing or budgeting |
+| Real published CVEs | **Working** — 3 real defects in unmodified upstream cJSON (CVE-2019-11835, CVE-2019-11834, GH-800); latest run **3/3**, all PoV-proven and hardened. Self-contained in `tests/real_cve_suite/`; the only suite whose provenance is external |
 | Bounded formal verification | **Working** — CBMC proves the patched function safe for **all** inputs within a per-target unwind bound (`--formal`). Requires a proof harness; targets without one report `unavailable`, never proven |
 | Benchmark harness + reporting | **Working** — every reported figure is measured; nothing is a constant |
 | Driller / angr concolic fallback | **Implemented, self-gated** — plateau detection and symbolic solving are real, but the engine runs a known-answer test first and **disables itself** where angr can't tie symbolic input to a comparison (it can't on arm64 macOS; it can on x86-64 Linux) |
@@ -110,15 +146,27 @@ target actually ran and passed:
 
 ### Hardening: gates alone are gameable
 
-Passing every gate is not proof. Two cheap attacks defeat gate-only verification,
-and both are what a model optimising for a green gate would naturally produce:
+Passing every gate is not proof. Three cheap attacks defeat gate-only verification,
+and each is what a model optimising for a green gate would naturally produce:
 
 | Attack | Clears every gate? | Caught by |
 |---|:---:|---|
 | **PoV overfitting** — special-case the crashing input (`if (size == 4) return;`) | yes | **Adversarial re-fuzzing** of the patched build |
 | **Functionality gutting** — disable the code path with an early `return` | yes | **Differential testing** against the original on benign inputs |
+| **Incomplete validation** — a sanitiser a cleverer payload slips past | yes | **Evasion battery** — bypass encodings (`....//`, `sub/../../`, `.././`) |
 
-`--harden` runs both. A patch that fails is downgraded, not reported as a fix.
+`--harden` runs them. A patch that fails is downgraded, not reported as a fix.
+Which checks apply depends on the fix's behavioural contract: memory-safety fixes
+(`preserve`) must not change behaviour the original got right, while
+input-validation fixes (`restrict`) are *supposed* to reject inputs the original
+accepted, so they are held to the evasion battery instead of differential
+equivalence. Holding a `restrict` fix to `preserve` produces a false falsification,
+which is why the contract is declared per target in `tests/benchmarks/targets.py`.
+
+This is not decorative. In the 2026-08-30 run, **two patches that had passed
+every gate were falsified here**: SYN-15 changed observable output on a benign
+input, and SYN-16 still crashed under re-fuzzing. Both would have been reported
+as fixes on gate evidence alone.
 
 **`--formal` goes further still.** Every check above is empirical — it runs the
 program on inputs we chose. CBMC compiles the patched function into a logical
@@ -248,6 +296,53 @@ Model configuration lives in `config/__init__.py` — `MODEL_ALPHA` / `MODEL_BET
 
 ---
 
+## Running offline / air-gapped
+
+Relevant because the intended deployment is defence infrastructure, where
+outbound internet is often unavailable. The short answer: **exactly one
+component needs the network, and it can be pointed at a local endpoint.**
+
+| Stage | Network needed? | Detail |
+|---|---|---|
+| Fuzzing (libFuzzer, AFL++) | **No** | Local toolchain; campaigns run in-process against a local corpus |
+| Build + sanitizers (clang, ASan/UBSan) | **No** | Local compiler |
+| Crash triage | **No** | Replays the crash locally and parses the sanitizer report |
+| Tree-sitter context engine | **No** | Grammars are installed Python wheels |
+| Semgrep static analysis | **Only to fetch rules the first time** | `SemgrepRunner(rules=...)` accepts a **local YAML path** as well as a registry reference — verified running with a vendored rules file and no registry access |
+| CBMC bounded verification | **No** | Local solver |
+| Patch hardening (re-fuzz, differential, evasion) | **No** | All local execution |
+| **LLM inference** | **Yes** | The only external dependency |
+
+`grep` for outbound HTTP in `src/` returns nothing: every network call goes
+through the OpenAI SDK, and its base URL is configurable.
+
+**Pointing at an on-prem model.** `config/__init__.py` reads `OPENAI_BASE_URL`
+and passes it straight to the client, so any OpenAI-compatible server works —
+vLLM, llama.cpp, Ollama, or an internal gateway:
+
+```bash
+export OPENAI_BASE_URL=http://10.0.0.5:8000/v1     # your vLLM / gateway
+export OPENAI_API_KEY=whatever-your-endpoint-wants
+export MODEL_ALPHA=... MODEL_BETA=... MODEL_GAMMA=...
+python benchmark.py --suite all
+```
+
+No code change is required — the client was written against the OpenAI
+*protocol*, not the OpenAI *service*.
+
+**Vendoring the Semgrep rules.** On a connected machine, fetch the pack once and
+carry the YAML across; then construct the runner with that path instead of
+`p/security-audit`. The scanner treats a local file and a registry reference
+identically.
+
+**Honest caveat.** Results in `benchmark.md` were measured with `gpt-4o-mini`
+over the public API. Swapping in a local model changes patch quality, and by how
+much is **not measured here** — the verification gates are unchanged and would
+catch a weaker model's bad patches, but the pass rate would need re-measuring on
+whatever model you deploy. The harness makes that a single command.
+
+---
+
 ## Documentation
 
 | File | Contents |
@@ -255,4 +350,4 @@ Model configuration lives in `config/__init__.py` — `MODEL_ALPHA` / `MODEL_BET
 | `architecture.md` | Full five-phase design and component diagram |
 | `benchmark.md` | Measured results from the latest run |
 | `INSTALLED.md` | Everything installed, with uninstall commands |
-| `validation_roadmap.md` | The broader validation plan |
+| `HACKATHON_BRIEF.md` | Problem statement this system was built against |

@@ -1,11 +1,10 @@
 # 🛡️ AI Kavach: Autonomous Cyber Reasoning System (CRS)
 ## Technical Architecture & Systems Engineering Design Document
 
-**Target Event:** Indian Army Terrier Cyber Quest 2026  
 **System Class:** Autonomous Cyber Reasoning System (CRS) for C/C++ Vulnerability Remediation  
 **Design Reference:** Inspired by DARPA AIxCC (Artificial Intelligence Cyber Challenge) Architecture  
 **Implementation Date:** August 2026  
-**Evaluation Reference:** [`benchmark.md`](file:///Users/piyush/Desktop/cyber%20hackathon/ai_kavach_crs/benchmark.md)
+**Evaluation Reference:** [`benchmark.md`]
 
 ---
 
@@ -227,9 +226,13 @@ Passing the 5 DRV gates proves an input no longer crashes, but does not prove th
    - Executes the original and patched binaries side-by-side across 25 generated benign inputs.
    - Compares stdout, stderr, and exit codes. If behavior diverges on inputs where the original did *not* crash, the patch is rejected for gutting functionality.
 
-3. **Behavioral Contracts (`preserve` vs. `restrict`):**
+3. **Behavioral Contracts (`preserve` / `restrict` / `replace`):**
    - **`preserve` (Default):** For memory safety fixes (UAF, Buffer Overflow), program behavior must match the original exactly.
    - **`restrict`:** For input validation fixes (CWE-78 Command Injection, CWE-22 Path Traversal), the security remediation **is** to reject inputs the original accepted. Differential testing is automatically bypassed for `restrict` targets, relying on the regression gate instead to prevent false rejections.
+   - **`replace`:** For fixes whose remediation is to change a compiled-in value — a hardcoded secret (CWE-321). The program's output is *required* to differ from the original; equivalence would mean the fix did nothing. Holding such a target to `preserve` is unsatisfiable, and did in fact falsify a correct patch ("output changed on benign input '42'") before the contract existed.
+
+   A contract is not an exemption from verification, only a statement of which
+   check applies. Every contract still faces build, PoV replay and regression.
 
 4. **Evasion Battery (Validation Bypass Defense):**
    - For `restrict` targets, re-fuzzing has no crash to find and differential testing cannot judge a deliberately narrowed input domain. The battery replays bypass encodings (`....//`, `sub/../../`, `.././`) against the patched build and rejects the patch if any escapes. It reports *inconclusive* if legitimate access is broken, so a patch that rejects everything cannot score as hardened.
@@ -273,6 +276,40 @@ Standard LLM agent memory suffers from **hallucinated reflection**: storing unve
 AI Kavach avoids this by enforcing **Ground-Truth Learning**:
 - A fix pattern is written to Semantic Memory **only after** it compiles under ASan/UBSan, passes PoV replay, passes regression, and survives Phase 6 Hardening.
 - **Confidence Decay:** If a recalled semantic pattern is applied to a new target and fails DRV verification, its confidence score decays, preventing stale or bad patterns from persisting.
+
+---
+
+## 4b. Model Backend & Provider Portability
+
+The LLM is the only component in the pipeline that is not local, and it is
+deliberately the only one that is swappable.
+
+| | |
+|---|---|
+| **Model used for all published results** | `gpt-4o-mini` (all three repair agents and the Critic) |
+| **Why a small model** | The lightweight/resource-utilisation axis. $0.0739 for 44 targets. This is affordable only because verification — not model capability — carries the correctness burden: a weaker model produces worse candidate patches, and the gates reject them. |
+| **How the provider is selected** | `config/__init__.py` reads `OPENAI_BASE_URL` and passes it to the client. Nothing else in the codebase references a provider. |
+| **Compatible backends** | Any OpenAI-compatible chat-completions endpoint: self-hosted **vLLM**, **llama.cpp**, **Ollama**, or an on-prem gateway |
+| **Code changes required** | None — `LLMClient` was written against the OpenAI *protocol*, not the OpenAI *service* |
+
+```bash
+export OPENAI_BASE_URL=http://10.0.0.5:8000/v1
+export OPENAI_API_KEY=whatever-your-endpoint-wants
+export MODEL_ALPHA=... MODEL_BETA=... MODEL_GAMMA=...
+python benchmark.py --suite all
+```
+
+**Why this matters for the stated deployment.** For defence infrastructure with
+no outbound internet, this is the whole offline story: fuzzing, compilation,
+sanitizers, triage, tree-sitter, CBMC and every hardening check already run
+locally. Redirecting inference to a local endpoint makes the pipeline fully
+self-contained. Semgrep's rule pack is the only other network touch, and it
+accepts a vendored local YAML — verified running with no registry access.
+
+**Measured limit.** Patch quality under a locally-hosted model has *not* been
+measured. The verification contract is model-independent, so a weaker model
+shows up as a lower pass rate rather than as unsafe patches slipping through —
+but the rate itself must be re-measured per deployment.
 
 ---
 

@@ -175,10 +175,13 @@ def hardening_label(verdict: HardeningVerdict) -> str:
         return "FALSIFIED (validation bypassed)"
     if verdict.diverged:
         return "FALSIFIED (behaviour changed)"
-    # SURVIVED requires that at least one falsification attempt actually ran.
-    # The evasion battery counts: for an input-validation fix it is the only
-    # applicable check, since re-fuzzing has no crash to find and differential
-    # testing cannot judge a deliberately narrowed input domain.
-    if verdict.overfitting_checked or verdict.differential_checked or verdict.evasion_checked:
-        return "SURVIVED"
-    return "NOT HARDENED"
+    # SURVIVED requires that at least one falsification attempt actually
+    # produced a result. The evasion battery counts: for an input-validation fix
+    # it is the only applicable check, since re-fuzzing has no crash to find and
+    # differential testing cannot judge a deliberately narrowed input domain.
+    #
+    # `has_evidence` also requires differential testing to have compared at
+    # least one input. The differ skips inputs on which the ORIGINAL crashes, so
+    # a target whose only code path is the vulnerable one yields
+    # "differential(0 inputs): behaviour preserved" — which is not evidence.
+    return "SURVIVED" if verdict.has_evidence else "NOT HARDENED"

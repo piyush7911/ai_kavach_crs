@@ -63,11 +63,22 @@ _NOISE_FRAME = re.compile(
     r"wrap_|interceptor_|start\+|libc\+\+|"
     # Fuzzing scaffolding: the harness and engine frames are identical for every
     # crash in a campaign, so including them would blur distinct root causes.
-    r"fuzzer::|LLVMFuzzerTestOneInput|afl_driver|__libc_start)",
+    r"fuzzer::|LLVMFuzzerTestOneInput|afl_driver|__libc_start|"
+    # libFuzzer's own driver compilation units. Its entry point is a plain
+    # `main`, so `fuzzer::` does not match it: without this the first non-noise
+    # frame of an inlined crash is `main FuzzerMain.cpp:20`, and the crash gets
+    # attributed to libFuzzer instead of the target.
+    r"Fuzzer[A-Za-z]*\.cpp)",
     re.IGNORECASE,
 )
 
-_ASAN_ERROR = re.compile(r"ERROR:\s+(?:AddressSanitizer|LeakSanitizer):\s+([a-zA-Z0-9_-]+)")
+# The class is everything up to " on <address>", so multi-word forms survive.
+# A bare \w+ capture turned "attempting double-free on 0x60c…" into the useless
+# class "attempting", which matches no CWE and blurs clustering.
+_ASAN_ERROR = re.compile(
+    r"ERROR:\s+(?:AddressSanitizer|LeakSanitizer):\s+(.+?)(?:\s+on\s|\s*$)",
+    re.MULTILINE,
+)
 _UBSAN_ERROR = re.compile(r"([^\s:]+):(\d+):\d+:\s+runtime error:\s+(.+)")
 _ALLOC_SIZE = re.compile(r"requested allocation size")
 _FRAME = re.compile(r"^\s*#(\d+)\s+0x[0-9a-f]+\s+in\s+(.+?)(?:\s+([^\s]+\.(?:c|cc|cpp|h)):(\d+))?\s*$")
@@ -224,6 +235,34 @@ class CrashTriage:
         return self.parse_sanitizer_report(report, self.source_root)
 
     @staticmethod
+    def _under_root(frame_file: str, source_root: Path) -> bool:
+        """
+        True when a stack frame names a file belonging to the code under test.
+
+        Sanitizer frames often carry only a basename, so an exact path check is
+        not enough: the name is also looked for under the root.
+        """
+        try:
+            root = Path(source_root).resolve()
+        except OSError:
+            return False
+
+        candidate = Path(frame_file)
+        try:
+            if candidate.exists():
+                candidate.resolve().relative_to(root)
+                return True
+        except (ValueError, OSError):
+            return False
+
+        if candidate.name == frame_file:          # basename only
+            try:
+                return any(root.rglob(frame_file))
+            except OSError:
+                return False
+        return False
+
+    @staticmethod
     def parse_sanitizer_report(report: str, source_root: Optional[Path] = None) -> Optional[CrashSignature]:
         """
         Extract crash class, the faulting source location, and the normalised
@@ -237,7 +276,9 @@ class CrashTriage:
 
         match = _ASAN_ERROR.search(report)
         if match:
-            crash_class = match.group(1)
+            # ASan words a double-free as "attempting double-free on 0x…".
+            # The actionable class is the defect, not the verb.
+            crash_class = re.sub(r"^attempting\s+", "", match.group(1).strip())
         elif _ALLOC_SIZE.search(report):
             crash_class = "requested allocation size (integer overflow)"
         else:
@@ -251,7 +292,24 @@ class CrashTriage:
                 return None
 
         # Walk the frames, keeping only those from the target's own sources.
+        #
+        # Two candidate locations are tracked. `in_root` is the first frame that
+        # resolves to a file under the source root; `fallback` is the first frame
+        # naming any file at all. The in-root candidate always wins.
+        #
+        # This matters whenever the compiler inlines the vulnerable function:
+        # ASan then reports the faulting frame as the *caller*, which for a fuzz
+        # build is the harness, and the target only appears further down (in the
+        # "freed by" / "allocated by" stack for a UAF or double-free). Taking the
+        # first frame unconditionally attributed such crashes to scaffolding and
+        # the pipeline discarded them as "crash location unresolved".
+        #
+        # The previous version of this loop computed `relative_to` and then
+        # discarded the result, so `source_root` filtered nothing at all.
         frames: list[str] = []
+        in_root: tuple[str, int] = ("", 0)
+        fallback: tuple[str, int] = ("", 0)
+
         for raw in report.splitlines():
             frame = _FRAME.match(raw)
             if not frame:
@@ -259,14 +317,18 @@ class CrashTriage:
             function, frame_file, frame_line = frame.group(2), frame.group(3), frame.group(4)
             if _NOISE_FRAME.search(raw):
                 continue
-            if source_root and frame_file:
-                try:
-                    Path(frame_file).resolve().relative_to(source_root)
-                except (ValueError, OSError):
-                    pass
             frames.append(function.split("(")[0].strip())
-            if frame_file and not file_path:
-                file_path, line_number = frame_file, int(frame_line or 0)
+            if not frame_file:
+                continue
+
+            here = (frame_file, int(frame_line or 0))
+            if not fallback[0]:
+                fallback = here
+            if not in_root[0] and source_root and CrashTriage._under_root(frame_file, source_root):
+                in_root = here
+
+        if not file_path:
+            file_path, line_number = in_root if in_root[0] else fallback
 
         # Sanitizer reports often carry only a basename. The orchestrator has to
         # open this file, so resolve it back to a real path under the source root.

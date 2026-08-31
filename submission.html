@@ -1,0 +1,746 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-page-node-id="e3rVnREMqPyGjeask4NT9Y">
+<head data-page-node-id="mPCZdO9c7Dzx7HXwb4Rjz2">
+<meta charset="utf-8" data-page-node-id="Zh5VY6Gsbj4Evwrqf7f5IF" />
+<title>AI Kavach CRS — Submission Deck</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" data-page-node-id="gHZN8e41bLgSufWIThSXE8" />
+<style>
+:root {
+  --sans: -apple-system, BlinkMacSystemFont, "Inter", "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+  --mono: ui-monospace, "SF Mono", "JetBrains Mono", "Roboto Mono", Menlo, monospace;
+  --ease: cubic-bezier(.16, 1, .3, 1);
+}
+[data-theme="light"] {
+  --bg: #F4F4F5;        --surface: #FFFFFF;     --surface-2: #F7F7F8;   --surface-3: #EBEBED;
+  --border: #E2E2E5;    --border-2: #C9C9CE;
+  --text: #09090B;      --text-2: #52525B;      --text-3: #86868F;     --text-4: #AFAFB6;
+  --green: #15803D;     --green-bg: #F0FDF4;    --green-br: #BBF7D0;
+  --red: #B91C1C;       --red-bg: #FEF2F2;      --red-br: #FECACA;
+  --amber: #A16207;     --amber-bg: #FEFCE8;    --amber-br: #FEF08A;
+  --blue: #1D4ED8;      --blue-bg: #EFF6FF;     --blue-br: #BFDBFE;
+  --violet: #6D28D9;    --violet-bg: #F5F3FF;   --violet-br: #DDD6FE;
+  --code-bg: #FBFBFC;
+  --shadow: 0 1px 2px rgba(9,9,11,.05), 0 8px 24px rgba(9,9,11,.05);
+}
+[data-theme="dark"] {
+  --bg: #08080A;        --surface: #0E0E11;     --surface-2: #141418;   --surface-3: #1E1E23;
+  --border: #24242A;    --border-2: #3A3A43;
+  --text: #FAFAFA;      --text-2: #A1A1AA;      --text-3: #71717A;     --text-4: #55555C;
+  --green: #4ADE80;     --green-bg: rgba(74,222,128,.09); --green-br: rgba(74,222,128,.24);
+  --red: #F87171;       --red-bg: rgba(248,113,113,.09);  --red-br: rgba(248,113,113,.24);
+  --amber: #FBBF24;     --amber-bg: rgba(251,191,36,.09); --amber-br: rgba(251,191,36,.24);
+  --blue: #60A5FA;      --blue-bg: rgba(96,165,250,.09);  --blue-br: rgba(96,165,250,.24);
+  --violet: #A78BFA;    --violet-bg: rgba(167,139,250,.09); --violet-br: rgba(167,139,250,.24);
+  --code-bg: #0B0B0D;
+  --shadow: 0 1px 2px rgba(0,0,0,.5), 0 10px 30px rgba(0,0,0,.45);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  font-family: var(--sans); background: var(--bg); color: var(--text);
+  -webkit-font-smoothing: antialiased; overflow: hidden;
+  display: grid; grid-template-rows: 1fr auto;
+}
+button { font-family: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
+
+.viewport { display: grid; place-items: center; min-height: 0; padding: 18px; }
+#stage {
+  width: 1280px; height: 720px; position: relative;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; box-shadow: var(--shadow);
+  overflow: hidden; transform-origin: center center; flex-shrink: 0;
+}
+
+.slide {
+  position: absolute; inset: 0; padding: 40px 56px 44px;
+  display: flex; flex-direction: column;
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity .3s var(--ease);
+}
+.slide.on { opacity: 1; visibility: visible; pointer-events: auto; }
+
+.brand-mini { position: absolute; top: 20px; left: 56px; display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; letter-spacing: -.01em; color: var(--text-2); }
+.brand-mini .mk { width: 16px; height: 16px; border-radius: 4px; background: var(--text); color: var(--surface); display: grid; place-items: center; }
+.brand-mini .mk svg { width: 9px; height: 9px; }
+.brand-mini .sep { color: var(--text-4); font-weight: 400; }
+.slide-no { position: absolute; top: 20px; right: 56px; font-family: var(--mono); font-size: 11px; color: var(--text-4); letter-spacing: .06em; }
+
+.eyebrow { font-family: var(--mono); font-size: 9.5px; letter-spacing: .13em; text-transform: uppercase; color: var(--text-4); font-weight: 600; margin-bottom: 7px; }
+h2.title { font-size: 26px; font-weight: 630; letter-spacing: -.032em; line-height: 1.12; margin: 0 0 6px; max-width: 1000px; }
+h2.title .accent { color: var(--text-3); }
+.deck-lede { font-size: 12.5px; color: var(--text-2); line-height: 1.45; max-width: 900px; margin: 0 0 4px; }
+.deck-lede b { color: var(--text); font-weight: 550; }
+.body { flex: 1; display: flex; flex-direction: column; justify-content: center; min-height: 0; }
+
+.rv { opacity: 0; transform: translateY(9px); transition: opacity .42s var(--ease), transform .42s var(--ease); }
+.slide.on .rv { opacity: 1; transform: none; }
+.slide.on .rv:nth-child(1) { transition-delay: .04s; }
+.slide.on .rv:nth-child(2) { transition-delay: .10s; }
+.slide.on .rv:nth-child(3) { transition-delay: .16s; }
+.slide.on .rv:nth-child(4) { transition-delay: .22s; }
+.slide.on .rv:nth-child(5) { transition-delay: .28s; }
+
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+
+.blk-lbl { font-family: var(--mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-4); font-weight: 700; margin-bottom: 5px; display: flex; align-items: center; gap: 7px; }
+.blk-lbl::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+
+.tile { border: 1px solid var(--border); border-radius: 9px; padding: 10px 12px; background: var(--surface); display: flex; flex-direction: column; }
+.tile .num { font-family: var(--mono); font-size: 9px; color: var(--text-4); letter-spacing: .08em; }
+.tile .th { font-size: 11.5px; font-weight: 620; letter-spacing: -.01em; margin: 3px 0 3px; }
+.tile .td { font-size: 10.5px; color: var(--text-2); line-height: 1.45; }
+.tile .td b { color: var(--text); font-weight: 550; }
+.tile.crit { border-color: var(--red-br); background: var(--red-bg); }
+.tile.ok { border-color: var(--green-br); background: var(--green-bg); }
+.tile.hl { border-color: var(--violet-br); background: var(--violet-bg); }
+
+.metric { border: 1px solid var(--border); border-radius: 9px; padding: 11px 13px; background: var(--surface); }
+.metric .l { font-family: var(--mono); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-3); font-weight: 600; }
+.metric .v { font-size: 25px; font-weight: 630; letter-spacing: -.035em; margin-top: 4px; font-variant-numeric: tabular-nums; line-height: 1; }
+.metric .v small { font-size: 12px; color: var(--text-4); font-weight: 500; }
+.metric .s { font-size: 10px; color: var(--text-3); margin-top: 4px; font-family: var(--mono); line-height: 1.35; }
+.metric.g .v { color: var(--green); } .metric.b .v { color: var(--blue); } .metric.a .v { color: var(--amber); }
+
+.code { font-family: var(--mono); font-size: 10.5px; line-height: 1.55; background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px; padding: 9px 11px; white-space: pre; overflow: hidden; color: var(--text-2); }
+.code .e { color: var(--red); } .code .g { color: var(--green); }
+.code .b { color: var(--blue); } .code .c { color: var(--text-4); } .code .v { color: var(--violet); } .code .a { color: var(--amber); }
+
+.pill { display: inline-flex; align-items: center; gap: 5px; padding: 2px 7px; border-radius: 5px; font-family: var(--mono); font-size: 10px; font-weight: 600; border: 1px solid transparent; white-space: nowrap; }
+.pill.g { background: var(--green-bg); color: var(--green); border-color: var(--green-br); }
+.pill.r { background: var(--red-bg); color: var(--red); border-color: var(--red-br); }
+.pill.a { background: var(--amber-bg); color: var(--amber); border-color: var(--amber-br); }
+.pill.b { background: var(--blue-bg); color: var(--blue); border-color: var(--blue-br); }
+.pill.v { background: var(--violet-bg); color: var(--violet); border-color: var(--violet-br); }
+.pill.n { background: var(--surface-2); color: var(--text-3); border-color: var(--border); }
+
+table.t { width: 100%; border-collapse: collapse; }
+table.t th { text-align: left; font-family: var(--mono); font-size: 9px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-3); font-weight: 700; padding: 5px 9px; border-bottom: 1px solid var(--border-2); }
+table.t td { padding: 5px 9px; border-bottom: 1px solid var(--border); font-size: 11px; color: var(--text-2); }
+table.t td.m { font-family: var(--mono); font-size: 10.5px; }
+table.t tr:last-child td { border-bottom: 0; }
+table.t .vs-old { color: var(--text-3); }
+table.t .vs-new { color: var(--text); font-weight: 550; }
+
+/* ── diagrams ─────────────────────────────────────────────────────── */
+.diag { width: 100%; display: block; overflow: visible; }
+.diag .nbox { fill: var(--surface); stroke: var(--border); stroke-width: 1; }
+.diag .nbox.hl { fill: var(--violet-bg); stroke: var(--violet-br); }
+.diag .nbox.dim { opacity: .5; }
+.diag .num { font-family: var(--mono); font-size: 8px; font-weight: 700; fill: var(--text-4); }
+.diag .nmx { font-size: 10.5px; font-weight: 640; fill: var(--text); }
+.diag .enx { font-family: var(--mono); font-size: 7.5px; fill: var(--text-3); }
+.diag .arw { stroke: var(--border-2); stroke-width: 1.1; fill: none; }
+.diag .fbk { stroke: var(--violet); stroke-width: 1.3; fill: none; stroke-dasharray: 4 3; }
+.diag .fbl { font-family: var(--mono); font-size: 8.5px; fill: var(--violet); font-weight: 600; }
+.diag .band { fill: var(--surface-2); stroke: none; }
+.diag .blab { font-family: var(--mono); font-size: 7.5px; font-weight: 700; fill: var(--text-4); letter-spacing: .09em; }
+.diag .cbox { fill: var(--surface); stroke: var(--border); stroke-width: 1; }
+.diag .cbox.acc { fill: var(--violet-bg); stroke: var(--violet-br); }
+.diag .cbox.ver { fill: var(--green-bg); stroke: var(--green-br); }
+.diag .cbox.inp { fill: var(--blue-bg); stroke: var(--blue-br); }
+.diag .ct { font-size: 9.5px; font-weight: 640; fill: var(--text); }
+.diag .cs { font-family: var(--mono); font-size: 7.5px; fill: var(--text-3); }
+.diag .dn { stroke: var(--border-2); stroke-width: 1.1; fill: none; }
+.diag .up { stroke: var(--blue); stroke-width: 1.2; fill: none; stroke-dasharray: 4 3; }
+.diag .upl { font-family: var(--mono); font-size: 8px; fill: var(--blue); font-weight: 600; }
+.dcap { font-size: 10px; color: var(--text-3); text-align: center; margin-top: 3px; font-family: var(--mono); }
+
+/* ── phase-6 funnel strip ─────────────────────────────────────────── */
+.fn { display: flex; align-items: center; gap: 6px; }
+.fn .fb2 { border: 1px solid var(--border); border-radius: 7px; padding: 6px 10px; background: var(--surface); text-align: center; }
+.fn .fb2 .t { font-size: 10.5px; font-weight: 620; }
+.fn .fb2 .s { font-family: var(--mono); font-size: 8.5px; color: var(--text-3); }
+.fn .fb2.src { border-color: var(--blue-br); background: var(--blue-bg); }
+.fn .fb2.atk { border-color: var(--violet-br); background: var(--violet-bg); }
+.fn .fb2.good { border-color: var(--green-br); background: var(--green-bg); }
+.fn .fb2.bad { border-color: var(--red-br); background: var(--red-bg); }
+.fn .a2 { color: var(--text-4); font-size: 13px; flex-shrink: 0; }
+
+/* ── cheat matrix ─────────────────────────────────────────────────── */
+.mx { width: 100%; border-collapse: collapse; }
+.mx th { font-family: var(--mono); font-size: 8.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--text-3); font-weight: 700; padding: 5px 6px; text-align: center; border-bottom: 1px solid var(--border); }
+.mx th.grp { border-bottom: 1px solid var(--border-2); font-size: 8px; letter-spacing: .1em; }
+.mx th.grp.gates { color: var(--text-3); }
+.mx th.grp.p6 { color: var(--violet); }
+.mx th.rl { text-align: left; }
+.mx td { padding: 6px 6px; text-align: center; font-family: var(--mono); font-size: 12px; border-bottom: 1px solid var(--border); }
+.mx td.rl { text-align: left; font-family: var(--sans); font-size: 11px; font-weight: 620; color: var(--text); }
+.mx td.sep { border-left: 1px solid var(--border-2); }
+.mx th.sep { border-left: 1px solid var(--border-2); }
+.mx .y { color: var(--green); font-weight: 700; }
+.mx .n { color: var(--red); font-weight: 700; }
+.mx .na { color: var(--text-4); }
+.mx tr.is-f td.rl { color: var(--red); }
+.mx tr.is-s td.rl { color: var(--green); }
+.mx td.vd { font-family: var(--mono); font-size: 10px; font-weight: 700; }
+.mx tr.is-f td.vd { color: var(--red); }
+.mx tr.is-s td.vd { color: var(--green); }
+
+.deliv { display: flex; align-items: flex-start; gap: 8px; padding: 5px 0; border-bottom: 1px solid var(--border); }
+.deliv:last-child { border-bottom: 0; }
+.deliv .ic { width: 14px; height: 14px; border-radius: 4px; background: var(--surface-2); border: 1px solid var(--border-2); display: grid; place-items: center; flex-shrink: 0; margin-top: 1px; color: var(--text-3); }
+.deliv .ic svg { width: 8px; height: 8px; }
+.deliv .tx { flex: 1; }
+.deliv .tx .n { font-size: 11px; font-weight: 600; }
+.deliv .tx .d { font-size: 10.5px; color: var(--text-2); line-height: 1.42; margin-top: 1px; }
+
+.strip { display: flex; gap: 6px; flex-wrap: wrap; }
+.usp { border: 1px solid var(--violet-br); background: var(--violet-bg); border-radius: 9px; padding: 10px 14px; display: flex; align-items: center; gap: 14px; }
+.usp .u-l { font-family: var(--mono); font-size: 8.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--violet); font-weight: 700; }
+.usp .u-t { font-size: 14px; font-weight: 630; letter-spacing: -.02em; margin-top: 2px; }
+.usp .u-d { font-size: 10.5px; color: var(--text-2); margin-top: 3px; line-height: 1.45; }
+
+.controls { display: flex; align-items: center; gap: 13px; padding: 11px 22px; border-top: 1px solid var(--border); background: var(--surface); }
+/* ── slide 1: solution at a glance ─────────────────────────────────── */
+.glance { display: grid; grid-template-columns: 205px 22px 1fr 22px 205px; align-items: stretch; }
+.glance .gb { border: 1px solid var(--border); border-radius: 9px; padding: 9px 11px; background: var(--surface); display: flex; flex-direction: column; justify-content: center; }
+.glance .gb .k { font-family: var(--mono); font-size: 8px; letter-spacing: .11em; text-transform: uppercase; color: var(--text-4); font-weight: 700; }
+.glance .gb .v { font-size: 12px; font-weight: 630; letter-spacing: -.01em; margin-top: 3px; }
+.glance .gb .s { font-size: 10px; color: var(--text-2); margin-top: 2px; line-height: 1.4; }
+.glance .gb.mid { border-color: var(--violet-br); background: var(--violet-bg); }
+.glance .ar { display: grid; place-items: center; color: var(--text-4); font-size: 15px; }
+.pchips { display: flex; gap: 4px; margin-top: 7px; flex-wrap: wrap; }
+.pchip { font-family: var(--mono); font-size: 8.5px; padding: 2px 6px; border-radius: 4px; background: var(--surface); border: 1px solid var(--border-2); color: var(--text-2); white-space: nowrap; }
+.pchip b { color: var(--text-4); font-weight: 700; }
+
+.ctl-btn { width: 30px; height: 30px; border-radius: 7px; border: 1px solid var(--border); display: grid; place-items: center; color: var(--text-2); transition: background .15s, border-color .15s; }
+.ctl-btn:hover { background: var(--surface-2); border-color: var(--border-2); }
+.ctl-btn:disabled { opacity: .35; cursor: not-allowed; }
+.ctl-btn svg { width: 14px; height: 14px; }
+.dots { display: flex; gap: 5px; flex: 1; }
+.dot { width: 40px; height: 5px; border-radius: 3px; background: var(--surface-3); transition: background .2s var(--ease); }
+.dot:hover { background: var(--border-2); }
+.dot.on { background: var(--text); }
+.counter { font-family: var(--mono); font-size: 11.5px; color: var(--text-3); min-width: 40px; text-align: right; }
+.hint { font-size: 11px; color: var(--text-4); font-family: var(--mono); }
+.prog { position: absolute; left: 0; bottom: 0; height: 2px; background: var(--text); transition: width .35s var(--ease); z-index: 5; }
+
+@media print {
+  @page { size: 1280px 720px; margin: 0; }
+  html, body { overflow: visible; background: #fff; height: auto; }
+  .controls, .prog, .slide-no { display: none !important; }
+  .viewport { display: block; padding: 0; }
+  #stage { transform: none !important; border: 0; border-radius: 0; box-shadow: none; page-break-after: always; break-after: page; }
+  .slide { opacity: 1 !important; visibility: visible !important; position: relative; inset: auto; }
+  .rv { opacity: 1 !important; transform: none !important; }
+}
+</style>
+</head>
+<body data-page-node-id="BF7ErX2WDo9uu79TR6Bz9o">
+
+<div class="viewport" data-page-node-id="kOkKSKgDIHhPNy6qI4CHRx"><div id="stage" data-page-node-id="5bvyZI8DBsKe76Tmb3VZb7"></div></div>
+
+<div class="controls" data-page-node-id="AfTHvtmMJNxv0KLsPnBhSC">
+  <button class="ctl-btn" id="prev" title="Previous" data-page-node-id="Q4FtzG4uyjh5gpjIP5J0u9"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="KK9lEJyUAiSBIaSH4ksDpO"><path d="m15 18-6-6 6-6" data-page-node-id="tT6aweKqLcgqZEWIPJJ4ZK"/></svg></button>
+  <button class="ctl-btn" id="next" title="Next" data-page-node-id="SHepB2rqGuLMiTfx3O8Ang"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="GtZXJYDZy9VVTPKRHlkozx"><path d="m9 18 6-6-6-6" data-page-node-id="lNG5dmA1mfgMYVPh1sJ0U5"/></svg></button>
+  <div class="dots" id="dots" data-page-node-id="re2caGhsq7iLuZ3YLMhEDK"></div>
+  <span class="counter" id="counter" data-page-node-id="8KdCY5j8MVa4BmOtdcO55o">1 / 5</span>
+  <span class="hint" data-page-node-id="o8I1FcT1E3fiWyUynkN0rg">arrows &middot; space &middot; F fullscreen &middot; P print</span>
+  <button class="ctl-btn" id="theme" title="Toggle theme" data-page-node-id="f6c4MOpqmjebEHFvufWHWC"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="tsYgXOXkCH3rILJQY9MRyo"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" data-page-node-id="H7fAbt6jBE7eYBl1fiOGam"/></svg></button>
+  <button class="ctl-btn" id="fs" title="Fullscreen" data-page-node-id="wC6mDJsvc88wxlPY11apG5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="FDGTK0f0ECSTegkJVsBUcT"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M16 21h3a2 2 0 0 0 2-2v-3M8 21H5a2 2 0 0 1-2-2v-3" data-page-node-id="iDrXOXoF7jjJSN151RjCmm"/></svg></button>
+</div>
+
+<script>
+var MK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>';
+var TICK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11-5-5"/></svg>';
+var WARN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>';
+
+/* ═══════════════════════════════════════════════════════════════════
+   DIAGRAM BUILDERS
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── SLIDE 2 — 8-stage execution flowchart + DRV feedback loop ─────── */
+var STG = [
+  ['00','Pre-flight','clang · ASan'],
+  ['01','Detect','Semgrep · fuzz'],
+  ['02','Triage','tree-sitter'],
+  ['03','Ensemble','3 LLM agents'],
+  ['04','DRV loop','5 gates'],
+  ['05','Concolic','angr · Z3'],
+  ['06','Harden','re-fuzz · diff'],
+  ['07','Formal','CBMC · SMT']
+];
+
+function svgFlow() {
+  var W = 1168, H = 138, bw = 128, gap = 16, y = 8, bh = 54, x0 = 8;
+  var s = '<svg class="diag" viewBox="0 0 ' + W + ' ' + H + '" style="height:138px;" role="img" aria-label="Eight-stage execution flow with DRV feedback loop">';
+  s += '<defs><marker id="ah" viewBox="0 0 7 7" refX="6" refY="3.5" markerWidth="6" markerHeight="6" orient="auto">' +
+       '<path d="M0 0 L7 3.5 L0 7 z" fill="var(--border-2)"/></marker>' +
+       '<marker id="ahv" viewBox="0 0 7 7" refX="6" refY="3.5" markerWidth="6" markerHeight="6" orient="auto">' +
+       '<path d="M0 0 L7 3.5 L0 7 z" fill="var(--violet)"/></marker></defs>';
+
+  STG.forEach(function(st, i) {
+    var x = x0 + i * (bw + gap);
+    var cls = i === 6 ? ' hl' : (i === 5 ? ' dim' : '');
+    s += '<rect class="nbox' + cls + '" x="' + x + '" y="' + y + '" width="' + bw + '" height="' + bh + '" rx="7"/>';
+    s += '<text class="num" x="' + (x + 9) + '" y="' + (y + 15) + '">' + st[0] + '</text>';
+    s += '<text class="nmx" x="' + (x + 9) + '" y="' + (y + 31) + '">' + st[1] + '</text>';
+    s += '<text class="enx" x="' + (x + 9) + '" y="' + (y + 44) + '">' + st[2] + '</text>';
+    if (i < 7) {
+      var ax = x + bw + 2, ay = y + bh / 2;
+      s += '<path class="arw" d="M' + ax + ' ' + ay + ' L' + (ax + gap - 4) + ' ' + ay + '" marker-end="url(#ah)"/>';
+    }
+  });
+
+  /* feedback loop: stage 04 (DRV) back to stage 03 (Ensemble) */
+  var x3 = x0 + 3 * (bw + gap) + bw / 2;
+  var x4 = x0 + 4 * (bw + gap) + bw / 2;
+  var yb = y + bh;
+  s += '<path class="fbk" d="M' + x4 + ' ' + yb + ' L' + x4 + ' 108 L' + x3 + ' 108 L' + x3 + ' ' + (yb + 6) + '" marker-end="url(#ahv)"/>';
+  s += '<text class="fbl" x="' + ((x3 + x4) / 2) + '" y="122" text-anchor="middle">gate failure &rarr; feedback &rarr; next iteration (max 5&ndash;8 per agent)</text>';
+  s += '<text class="enx" x="' + x0 + '" y="134">fresh isolated workspace built per iteration &middot; failure output fed back verbatim</text>';
+  s += '</svg>';
+  return s;
+}
+
+/* ── SLIDE 3 — layered component & dataflow block diagram ─────────── */
+var LAYERS = [
+  { lab:'INPUT', y:6, h:44, boxes:[
+      {x:96,w:280,t:'C / C++ repository',s:'target source tree',c:'inp'},
+      {x:386,w:280,t:'Build / PoV / test commands',s:'{src} {bin} {workspace}',c:'inp'} ] },
+  { lab:'ORCHESTRATION', y:74, h:34, boxes:[
+      {x:96,w:570,t:'Orchestrator',s:'benchmark.py &middot; src.main &middot; per-vulnerability DRV dispatch',c:''} ] },
+  { lab:'ANALYSIS', y:132, h:56, boxes:[
+      {x:96,w:135,t:'Semgrep',s:'SARIF 2.1.0',c:''},
+      {x:241,w:135,t:'libFuzzer / AFL++',s:'ASan + UBSan',c:''},
+      {x:386,w:135,t:'Crash triage',s:'CASR or native',c:''},
+      {x:531,w:135,t:'tree-sitter',s:'AST context',c:''} ] },
+  { lab:'REASONING', y:212, h:56, boxes:[
+      {x:96,w:135,t:'Agent Alpha',s:'analyst',c:'acc'},
+      {x:241,w:135,t:'Agent Beta',s:'minimalist',c:'acc'},
+      {x:386,w:135,t:'Agent Gamma',s:'SARIF-driven',c:'acc'},
+      {x:531,w:135,t:'Agent Delta',s:'critic on failure',c:'acc'} ] },
+  { lab:'VERIFICATION', y:292, h:56, boxes:[
+      {x:96,w:183,t:'DRV loop',s:'5 gates',c:'ver'},
+      {x:289,w:183,t:'Phase 6 hardening',s:'re-fuzz &middot; differential',c:'ver'},
+      {x:482,w:184,t:'CBMC formal',s:'bounded proof',c:'ver'} ] },
+  { lab:'OUTPUTS', y:372, h:56, boxes:[
+      {x:96,w:183,t:'Verified patch',s:'median 2 lines',c:''},
+      {x:289,w:183,t:'Audit report',s:'Markdown &middot; CSV',c:''},
+      {x:482,w:184,t:'SARIF export',s:'tool ingestion',c:''} ] },
+  { lab:'MEMORY', y:452, h:42, boxes:[
+      {x:96,w:570,t:'Four-tier memory',s:'working &middot; episodic &middot; semantic &middot; procedural &mdash; only gate-proven fixes are learned',c:''} ] }
+];
+
+function svgLayers() {
+  var W = 752, H = 502;
+  var s = '<svg class="diag" viewBox="0 0 ' + W + ' ' + H + '" style="height:486px;" role="img" aria-label="Layered system component and dataflow block diagram">';
+  s += '<defs><marker id="dh" viewBox="0 0 7 7" refX="6" refY="3.5" markerWidth="6" markerHeight="6" orient="auto">' +
+       '<path d="M0 0 L7 3.5 L0 7 z" fill="var(--border-2)"/></marker>' +
+       '<marker id="uh" viewBox="0 0 7 7" refX="6" refY="3.5" markerWidth="6" markerHeight="6" orient="auto">' +
+       '<path d="M0 0 L7 3.5 L0 7 z" fill="var(--blue)"/></marker></defs>';
+
+  LAYERS.forEach(function(L, i) {
+    /* band background */
+    s += '<rect class="band" x="4" y="' + (L.y - 5) + '" width="668" height="' + (L.h + 10) + '" rx="8"/>';
+    s += '<text class="blab" x="10" y="' + (L.y + L.h / 2 - 2) + '">' + L.lab + '</text>';
+    L.boxes.forEach(function(b) {
+      var cc = b.c ? ' ' + b.c : '';
+      s += '<rect class="cbox' + cc + '" x="' + b.x + '" y="' + L.y + '" width="' + b.w + '" height="' + L.h + '" rx="6"/>';
+      var cy = (L.h > 46) ? L.y + 25 : L.y + 15;
+      var sy = (L.h > 46) ? L.y + 39 : L.y + 28;
+      s += '<text class="ct" x="' + (b.x + 9) + '" y="' + cy + '">' + b.t + '</text>';
+      s += '<text class="cs" x="' + (b.x + 9) + '" y="' + sy + '">' + b.s + '</text>';
+    });
+    /* down arrow to next band */
+    if (i < LAYERS.length - 1) {
+      var ay0 = L.y + L.h, ay1 = LAYERS[i + 1].y;
+      s += '<path class="dn" d="M381 ' + (ay0 + 2) + ' L381 ' + (ay1 - 3) + '" marker-end="url(#dh)"/>';
+    }
+  });
+
+  /* back edge 1: verification → reasoning (iteration) */
+  s += '<path class="up" d="M666 320 L692 320 L692 240 L670 240" marker-end="url(#uh)"/>';
+  s += '<text class="upl" transform="translate(701,280) rotate(-90)" text-anchor="middle">iterate on gate failure</text>';
+  /* back edge 2: memory → reasoning (recall) */
+  s += '<path class="up" d="M666 473 L718 473 L718 254 L670 254" marker-end="url(#uh)"/>';
+  s += '<text class="upl" transform="translate(727,364) rotate(-90)" text-anchor="middle">recall proven patterns</text>';
+  s += '</svg>';
+  return s;
+}
+
+/* ── SLIDE 4 — Phase 6 funnel + cheat detector matrix ─────────────── */
+function funnelHTML() {
+  var b = function(cls, t, s) { return '<div class="fb2 ' + cls + '"><div class="t">' + t + '</div><div class="s">' + s + '</div></div>'; };
+  return '<div class="fn">' +
+    b('src', 'Validated patch', '5/5 gates passed') +
+    '<span class="a2">&rarr;</span>' +
+    b('atk', 'Adversarial re-fuzz', '20s, seeded w/ crash') +
+    '<span class="a2">&rarr;</span>' +
+    b('atk', 'Differential', '25 benign inputs') +
+    '<span class="a2">&rarr;</span>' +
+    b('atk', 'Evasion battery', 'bypass encodings') +
+    '<span class="a2">&rarr;</span>' +
+    b('good', 'Survived', 'accepted, hardened') +
+    '<span class="a2">/</span>' +
+    b('bad', 'Falsified', 'patch rejected') +
+  '</div>';
+}
+
+function matrixHTML() {
+  var Y = '<span class="y">&#10003;</span>', N = '<span class="n">&#10007;</span>', NA = '<span class="na">&mdash;</span>';
+  var rows = [
+    ['f', 'Overfit <span class="mono" style="font-weight:400;font-size:10px;color:var(--text-3)">if (n == 0x748) return 0;</span>', Y, Y, Y, N, NA, NA, 'FALSIFIED', 'new crash at n = 0x749'],
+    ['f', 'Gutted <span class="mono" style="font-weight:400;font-size:10px;color:var(--text-3)">return NULL;</span>',            Y, Y, Y, NA, N, NA, 'FALSIFIED', '25 / 25 inputs diverged'],
+    ['s', 'Honest <span class="mono" style="font-weight:400;font-size:10px;color:var(--text-3)">bounds check before malloc</span>', Y, Y, Y, Y, Y, NA, 'SURVIVED', 're-fuzz + differential clean']
+  ];
+  var s = '<table class="mx">';
+  s += '<tr><th class="rl" rowspan="2">Constructed patch</th><th class="grp gates" colspan="3">DRV gates</th><th class="grp p6 sep" colspan="3">Phase 6 falsification</th><th class="rl" rowspan="2">Verdict</th><th class="rl" rowspan="2">Evidence</th></tr>';
+  s += '<tr><th>build</th><th>pov</th><th>regr</th><th class="sep">re-fuzz</th><th>diff</th><th>evasion</th></tr>';
+  rows.forEach(function(r) {
+    s += '<tr class="is-' + r[0] + '">';
+    s += '<td class="rl">' + r[1] + '</td>';
+    s += '<td>' + r[2] + '</td><td>' + r[3] + '</td><td>' + r[4] + '</td>';
+    s += '<td class="sep">' + r[5] + '</td><td>' + r[6] + '</td><td>' + r[7] + '</td>';
+    s += '<td class="vd">' + r[8] + '</td>';
+    s += '<td class="rl" style="font-weight:400;font-size:10px;color:var(--text-3);font-family:var(--mono)">' + r[9] + '</td>';
+    s += '</tr>';
+  });
+  s += '</table>';
+  return s;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   SLIDES
+   ═══════════════════════════════════════════════════════════════════ */
+var S = [];
+
+/* ── 1 ── */
+S.push(['1 · Introduction, Ideation & Brief Description', '\
+<div class="slide">\
+  <div class="brand-mini"><span class="mk">'+MK+'</span>AI Kavach<span class="sep">&middot;</span><span style="font-weight:400;color:var(--text-4)">CRS</span></div>\
+  <div class="slide-no">01 / 05</div>\
+  <div class="body">\
+    <div class="eyebrow rv">Slide 1 &middot; Introduction, Ideation &amp; Brief Description</div>\
+    <h2 class="title rv">Autonomous detection, repair and proof<br>of memory-safety defects in <span class="accent">C and C++.</span></h2>\
+    <p class="deck-lede rv" style="margin-bottom:11px;">AI Kavach is a Cyber Reasoning System. It detects memory-safety defects, \
+      locates them from the crash itself, repairs them with a parallel multi-agent ensemble, and proves each fix by rebuilding the \
+      code under sanitizers and replaying the original exploit against the patched binary. It then attempts to \
+      <b>falsify its own patch</b> before the patch is accepted.</p>\
+\
+    <div class="blk-lbl rv">Solution at a glance</div>\
+    <div class="glance rv">\
+      <div class="gb"><div class="k">Input</div><div class="v">C / C++ repository</div>\
+        <div class="s">Source tree with build, proof-of-vulnerability and regression commands.</div></div>\
+      <div class="ar">&rarr;</div>\
+      <div class="gb mid"><div class="k">AI Kavach pipeline</div><div class="v">Eight deterministic stages</div>\
+        <div class="pchips">\
+          <span class="pchip"><b>00</b> pre-flight</span><span class="pchip"><b>01</b> detect</span>\
+          <span class="pchip"><b>02</b> triage &amp; context</span><span class="pchip"><b>03</b> ensemble</span>\
+          <span class="pchip"><b>04</b> DRV verify</span><span class="pchip"><b>05</b> concolic</span>\
+          <span class="pchip"><b>06</b> harden</span><span class="pchip"><b>07</b> formal proof</span>\
+        </div></div>\
+      <div class="ar">&rarr;</div>\
+      <div class="gb"><div class="k">Output</div><div class="v">Verified patch + evidence</div>\
+        <div class="s">Median two changed lines, with the audit trail that proves it.</div></div>\
+    </div>\
+\
+    <div class="grid2 rv" style="gap:20px;align-items:start;margin-top:12px;">\
+      <div>\
+        <div class="blk-lbl">Problem statement overview</div>\
+        <div class="grid3" style="gap:8px;">\
+          <div class="tile crit"><div class="num">01</div><div class="th">Context blindness</div>\
+            <div class="td">Models repair code whose types they cannot see. Without <b>typedef</b> chains, packed bitfields and cross-header <b>struct</b> layouts, generated C frequently fails to compile.</div></div>\
+          <div class="tile crit"><div class="num">02</div><div class="th">Unverified output</div>\
+            <div class="td">A patch is emitted and reported as fixed. Nothing recompiles it under sanitizers, so a change that affects <b>nothing</b> still reports success.</div></div>\
+          <div class="tile crit"><div class="num">03</div><div class="th">Gate gaming</div>\
+            <div class="td">A model optimising for a passing check can special-case the single test input, or disable the code path. <b>Both clear build, PoV and regression.</b></div></div>\
+        </div>\
+      </div>\
+      <div>\
+        <div class="blk-lbl">Proposed idea &amp; motivation</div>\
+        <div class="tile hl" style="margin-bottom:9px;"><div class="th" style="margin:0 0 4px;">Settle every claim with an executable check</div>\
+          <div class="td">Every assertion the system makes is resolved by a build, a sanitizer or a solver &mdash; never by the \
+            model&rsquo;s own report. For defence infrastructure, a defect that <em>appears</em> patched is more hazardous than one \
+            known to be open, because it is no longer being looked for.</div></div>\
+        <div class="blk-lbl">Brief description of the solution</div>\
+        <div class="tile"><div class="td">A deterministic pipeline with four-tier cross-run memory. \
+          <b>No manual triage, no pre-declared vulnerability location</b> &mdash; the system finds the defect, resolves the types \
+          around it, and generates a patch small enough for a human reviewer to check. Proven end to end on 38 targets.</div></div>\
+      </div>\
+    </div>\
+\
+    <div class="strip rv" style="margin-top:11px;">\
+      <span class="pill g">38 / 38 patched</span>\
+      <span class="pill b">24 / 24 PoV-proven</span>\
+      <span class="pill v">0 / 31 falsified</span>\
+      <span class="pill n">$0.0644 total</span>\
+      <span class="pill n">11.6 min</span>\
+      <span class="pill n">gpt-4o-mini</span>\
+      <span class="pill n">125 unit tests</span>\
+    </div>\
+  </div>\
+</div>']);
+
+/* ── 2 ── */
+S.push(['2 · Detailed Methodology', '\
+<div class="slide">\
+  <div class="brand-mini"><span class="mk">'+MK+'</span>AI Kavach</div><div class="slide-no">02 / 05</div>\
+  <div class="body">\
+    <div class="eyebrow rv">Slide 2 &middot; Detailed Methodology &mdash; end-to-end execution flow &amp; feedback loop</div>\
+    <h2 class="title rv" style="font-size:25px;">Eight stages. A failed gate returns the patch for another iteration, it does not end the run.</h2>\
+\
+    <div class="rv" style="margin-top:2px;">' + svgFlow() + '</div>\
+\
+    <div class="grid4 rv" style="gap:9px;margin-top:4px;">\
+      <div class="tile"><div class="num">00 &middot; PRE-FLIGHT</div><div class="th">Verify the exploit</div>\
+        <div class="td">Compile the <b>unpatched</b> target, confirm the PoV reproduces. <b>17 reproduce, 14 do not</b> &mdash; those are reported unproven, never fixed.</div></div>\
+      <div class="tile"><div class="num">01 &middot; DETECT</div><div class="th">Two paths</div>\
+        <div class="td"><b>Static</b> Semgrep &rarr; SARIF. <b>Dynamic</b> libFuzzer/AFL++ under ASan+UBSan. <b>9 harnesses &rarr; 8 crashes &rarr; 7 bugs.</b></div></div>\
+      <div class="tile"><div class="num">02 &middot; TRIAGE &amp; CONTEXT</div><div class="th">Locate, resolve types</div>\
+        <div class="td">Cluster crashes by <b>(class, stack frames)</b>; tree-sitter extracts the function and every type it touches. <b>Location from the crash, never given.</b></div></div>\
+      <div class="tile"><div class="num">03 &middot; ENSEMBLE</div><div class="th">Three agents race</div>\
+        <div class="td"><b>Alpha</b> analyst, <b>Beta</b> minimalist, <b>Gamma</b> SARIF. <b>Delta</b> critic diagnoses failures. Smallest validated patch wins.</div></div>\
+      <div class="tile"><div class="num">04 &middot; DRV LOOP</div><div class="th">Rebuild, replay</div>\
+        <div class="td">Fresh workspace each iteration. Five gates: <b>apply &middot; build &middot; pov &middot; regression &middot; post_scan</b>. Mean <b>1.32</b> iterations, max 5.</div></div>\
+      <div class="tile"><div class="num">05 &middot; CONCOLIC</div><div class="th">Self-gated</div>\
+        <div class="td">Solves magic-value branches. Self-test at startup; on AArch64 angr fails it, so it <b>disables itself</b> and logs why.</div></div>\
+      <div class="tile hl"><div class="num">06 &middot; HARDENING</div><div class="th">Attack the patch</div>\
+        <div class="td"><b>Re-fuzz</b> 20s on patched build, <b>differential</b> 25 inputs, <b>contracts</b> preserve/restrict/replace, <b>evasion</b> battery. <b>31 attacked, 0 falsified.</b></div></div>\
+      <div class="tile"><div class="num">07 &middot; FORMAL</div><div class="th">Bounded proof</div>\
+        <div class="td">CBMC asks whether <b>any</b> input violates bounds. Insufficient unwinding is <b>INCONCLUSIVE</b>, never proven. <b>3 proven, 28 unavailable.</b></div></div>\
+    </div>\
+  </div>\
+</div>']);
+
+/* ── 3 ── */
+S.push(['3 · Technology Stack / Architecture / Equipment', '\
+<div class="slide">\
+  <div class="brand-mini"><span class="mk">'+MK+'</span>AI Kavach</div><div class="slide-no">03 / 05</div>\
+  <div class="body">\
+    <div class="eyebrow rv">Slide 3 &middot; System architecture &middot; Technology stack &middot; Equipment</div>\
+    <h2 class="title rv" style="font-size:25px;">Seven layers, open-source tooling, one external dependency.</h2>\
+\
+    <div class="grid2 rv" style="gap:18px;align-items:start;grid-template-columns:1.28fr 1fr;">\
+      <div>\
+        <div class="blk-lbl">System architecture &mdash; layered component &amp; dataflow</div>\
+        ' + svgLayers() + '\
+        <div class="dcap">dashed = control / feedback paths &middot; solid = dataflow</div>\
+      </div>\
+\
+      <div>\
+        <div class="blk-lbl">Technology stack</div>\
+        <table class="t">\
+          <tr><th>Component</th><th>Version</th><th>Role</th></tr>\
+          <tr><td class="m">clang + libFuzzer</td><td class="m">22.0.0</td><td>Fuzzing (headline engine)</td></tr>\
+          <tr><td class="m">AFL++</td><td class="m">&mdash;</td><td>Alternate fuzzer, verified</td></tr>\
+          <tr><td class="m">Semgrep</td><td class="m">1.172.0</td><td>Static analysis &rarr; SARIF 2.1.0</td></tr>\
+          <tr><td class="m">ASan + UBSan</td><td class="m">&mdash;</td><td>Ground truth for every crash</td></tr>\
+          <tr><td class="m">tree-sitter</td><td class="m">&mdash;</td><td>AST context extraction</td></tr>\
+          <tr><td class="m">CBMC</td><td class="m">6.10.0</td><td>Bounded formal verification</td></tr>\
+          <tr><td class="m">angr + Z3</td><td class="m">&mdash;</td><td>Concolic &mdash; self-disabled here</td></tr>\
+          <tr><td class="m">gpt-4o-mini</td><td class="m">&mdash;</td><td>3 patch agents + critic <span class="pill a" style="padding:1px 5px;font-size:8.5px">external API</span></td></tr>\
+          <tr><td class="m">Python</td><td class="m">3.11.15</td><td>Orchestration &amp; reporting</td></tr>\
+          <tr><td class="m">pytest</td><td class="m">&mdash;</td><td>125 tests, no network</td></tr>\
+        </table>\
+        <div class="blk-lbl" style="margin-top:10px;">Equipment / environment</div>\
+        <div class="tile"><div class="td"><b>Darwin arm64 &middot; Python 3.11 &mdash; no GPU, no cluster.</b> \
+          Detection, fuzzing, triage and verification all execute on the host: <b>695 s</b> for the full 38-target run. \
+          The single external dependency is <b>LLM inference</b> &mdash; 161 calls to the OpenAI gpt-4o-mini API, \
+          $0.0644 total. <span class="mono">OPENAI_BASE_URL</span> redirects the client to an on-prem endpoint \
+          (vLLM, llama.cpp, Ollama) for air-gapped deployment.</div></div>\
+        <div class="code" style="margin-top:9px;"><span class="c"># reproduce the measured run</span>\n\
+python benchmark.py --suite all \\\n\
+    --fuzz --harden --memory --formal\n\n\
+<span class="c"># run against your own code</span>\n\
+python -m src.main --target /path/to/code \\\n\
+    --build-cmd \'clang -fsanitize=address,undefined "{src}" -o "{bin}"\' \\\n\
+    --pov-cmd  \'sh repro.sh "{bin}"\' \\\n\
+    --test-cmd \'make check\'</div>\
+      </div>\
+    </div>\
+  </div>\
+</div>']);
+
+/* ── 4 ── */
+S.push(['4 · Salient Features & Novelty', '\
+<div class="slide">\
+  <div class="brand-mini"><span class="mk">'+MK+'</span>AI Kavach</div><div class="slide-no">04 / 05</div>\
+  <div class="body">\
+    <div class="eyebrow rv">Slide 4 &middot; Salient Features &amp; Novelty</div>\
+    <h2 class="title rv" style="font-size:25px;">Most tools stop once the checks pass.<br><span class="accent">We attack the patch after that.</span></h2>\
+\
+    <div class="usp rv" style="margin-top:9px;">\
+      <div style="flex:1;">\
+        <div class="u-l">Unique selling proposition</div>\
+        <div class="u-t">The system attempts to falsify its own patches &mdash; and the detector is validated against deliberately constructed cheats.</div>\
+        <div class="u-d">Passing five gates proves that <em>one</em> input no longer crashes. It does not prove the fix is correct. \
+          Phase 6 re-fuzzes the patched build, differential-tests it against the original, and replays bypass payloads.</div>\
+      </div>\
+      <div style="flex-shrink:0;text-align:right;">\
+        <div class="mono" style="font-size:24px;font-weight:630;color:var(--red);">2 / 2</div>\
+        <div class="mono" style="font-size:9.5px;color:var(--text-3);">cheats falsified</div>\
+      </div>\
+    </div>\
+\
+    <div class="blk-lbl rv" style="margin-top:11px;">Phase 6 &mdash; adversarial falsification flow</div>\
+    <div class="rv">' + funnelHTML() + '</div>\
+\
+    <div class="blk-lbl rv" style="margin-top:11px;">Cheat detector matrix &mdash; hand-built patches, no LLM, no mocks</div>\
+    <div class="rv">' + matrixHTML() + '</div>\
+    <div class="dcap" style="text-align:left;margin-top:5px;">All three patches <b>clear every DRV gate</b> &mdash; the gates cannot \
+      distinguish them. Only Phase 6 can. This runs as a CI check: <span class="mono">tests.cheat_detector</span> exits non-zero if these \
+      verdicts ever stop holding. <b>Zero API calls, no key required.</b></div>\
+\
+    <div class="grid2 rv" style="gap:16px;align-items:start;margin-top:10px;">\
+      <div>\
+        <div class="blk-lbl">Advantage over existing approaches</div>\
+        <table class="t">\
+          <tr><th>Capability</th><th class="vs-old">Typical tooling</th><th class="vs-new">AI Kavach</th></tr>\
+          <tr><td>Finding the bug</td><td class="vs-old">Scanner flags; human triages</td><td class="vs-new">Fuzzer finds it; location read off the crash</td></tr>\
+          <tr><td>Type context</td><td class="vs-old">Raw text window</td><td class="vs-new">AST-resolved structs and typedefs</td></tr>\
+          <tr><td>Verifying the fix</td><td class="vs-old">Compiles &rarr; done</td><td class="vs-new">Rebuild + replay the original exploit</td></tr>\
+          <tr><td>Catching fakes</td><td class="vs-old">Not attempted</td><td class="vs-new">Re-fuzz + 25-input differential</td></tr>\
+          <tr><td>Untried inputs</td><td class="vs-old">Not addressed</td><td class="vs-new">CBMC bounded proof</td></tr>\
+          <tr><td>Reporting</td><td class="vs-old">Pass rate</td><td class="vs-new">Wilson CI + explicit not-measured list</td></tr>\
+        </table>\
+      </div>\
+      <div>\
+        <div class="blk-lbl">Other salient features</div>\
+        <div class="grid2" style="gap:8px;">\
+          <div class="tile"><div class="th" style="margin:0 0 2px;">Grounded memory</div>\
+            <div class="td">Patterns learned only after gates prove them; pitfalls stored as observations, never conclusions.</div></div>\
+          <div class="tile"><div class="th" style="margin:0 0 2px;">Minimal diffs</div>\
+            <div class="td">Median <b>2 lines</b>, max 11, 100% under 15 &mdash; small enough to review.</div></div>\
+          <div class="tile"><div class="th" style="margin:0 0 2px;">Honest degradation</div>\
+            <div class="td">Concolic disables itself when the platform makes results meaningless, logging the reason.</div></div>\
+          <div class="tile"><div class="th" style="margin:0 0 2px;">Runs on a laptop</div>\
+            <div class="td">$0.0644 for 38 targets, 161 API calls, 11.6 min, no GPU or cloud.</div></div>\
+        </div>\
+      </div>\
+    </div>\
+  </div>\
+</div>']);
+
+/* ── 5 ── */
+S.push(['5 · Final Deliverables', '\
+<div class="slide">\
+  <div class="brand-mini"><span class="mk">'+MK+'</span>AI Kavach</div><div class="slide-no">05 / 05</div>\
+  <div class="body">\
+    <div class="eyebrow rv">Slide 5 &middot; Final Deliverables &middot; Performance Objectives &middot; Proof of Concept</div>\
+    <h2 class="title rv" style="font-size:25px;">Measured across 38 targets, including 3 real published CVEs.</h2>\
+\
+    <div class="grid4 rv" style="margin-top:11px;">\
+      <div class="metric g"><div class="l">Targets patched</div><div class="v">38<small>/38</small></div><div class="s">100% &middot; Wilson CI [90.8, 100.0]</div></div>\
+      <div class="metric b"><div class="l">PoV-proven fixes</div><div class="v">24<small>/24</small></div><div class="s">exploit replayed on patched build</div></div>\
+      <div class="metric"><div class="l">Hardened</div><div class="v">26</div><div class="s">31 attacked &middot; 0 falsified</div></div>\
+      <div class="metric"><div class="l">Mean iterations</div><div class="v">1.32</div><div class="s">max 5 &middot; 2 gate rejections total</div></div>\
+    </div>\
+\
+    <div class="grid2 rv" style="gap:18px;align-items:start;margin-top:11px;">\
+      <div>\
+        <div class="blk-lbl">Performance objectives &mdash; target vs achieved</div>\
+        <table class="t">\
+          <tr><th>Objective</th><th>Target</th><th>Achieved</th><th>Status</th></tr>\
+          <tr><td>Patch every attempted target</td><td class="m">&ge; 90%</td><td class="m">38 / 38 &mdash; 100%</td><td><span class="pill g">met</span></td></tr>\
+          <tr><td>Prove fix against original exploit</td><td class="m">100% of eligible</td><td class="m">24 / 24 &mdash; 100%</td><td><span class="pill g">met</span></td></tr>\
+          <tr><td>Patches survive adversarial attack</td><td class="m">0 falsified</td><td class="m">0 / 31 attacked</td><td><span class="pill g">met</span></td></tr>\
+          <tr><td>Keep patches reviewably small</td><td class="m">&le; 15 lines</td><td class="m">median 2 &middot; max 11</td><td><span class="pill g">met</span></td></tr>\
+          <tr><td>Cost per remediation</td><td class="m">&lt; $0.05</td><td class="m">$0.0017 median</td><td><span class="pill g">met</span></td></tr>\
+          <tr><td>Formal proofs where harnesses exist</td><td class="m">best effort</td><td class="m">3 proven, 28 n/a</td><td><span class="pill a">partial</span></td></tr>\
+          <tr><td>Concolic on stalled branches</td><td class="m">enabled</td><td class="m">self-disabled (arm64)</td><td><span class="pill a">blocked</span></td></tr>\
+        </table>\
+      </div>\
+\
+      <div>\
+        <div class="blk-lbl">Deliverables &amp; proof of concept</div>\
+        <div>\
+          <div class="deliv"><span class="ic">'+TICK+'</span><div class="tx">\
+            <div class="n">Working system &mdash; CLI and Python package</div>\
+            <div class="d"><span class="mono">python -m src.main --target &hellip;</span> runs the full pipeline on any C/C++ codebase; \
+              <span class="mono">benchmark.py</span> reproduces the measured run.</div></div></div>\
+          <div class="deliv"><span class="ic">'+TICK+'</span><div class="tx">\
+            <div class="n">Benchmark corpus &mdash; 38 targets, 5 suites</div>\
+            <div class="d">Synthetic 20/20 &middot; NIST Juliet 2/2 &middot; cJSON 6/6 &middot; <b>real published CVEs 3/3</b> \
+              &middot; fuzz-discovered 7/7.</div></div></div>\
+          <div class="deliv"><span class="ic">'+TICK+'</span><div class="tx">\
+            <div class="n">Test suite &mdash; 125 unit tests</div>\
+            <div class="d">No API calls, no network. The cheat detector runs as a regression test.</div></div></div>\
+          <div class="deliv"><span class="ic">'+TICK+'</span><div class="tx">\
+            <div class="n">Audit artefacts &mdash; per-run directory</div>\
+            <div class="d">Markdown audit, <span class="mono">per_target_results.csv</span>, \
+              <span class="mono">preflight_pov_validation.csv</span>, <span class="mono">benchmark_summary.json</span>, SARIF export.</div></div></div>\
+          <div class="deliv"><span class="ic">'+TICK+'</span><div class="tx">\
+            <div class="n">Operator console &mdash; working UI prototype</div>\
+            <div class="d">Onboard repositories, launch scans, monitor runs live, triage findings, approve patches, export reports.</div></div></div>\
+          <div class="deliv"><span class="ic">'+WARN+'</span><div class="tx">\
+            <div class="n">Known gaps &mdash; documented, not hidden</div>\
+            <div class="d">Concolic self-disabled (AArch64) &middot; 14 targets have no runtime-provable exploit, each with a \
+              written reason &middot; CPU not sampled &middot; no precision/recall figure.</div></div></div>\
+        </div>\
+      </div>\
+    </div>\
+  </div>\
+</div>']);
+
+/* ══════════════ RUNTIME ══════════════ */
+var idx = 0;
+var stage = document.getElementById('stage');
+
+stage.innerHTML = S.map(function(s, i) {
+  return s[1].replace('class="slide', 'data-idx="' + i + '" class="slide' + (i === 0 ? ' on' : ''));
+}).join('') + '<div class="prog" id="prog"></div>';
+
+document.getElementById('dots').innerHTML = S.map(function(s, i) {
+  return '<button class="dot" data-d="' + i + '" title="' + s[0] + '"></button>';
+}).join('');
+
+var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+var dots = Array.prototype.slice.call(document.querySelectorAll('.dot'));
+
+function show(n) {
+  idx = Math.max(0, Math.min(S.length - 1, n));
+  slides.forEach(function(s, i) { s.classList.toggle('on', i === idx); });
+  dots.forEach(function(d, i) { d.classList.toggle('on', i === idx); });
+  document.getElementById('counter').textContent = (idx + 1) + ' / ' + S.length;
+  document.getElementById('prog').style.width = ((idx + 1) / S.length * 100) + '%';
+  document.getElementById('prev').disabled = idx === 0;
+  document.getElementById('next').disabled = idx === S.length - 1;
+}
+function go(d) { show(idx + d); }
+
+document.getElementById('prev').addEventListener('click', function() { go(-1); });
+document.getElementById('next').addEventListener('click', function() { go(1); });
+dots.forEach(function(d) {
+  d.addEventListener('click', function() { show(parseInt(d.dataset.d, 10)); });
+});
+
+document.addEventListener('keydown', function(e) {
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  var k = e.key;
+  if (k === 'ArrowRight' || k === 'PageDown' || k === ' ' || k === 'Enter') { e.preventDefault(); go(1); }
+  else if (k === 'ArrowLeft' || k === 'PageUp' || k === 'Backspace') { e.preventDefault(); go(-1); }
+  else if (k === 'Home') { e.preventDefault(); show(0); }
+  else if (k === 'End') { e.preventDefault(); show(S.length - 1); }
+  else if (k === 'f' || k === 'F') { toggleFullscreen(); }
+  else if (k === 'p' || k === 'P') { window.print(); }
+});
+
+function fit() {
+  var vp = document.querySelector('.viewport');
+  var s = Math.min((vp.clientWidth - 36) / 1280, (vp.clientHeight - 36) / 720);
+  stage.style.transform = 'scale(' + s + ')';
+}
+window.addEventListener('resize', fit);
+
+function toggleFullscreen() {
+  if (!document.fullscreenElement) { document.documentElement.requestFullscreen && document.documentElement.requestFullscreen(); }
+  else { document.exitFullscreen && document.exitFullscreen(); }
+}
+document.getElementById('fs').addEventListener('click', toggleFullscreen);
+
+function toggleTheme() {
+  var next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+  document.documentElement.dataset.theme = next;
+  try { localStorage.setItem('kavach-sub-theme', next); } catch (e) {}
+}
+document.getElementById('theme').addEventListener('click', toggleTheme);
+try { var t = localStorage.getItem('kavach-sub-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+
+fit();
+show(0);
+</script>
+</body>
+</html>

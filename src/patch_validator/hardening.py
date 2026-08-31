@@ -70,9 +70,38 @@ class HardeningVerdict:
     skipped_reason: str = ""
 
     @property
+    def falsified(self) -> bool:
+        """True when a check actually broke the patch. This is what downgrades a result."""
+        return self.overfitted or self.diverged or self.evaded
+
+    @property
+    def has_evidence(self) -> bool:
+        """
+        True when at least one falsification attempt actually produced a result.
+
+        Differential testing needs `inputs_tested > 0` to count: the tester skips
+        inputs on which the ORIGINAL already crashes, so for a target whose only
+        code path is the vulnerable one it can legitimately compare nothing at
+        all and still report "behaviour preserved". Treating that as evidence
+        credits a patch nobody tried to break.
+        """
+        return (
+            self.overfitting_checked
+            or self.evasion_checked
+            or (self.differential_checked and self.inputs_tested > 0)
+        )
+
+    @property
     def survived(self) -> bool:
-        """True when no hardening check managed to falsify the patch."""
-        return not self.overfitted and not self.diverged and not self.evaded
+        """
+        True when the patch was actually attacked and held.
+
+        Deliberately NOT the negation of `falsified`: a patch with no applicable
+        check has not survived anything, and must not be counted toward the
+        hardening bar. Use `falsified` to decide whether to downgrade a result,
+        and this to decide whether it earned the bar.
+        """
+        return self.has_evidence and not self.falsified
 
     def summary(self) -> str:
         if self.skipped_reason:
@@ -342,10 +371,25 @@ class PatchHardening:
         # accepted, so a behavioural difference is the fix working, not a
         # regression. Judging those targets here would reject correct patches.
         if behaviour_contract != "preserve":
+            reason = {
+                "restrict": (
+                    "an input-validation fix legitimately narrows the accepted "
+                    "input domain, so rejecting inputs the original accepted is "
+                    "the remediation working, not a regression"
+                ),
+                "replace": (
+                    "the remediation IS to change a compiled-in value (a "
+                    "hardcoded secret), so the program's output is required to "
+                    "differ from the original; equivalence would mean the fix "
+                    "did nothing"
+                ),
+            }.get(
+                behaviour_contract,
+                "this fix is not required to preserve observable behaviour",
+            )
             verdict.differential_note = (
                 f"differential testing not applicable (contract={behaviour_contract}): "
-                "an input-validation fix legitimately narrows the accepted input "
-                "domain; the regression gate checks the intended behaviour instead"
+                f"{reason}; the regression gate checks the intended behaviour instead"
             )
 
         with tempfile.TemporaryDirectory(prefix="kavach_diff_") as tmp:

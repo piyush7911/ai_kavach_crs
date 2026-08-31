@@ -1,115 +1,50 @@
 """
-AI Kavach CRS — CVE Reproduction Benchmark Harness
-Runs the AI Kavach CRS pipeline against historical CVEs in real-world codebases.
+AI Kavach CRS — historical-CVE reproduction harness.
+
+SUPERSEDED. Do not use. Kept only so the reason is on record.
+
+The previous version of this file defined two real CVE identifiers
+(CVE-2015-8126 in libpng, CVE-2017-9048 in libxml2) and ran the pipeline
+against them. It could not honestly report anything about either:
+
+  * It declared a `pov_command` on each entry and then **never passed it** to
+    `run_pipeline`, so the proof-of-vulnerability gate was SKIPPED. A "patched"
+    result therefore meant only "the code still compiles and `make check`
+    passes" — no exploit was ever replayed, before or after the patch.
+  * The two PoV inputs it named, `bad_palette.png` and `bad_xml.xml`, do not
+    exist anywhere in this repository and never did.
+  * The vulnerable commits were 7-character abbreviations annotated by hand and
+    were never verified to be the commit preceding the fix.
+
+Publishing "we fixed CVE-2015-8126" on that basis would be a fabricated result,
+which is the one thing this project does not do.
+
+Where the real work lives
+-------------------------
+Published CVEs in unmodified upstream source are evaluated by
+`tests/real_cve_suite/`, which does what this file only claimed to:
+
+  * checks out the commit immediately BEFORE the upstream security fix,
+  * pre-flights the PoV against the unpatched build, so the gate is known to
+    detect the real bug before it may decide anything,
+  * verifies each PoV in BOTH directions — it must reproduce on the vulnerable
+    commit and stop reproducing on the upstream fix — before the target is
+    admitted to the suite,
+  * replays that exact input against the rebuilt patched binary,
+  * then tries to falsify the resulting patch.
+
+Run it with:
+
+    sh tests/real_cve_suite/setup.sh
+    python -m tests.real_cve_suite.run_real_cve
+
+or through the main harness:
+
+    python benchmark.py --suite real_cve --harden
 """
 
 import sys
-import json
-import logging
-import argparse
-import subprocess
-from pathlib import Path
-from dataclasses import dataclass
-
-# Add project root to path
-sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-
-from src.main import run_pipeline
-
-logger = logging.getLogger(__name__)
-
-
-@dataclass
-class CveBenchmark:
-    cve_id: str
-    repo_url: str
-    vulnerable_commit: str
-    build_command: str
-    test_command: str
-    pov_command: str
-    target_file: str
-
-
-# Sample dataset of historical CVEs for demonstration
-BENCHMARK_DATASET = [
-    CveBenchmark(
-        cve_id="CVE-2015-8126",
-        repo_url="https://github.com/glennrp/libpng",
-        vulnerable_commit="a4f27f9",  # Vulnerable to buffer overflow in png_set_PLTE
-        build_command="./configure && make",
-        test_command="make check",
-        pov_command="./pngtest bad_palette.png",
-        target_file="pngset.c"
-    ),
-    CveBenchmark(
-        cve_id="CVE-2017-9048",
-        repo_url="https://github.com/GNOME/libxml2",
-        vulnerable_commit="960f0e2",  # Buffer over-read
-        build_command="./autogen.sh && make",
-        test_command="make check",
-        pov_command="./xmllint bad_xml.xml",
-        target_file="valid.c"
-    )
-]
-
-
-class CveRunner:
-    def __init__(self, workspace_dir: str):
-        self.workspace_dir = Path(workspace_dir)
-        self.workspace_dir.mkdir(parents=True, exist_ok=True)
-
-    def run_benchmark(self, cve_id: str = None):
-        """Run benchmark on a specific CVE or all in the dataset."""
-        targets = [b for b in BENCHMARK_DATASET if b.cve_id == cve_id] if cve_id else BENCHMARK_DATASET
-        
-        if not targets:
-            logger.error(f"No benchmark found for CVE: {cve_id}")
-            return
-
-        for benchmark in targets:
-            logger.info(f"\n{'='*60}\nBenchmarking {benchmark.cve_id}\n{'='*60}")
-            self._process_cve(benchmark)
-
-    def _process_cve(self, benchmark: CveBenchmark):
-        """Clone the repo, checkout the vulnerable commit, and run the pipeline."""
-        repo_name = benchmark.repo_url.split("/")[-1]
-        repo_path = self.workspace_dir / repo_name
-        
-        # Clone if not exists
-        if not repo_path.exists():
-            logger.info(f"Cloning {benchmark.repo_url}...")
-            subprocess.run(["git", "clone", benchmark.repo_url, str(repo_path)], check=True)
-            
-        # Checkout vulnerable commit
-        logger.info(f"Checking out vulnerable commit: {benchmark.vulnerable_commit}")
-        subprocess.run(["git", "-C", str(repo_path), "checkout", "-f", benchmark.vulnerable_commit], check=True)
-        subprocess.run(["git", "-C", str(repo_path), "clean", "-fdx"], check=True) # clean working directory
-
-        # Run pipeline
-        target_path = str(repo_path / benchmark.target_file)
-        
-        logger.info(f"Running pipeline on {target_path}...")
-        
-        try:
-            # Note: We run sequentially for benchmarking
-            run_pipeline(
-                target_path=target_path,
-                language="c",
-                build_command=f"cd {repo_path} && {benchmark.build_command}",
-                test_command=f"cd {repo_path} && {benchmark.test_command}",
-                sequential=True
-            )
-        except Exception as e:
-            logger.error(f"Benchmark failed for {benchmark.cve_id}: {e}")
-
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="AI Kavach CRS - CVE Reproduction Benchmark")
-    parser.add_argument("--workspace", default="./benchmark_workspace", help="Directory to clone repos")
-    parser.add_argument("--cve", help="Specific CVE ID to test (e.g. CVE-2015-8126)")
-    
-    args = parser.parse_args()
-    
-    logging.basicConfig(level=logging.INFO, format="%(message)s")
-    runner = CveRunner(args.workspace)
-    runner.run_benchmark(args.cve)
+    print(__doc__)
+    sys.exit(1)

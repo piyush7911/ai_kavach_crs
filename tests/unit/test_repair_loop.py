@@ -191,3 +191,71 @@ def test_critic_verdict_rejects_invalid_status():
             verdict="looks_fine",          # not in the allowed set
             root_cause="x", what_the_patch_missed="y", instruction="z",
         )
+
+
+# ---------------------------------------------------------------------------
+# Replacement extraction without the // FUNCTION: marker
+#
+# Five consecutive `generation` failures from one agent on CVE-2019-11834 were
+# caused by this: the model returned the corrected function in a plain ```c
+# block and the parser reported "no patch was found".
+# ---------------------------------------------------------------------------
+
+def test_unmarked_c_block_is_accepted_as_a_replacement():
+    from src.agent_orchestrator.llm_client import LLMClient
+
+    response = (
+        "Here is the corrected function:\n\n"
+        "```c\n"
+        "static cJSON_bool parse_string(cJSON * const item, parse_buffer * const buf)\n"
+        "{\n"
+        "    while ((offset < buf->length) && (*input_end != '\"'))\n"
+        "    {\n"
+        "        input_end++;\n"
+        "    }\n"
+        "    return true;\n"
+        "}\n"
+        "```\n"
+    )
+    result = LLMClient._extract_replacement(response)
+    assert result is not None, "a correct fix was discarded over a missing marker"
+    assert result[0] == "parse_string"
+
+
+def test_marker_disambiguates_a_block_inference_would_refuse():
+    """
+    With two definitions present, inference refuses to guess — but an explicit
+    marker says which one is meant, so the marker path must still succeed.
+    """
+    from src.agent_orchestrator.llm_client import LLMClient
+
+    response = (
+        "```c\n// FUNCTION: second\n"
+        "void first(void) { return; }\n"
+        "void second(int x) { (void)x; }\n```"
+    )
+    name, source = LLMClient._extract_replacement(response)
+    assert name == "second", "the explicit marker must take precedence"
+    assert "// FUNCTION:" not in source, "marker line must be stripped"
+
+
+def test_ambiguous_block_with_two_functions_is_refused():
+    """Guessing between two definitions would splice into the wrong AST range."""
+    from src.agent_orchestrator.llm_client import LLMClient
+
+    response = "```c\nvoid first(void) { return; }\nvoid second(int x) { (void)x; }\n```"
+    assert LLMClient._extract_replacement(response) is None
+
+
+def test_control_flow_is_not_mistaken_for_a_definition():
+    from src.agent_orchestrator.llm_client import LLMClient
+
+    response = "```c\nint fix_it(int n)\n{\n    if (n > 0) { n--; }\n    while (n) { n--; }\n    return n;\n}\n```"
+    name, _ = LLMClient._extract_replacement(response)
+    assert name == "fix_it"
+
+
+def test_prose_without_code_yields_nothing():
+    from src.agent_orchestrator.llm_client import LLMClient
+
+    assert LLMClient._extract_replacement("I would swap the two operands.") is None

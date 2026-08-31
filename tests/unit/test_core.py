@@ -165,3 +165,33 @@ def test_preflight_uses_the_brace_safe_expander():
         "benchmark.py must expand command templates with DRVLoop.expand; "
         "str.format crashes on literal braces"
     )
+
+
+# ---------------------------------------------------------------------------
+# Benchmark rollup unit-consistency
+# ---------------------------------------------------------------------------
+
+def test_rollup_rejects_mismatched_units():
+    """
+    The headline rate sums Patched_All_Gates over Targets_Attempted across every
+    suite, so both fields must count the same thing. Fuzz Discovery once set
+    Targets_Attempted to harnesses fuzzed while Patched_All_Gates counted bugs
+    repaired — a harness that found no crash was then charged to the repair rate
+    as a failure. `patched > attempted` is that mistake's visible signature.
+    """
+    import pytest
+    from benchmark import BenchmarkHarness
+
+    with pytest.raises(ValueError, match="counting"):
+        BenchmarkHarness.check_suite_units(
+            [{"Label": "Fuzz Discovery", "Targets_Attempted": 3, "Patched_All_Gates": 6}]
+        )
+
+
+def test_rollup_accepts_consistent_suites():
+    from benchmark import BenchmarkHarness
+
+    BenchmarkHarness.check_suite_units([
+        {"Label": "Synthetic", "Targets_Attempted": 20, "Patched_All_Gates": 18},
+        {"Label": "Fuzz Discovery", "Targets_Attempted": 7, "Patched_All_Gates": 6},
+    ])

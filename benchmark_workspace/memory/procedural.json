@@ -1,201 +1,274 @@
 {
   "CWE-190": {
-    "attempts": 2,
-    "successes": 2,
-    "agent_wins": {
-      "alpha": 2
-    },
-    "iterations": [
-      1,
-      1
-    ]
-  },
-  "CWE-787": {
-    "attempts": 2,
-    "successes": 2,
-    "agent_wins": {
-      "alpha": 2
-    },
-    "iterations": [
-      1,
-      1
-    ]
-  },
-  "CWE-197": {
-    "attempts": 1,
-    "successes": 1,
-    "agent_wins": {
-      "alpha": 1
-    },
-    "iterations": [
-      1
-    ]
-  },
-  "CWE-415": {
-    "attempts": 1,
-    "successes": 1,
-    "agent_wins": {
-      "alpha": 1
-    },
-    "iterations": [
-      1
-    ]
-  },
-  "CWE-193": {
-    "attempts": 1,
-    "successes": 1,
-    "agent_wins": {
-      "alpha": 1
-    },
-    "iterations": [
-      2
-    ]
-  },
-  "CWE-134": {
-    "attempts": 1,
-    "successes": 1,
-    "agent_wins": {
-      "alpha": 1
-    },
-    "iterations": [
-      1
-    ]
-  },
-  "CWE-22": {
-    "attempts": 1,
-    "successes": 1,
-    "agent_wins": {
-      "alpha": 1
-    },
-    "iterations": [
-      1
-    ]
-  },
-  "CWE-78": {
-    "attempts": 2,
-    "successes": 2,
-    "agent_wins": {
-      "alpha": 2
-    },
-    "iterations": [
-      1,
-      1
-    ]
-  },
-  "CWE-476": {
-    "attempts": 1,
-    "successes": 1,
-    "agent_wins": {
-      "alpha": 1
-    },
-    "iterations": [
-      1
-    ]
-  },
-  "CWE-125": {
-    "attempts": 1,
-    "successes": 1,
-    "agent_wins": {
-      "alpha": 1
-    },
-    "iterations": [
-      1
-    ]
-  },
-  "CWE-191": {
-    "attempts": 1,
-    "successes": 1,
-    "agent_wins": {
-      "alpha": 1
-    },
-    "iterations": [
-      1
-    ]
-  },
-  "CWE-367": {
-    "attempts": 1,
-    "successes": 1,
-    "agent_wins": {
-      "alpha": 1
-    },
-    "iterations": [
-      1
-    ]
-  },
-  "CWE-457": {
-    "attempts": 2,
-    "successes": 2,
-    "agent_wins": {
-      "alpha": 2
-    },
-    "iterations": [
-      1,
-      1
-    ]
-  },
-  "CWE-321": {
-    "attempts": 1,
-    "successes": 1,
-    "agent_wins": {
-      "alpha": 1
-    },
-    "iterations": [
-      2
-    ]
-  },
-  "CWE-843": {
-    "attempts": 1,
-    "successes": 1,
-    "agent_wins": {
-      "alpha": 1
-    },
-    "iterations": [
-      1
-    ]
-  },
-  "CWE-401": {
-    "attempts": 1,
-    "successes": 1,
-    "agent_wins": {
-      "alpha": 1
-    },
-    "iterations": [
-      1
-    ]
-  },
-  "CWE-416": {
-    "attempts": 2,
-    "successes": 2,
-    "agent_wins": {
-      "alpha": 2
-    },
-    "iterations": [
-      1,
-      1
-    ]
-  },
-  "CWE-121": {
-    "attempts": 1,
-    "successes": 1,
-    "agent_wins": {
-      "alpha": 1
-    },
-    "iterations": [
-      1
-    ]
-  },
-  "CWE-676": {
     "attempts": 6,
     "successes": 6,
     "agent_wins": {
       "alpha": 6
     },
     "iterations": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ]
+  },
+  "CWE-787": {
+    "attempts": 6,
+    "successes": 6,
+    "agent_wins": {
+      "alpha": 5,
+      "beta": 1
+    },
+    "iterations": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ]
+  },
+  "CWE-197": {
+    "attempts": 3,
+    "successes": 3,
+    "agent_wins": {
+      "alpha": 3
+    },
+    "iterations": [
+      1,
+      1,
+      1
+    ]
+  },
+  "CWE-415": {
+    "attempts": 3,
+    "successes": 3,
+    "agent_wins": {
+      "alpha": 3
+    },
+    "iterations": [
+      1,
+      1,
+      1
+    ]
+  },
+  "CWE-193": {
+    "attempts": 3,
+    "successes": 3,
+    "agent_wins": {
+      "alpha": 3
+    },
+    "iterations": [
+      2,
+      1,
+      1
+    ]
+  },
+  "CWE-134": {
+    "attempts": 3,
+    "successes": 3,
+    "agent_wins": {
+      "alpha": 3
+    },
+    "iterations": [
+      1,
+      1,
+      1
+    ]
+  },
+  "CWE-22": {
+    "attempts": 3,
+    "successes": 3,
+    "agent_wins": {
+      "alpha": 1,
+      "beta": 2
+    },
+    "iterations": [
+      1,
+      1,
+      1
+    ]
+  },
+  "CWE-78": {
+    "attempts": 4,
+    "successes": 4,
+    "agent_wins": {
+      "alpha": 3,
+      "gamma": 1
+    },
+    "iterations": [
+      1,
+      1,
+      1,
+      1
+    ]
+  },
+  "CWE-476": {
+    "attempts": 3,
+    "successes": 3,
+    "agent_wins": {
+      "alpha": 1,
+      "beta": 2
+    },
+    "iterations": [
+      1,
+      1,
+      1
+    ]
+  },
+  "CWE-125": {
+    "attempts": 9,
+    "successes": 8,
+    "agent_wins": {
+      "alpha": 5,
+      "beta": 3
+    },
+    "iterations": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ]
+  },
+  "CWE-191": {
+    "attempts": 3,
+    "successes": 3,
+    "agent_wins": {
+      "alpha": 3
+    },
+    "iterations": [
+      1,
+      1,
+      1
+    ]
+  },
+  "CWE-367": {
+    "attempts": 3,
+    "successes": 3,
+    "agent_wins": {
+      "alpha": 1,
+      "beta": 2
+    },
+    "iterations": [
+      1,
+      1,
+      1
+    ]
+  },
+  "CWE-457": {
+    "attempts": 6,
+    "successes": 6,
+    "agent_wins": {
+      "alpha": 4,
+      "beta": 2
+    },
+    "iterations": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ]
+  },
+  "CWE-321": {
+    "attempts": 3,
+    "successes": 3,
+    "agent_wins": {
+      "alpha": 2,
+      "beta": 1
+    },
+    "iterations": [
+      2,
+      2,
+      4
+    ]
+  },
+  "CWE-843": {
+    "attempts": 3,
+    "successes": 3,
+    "agent_wins": {
+      "alpha": 1,
+      "beta": 2
+    },
+    "iterations": [
+      1,
+      1,
+      1
+    ]
+  },
+  "CWE-401": {
+    "attempts": 3,
+    "successes": 3,
+    "agent_wins": {
+      "alpha": 3
+    },
+    "iterations": [
+      1,
+      1,
+      1
+    ]
+  },
+  "CWE-416": {
+    "attempts": 6,
+    "successes": 6,
+    "agent_wins": {
+      "alpha": 3,
+      "beta": 3
+    },
+    "iterations": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ]
+  },
+  "CWE-121": {
+    "attempts": 3,
+    "successes": 3,
+    "agent_wins": {
+      "alpha": 3
+    },
+    "iterations": [
+      1,
+      1,
+      1
+    ]
+  },
+  "CWE-676": {
+    "attempts": 18,
+    "successes": 18,
+    "agent_wins": {
+      "alpha": 7,
+      "beta": 9,
+      "gamma": 2
+    },
+    "iterations": [
       2,
       2,
       2,
       2,
       2,
+      1,
+      1,
+      1,
+      1,
+      2,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
       1
     ]
   }

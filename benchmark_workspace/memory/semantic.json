@@ -7,11 +7,11 @@
     "pitfalls": [],
     "winning_agent": "alpha",
     "iterations_needed": 1,
-    "hardened": false,
+    "hardened": true,
     "source_target": "SYN-01-MAGIC-BYTES",
     "created_at": 1786093871.4033961,
-    "times_retrieved": 1,
-    "times_helped": 1,
+    "times_retrieved": 5,
+    "times_helped": 5,
     "times_misled": 0
   },
   {
@@ -25,8 +25,8 @@
     "hardened": true,
     "source_target": "SYN-02-DEEP-TYPEDEF",
     "created_at": 1786093883.882687,
-    "times_retrieved": 1,
-    "times_helped": 1,
+    "times_retrieved": 5,
+    "times_helped": 5,
     "times_misled": 0
   },
   {
@@ -40,8 +40,8 @@
     "hardened": false,
     "source_target": "SYN-03-INT-OVERFLOW",
     "created_at": 1786093918.265437,
-    "times_retrieved": 0,
-    "times_helped": 0,
+    "times_retrieved": 4,
+    "times_helped": 4,
     "times_misled": 0
   },
   {
@@ -55,8 +55,8 @@
     "hardened": false,
     "source_target": "SYN-04-TRUNCATION",
     "created_at": 1786093936.456243,
-    "times_retrieved": 0,
-    "times_helped": 0,
+    "times_retrieved": 2,
+    "times_helped": 2,
     "times_misled": 0
   },
   {
@@ -67,11 +67,11 @@
     "pitfalls": [],
     "winning_agent": "alpha",
     "iterations_needed": 1,
-    "hardened": false,
+    "hardened": true,
     "source_target": "SYN-05-DOUBLE-FREE",
     "created_at": 1786093946.952043,
-    "times_retrieved": 0,
-    "times_helped": 0,
+    "times_retrieved": 2,
+    "times_helped": 2,
     "times_misled": 0
   },
   {
@@ -81,15 +81,16 @@
     "fix_strategy": "// FUNCTION: copy_and_null_terminate\nvoid copy_and_null_terminate(const char* src, size_t size) {\n    if (size == 0 || size > 1024) return;\n    char* dest = (char*)malloc(size + 1); // Allocate space for null terminator\n    if (!dest) return;\n    for (size_t i = 0; i < size; i++) { // Loop condition changed to < size\n        dest[i] = src[i];\n    }\n    dest[size] = '\\0'; // Null terminate at the end of the copied string\n    printf(\"Copied string: %s\\n\", dest);\n    free(dest);\n}",
     "pitfalls": [
       "rejected by regression gate: void copy_and_null_terminate(const char* src, size_t size) {; if (size == 0 || size > 1024) return;; char* dest = (char*)malloc(size);",
-      "rejected by pov gate: void copy_and_null_terminate(const char* src, size_t size) {; if (size == 0 || size > 1024) return;; char* dest = (char*)malloc(size);"
+      "rejected by pov gate: void copy_and_null_terminate(const char* src, size_t size) {; if (size == 0 || size > 1024) return;; char* dest = (char*)malloc(size);",
+      "rejected by pov gate: if (size == 0 || size > 1024) return;; if (!dest) return;; for (size_t i = 0; i < size; i++) { [1e9fcaeb]"
     ],
     "winning_agent": "alpha",
     "iterations_needed": 2,
     "hardened": true,
     "source_target": "SYN-06-OFF-BY-ONE",
     "created_at": 1786093969.054683,
-    "times_retrieved": 0,
-    "times_helped": 0,
+    "times_retrieved": 2,
+    "times_helped": 2,
     "times_misled": 0
   },
   {
@@ -100,11 +101,11 @@
     "pitfalls": [],
     "winning_agent": "alpha",
     "iterations_needed": 1,
-    "hardened": false,
+    "hardened": true,
     "source_target": "SYN-07-FORMAT-STRING",
     "created_at": 1786094005.310188,
-    "times_retrieved": 0,
-    "times_helped": 0,
+    "times_retrieved": 2,
+    "times_helped": 2,
     "times_misled": 0
   },
   {
@@ -121,8 +122,8 @@
     "hardened": false,
     "source_target": "SYN-08-PATH-TRAVERSAL",
     "created_at": 1786094025.261289,
-    "times_retrieved": 0,
-    "times_helped": 0,
+    "times_retrieved": 2,
+    "times_helped": 2,
     "times_misled": 0
   },
   {
@@ -138,8 +139,8 @@
     "hardened": false,
     "source_target": "SYN-09-CMD-INJECTION",
     "created_at": 1786094047.446708,
-    "times_retrieved": 1,
-    "times_helped": 1,
+    "times_retrieved": 3,
+    "times_helped": 3,
     "times_misled": 0
   },
   {
@@ -153,8 +154,8 @@
     "hardened": false,
     "source_target": "SYN-10-NULL-DEREF",
     "created_at": 1786094124.656447,
-    "times_retrieved": 0,
-    "times_helped": 0,
+    "times_retrieved": 2,
+    "times_helped": 2,
     "times_misled": 0
   },
   {
@@ -165,12 +166,12 @@
     "pitfalls": [],
     "winning_agent": "alpha",
     "iterations_needed": 1,
-    "hardened": false,
+    "hardened": true,
     "source_target": "SYN-11-OOB-MULTIDIM",
     "created_at": 1786094134.6632829,
-    "times_retrieved": 0,
-    "times_helped": 0,
-    "times_misled": 0
+    "times_retrieved": 8,
+    "times_helped": 7,
+    "times_misled": 1
   },
   {
     "cwe": "CWE-191",
@@ -183,8 +184,8 @@
     "hardened": true,
     "source_target": "SYN-12-INT-UNDERFLOW",
     "created_at": 1786094147.259371,
-    "times_retrieved": 0,
-    "times_helped": 0,
+    "times_retrieved": 2,
+    "times_helped": 2,
     "times_misled": 0
   },
   {
@@ -198,8 +199,8 @@
     "hardened": false,
     "source_target": "SYN-13-TOCTOU",
     "created_at": 1786094179.326556,
-    "times_retrieved": 0,
-    "times_helped": 0,
+    "times_retrieved": 2,
+    "times_helped": 2,
     "times_misled": 0
   },
   {
@@ -213,8 +214,8 @@
     "hardened": false,
     "source_target": "SYN-14-UNINIT-MEM",
     "created_at": 1786094191.66264,
-    "times_retrieved": 1,
-    "times_helped": 1,
+    "times_retrieved": 5,
+    "times_helped": 5,
     "times_misled": 0
   },
   {
@@ -225,15 +226,21 @@
     "pitfalls": [
       "rejected by regression gate: void encrypt_data(const char* data) {; const char* secret_key = getenv(\"SECRET_KEY\");; if (secret_key == NULL) {",
       "rejected by regression gate: void encrypt_data(const char* data) {; const char* secret_key = getenv(\"SECRET_KEY\");; if (secret_key == NULL) {",
-      "rejected by regression gate: void encrypt_data(const char* data) {; const char* secret_key = getenv(\"SECRET_KEY\");; if (secret_key == NULL) {"
+      "rejected by regression gate: void encrypt_data(const char* data) {; const char* secret_key = getenv(\"SECRET_KEY\");; if (secret_key == NULL) {",
+      "rejected by regression gate: if (secret_key == NULL || strlen(secret_key) == 0) {; return; [c4aa1b7b]",
+      "rejected by regression gate: if (secret_key == NULL) {; return; // Early return to avoid using a hardcoded key [c4661444]",
+      "rejected by pov gate: if (data == NULL) {; return; [33655127]",
+      "rejected by pov gate: if (secret_key == NULL) {; return; [f49edfda]",
+      "rejected by pov gate: if (secret_key == NULL) {; if (data == NULL) {; return; [0fd8ecd7]",
+      "rejected by pov gate: if (secret_key == NULL || strlen(secret_key) == 0) {; return; [c4aa1b7b]"
     ],
     "winning_agent": "alpha",
     "iterations_needed": 2,
     "hardened": false,
     "source_target": "SYN-15-HARDCODED-KEY",
     "created_at": 1786094208.40131,
-    "times_retrieved": 0,
-    "times_helped": 0,
+    "times_retrieved": 2,
+    "times_helped": 2,
     "times_misled": 0
   },
   {
@@ -246,11 +253,11 @@
     ],
     "winning_agent": "alpha",
     "iterations_needed": 1,
-    "hardened": false,
+    "hardened": true,
     "source_target": "SYN-16-TYPE-CONFUSION",
     "created_at": 1786094221.46079,
-    "times_retrieved": 0,
-    "times_helped": 0,
+    "times_retrieved": 2,
+    "times_helped": 2,
     "times_misled": 0
   },
   {
@@ -264,8 +271,8 @@
     "hardened": false,
     "source_target": "SYN-17-MEMORY-LEAK",
     "created_at": 1786094231.214907,
-    "times_retrieved": 0,
-    "times_helped": 0,
+    "times_retrieved": 2,
+    "times_helped": 2,
     "times_misled": 0
   },
   {
@@ -279,8 +286,8 @@
     "hardened": false,
     "source_target": "SYN-19-AST-MACRO-UAF",
     "created_at": 1786094253.807459,
-    "times_retrieved": 1,
-    "times_helped": 1,
+    "times_retrieved": 5,
+    "times_helped": 5,
     "times_misled": 0
   },
   {
@@ -294,8 +301,8 @@
     "hardened": false,
     "source_target": "SYN-20-AST-OPAQUE-PTR",
     "created_at": 1786094263.198234,
-    "times_retrieved": 0,
-    "times_helped": 0,
+    "times_retrieved": 4,
+    "times_helped": 4,
     "times_misled": 0
   },
   {
@@ -309,8 +316,8 @@
     "hardened": false,
     "source_target": "JULIET-CWE121",
     "created_at": 1786094277.220404,
-    "times_retrieved": 0,
-    "times_helped": 0,
+    "times_retrieved": 2,
+    "times_helped": 2,
     "times_misled": 0
   },
   {
@@ -324,8 +331,8 @@
     "hardened": false,
     "source_target": "JULIET-CWE416",
     "created_at": 1786094286.440595,
-    "times_retrieved": 0,
-    "times_helped": 0,
+    "times_retrieved": 4,
+    "times_helped": 4,
     "times_misled": 0
   },
   {
@@ -339,8 +346,8 @@
     "hardened": false,
     "source_target": "CJSON-SEMGREP-461",
     "created_at": 1786094315.213666,
-    "times_retrieved": 5,
-    "times_helped": 5,
+    "times_retrieved": 17,
+    "times_helped": 17,
     "times_misled": 0
   },
   {
@@ -354,8 +361,8 @@
     "hardened": false,
     "source_target": "CJSON-SEMGREP-976",
     "created_at": 1786094349.431742,
-    "times_retrieved": 4,
-    "times_helped": 4,
+    "times_retrieved": 16,
+    "times_helped": 16,
     "times_misled": 0
   },
   {
@@ -369,6 +376,74 @@
     "hardened": false,
     "source_target": "CJSON-SEMGREP-245",
     "created_at": 1786094452.66121,
+    "times_retrieved": 0,
+    "times_helped": 0,
+    "times_misled": 0
+  },
+  {
+    "cwe": "CWE-787",
+    "crash_class": "",
+    "root_cause": "memcpy overruns a nested struct member",
+    "fix_strategy": "// FUNCTION: update_key\nvoid update_key(UserSession *user, const uint8_t *new_key, size_t key_len) {\n    if (!user || !new_key || key_len > sizeof(user->ctx.secret_key)) {\n        return;\n    }\n    memcpy(user->ctx.secret_key, new_key, key_len);\n}",
+    "pitfalls": [],
+    "winning_agent": "beta",
+    "iterations_needed": 1,
+    "hardened": true,
+    "source_target": "SYN-18-AST-DEEP-STRUCT",
+    "created_at": 1788058554.515862,
+    "times_retrieved": 2,
+    "times_helped": 2,
+    "times_misled": 0
+  },
+  {
+    "cwe": "CWE-125",
+    "crash_class": "",
+    "root_cause": "CVE-2019-11835: out-of-bounds read in cJSON_Minify. On an unterminated /* comment the scan loop halts at the NUL terminator and the following `json += 2` steps past it, so the enclosing `while (*json)` reads beyond the buffer. Upstream cJSON v1.7.10; fixed in 1.7.11 by rewriting the comment skipping.",
+    "fix_strategy": "// FUNCTION: cJSON_Minify\nCJSON_PUBLIC(void) cJSON_Minify(char *json)\n{\n    unsigned char *into = (unsigned char*)json;\n\n    if (json == NULL)\n    {\n        return;\n    }\n\n    while (*json)\n    {\n        if (*json == ' ')\n        {\n            json++;\n        }\n        else if (*json == '\\t')\n        {\n            /* Whitespace characters. */\n            json++;\n        }\n        else if (*json == '\\r')\n        {\n            json++;\n        }\n        else if (*json=='\\n')\n        {\n            json++;\n        }\n        else if ((*json == '/') && (json[1] == '/'))\n        {\n            /* doubl",
+    "pitfalls": [],
+    "winning_agent": "beta",
+    "iterations_needed": 1,
+    "hardened": false,
+    "source_target": "CVE-2019-11835-CJSON-MINIFY",
+    "created_at": 1788058711.374752,
+    "times_retrieved": 2,
+    "times_helped": 1,
+    "times_misled": 1
+  },
+  {
+    "cwe": "CWE-125",
+    "crash_class": "",
+    "root_cause": "### Analysis\n\nThe vulnerability in the `parse_object` function arises from a lack of validation after consuming a comma in the JSON parsing process. Specifically, when the parser encounters a comma, it does not check if there is any subsequent data in the input buffer. This oversight can lead to a heap over-read if a trailing comma is present, as the parser may attempt to read beyond the allocated",
+    "fix_strategy": "// FUNCTION: parse_object\nstatic cJSON_bool parse_object(cJSON * const item, parse_buffer * const input_buffer)\n{\n    cJSON *head = NULL; /* linked list head */\n    cJSON *current_item = NULL;\n\n    if (input_buffer->depth >= CJSON_NESTING_LIMIT)\n    {\n        return false; /* to deeply nested */\n    }\n    input_buffer->depth++;\n\n    if (cannot_access_at_index(input_buffer, 0) || (buffer_at_offset(input_buffer)[0] != '{'))\n    {\n        goto fail; /* not an object */\n    }\n\n    input_buffer->offset++;\n    buffer_skip_whitespace(input_buffer);\n    if (can_access_at_index(input_buffer, 0) && (buf",
+    "pitfalls": [
+      "rejected by pov gate: if (input_buffer->depth >= CJSON_NESTING_LIMIT); return false; /* to deeply nested */; input_buffer->depth++;; if (cannot_access_at_index(input_buffer, 0) || (buffer_at_offset(inpu [73e6d3ff]",
+      "rejected by pov gate: if (input_buffer->depth >= CJSON_NESTING_LIMIT); return false; /* to deeply nested */; input_buffer->depth++;; if (cannot_access_at_index(input_buffer, 0) || (buffer_at_offset(inpu [73e6d3ff]"
+    ],
+    "winning_agent": "alpha",
+    "iterations_needed": 1,
+    "hardened": false,
+    "source_target": "GH800-CJSON-PARSE-OBJECT-OOB",
+    "created_at": 1788058784.243124,
+    "times_retrieved": 4,
+    "times_helped": 4,
+    "times_misled": 0
+  },
+  {
+    "cwe": "CWE-125",
+    "crash_class": "",
+    "root_cause": "### Analysis\n\nThe vulnerability in the `parse_string` function arises from the fact that the code dereferences the `input_end` pointer without ensuring that it is still within the bounds of the `input_buffer`. Specifically, the dereference occurs in two places:\n\n1. In the while loop condition: `(*input_end != '\\\"') && ((size_t)(input_end - input_buffer->content) < input_buffer->length)`. The check",
+    "fix_strategy": "// FUNCTION: parse_string\nstatic cJSON_bool parse_string(cJSON * const item, parse_buffer * const input_buffer)\n{\n    const unsigned char *input_pointer = buffer_at_offset(input_buffer) + 1;\n    const unsigned char *input_end = buffer_at_offset(input_buffer) + 1;\n    unsigned char *output_pointer = NULL;\n    unsigned char *output = NULL;\n\n    /* not a string */\n    if (buffer_at_offset(input_buffer)[0] != '\\\"')\n    {\n        goto fail;\n    }\n\n    {\n        /* calculate approximate size of the output (overestimate) */\n        size_t allocation_length = 0;\n        size_t skipped_bytes = 0;\n     ",
+    "pitfalls": [
+      "rejected by pov gate: if (buffer_at_offset(input_buffer)[0] != '\\\"'); while ((*input_end != '\\\"') && ((size_t)(input_end - input_buffer->content) < input_buffer->length)); if (input_end[0] == '\\\\'); if  [b013ba7e]",
+      "rejected by pov gate: if (buffer_at_offset(input_buffer)[0] != '\\\"'); while ((*input_end != '\\\"') && ((size_t)(input_end - input_buffer->content) < input_buffer->length)); if (input_end[0] == '\\\\'); if  [b013ba7e]",
+      "rejected by pov gate: if (buffer_at_offset(input_buffer)[0] != '\\\"'); while ((*input_end != '\\\"') && ((size_t)(input_end - input_buffer->content) < input_buffer->length)); if (input_end[0] == '\\\\'); if  [b013ba7e]",
+      "rejected by pov gate: if (buffer_at_offset(input_buffer)[0] != '\\\"'); while ((*input_end != '\\\"') && ((size_t)(input_end - input_buffer->content) < input_buffer->length)); if (input_end[0] == '\\\\'); if  [b013ba7e]"
+    ],
+    "winning_agent": "alpha",
+    "iterations_needed": 1,
+    "hardened": false,
+    "source_target": "CVE-2019-11834-CJSON-PARSE-STRING",
+    "created_at": 1788063042.492887,
     "times_retrieved": 0,
     "times_helped": 0,
     "times_misled": 0
