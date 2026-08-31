@@ -27,6 +27,28 @@ A 95% CI is quoted because 44/44 is not evidence of a 100% rate, and a corpus
 everything passes has stopped discriminating — the next useful step is harder
 targets, not a better score here.
 
+### Resource footprint
+
+Measured on one MacBook (Darwin arm64), no GPU, no cluster, no fine-tuning:
+
+| | Measured |
+| :--- | ---: |
+| Total LLM cost, 44 targets | **$0.0739** (median $0.0009/target) |
+| Total wall time, 7 suites | **804s** (median 5.8s/target) |
+| Peak RSS, harness process | **1,300 MB** — fits an 8 GB laptop |
+| Local model weights on disk | **0 bytes** — inference is an API call |
+| ML frameworks in the dependency tree | **0** (no torch / CUDA / TensorFlow / JAX) |
+| Python environment | 824 MB · clang 80 MB · Semgrep 75 MB · AFL++ 112 KB |
+
+The cost is low because the expensive work is done by tools that are not billed
+by the token — clang, AddressSanitizer, libFuzzer, CBMC. The LLM only *proposes*
+patches; deterministic verification accepts or rejects them. That is why a small
+model suffices: a weaker model yields worse candidates and the gates reject them,
+so model capability trades against iteration count, not against correctness.
+
+CPU utilisation is not sampled, and is reported as unmeasured rather than
+estimated. Full breakdown: [`benchmark.md`](benchmark.md) §6.
+
 ### Model and provider
 
 These results were measured with **`gpt-4o-mini`** via the OpenAI API — a small,

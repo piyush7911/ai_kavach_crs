@@ -117,7 +117,7 @@ h2.title .accent { color: var(--text-3); }
 
 table.t { width: 100%; border-collapse: collapse; }
 table.t th { text-align: left; font-family: var(--mono); font-size: 9px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-3); font-weight: 700; padding: 5px 9px; border-bottom: 1px solid var(--border-2); }
-table.t td { padding: 5px 9px; border-bottom: 1px solid var(--border); font-size: 11px; color: var(--text-2); }
+table.t td { padding: 3px 9px; border-bottom: 1px solid var(--border); font-size: 11px; color: var(--text-2); }
 table.t td.m { font-family: var(--mono); font-size: 10.5px; }
 table.t tr:last-child td { border-bottom: 0; }
 table.t .vs-old { color: var(--text-3); }
@@ -178,7 +178,7 @@ table.t .vs-new { color: var(--text); font-weight: 550; }
 .mx tr.is-f td.vd { color: var(--red); }
 .mx tr.is-s td.vd { color: var(--green); }
 
-.deliv { display: flex; align-items: flex-start; gap: 8px; padding: 5px 0; border-bottom: 1px solid var(--border); }
+.deliv { display: flex; align-items: flex-start; gap: 8px; padding: 3px 0; border-bottom: 1px solid var(--border); }
 .deliv:last-child { border-bottom: 0; }
 .deliv .ic { width: 14px; height: 14px; border-radius: 4px; background: var(--surface-2); border: 1px solid var(--border-2); display: grid; place-items: center; flex-shrink: 0; margin-top: 1px; color: var(--text-3); }
 .deliv .ic svg { width: 8px; height: 8px; }
@@ -463,8 +463,8 @@ S.push(['1 · Introduction, Ideation & Brief Description', '\
     </div>\
 \
     <div class="strip rv" style="margin-top:11px;">\
-      <span class="pill g">38 / 38 patched</span>\
-      <span class="pill b">24 / 24 PoV-proven</span>\
+      <span class="pill g">44 / 44 patched</span>\
+      <span class="pill b">30 / 30 PoV-proven</span>\
       <span class="pill v">32 attacked &middot; 0 falsified</span>\
       <span class="pill n">$0.0739 total</span>\
       <span class="pill n">13.4 min</span>\
@@ -498,7 +498,7 @@ S.push(['2 · Detailed Methodology', '\
       <div class="tile"><div class="num">05 &middot; CONCOLIC</div><div class="th">Self-gated</div>\
         <div class="td">Solves magic-value branches. Self-test at startup; on AArch64 angr fails it, so it <b>disables itself</b> and logs why.</div></div>\
       <div class="tile hl"><div class="num">06 &middot; HARDENING</div><div class="th">Attack the patch</div>\
-        <div class="td"><b>Re-fuzz</b> 20s on patched build, <b>differential</b> 25 inputs, <b>contracts</b> preserve/restrict/replace, <b>evasion</b> battery. <b>31 attacked, 0 falsified.</b></div></div>\
+        <div class="td"><b>Re-fuzz</b> 20s on patched build, <b>differential</b> 25 inputs, <b>contracts</b> preserve/restrict/replace, <b>evasion</b> battery. <b>32 attacked, 0 falsified.</b></div></div>\
       <div class="tile"><div class="num">07 &middot; FORMAL</div><div class="th">Bounded proof</div>\
         <div class="td">CBMC asks whether <b>any</b> input violates bounds. Insufficient unwinding is <b>INCONCLUSIVE</b>, never proven. <b>3 proven, 28 unavailable.</b></div></div>\
     </div>\
@@ -537,7 +537,7 @@ S.push(['3 · Technology Stack / Architecture / Equipment', '\
         </table>\
         <div class="blk-lbl" style="margin-top:10px;">Equipment / environment</div>\
         <div class="tile"><div class="td"><b>Darwin arm64 &middot; Python 3.11 &mdash; no GPU, no cluster.</b> \
-          Detection, fuzzing, triage and verification all execute on the host: <b>695 s</b> for the full 38-target run. \
+          Detection, fuzzing, triage and verification all execute on the host: <b>804 s</b> for the full 44-target run. \
           The single external dependency is <b>LLM inference</b> &mdash; 161 calls to the OpenAI gpt-4o-mini API, \
           $0.0739 total. <span class="mono">OPENAI_BASE_URL</span> redirects the client to an on-prem endpoint \
           (vLLM, llama.cpp, Ollama) for air-gapped deployment.</div></div>\
@@ -624,8 +624,8 @@ S.push(['5 · Final Deliverables', '\
 \
     <div class="grid4 rv" style="margin-top:11px;">\
       <div class="metric g"><div class="l">Targets patched</div><div class="v">44<small>/44</small></div><div class="s">100% &middot; Wilson CI [92.0, 100.0]</div></div>\
-      <div class="metric b"><div class="l">PoV-proven fixes</div><div class="v">24<small>/24</small></div><div class="s">exploit replayed on patched build</div></div>\
-      <div class="metric"><div class="l">Hardened</div><div class="v">26</div><div class="s">31 attacked &middot; 0 falsified</div></div>\
+      <div class="metric b"><div class="l">PoV-proven fixes</div><div class="v">30<small>/30</small></div><div class="s">exploit replayed on patched build</div></div>\
+      <div class="metric"><div class="l">Hardened</div><div class="v">32</div><div class="s">attacked &middot; 0 falsified</div></div>\
       <div class="metric"><div class="l">Mean iterations</div><div class="v">1.32</div><div class="s">max 5 &middot; 2 gate rejections total</div></div>\
     </div>\
 \
@@ -634,17 +634,32 @@ S.push(['5 · Final Deliverables', '\
         <div class="blk-lbl">Performance objectives &mdash; target vs achieved</div>\
         <table class="t">\
           <tr><th>Objective</th><th>Target</th><th>Achieved</th><th>Status</th></tr>\
-          <tr><td>Patch every attempted target</td><td class="m">&ge; 90%</td><td class="m">38 / 38 &mdash; 100%</td><td><span class="pill g">met</span></td></tr>\
-          <tr><td>Prove fix against original exploit</td><td class="m">100% of eligible</td><td class="m">24 / 24 &mdash; 100%</td><td><span class="pill g">met</span></td></tr>\
+          <tr><td>Patch every attempted target</td><td class="m">&ge; 90%</td><td class="m">44 / 44 &mdash; 100%</td><td><span class="pill g">met</span></td></tr>\
+          <tr><td>Prove fix against original exploit</td><td class="m">100% of eligible</td><td class="m">30 / 30 &mdash; 100%</td><td><span class="pill g">met</span></td></tr>\
           <tr><td>Patches survive adversarial attack</td><td class="m">0 falsified</td><td class="m">0 of 32 attacked</td><td><span class="pill g">met</span></td></tr>\
           <tr><td>Keep patches reviewably small</td><td class="m">&le; 15 lines</td><td class="m">median 2 &middot; max 11</td><td><span class="pill g">met</span></td></tr>\
           <tr><td>Cost per remediation</td><td class="m">&lt; $0.05</td><td class="m">$0.0017 median</td><td><span class="pill g">met</span></td></tr>\
           <tr><td>Formal proofs where harnesses exist</td><td class="m">best effort</td><td class="m">3 proven, 28 n/a</td><td><span class="pill a">partial</span></td></tr>\
           <tr><td>Concolic on stalled branches</td><td class="m">enabled</td><td class="m">self-disabled (arm64)</td><td><span class="pill a">blocked</span></td></tr>\
         </table>\
+        <div class="blk-lbl" style="margin-top:9px;">Resource utilisation &mdash; measured, one laptop</div>\
+        <table class="t">\
+          <tr><th>Resource</th><th>Measured</th></tr>\
+          <tr><td>LLM cost, all 44 targets</td><td class="m">$0.0739 &middot; median $0.0009/target</td></tr>\
+          <tr><td>Wall time, 7 suites</td><td class="m">804 s &middot; median 5.8 s/target</td></tr>\
+          <tr><td>Peak RSS (harness process)</td><td class="m">1,300 MB &mdash; fits 8 GB RAM</td></tr>\
+          <tr><td>GPU / accelerator</td><td class="m">none &mdash; 0 ML frameworks</td></tr>\
+          <tr><td>Local model weights</td><td class="m">0 bytes &mdash; inference is an API call</td></tr>\
+          <tr><td>Install footprint</td><td class="m">824 MB Python &middot; 80 MB clang &middot; 75 MB Semgrep</td></tr>\
+        </table>\
       </div>\
 \
       <div>\
+        <div class="tile" style="margin-bottom:9px;"><div class="num">WHY IT IS THIS CHEAP</div>\
+          <div class="td">Expensive work is done by tools not billed per token &mdash; clang, AddressSanitizer, libFuzzer, \
+            CBMC. The LLM only <i>proposes</i>; deterministic gates accept or reject. A weaker model costs iterations, not \
+            correctness &mdash; why <span class="mono">gpt-4o-mini</span> suffices and <span class="mono">OPENAI_BASE_URL</span> \
+            can point at an on-prem model for air-gapped use.</div></div>\
         <div class="blk-lbl">Deliverables &amp; proof of concept</div>\
         <div>\
           <div class="deliv"><span class="ic">'+TICK+'</span><div class="tx">\
@@ -662,9 +677,10 @@ S.push(['5 · Final Deliverables', '\
             <div class="n">Audit artefacts &mdash; per-run directory</div>\
             <div class="d">Markdown audit, <span class="mono">per_target_results.csv</span>, \
               <span class="mono">preflight_pov_validation.csv</span>, <span class="mono">benchmark_summary.json</span>, SARIF export.</div></div></div>\
-          <div class="deliv"><span class="ic">'+TICK+'</span><div class="tx">\
-            <div class="n">Operator console &mdash; working UI prototype</div>\
-            <div class="d">Onboard repositories, launch scans, monitor runs live, triage findings, approve patches, export reports.</div></div></div>\
+          <div class="deliv"><span class="ic">'+WARN+'</span><div class="tx">\
+            <div class="n">Operator console &mdash; UI concept only, not wired</div>\
+            <div class="d">Design for the intended workflow (onboard repos, launch scans, triage, approve patches). \
+              Illustrative data throughout; no backend. The shipped interface is the CLI.</div></div></div>\
           <div class="deliv"><span class="ic">'+WARN+'</span><div class="tx">\
             <div class="n">Known gaps &mdash; documented, not hidden</div>\
             <div class="d">Concolic self-disabled (AArch64) &middot; 14 targets have no runtime-provable exploit, each with a \

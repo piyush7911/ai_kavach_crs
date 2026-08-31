@@ -10,7 +10,7 @@ measured on `gpt-4o-mini`; results on another model would need re-measuring.
 **Architecture:** [`architecture.md`](architecture.md)
 
 > Every figure in this document was measured during execution. Quantities that
-> could not be measured on this platform are listed in §7 rather than estimated.
+> could not be measured on this platform are listed in §8 rather than estimated.
 
 ---
 
@@ -300,7 +300,66 @@ pass. Reports distinguish "the PoV proved the fix" from "no PoV existed".
 
 ---
 
-## 6. Patch Quality, Resources & Memory
+## 6. Resource Utilisation & Footprint
+
+Measured during the 2026-08-30 run on one MacBook (Darwin arm64, Python 3.11).
+No GPU, no cluster, no fine-tuning, no local model weights.
+
+### Cost and time
+
+| Metric | Measured |
+| :--- | ---: |
+| **Total LLM cost, all 44 targets** | **$0.0739** |
+| Median cost per target | $0.0009 |
+| Most expensive single target | $0.0129 |
+| Total wall time, 7 suites | 804s (13.4 min) |
+| Median time per target | 5.8s |
+| Slowest single target | 42.6s |
+| API calls | 161 |
+| Tokens | 244,643 in / 46,175 out |
+
+At $0.0017 per target amortised, scanning a 1,000-target corpus costs under $2.
+
+### Memory and disk
+
+| Metric | Measured |
+| :--- | ---: |
+| **Peak RSS, harness process** | **1,300 MB** |
+| Python environment (all dependencies) | 824 MB |
+| clang + LLVM toolchain | 80 MB |
+| Semgrep | 75 MB |
+| AFL++ | 112 KB |
+| CBMC | present, small |
+| **Local model weights** | **0 bytes** — inference is a remote API call |
+| Source, tests and docs | 1.6 MB |
+
+Peak RSS is `getrusage(RUSAGE_SELF)` for the orchestrator, taken during a run
+with three agents in parallel plus fuzzing. It fits comfortably on an 8 GB
+laptop, which is where it was measured.
+
+### Why the cost is this low
+
+Not prompt-engineering. The expensive work is done by tools that are not billed
+by the token — clang, AddressSanitizer, libFuzzer, CBMC — and the LLM is used
+only to propose candidate patches, which are then accepted or rejected by
+deterministic verification. That division is what makes `gpt-4o-mini` sufficient:
+a weaker model produces worse candidates, and the gates reject them. Model
+capability trades against iteration count, not against correctness.
+
+The consequence for deployment: **no GPU is required at any point**, and the
+dependency tree contains no ML framework (0 packages matching torch / CUDA /
+TensorFlow / JAX). The only stage needing a network is inference, and that can
+be redirected to a local endpoint (§4b in `architecture.md`).
+
+### Not measured
+
+- **CPU utilisation** — not sampled. No value is reported rather than estimated.
+- **Peak RSS of child processes** — the figure above covers the harness process;
+  compiler and fuzzer subprocesses are not aggregated into it.
+
+---
+
+## 7. Patch Quality & Memory
 
 Measured during the 2026-08-30 run.
 
@@ -314,6 +373,7 @@ Measured during the 2026-08-30 run.
 | Output tokens | 46,175 |
 | API calls | 161 |
 | **Total cost, all 44 targets** | **$0.0739** (~$0.0017 per target) |
+| Peak RSS (harness process) | **1,300 MB** — fits an 8 GB laptop |
 | Unit tests | **125**, no API calls, no network |
 | Semantic memory patterns learned | 28 |
 | Episodic trajectories recorded | 91 |
@@ -325,7 +385,7 @@ recalled and the repair still fails.
 
 ---
 
-## 7. Not Measured
+## 8. Not Measured
 
 - **Detection precision / recall** — this evaluation patches curated target lists
   and fuzzes four harnesses. No labelled detection corpus was scanned, so neither
@@ -349,7 +409,7 @@ recalled and the repair still fails.
 
 ---
 
-## 8. Scope of These Results
+## 9. Scope of These Results
 
 The corpus is 44 targets: 26 purpose-built synthetic samples (20 comment-free, 4
 Vanguard, 2 CVE-inspired), 2 NIST Juliet cases, 6 real Semgrep findings in cJSON,
@@ -375,7 +435,7 @@ are reported NOT HARDENED rather than counted as survivors (§1).
 
 ---
 
-## 9. Reproducing
+## 10. Reproducing
 
 ```bash
 # Main harness — synthetic, Juliet, cJSON, fuzz discovery
