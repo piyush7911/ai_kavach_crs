@@ -350,4 +350,3 @@ whatever model you deploy. The harness makes that a single command.
 | `architecture.md` | Full five-phase design and component diagram |
 | `benchmark.md` | Measured results from the latest run |
 | `INSTALLED.md` | Everything installed, with uninstall commands |
-| `HACKATHON_BRIEF.md` | Problem statement this system was built against |
