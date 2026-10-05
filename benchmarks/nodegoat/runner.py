@@ -101,8 +101,10 @@ def _check_flow(base_url: str, flow: dict) -> tuple[bool, str]:
     if "status" in expect and resp.status != expect["status"]:
         return False, f"status {resp.status} != {expect['status']}"
     import re
-    if "body_regex" in expect and not re.search(expect["body_regex"], resp.body, re.S):
+    if "body_regex" in expect and not re.search(expect["body_regex"], resp.body, re.S | re.I):
         return False, f"body_regex /{expect['body_regex']}/ not found"
+    if "redirect_regex" in expect and not re.search(expect["redirect_regex"], resp.location):
+        return False, f"redirect /{expect['redirect_regex']}/ not in Location={resp.location!r}"
     return True, f"status={resp.status}"
 
 
