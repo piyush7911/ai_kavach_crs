@@ -15,6 +15,8 @@ from src.context_engine.tree_sitter_extractor import ContextExtractor
 from src.agent_orchestrator.llm_client import LLMClient
 
 
+@pytest.mark.skipif(not os.environ.get("OPENAI_API_KEY", "").startswith("sk-"),
+                    reason="needs a real OPENAI_API_KEY (sk-...); not set on a fresh checkout")
 def test_config_loading():
     config = get_llm_config()
     assert "api_key" in config

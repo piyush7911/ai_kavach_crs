@@ -1,6 +1,7 @@
 """Sandbox: mode handling everywhere; real denial tests on macOS only."""
 
 import platform
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -85,7 +86,22 @@ def test_macos_denies_network(monkeypatch, tmp_path):
     assert "REFUSED" in out, f"expected an explicit refusal, got: {out!r}"
 
 
+def _clang_can_link() -> bool:
+    if shutil.which("clang") is None:
+        return False
+    import subprocess, tempfile
+    with tempfile.TemporaryDirectory() as d:
+        src, exe = Path(d) / "t.c", Path(d) / "t"
+        src.write_text("int main(void){return 0;}")
+        try:
+            r = subprocess.run(["clang", str(src), "-o", str(exe)], capture_output=True, timeout=60)
+            return r.returncode == 0 and exe.exists()
+        except (OSError, subprocess.SubprocessError):
+            return False
+
+
 @pytest.mark.skipif(not DARWIN, reason="sandbox-exec is macOS only")
+@pytest.mark.skipif(not _clang_can_link(), reason="clang cannot build+link here (broken toolchain/SDK)")
 def test_macos_clang_build_works_inside_sandbox(monkeypatch, tmp_path):
     """The point of the sandbox is lost if real gate commands cannot run under it."""
     monkeypatch.setenv("KAVACH_SANDBOX", "required")

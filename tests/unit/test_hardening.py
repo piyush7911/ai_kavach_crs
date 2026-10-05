@@ -82,7 +82,25 @@ def _build(source: Path, out: Path) -> bool:
     return subprocess.run(cmd, shell=True, capture_output=True).returncode == 0
 
 
-pytestmark = pytest.mark.skipif(shutil.which("clang") is None, reason="clang required")
+def _clang_can_link() -> bool:
+    """clang on PATH is not enough: a mismatched macOS SDK (e.g. a `tapi error: malformed
+    file ...libSystem.B.tbd`) lets clang start but fail at link. Gate on a real build+link so
+    a broken toolchain SKIPS these C-side tests instead of failing red on a fresh checkout."""
+    if shutil.which("clang") is None:
+        return False
+    import tempfile
+    with tempfile.TemporaryDirectory() as d:
+        src, exe = Path(d) / "t.c", Path(d) / "t"
+        src.write_text("int main(void){return 0;}")
+        try:
+            r = subprocess.run(["clang", str(src), "-o", str(exe)], capture_output=True, timeout=60)
+            return r.returncode == 0 and exe.exists()
+        except (OSError, subprocess.SubprocessError):
+            return False
+
+
+pytestmark = pytest.mark.skipif(not _clang_can_link(),
+                                reason="clang cannot build+link here (missing or broken toolchain/SDK)")
 
 
 # --- differential testing --------------------------------------------------
