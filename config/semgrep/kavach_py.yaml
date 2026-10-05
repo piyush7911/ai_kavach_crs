@@ -1,0 +1,70 @@
+rules:
+# Generic Python/Flask security rules written for AI Kavach. Nothing names a particular
+# application: the engine must work on code it has not seen. Static hits are CANDIDATES; a
+# replayable exploit (the HTTP probes/oracles) is what confirms one. Semgrep runs these from
+# the local file — no registry, so it works air-gapped.
+
+- id: kavach-py-hardcoded-secret
+  languages: [python]
+  severity: WARNING
+  message: A secret, key, password or token is assigned a hard-coded string literal.
+  metadata: {cwe: "CWE-798", owasp: "A07:2021", kavach_class: hardcoded-secret, confidence: medium}
+  patterns:
+    - pattern-either:
+        - patterns:
+            - pattern: $NAME = "..."
+            - metavariable-regex:
+                metavariable: $NAME
+                regex: (?i).*(secret|password|passwd|token|api_?key|private_?key|crypto_?key).*
+        - pattern: $CFG['SECRET_KEY'] = "..."
+        - pattern: $CFG["SECRET_KEY"] = "..."
+        - pattern: $CFG['SECRET_KEY'] = '...'
+
+- id: kavach-py-code-injection
+  languages: [python]
+  severity: ERROR
+  message: eval/exec on a non-constant value can run arbitrary code (code injection).
+  metadata: {cwe: "CWE-95", owasp: "A03:2021", kavach_class: code-injection, confidence: high}
+  patterns:
+    - pattern-either:
+        - pattern: eval(...)
+        - pattern: exec(...)
+    - pattern-not: eval("...")
+    - pattern-not: exec("...")
+
+- id: kavach-py-sql-injection
+  languages: [python]
+  severity: ERROR
+  message: A SQL string built by formatting/concatenation reaches a query (SQL injection).
+  metadata: {cwe: "CWE-89", owasp: "A03:2021", kavach_class: sql-injection, confidence: high}
+  patterns:
+    - pattern-either:
+        - pattern: $C.execute("..." % ...)
+        - pattern: $C.execute("...".format(...))
+        - pattern: $C.execute(f"...")
+        - pattern: $C.executescript(f"...")
+        - pattern: text("..." + ...)
+        - pattern: text(f"...")
+
+- id: kavach-py-command-injection
+  languages: [python]
+  severity: ERROR
+  message: A shell command built from data can be injected (command injection).
+  metadata: {cwe: "CWE-78", owasp: "A03:2021", kavach_class: command-injection, confidence: high}
+  patterns:
+    - pattern-either:
+        - pattern: os.system(...)
+        - pattern: os.popen(...)
+        - patterns:
+            - pattern: subprocess.$F(..., shell=True, ...)
+            - pattern-not: subprocess.$F("...", shell=True)
+
+- id: kavach-py-flask-debug
+  languages: [python]
+  severity: WARNING
+  message: A Flask app running with debug=True exposes the interactive debugger (RCE) in production.
+  metadata: {cwe: "CWE-489", owasp: "A05:2021", kavach_class: debug-enabled, confidence: medium}
+  patterns:
+    - pattern-either:
+        - pattern: $APP.run(..., debug=True, ...)
+        - pattern: $APP.run(..., debug=True)

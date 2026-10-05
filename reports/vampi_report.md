@@ -95,3 +95,30 @@ verification, is. The remaining per-language work is detection and repair.
 `python -m benchmarks.nodegoat.runner start|replay --app benchmarks/apps/vampi.json ...` confirms
 VAmPI's data-exposure bug through the real runner CLI. NodeGoat's `--tree` path is unchanged. So an
 unknown HTTP app is a small config plus (per language) detection and repair.
+
+---
+
+## Update (2026-10-06): Python DETECTION now works
+
+A Python detection backend (`src/pyauto/`) was added — the counterpart of `src/jsauto`. It runs
+generic Kavach Python rules (`config/semgrep/kavach_py.yaml`: hardcoded secret, eval/exec code
+injection, string-built SQL, command injection, Flask debug) with Semgrep **offline** (local rule
+file, no registry), maps each hit to its enclosing function with `tree-sitter-python`, and emits the
+SAME `Finding` type the JS backend uses — so scoring/reporting are unchanged.
+
+    python -m src.pyauto --target benchmark_workspace/VAmPI
+
+On VAmPI it finds **4 real bugs in 2 s**: the hardcoded `SECRET_KEY='random'` (config.py:13), the
+hardcoded JWT secret in `token_validator` (users.py:122/124), and `debug=True` (app.py:17). The
+logic bugs VAmPI also has (BOLA, mass assignment, data exposure) are not static patterns — they are
+confirmed by the HTTP oracles instead (see the cross-language section above).
+
+### VAmPI status now
+- **Detection:** working (4 static bugs via `pyauto`).
+- **Verification:** working (data-exposure + mass-assignment confirmed via the runner adapter).
+- **Repair:** NOT done for Python — needs Python repair prompts + a `tree-sitter-python` patch
+  splicer + the policy gate for Python. That is the remaining piece before a full Python
+  find -> fix -> prove loop.
+
+So VAmPI has gone from **0 found / 0 fixed** to **detection + verification working cross-language**,
+with Python repair as the last backend piece.
