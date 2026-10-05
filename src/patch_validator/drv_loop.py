@@ -32,6 +32,8 @@ from dataclasses import dataclass, field
 
 from src.agent_orchestrator.critic import Critic, EscalationPolicy
 from src.memory import WorkingMemory
+from src.patch_validator import sandbox
+from src.patch_validator import policy as patch_policy
 
 logger = logging.getLogger(__name__)
 
@@ -59,11 +61,13 @@ class PatchResult:
     pov_ok: str = GATE_SKIPPED
     regression_ok: str = GATE_SKIPPED
     post_scan_ok: str = GATE_SKIPPED
+    policy_ok: str = GATE_SKIPPED
+    policy_violations: list[str] = field(default_factory=list)
     fully_validated: bool = False
     error_feedback: str = ""
     analysis: str = ""
     patch_line_count: int = 0        # added + removed lines, excluding headers
-    failure_stage: str = ""          # apply | build | pov | regression | post_scan | generation
+    failure_stage: str = ""          # apply | policy | build | pov | regression | post_scan | generation
     critic_verdict: str = ""         # Agent Delta's diagnosis, when it was consulted
 
     @property
@@ -71,6 +75,7 @@ class PatchResult:
         """Gates that actually ran (i.e. were not skipped) in this iteration."""
         return [
             name for name, state in (
+                ("policy", self.policy_ok),
                 ("build", self.syntax_ok), ("pov", self.pov_ok),
                 ("regression", self.regression_ok), ("post_scan", self.post_scan_ok),
             ) if state != GATE_SKIPPED
@@ -146,6 +151,7 @@ class DRVLoop:
         # Agent Delta reviews rejected patches; the policy decides when it is
         # worth the call. Both are inert until a gate actually fails.
         self.critic = Critic(llm_client) if use_critic else None
+        self.policy = patch_policy.PatchPolicy()
 
     # -- public API ---------------------------------------------------------
 
@@ -160,9 +166,12 @@ class DRVLoop:
         test_command: Optional[str] = None,
         pov_command: Optional[str] = None,
         source_dir: Optional[str] = None,
+        flagged_line: Optional[int] = None,
+        model: Optional[str] = None,
     ) -> DRVReport:
         """
         Run the full DRV loop for one agent on one vulnerability.
+        `model` overrides the agent's model for every call in this loop.
 
         build/pov/test commands are templates expanded with {src}, {srcdir},
         {bin}, {workspace}. A command left as None means that gate is SKIPPED
@@ -200,11 +209,13 @@ class DRVLoop:
             ledger = working.render()
             iteration_feedback = f"{feedback}\n\n{ledger}" if (feedback and ledger) else (feedback or ledger or None)
 
+            extra = {"model": model} if model else {}
             llm_result = self.llm_client.generate_patch(
                 agent_name=agent_name,
                 vulnerability_context=vulnerability_context,
                 feedback=iteration_feedback,
                 iteration=iteration,
+                **extra,
             )
             patch_diff = llm_result["patch"]
             replacement = llm_result.get("replacement")
@@ -232,7 +243,8 @@ class DRVLoop:
                 continue
 
             if self._verify(result, target_file, patch_diff,
-                            build_command, pov_command, test_command, source_dir):
+                            build_command, pov_command, test_command, source_dir,
+                            flagged_line=flagged_line):
                 report.success = True
                 # Record whatever actually got applied, so the audit trail shows
                 # the real change rather than an unused diff.
@@ -303,6 +315,7 @@ class DRVLoop:
         self, result: PatchResult, target_file: str, patch_diff: str,
         build_command: Optional[str], pov_command: Optional[str],
         test_command: Optional[str], source_dir: Optional[str],
+        flagged_line: Optional[int] = None,
     ) -> bool:
         """Run every configured gate against the patched workspace."""
         with tempfile.TemporaryDirectory(prefix="kavach_drv_") as tmpdir:
@@ -314,6 +327,7 @@ class DRVLoop:
                 result.applied = GATE_FAIL
                 result.error_feedback = str(e)
                 return False
+            before_apply = patch_policy.snapshot(workspace) if patch_policy.enabled() else {}
 
             # Gate 1 — patch application.
             # A whole-function replacement is spliced by AST range and cannot
@@ -353,6 +367,26 @@ class DRVLoop:
                     "name and cannot fail on context mismatch."
                 )
                 return False
+
+            # Gate 1b — patch policy: is this the shape of a repair at all?
+            # Runs before anything is compiled, so a signal handler or a
+            # sanitizer-disabling attribute never reaches the execution gates.
+            if patch_policy.enabled():
+                language = "cpp" if patched_src.suffix in (".cc", ".cpp", ".cxx", ".hpp") else "c"
+                verdict = self.policy.check(
+                    original_text, patched_src.read_text(),
+                    target_rel=patched_src.relative_to(workspace).as_posix(),
+                    flagged_line=flagged_line,
+                    workspace_changes=patch_policy.changed_paths(
+                        before_apply, patch_policy.snapshot(workspace)),
+                    language=language,
+                )
+                result.policy_ok = GATE_PASS if verdict.ok else GATE_FAIL
+                result.policy_violations = [str(v) for v in verdict.violations]
+                if not verdict.ok:
+                    result.failure_stage = "policy"
+                    result.error_feedback = verdict.feedback()
+                    return False
 
             binary = workspace / "kavach_target"
             ctx = {
@@ -431,6 +465,22 @@ class DRVLoop:
             src_root = Path(source_dir)
             if not src_root.exists():
                 raise FileNotFoundError(f"Source dir not found: {source_dir}")
+            if src_root.is_absolute():
+                # `workspace / <absolute path>` evaluates to the absolute path
+                # itself, which used to copy the tree onto itself and leave the
+                # workspace empty. Relative trees (every benchmark target) keep
+                # their layout; an absolute tree — an uploaded repo, the
+                # autonomous mode's snapshot — is copied under its own name and
+                # the target is located relative to it.
+                dest_root = workspace / src_root.name
+                shutil.copytree(src_root, dest_root, dirs_exist_ok=True)
+                try:
+                    inner = target.resolve().relative_to(src_root.resolve())
+                except ValueError:
+                    raise FileNotFoundError(
+                        f"Target {target_file} is not inside source dir {source_dir}"
+                    )
+                return dest_root / inner
             dest_root = workspace / src_root
             dest_root.parent.mkdir(parents=True, exist_ok=True)
             shutil.copytree(src_root, dest_root, dirs_exist_ok=True)
@@ -601,12 +651,23 @@ class DRVLoop:
 
     @staticmethod
     def _run(command: str, label: str, cwd: Optional[Path] = None) -> tuple[bool, str]:
-        """Run a shell command; return (exit==0, captured output)."""
+        """
+        Run a shell command; return (exit==0, captured output).
+
+        With KAVACH_SANDBOX set (see sandbox.py) the command runs with network
+        denied and writes confined to `cwd`, which is always the gate's
+        temporary workspace. In `required` mode a missing sandbox fails the
+        gate instead of running the command unconfined.
+        """
+        env = dict(os.environ, ASAN_OPTIONS="detect_leaks=0", MallocNanoZone="0")
+        try:
+            run_plan = sandbox.plan(command, Path(cwd) if cwd else Path.cwd(), env)
+        except sandbox.SandboxUnavailable as e:
+            return False, f"{label} not run: {e}"
         try:
             proc = subprocess.run(
-                command, shell=True, capture_output=True, text=True,
-                timeout=180, cwd=str(cwd) if cwd else None,
-                env=dict(os.environ, ASAN_OPTIONS="detect_leaks=0", MallocNanoZone="0"),
+                run_plan.argv, capture_output=True, text=True,
+                timeout=180, cwd=str(cwd) if cwd else None, env=run_plan.env,
             )
         except subprocess.TimeoutExpired:
             return False, f"{label} timed out after 180 seconds"

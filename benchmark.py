@@ -41,11 +41,13 @@ from rich.table import Table
 
 sys.path.insert(0, str(Path(__file__).parent))
 
+from src.events import EventSink, NULL_SINK
 from src.main import setup_logging
 from src.agent_orchestrator.orchestrator import Orchestrator, VulnerabilityReport, PipelineResult
 from src.agent_orchestrator.llm_client import LLMClient
 from src.context_engine.tree_sitter_extractor import ContextExtractor
 from src.patch_validator.drv_loop import DRVLoop, GATE_PASS, GATE_SKIPPED
+from src.reporting.repro import write_bundle
 from src.reporting.audit_report import AuditReportGenerator
 from src.patch_validator.hardening import PatchHardening, HardeningVerdict
 from src.patch_validator.formal import FormalVerifier, VerificationResult
@@ -162,9 +164,15 @@ def preflight(target: Target) -> PreflightResult:
 
 class BenchmarkHarness:
     def __init__(self, output_dir="reports/benchmark_runs", parallel=True, harden=False,
-                 memory=False, formal=False):
+                 memory=False, formal=False, events: EventSink = NULL_SINK,
+                 hardening_retries: int = 1, strategy: str = "ensemble"):
+        self.strategy = strategy
+        self.hardening_retries = max(0, hardening_retries)
+        self.hardening_attempts: dict[str, int] = {}
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
+        # Structured progress for live viewers; a no-op unless --events is given.
+        self.events = events
         self.parallel = parallel
         self.harden = harden
         self.hardener = PatchHardening() if harden else None
@@ -188,6 +196,9 @@ class BenchmarkHarness:
 
         label = name
         console.print(f"\n[bold cyan]=== {label} — {len(targets)} targets ===[/]")
+        self.events.emit("suite_start", stage="suite", status="info",
+                         message=f"{label}: {len(targets)} targets",
+                         suite=label, total=len(targets))
 
         console.print("[dim]Pre-flight: verifying each PoV reproduces on the unpatched original...[/]")
         preflights = {}
@@ -220,12 +231,16 @@ class BenchmarkHarness:
             None,
             parallel=self.parallel,
             memory=self.memory,
+            strategy=self.strategy,
         )
 
         suite_start = time.time()
         results = []
         for i, t in enumerate(usable, 1):
             console.print(f"  [{i}/{len(usable)}] {t.id} …")
+            self.events.emit("target_start", stage="repair", status="info",
+                             message=t.id, suite=label, id=t.id, cwe=t.cwe_id,
+                             index=i, total=len(usable))
             pf = preflights[t.id]
             vuln = VulnerabilityReport(
                 id=t.id, source=t.source, file_path=t.file_path,
@@ -245,8 +260,43 @@ class BenchmarkHarness:
 
             if self.hardener and result.status == "patched":
                 verdict = self._harden_patch(t, result)
+                attempts = 1
+                # A patch that passes every gate but is falsified is usually one the model
+                # over-edited (for example deleting a cleanup call). Tell it what broke and
+                # allow a bounded number of new attempts; each is hardened from scratch.
+                while verdict.falsified and attempts <= self.hardening_retries:
+                    attempts += 1
+                    reason = (verdict.new_crash_detail or verdict.divergence_detail
+                              or verdict.evasion_detail or verdict.summary())
+                    console.print(f"      [yellow]hardening rejected the patch ({reason[:110]}); "
+                                  f"retrying (attempt {attempts})[/]")
+                    self.events.emit("hardening_retry", stage="repair", status="info",
+                                     message=f"{t.id}: attempt {attempts}", id=t.id, reason=reason[:300])
+                    retry_vuln = VulnerabilityReport(
+                        id=t.id, source=t.source, file_path=t.file_path,
+                        line_number=t.line_number, cwe_id=t.cwe_id, severity=t.severity,
+                        description=(t.description + "\n\nA previous patch for this bug passed the "
+                                     "build, the proof-of-vulnerability and the regression tests, but "
+                                     "was REJECTED by a stricter check: " + reason + " Fix the bug "
+                                     "without removing cleanup or changing behaviour on any other "
+                                     "path; change as little as possible."))
+                    retry = orchestrator.process_vulnerability(
+                        retry_vuln, build_command=t.build_command,
+                        pov_command=t.pov_command if pf.pov_usable else None,
+                        test_command=t.regression_command, source_dir=t.source_dir)
+                    retry.total_cost_usd += result.total_cost_usd
+                    retry.elapsed_seconds += result.elapsed_seconds
+                    result = retry
+                    results[-1] = result
+                    self.all_results[-1] = (t, result)
+                    if result.status != "patched":
+                        break
+                    verdict = self._harden_patch(t, result)
+                self.hardening_attempts[t.id] = attempts
                 self.hardening_verdicts[t.id] = verdict
-                if verdict.falsified:
+                if result.status != "patched":
+                    console.print("      [red]the retry did not produce a patch that clears the gates[/]")
+                elif verdict.falsified:
                     # The patch cleared every gate but hardening broke it.
                     # Downgrade it rather than report a fix we can't defend.
                     #
@@ -392,10 +442,14 @@ class BenchmarkHarness:
             "PoV_Available": pf.pov_usable,
             "PoV_Gate": winning.pov_ok if winning else GATE_SKIPPED,
             "Build_Gate": winning.syntax_ok if winning else GATE_SKIPPED,
+            "Policy_Gate": winning.policy_ok if winning else GATE_SKIPPED,
             "Regression_Gate": winning.regression_ok if winning else GATE_SKIPPED,
             "Patch_Lines": winning.patch_line_count if winning else "",
             "Max_Agent_Iterations": max(iterations) if iterations else 0,
             "Failure_Stages": ";".join(f"{k}:{v}" for k, v in stages.items()),
+            "Hardening_Attempts": self.hardening_attempts.get(t.id, ""),
+            "LLM_Calls": r.llm_calls,
+            "Tiers_Used": r.tiers_used or "",
             "Seconds": round(r.elapsed_seconds, 2),
             "Cost_USD": round(r.total_cost_usd, 6),
             "Formal": self.formal_results[t.id].status if t.id in self.formal_results else "",
@@ -403,6 +457,17 @@ class BenchmarkHarness:
             "Hardening": self.hardening_verdicts[t.id].summary() if t.id in self.hardening_verdicts else "",
             "Hardening_Survived": self.hardening_verdicts[t.id].survived if t.id in self.hardening_verdicts else "",
         })
+        row = self.records[-1]
+        self.events.emit(
+            "target_done", stage="repair",
+            status="ok" if r.status == "patched" else "fail",
+            message=f"{t.id}: {r.status}", suite=suite, id=t.id, cwe=t.cwe_id,
+            result=r.status, agent=row["Winning_Agent"], build=row["Build_Gate"],
+            pov=row["PoV_Gate"], regression=row["Regression_Gate"],
+            seconds=row["Seconds"], cost_usd=row["Cost_USD"],
+            patch_lines=row["Patch_Lines"], formal=row["Formal"],
+            hardening=row["Hardening"], hardening_survived=row["Hardening_Survived"],
+        )
 
     def _summarise_suite(self, label, name, targets, excluded, results, duration):
         rows = [rec for rec in self.records if rec["Suite"] == label]
@@ -430,6 +495,10 @@ class BenchmarkHarness:
             "Median_Patch_Lines": statistics.median(patch_sizes) if patch_sizes else None,
             "Duration_s": round(duration, 2),
         })
+        self.events.emit("suite_done", stage="suite", status="ok",
+                         message=f"{label}: {len(patched)}/{len(targets)} patched",
+                         suite=label, patched=len(patched), total=len(targets),
+                         seconds=round(duration, 2))
 
         console.print(
             f"[bold]{label}[/]: {len(patched)}/{len(targets)} passed all configured gates; "
@@ -454,6 +523,9 @@ class BenchmarkHarness:
 
         label = f"Fuzz Discovery ({engine})"
         console.print(f"\n[bold cyan]=== {label} — {len(eligible)} harnessed targets ===[/]")
+        self.events.emit("suite_start", stage="suite", status="info",
+                         message=f"{label}: {len(eligible)} harnesses, {seconds}s each",
+                         suite=label, total=len(eligible))
 
         orchestrator = Orchestrator(self.llm_client, self.extractor, None, parallel=self.parallel)
         pipeline = FuzzDiscoveryPipeline(orchestrator, engine=engine)
@@ -463,6 +535,9 @@ class BenchmarkHarness:
 
         for i, t in enumerate(eligible, 1):
             console.print(f"  [{i}/{len(eligible)}] fuzzing {t.id} for {seconds}s …")
+            self.events.emit("target_start", stage="fuzz", status="info",
+                             message=f"fuzzing {t.id} for {seconds}s", suite=label,
+                             id=t.id, index=i, total=len(eligible))
             discovery = pipeline.run(
                 t.id, t.file_path, t.build_command, t.regression_command, seconds=seconds
             )
@@ -470,6 +545,14 @@ class BenchmarkHarness:
             bugs_total += discovery.unique_bugs
             patched_total += discovery.patched
 
+            self.events.emit(
+                "fuzz_result", stage="fuzz",
+                status="ok" if discovery.patched == discovery.unique_bugs else "fail",
+                message=(f"{t.id}: {discovery.crashes_found} crash(es) → "
+                         f"{discovery.unique_bugs} bug(s) → {discovery.patched} fixed"),
+                suite=label, id=t.id, crashes=discovery.crashes_found,
+                bugs=discovery.unique_bugs, fixed=discovery.patched,
+                error=discovery.error or "")
             console.print(
                 f"      {discovery.crashes_found} crash input(s) → "
                 f"{discovery.unique_bugs} distinct bug(s) → {discovery.patched} verified fix(es)"
@@ -490,6 +573,7 @@ class BenchmarkHarness:
                     "PoV_Available": True,           # the fuzzer's own crashing input
                     "PoV_Gate": winning.pov_ok if winning else GATE_SKIPPED,
                     "Build_Gate": winning.syntax_ok if winning else GATE_SKIPPED,
+                    "Policy_Gate": winning.policy_ok if winning else GATE_SKIPPED,
                     "Regression_Gate": winning.regression_ok if winning else GATE_SKIPPED,
                     "Patch_Lines": winning.patch_line_count if winning else "",
                     "Max_Agent_Iterations": max(
@@ -533,6 +617,10 @@ class BenchmarkHarness:
             "Crash_Inputs_Found": crashes_total,
             "Distinct_Bugs_After_Triage": bugs_total,
         })
+        self.events.emit("suite_done", stage="suite", status="ok",
+                         message=f"{label}: {patched_total}/{bugs_total} bugs fixed",
+                         suite=label, patched=patched_total, total=bugs_total,
+                         seconds=duration)
         console.print(
             f"[bold]{label}[/]: {crashes_total} crash input(s) → {bugs_total} distinct bug(s) "
             f"→ {patched_total} verified fix(es) in {duration}s"
@@ -575,7 +663,16 @@ class BenchmarkHarness:
             [r for _, r in self.all_results], report_name="audit", gate_notes=gate_notes
         )
 
+        # Reproducibility bundle: tool versions, reproduce.sh, then the sha256
+        # manifest over everything above (hash-manifested, not signed).
+        usage = self.llm_client.get_usage_summary()
+        write_bundle(run_dir, models=self.llm_client.models, seed=usage.get("seed"),
+                     fingerprints=getattr(self.llm_client, "fingerprints", set()))
+
         console.print(f"📊 Run artifacts: [bold]{run_dir}[/]")
+        self.events.emit("run_done", stage="run", status="ok",
+                         message="run artifacts written", run_dir=str(run_dir),
+                         run_id=Path(run_dir).name)
         return run_dir
 
     @staticmethod
@@ -744,7 +841,8 @@ class BenchmarkHarness:
             "",
             f"- Targets attempted: **{t['targets_attempted']}**",
             f"- Passed every configured gate: **{t['patched_all_configured_gates']}** "
-            f"({t['success_rate']}, 95% CI {t['success_rate_95ci_wilson'].split(' ',1)[1]})",
+            f"({t['success_rate']}, 95% CI "
+            f"{t['success_rate_95ci_wilson'].split(' ', 1)[1] if ' ' in t['success_rate_95ci_wilson'] else 'n/a: no targets were evaluated'})",
             f"- Targets with a PoV that provably reproduces on the unpatched original: "
             f"**{t['targets_with_reproducible_pov']}**",
             f"- Fixes proven by PoV replay: **{t['pov_verified_fixes']}** ({t['pov_verified_rate']})",
@@ -840,15 +938,32 @@ def main():
                               "re-fuzz the patched build for an overfitted fix, and "
                               "differential-test it against the original for behaviour "
                               "changes. Patches that fail are downgraded."))
+    parser.add_argument("--strategy", choices=["ensemble", "adaptive"], default="ensemble",
+                        help="ensemble: Alpha, Beta and Gamma all run, smallest validated patch wins. "
+                             "adaptive: one agent first, escalating to different agents and a stronger "
+                             "model only if it fails (fewer model calls on easy bugs).")
+    parser.add_argument("--hardening-retries", type=int, default=1,
+                        help="With --harden: how many times a falsified patch is sent back to "
+                             "the model with the reason (0 = never retry). Default 1.")
     parser.add_argument("--fuzz", action="store_true",
                         help="Also run the fuzz-discovery suite (fuzz → triage → patch → verify)")
     parser.add_argument("--fuzz-engine", choices=["libfuzzer", "afl++"], default="libfuzzer")
     parser.add_argument("--fuzz-seconds", type=int, default=30,
                         help="Fuzzing budget per target (default 30s)")
+    parser.add_argument("--events", metavar="PATH",
+                        help=("Write structured progress events (JSON lines) to PATH "
+                              "so a live viewer can follow the run."))
     args = parser.parse_args()
 
     setup_logging(verbose=False)
-    harness = BenchmarkHarness(parallel=not args.sequential, harden=args.harden, memory=args.memory, formal=args.formal)
+    sink = EventSink(args.events) if args.events else NULL_SINK
+    harness = BenchmarkHarness(parallel=not args.sequential, harden=args.harden,
+                               memory=args.memory, formal=args.formal, events=sink,
+                               hardening_retries=args.hardening_retries, strategy=args.strategy)
+    sink.emit("run_start", stage="run", status="info", message="benchmark started",
+              suite=args.suite, harden=args.harden, formal=args.formal,
+              memory=args.memory, fuzz=args.fuzz, only=args.only or "",
+              models=harness.llm_client.models)
 
     if args.suite == "fuzz":
         suite_names = []

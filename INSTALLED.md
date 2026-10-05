@@ -1,6 +1,6 @@
 # AI Kavach CRS — Installation & Dependency Tracker
 # Everything installed for this project, so it can be removed cleanly later.
-# Last updated: 2026-08-30
+# Last updated: 2026-10-01
 
 ## Conda Environment
 - **Name:** `ai_kavach`
@@ -21,10 +21,12 @@
 | pydantic | Data validation | in use | `pip uninstall pydantic` |
 | rich | Terminal output | in use | `pip uninstall rich` |
 | pytest | Unit tests | in use | `pip uninstall pytest` |
-| semgrep | Static analysis → SARIF | in use (v1.172.0) | `pip uninstall semgrep` |
+| semgrep | Static analysis → SARIF | in use (v1.178.0 installed 2026-10-01; earlier docs cite 1.172.0) | `pip uninstall semgrep` |
 | **angr** | Symbolic execution for Driller | **added 2026-08-07** | `pip uninstall angr` |
 | Pillow, lxml | Pulled in transitively while evaluating `python-pptx` for a deck deliverable that was then dropped. `python-pptx` and `XlsxWriter` were uninstalled; these two were left because they are common transitive dependencies and removing them risks other packages. Nothing in `src/` imports them. | left installed, unused | `pip uninstall Pillow lxml` |
 | ~~python-pptx~~ | — | installed 2026-08-30, **removed the same day** (deck step dropped) | already uninstalled |
+| **fastapi** (pinned **0.135.4**) | Serves the live dashboard (`dashboard/app.py`). `uvicorn`, `starlette`, `python-multipart`, `sse-starlette` were already present. **Do not install an unpinned/latest FastAPI**: 0.142+ requires `opentelemetry-api>=1.44`, which breaks Semgrep (pinned to 1.37.0). This happened once on 2026-10-01 and was reverted | **added 2026-10-01** | `pip install fastapi==0.135.4 opentelemetry-api==1.37.0` | `pip uninstall fastapi annotated-doc` |
+| **qwen2.5-coder:7b** (Ollama model) | Local patching model: 4.7 GB on disk, ~4.9 GB resident when loaded (measured via Ollama `/api/ps`). Chosen for a 16 GB M3 Air, where macOS exposes ~11.8 GiB to the GPU. A derived model **`kavach-coder:7b`** (`config/ollama/Modelfile`: `num_ctx 8192`, `temperature 0`, `seed 1337`) is what the project uses | **added 2026-10-01** | `ollama pull qwen2.5-coder:7b && ollama create kavach-coder:7b -f config/ollama/Modelfile` | `ollama rm kavach-coder:7b qwen2.5-coder:7b` |
 | ~~langgraph~~ | — | **NOT used**; commented out of requirements.txt | `pip uninstall langgraph` |
 | ~~langchain-openai~~ | — | **NOT used**; commented out | `pip uninstall langchain-openai` |
 | ~~langchain-core~~ | — | **NOT used**; commented out | `pip uninstall langchain-core` |
@@ -79,8 +81,17 @@ benchmark_workspace/fuzzing/      # fuzz builds, corpora, crash artifacts
 benchmark_workspace/triage/       # triage scratch
 benchmark_workspace/driller/      # concolic scratch
 benchmark_workspace/cJSON/        # cloned upstream repo
-reports/benchmark_runs/           # measured benchmark output
+reports/benchmark_runs/           # measured benchmark output (now also manifest.json,
+                                  #   tool-versions.json, reproduce.sh per run)
+reports/auto_runs/                # autonomous-mode snapshots, harnesses, evidence.json
+reports/special/redteam.json      # verifier red-team result
+reports/heldout/                  # held-out validation reports
+reports/ci/                       # generated PoV-replay CI workflow
+benchmark_workspace/heldout/      # held-out library clones
 ```
+
+No new packages or tools were installed for the finale code (sandbox-exec ships
+with macOS).
 
 ## Full Cleanup
 

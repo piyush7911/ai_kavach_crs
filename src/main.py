@@ -283,10 +283,55 @@ def main():
         help="Enable verbose logging"
     )
 
+    parser.add_argument(
+        "--mode", choices=["scan", "auto"], default="scan",
+        help="scan: the existing scan->patch pipeline; auto: autonomous mode "
+             "(ingest, scan, harness, then with --fuzz-seconds: build, reach, fuzz, triage; --repair: patch + harden)"
+    )
+    parser.add_argument("--run-dir", default="", help="auto mode: output directory")
+    parser.add_argument("--events", default="", help="auto mode: JSONL event file")
+    parser.add_argument("--no-llm-harness", action="store_true",
+                        help="auto mode: templates only, never ask the model for a harness")
+    parser.add_argument("--max-functions", type=int, default=5,
+                        help="auto mode: at most this many flagged functions get a harness")
+
+    parser.add_argument("--fuzz-seconds", type=int, default=0,
+                        help="auto mode: build, judge reach and fuzz each harness for N seconds (0 = off)")
+    parser.add_argument("--strategy", choices=["ensemble", "adaptive"], default="adaptive",
+                        help="auto mode repair strategy: adaptive (default; one agent first, escalating "
+                             "only on failure) or ensemble (all three agents every time)")
+    parser.add_argument("--surface", type=int, default=0,
+                        help="auto mode: also fuzz up to N of the library's public input-parsing "
+                             "functions, whether or not the static scan flagged them")
+    parser.add_argument("--repair", action="store_true",
+                        help="auto mode: patch and harden confirmed crashes (needs a model)")
+
     args = parser.parse_args()
 
     setup_logging(args.verbose)
     print_banner()
+
+    if args.mode == "auto":
+        import json as _json
+        import time as _time
+        from src.autonomy.runner import AutoRunner
+        from src.events import EventSink, NULL_SINK
+        run_dir = Path(args.run_dir or f"reports/auto_runs/{_time.strftime('%Y%m%d_%H%M%S')}")
+        llm = None
+        if not args.no_llm_harness:
+            llm = LLMClient()
+        sink = EventSink(args.events) if args.events else NULL_SINK
+        orchestrator = None
+        if args.repair:
+            from src.agent_orchestrator.orchestrator import Orchestrator
+            orchestrator = Orchestrator(llm_client=llm or LLMClient(), context_extractor=ContextExtractor(),
+                                        parallel=False, strategy=args.strategy)
+        result = AutoRunner(run_dir, events=sink, llm=llm, fuzz_seconds=args.fuzz_seconds,
+                            repair=args.repair, orchestrator=orchestrator, surface=args.surface,
+                            max_functions=args.max_functions).run(args.target, args.build_cmd or "")
+        console.print_json(_json.dumps(result.to_dict()["summary"]))
+        console.print(f"evidence: {run_dir / 'evidence.json'}")
+        raise SystemExit(1 if result.error else 0)
 
     run_pipeline(
         target_path=args.target,

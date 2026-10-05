@@ -21,9 +21,16 @@ def get_llm_config() -> dict:
             "Set it in the .env file at the project root."
         )
 
+    base_url = os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1")
+    # A stronger model for bugs the first tiers could not fix. MODEL_ESCALATE names it
+    # explicitly. Left unset, the client probes a short list of candidates on the official
+    # OpenAI endpoint only (a local or hosted Ollama server has none of those names) and
+    # uses the first one this API key can actually call.
+    escalate = os.getenv("MODEL_ESCALATE", "")
     return {
+        "escalate_model": escalate,
         "api_key": api_key,
-        "base_url": os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1"),
+        "base_url": base_url,
         "models": {
             "alpha": os.getenv("MODEL_ALPHA", "gpt-4o-mini"),
             "beta": os.getenv("MODEL_BETA", "gpt-4o-mini"),

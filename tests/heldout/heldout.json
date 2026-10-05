@@ -1,0 +1,5 @@
+{
+  "registered": false,
+  "note": "Fill after verifying each entry (see PLAN.md rule 2). Fields: id, repo, vulnerable_ref, fixed_ref, defect.",
+  "libraries": []
+}

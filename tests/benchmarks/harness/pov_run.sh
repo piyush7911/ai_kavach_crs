@@ -15,7 +15,10 @@ ASAN_OPTIONS=detect_leaks=0
 MallocNanoZone=0
 export ASAN_OPTIONS MallocNanoZone
 
-output=$("$@" 2>&1)
+# A patched binary that loops forever must fail in seconds, not hold the gate for its
+# whole timeout. The parent perl process SIGKILLs the child: `alarm`+`exec` is NOT enough,
+# because libFuzzer/ASan binaries install their own SIGALRM handler and swallow the signal.
+output=$(perl -e '$t=shift; $p=fork; if(!$p){exec @ARGV; exit 127} $SIG{ALRM}=sub{kill 9,$p; waitpid($p,0); exit 142}; alarm $t; waitpid($p,0); $s=$?; exit($s&127 ? 128+($s&127) : $s>>8)' "${KAVACH_POV_TIMEOUT:-10}" "$@" 2>&1)
 rc=$?
 
 # On failure the captured output MUST be emitted. The DRV loop feeds this text
@@ -30,6 +33,10 @@ case "$output" in
 esac
 
 # 128+N indicates death by signal N (SIGSEGV=139, SIGABRT=134, SIGBUS=138).
+if [ "$rc" -eq 142 ]; then
+    echo "TIMEOUT: the binary did not finish within ${KAVACH_POV_TIMEOUT:-10}s on the proof-of-vulnerability input (a hang; a patch can introduce an infinite loop)"
+    exit 1
+fi
 if [ "$rc" -ge 128 ]; then
     echo "process died on signal (exit $rc); output follows:"
     echo "$output"

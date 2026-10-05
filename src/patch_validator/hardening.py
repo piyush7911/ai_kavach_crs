@@ -68,6 +68,8 @@ class HardeningVerdict:
     inputs_tested: int = 0
     seconds: float = 0.0
     skipped_reason: str = ""
+    # Crashes the patched build hit that the ORIGINAL also hits: separate, pre-existing bugs.
+    additional_bugs: list = field(default_factory=list)
 
     @property
     def falsified(self) -> bool:

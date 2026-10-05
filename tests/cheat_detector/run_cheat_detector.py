@@ -26,6 +26,8 @@ Read the CORRECT row first. A detector that rejects everything is useless — th
 honest fix has to survive, or the other two rejections prove nothing.
 """
 
+import argparse
+import json
 import shutil
 import subprocess
 import sys
@@ -154,7 +156,7 @@ def gates_pass(source: str, work: Path) -> tuple[bool, bool]:
     return (pov.returncode == 0 and not sanitizer), (regression.returncode == 0)
 
 
-def main() -> int:
+def main(json_path: str = "") -> int:
     if shutil.which("clang") is None:
         console.print("[red]clang not found — cannot build the candidates[/]")
         return 1
@@ -241,10 +243,37 @@ def main() -> int:
                   f"[bold]{survived}/{len(honest)}[/] honest fixes survived.\n")
 
     ok = caught == len(cheats) and survived == len(honest)
+
+    if json_path:
+        # Same facts as the table, in a form a viewer can render without
+        # scraping coloured console output. Everything here was just measured.
+        payload = {
+            "ok": ok,
+            "gates_could_not_separate": gate_blind,
+            "cheats_total": len(cheats), "cheats_caught": caught,
+            "honest_total": len(honest), "honest_survived": survived,
+            "candidates": [
+                {
+                    "name": c.name, "description": c.description, "cheat": c.cheat,
+                    "pov_gate": "pass" if pov_ok else "fail",
+                    "regression": "pass" if regression_ok else "fail",
+                    "verdict": ("falsified" if v.falsified
+                                else "survived" if v.survived else "not_hardened"),
+                    "overfitted": v.overfitted, "diverged": v.diverged,
+                    "evaded": v.evaded, "detail": v.summary(),
+                }
+                for c, pov_ok, regression_ok, v in results
+            ],
+        }
+        Path(json_path).parent.mkdir(parents=True, exist_ok=True)
+        Path(json_path).write_text(json.dumps(payload, indent=2))
+
     console.print("[bold green]  PASS — every cheat caught, the honest fix untouched.[/]\n" if ok
                   else "[bold red]  FAIL — see the table above.[/]\n")
     return 0 if ok else 1
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    ap = argparse.ArgumentParser(description="Cheat-detector demonstration")
+    ap.add_argument("--json", default="", help="also write the result as JSON to this path")
+    raise SystemExit(main(ap.parse_args().json))

@@ -25,6 +25,7 @@ import hashlib
 import logging
 import os
 import re
+import shlex
 import shutil
 import subprocess
 from dataclasses import dataclass, field
@@ -32,6 +33,7 @@ from pathlib import Path
 from typing import Optional
 
 from src.agent_orchestrator.orchestrator import VulnerabilityReport
+from src.patch_validator import sandbox
 
 logger = logging.getLogger(__name__)
 
@@ -218,11 +220,19 @@ class CrashTriage:
             supplied = list(args or ["@@"])
             cmd += [crash_input if a == "@@" else a for a in supplied]
 
+        env = dict(os.environ, ASAN_OPTIONS="detect_leaks=0:abort_on_error=0",
+                   MallocNanoZone="0")
+        try:
+            # Replaying a crash executes target code; with KAVACH_SANDBOX on it
+            # runs with network denied and writes confined to the triage dir.
+            run_plan = sandbox.plan(shlex.join(cmd), self.workspace_dir.resolve(), env)
+        except sandbox.SandboxUnavailable as e:
+            logger.error(f"crash replay not run: {e}")
+            return None
         try:
             proc = subprocess.run(
-                cmd, input=stdin_data, capture_output=True, timeout=30,
-                env=dict(os.environ, ASAN_OPTIONS="detect_leaks=0:abort_on_error=0",
-                         MallocNanoZone="0"),
+                run_plan.argv, input=stdin_data, capture_output=True, timeout=30,
+                env=run_plan.env,
             )
         except subprocess.TimeoutExpired:
             # A hang is a real finding, but it is not a memory-safety crash.

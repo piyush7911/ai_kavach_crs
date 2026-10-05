@@ -419,8 +419,8 @@ discovered itself. All results use `gpt-4o-mini` on a single macOS host.
 **44/44 is a result about this corpus, not a capability claim.** Three honest
 limits on how far it generalises:
 
-- **Only 3 of the 44 are externally sourced.** The rest we wrote, and a corpus
-  its own authors designed is a weaker test than one they did not. That is why
+- **Only 11 of the 44 are externally sourced**; the other 33 we wrote. A corpus its
+  own authors designed is a weaker test than one they did not. That is why
   `tests/real_cve_suite/` exists and why its provenance is stated per target.
 - **A corpus everything passes has stopped discriminating.** These results say
   the system handles this corpus; they cannot rank it against a stronger one. The

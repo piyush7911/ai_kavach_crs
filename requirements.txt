@@ -23,5 +23,13 @@ rich>=13.0.0
 # === SARIF Parsing ===
 # semgrep is installed separately: pip install semgrep
 
+# === Live dashboard (dashboard/app.py) ===
+# fastapi is PINNED. Newer releases require opentelemetry-api>=1.44, but Semgrep
+# pins opentelemetry-api==1.37.0; upgrading it makes `semgrep` fail on import.
+fastapi==0.135.4
+opentelemetry-api==1.37.0
+uvicorn>=0.30
+python-multipart>=0.0.9
+
 # === Testing ===
 pytest>=8.0.0

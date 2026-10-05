@@ -1,0 +1,20 @@
+{
+  "generated_at": 1790847376.331994,
+  "provider": "local",
+  "host": "localhost:11434",
+  "model": "kavach-coder:7b",
+  "repair": {
+    "seconds": 8.81,
+    "tokens_in": 477,
+    "tokens_out": 134,
+    "tokens_per_s": 15.2,
+    "patch_extracted": true,
+    "format": "diff"
+  },
+  "structured": {
+    "seconds": 7.4,
+    "ok": true,
+    "missing_keys": []
+  },
+  "ok": true
+}

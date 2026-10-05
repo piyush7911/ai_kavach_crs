@@ -44,3 +44,20 @@ Thumbs.db
 .idea/
 
 web_dashboard_plan.md
+
+# dashboard runtime data (job logs, uploaded repositories)
+dashboard/runs/
+dashboard/uploads/
+
+# any env-file variant (e.g. ".env copy") can hold an API key
+.env*
+
+# run output and cloned third-party trees (large or nested repositories); regenerate with
+# benchmark.py / tests/real_cve_suite/setup.sh
+reports/auto_runs/
+reports/benchmark_runs/
+reports/*.log
+reports/AB_index.txt
+benchmark_workspace/cJSON_cve/
+benchmark_workspace/real_cve_trees/
+benchmark_workspace/zlib_cve/

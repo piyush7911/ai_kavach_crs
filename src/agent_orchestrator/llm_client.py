@@ -30,6 +30,10 @@ class LLMClient:
             base_url=config["base_url"],
         )
         self.models = config["models"]
+        self.escalate_model = config.get("escalate_model", "")   # "" = probe candidates (OpenAI only)
+        self._base_url = config["base_url"]
+        self._escalate_resolved = False
+        self._escalate_choice = ""
         self.max_tokens = config["max_tokens"]
         self.temperature = config["temperature"]
         self.seed = config.get("seed")
@@ -51,9 +55,12 @@ class LLMClient:
         vulnerability_context: str,
         feedback: Optional[str] = None,
         iteration: int = 1,
+        model: Optional[str] = None,
     ) -> dict:
         """
         Generate a patch for a vulnerability using the specified agent.
+        `model` overrides the agent's configured model for this call (used by the adaptive
+        strategy to escalate a hard bug to a stronger model).
 
         Args:
             agent_name: "alpha", "beta", or "gamma"
@@ -69,7 +76,7 @@ class LLMClient:
             raise ValueError(f"Unknown agent: {agent_name}. Must be 'alpha', 'beta', or 'gamma'.")
 
         prompt_config = AGENT_PROMPTS[agent_name]
-        model = self.models[agent_name]
+        model = model or self.models[agent_name]
         max_tokens = self.max_tokens[agent_name]
 
         # Build messages
@@ -128,6 +135,79 @@ class LLMClient:
             "tokens_in": usage["input_tokens"],
             "tokens_out": usage["output_tokens"],
         }
+
+    # Candidates for the escalation tier, strongest first. Only tried against the official
+    # OpenAI endpoint; availability differs per API key, so each is probed, never assumed.
+    ESCALATION_CANDIDATES = ("gpt-4.1", "gpt-4o", "gpt-4.1-mini")
+
+    def usable_escalate_model(self) -> str:
+        """
+        The stronger model the adaptive strategy may use, or "" when there is none.
+
+        A model the key cannot call must never reach a repair tier: it raises, and a failing
+        tier would turn into a crashed one. So the choice is probed once (a model lookup, no
+        tokens spent), cached, and the fallback to the agent's own model is logged.
+        """
+        if self._escalate_resolved:
+            return self._escalate_choice
+        self._escalate_resolved = True
+        if self.escalate_model:
+            candidates = [self.escalate_model]
+        elif "api.openai.com" in self._base_url:
+            candidates = list(self.ESCALATION_CANDIDATES)
+        else:
+            candidates = []
+        base = set(self.models.values())
+        for m in candidates:
+            if m in base:
+                continue                                  # not stronger than what already ran
+            try:
+                self.client.models.retrieve(m)
+            except Exception as e:
+                logger.warning(f"escalation model {m!r} is not usable with this key "
+                               f"({type(e).__name__}); trying the next candidate")
+                continue
+            self._escalate_choice = m
+            logger.info(f"escalation model: {m}")
+            return m
+        if candidates:
+            logger.warning("no stronger model is available; the last tier reuses the agents' own model")
+        return ""
+
+    def complete(
+        self,
+        system_prompt: str,
+        user_content: str,
+        purpose: str = "harness",
+        max_tokens: int = 1500,
+        model: Optional[str] = None,
+    ) -> str:
+        """
+        One free-form completion, with usage recorded like every other call.
+
+        Used by autonomous mode to draft a fuzz harness for a function shape the
+        templates cannot express. The text is never trusted: the compiler, the
+        reach judge and the fairness check decide whether it is used.
+        """
+        model = model or self.models.get("beta") or next(iter(self.models.values()))
+        messages = [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_content},
+        ]
+        response = self._call_with_retry(model, messages, max_tokens)
+        usage = {
+            "agent": purpose,
+            "model": model,
+            "iteration": 0,
+            "input_tokens": response.usage.prompt_tokens if response.usage else 0,
+            "output_tokens": response.usage.completion_tokens if response.usage else 0,
+            "timestamp": time.time(),
+        }
+        with self._usage_lock:
+            self.usage_log.append(usage)
+            self.total_input_tokens += usage["input_tokens"]
+            self.total_output_tokens += usage["output_tokens"]
+        return response.choices[0].message.content or ""
 
     def structured_call(
         self,
