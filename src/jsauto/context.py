@@ -30,6 +30,20 @@ SYSTEM = (
 )
 
 
+PERSONAS = {
+    "alpha": "Work out the root cause first and fix it where the data enters: validate and convert it at its source.",
+    "beta": "Make the SMALLEST change that stops the vulnerability: one or two lines, a conversion or a check. "
+            "Earlier, larger attempts were rejected.",
+    "gamma": "Apply the standard remediation for this class exactly as the guidance describes, even if that "
+             "means rewriting the vulnerable statements. Earlier attempts by other agents were rejected.",
+}
+
+
+def system_for(agent: str) -> str:
+    """The system prompt for one agent: the shared rules plus that agent's way of working."""
+    return SYSTEM + " " + PERSONAS.get(agent, PERSONAS["alpha"])
+
+
 @dataclass
 class Prepared:
     file: str
@@ -44,7 +58,11 @@ def guidance(klass: str, path: Path = GUIDANCE_PATH) -> str:
 
 
 def _numbered(text: str, first_line: int) -> str:
-    return "\n".join(f"{first_line + i:>4}| {l}" for i, l in enumerate(text.splitlines()))
+    """
+    The code exactly as it is, with no line numbers: a model copies the format it is shown, and a prefix
+    like `28| ` ends up in its answer (seen with two local models). Line ranges are given in the headings.
+    """
+    return text
 
 
 def _unit_text(root: Path, rel: str, function: str, line: int = 0):

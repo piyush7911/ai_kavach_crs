@@ -146,10 +146,25 @@ def splice(source: str, unit: Unit, replacement: str) -> str:
     return (src[:unit.start_byte] + new + src[unit.end_byte:]).decode("utf-8", "replace")
 
 
+_NUMBERED = re.compile(r"^\s*\d{1,5}\s*\|\s?")
+
+
+def strip_line_numbers(code: str) -> str:
+    """
+    Remove `  28| ` prefixes if the model copied them from a numbered listing. Applied only when most
+    non-empty lines carry one, so code that merely contains a `|` is left alone.
+    """
+    lines = code.split("\n")
+    body = [l for l in lines if l.strip()]
+    if body and sum(1 for l in body if _NUMBERED.match(l)) >= 0.6 * len(body):
+        return "\n".join(_NUMBERED.sub("", l, count=1) for l in lines)
+    return code
+
+
 def extract_code(response: str) -> str:
     """The model's replacement: the first fenced block (js/javascript/none), else the text itself."""
     m = re.search(r"```(?:js|javascript|node)?\s*\n(.*?)```", response, re.S)
-    return (m.group(1) if m else response).strip("\n")
+    return strip_line_numbers((m.group(1) if m else response).strip("\n"))
 
 
 # -- policy -------------------------------------------------------------------------------------------------

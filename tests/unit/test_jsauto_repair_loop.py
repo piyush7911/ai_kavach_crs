@@ -41,8 +41,12 @@ this.compute = (req, res) => {
     };
 ```"""
 
+GOOD2 = GOOD.replace('"bad"', '"bad input"')         # behaves the same, but is a different answer
+GOOD3 = GOOD.replace('"bad"', '"invalid"')
+CHEAT2 = None  # defined below, after CHEAT
 CHEAT = GOOD.replace("const total", 'require("child_process").exec("curl x");\n        const total', 1)
 
+CHEAT2 = CHEAT.replace("curl x", "curl y")
 EXPLOIT = {"method": "POST", "path": "/c", "success_if": {"body_regex": "31338"}}
 
 
@@ -58,11 +62,17 @@ def finding(exploit=EXPLOIT):
 
 
 class ScriptedModel:
-    def __init__(self, *answers):
-        self.answers, self.prompts = list(answers), []
+    def __init__(self, *answers, escalate=""):
+        self.answers, self.prompts, self.systems, self.models = list(answers), [], [], []
+        self.escalate = escalate
 
-    def complete(self, system, prompt, purpose="", max_tokens=0):
+    def usable_escalate_model(self):
+        return self.escalate
+
+    def complete(self, system, prompt, purpose="", max_tokens=0, model=None):
         self.prompts.append(prompt)
+        self.systems.append(system)
+        self.models.append(model)
         a = self.answers.pop(0)
         if isinstance(a, Exception):
             raise a
@@ -115,7 +125,7 @@ def test_a_policy_violation_is_rejected_and_the_reason_goes_back_to_the_model(ro
 
 def test_a_failed_proof_of_vulnerability_gate_is_fed_back_and_the_next_attempt_can_pass(root):
     gates = StubGates(replay=[(R.FAIL, "still exploitable: marker 31338 in body"), (R.PASS, "ok")])
-    model = ScriptedModel(GOOD, GOOD)
+    model = ScriptedModel(GOOD, GOOD2)
     out = R.repair(finding(), root, model, gates)
     assert out.status == "proven" and out.attempts[0].stage == "pov"
     assert "pov gate failed" in model.prompts[1] and "31338" in model.prompts[1]
@@ -124,7 +134,7 @@ def test_a_failed_proof_of_vulnerability_gate_is_fed_back_and_the_next_attempt_c
 def test_a_regression_failure_stops_the_attempt_and_restores_the_original(root, tmp_path):
     work = tmp_path / "work"
     gates = StubGates(regress=[(R.FAIL, "flow login: status 500")] * 2)
-    out = R.repair(finding(), root, ScriptedModel(GOOD, GOOD), gates, max_attempts=2, workdir=work)
+    out = R.repair(finding(), root, ScriptedModel(GOOD, GOOD2), gates, max_attempts=2, workdir=work)
     assert out.status == "unresolved" and [a.stage for a in out.attempts] == ["regression", "regression"]
     assert (work / "tree" / "routes.js").read_text() == SOURCE            # the failed patch was backed out
     assert "no attempt passed in 2 tries" in out.reason and "flow login" in out.reason
@@ -139,7 +149,7 @@ def test_without_an_exploit_the_pov_gate_is_skipped_and_the_result_is_not_proven
 
 def test_a_tree_that_will_not_start_fails_before_any_exploit_is_replayed(root):
     gates = StubGates(start=[(R.FAIL, "port in use")] * 3)
-    out = R.repair(finding(), root, ScriptedModel(GOOD, GOOD, GOOD), gates)
+    out = R.repair(finding(), root, ScriptedModel(GOOD, GOOD2, GOOD3), gates)
     assert out.status == "unresolved" and "replay" not in gates.calls and out.attempts[0].stage == "start"
 
 
@@ -267,7 +277,7 @@ def test_a_patch_that_blocks_every_variant_is_hardened(root):
 
 def test_a_leaking_variant_rejects_the_patch_and_is_named_to_the_model(root):
     gates = VariantGates(leaks=2)
-    model = ScriptedModel(GOOD, GOOD)
+    model = ScriptedModel(GOOD, GOOD2)
     out = R.repair(finding(), root, model, gates, max_attempts=2, variants=VARIANTS)
     assert out.status == "unresolved" and [a.stage for a in out.attempts] == ["hardening", "hardening"]
     assert "variant 2 of 3 still works" in model.prompts[1] and "not one spelling of it" in model.prompts[1]
@@ -277,7 +287,7 @@ def test_a_leaking_variant_rejects_the_patch_and_is_named_to_the_model(root):
 def test_variants_are_not_replayed_when_the_primary_exploit_is_still_working(root):
     gates = VariantGates()
     gates_primary_fails = StubGates(replay=[(R.FAIL, "still exploitable")] * 2)
-    out = R.repair(finding(), root, ScriptedModel(GOOD, GOOD), gates_primary_fails, max_attempts=2, variants=VARIANTS)
+    out = R.repair(finding(), root, ScriptedModel(GOOD, GOOD2), gates_primary_fails, max_attempts=2, variants=VARIANTS)
     assert out.attempts[0].stage == "pov" and gates.seen == []
 
 
@@ -285,3 +295,64 @@ def test_no_variants_are_replayed_without_a_primary_exploit(root):
     gates = VariantGates()
     out = R.repair(finding(exploit=None), root, ScriptedModel(GOOD), gates, variants=VARIANTS)
     assert gates.seen == [] and out.gates["hardening"] == R.SKIPPED and out.status == "patched_unproven"
+
+
+# -- an identical answer is not retried ---------------------------------------------------------------------------
+
+def test_the_same_answer_twice_stops_the_loop_instead_of_asking_a_third_time(root):
+    model = ScriptedModel(CHEAT, CHEAT, GOOD)
+    out = R.repair(finding(), root, model, StubGates(), max_attempts=3)
+    assert out.status == "unresolved" and len(model.prompts) == 2 and model.answers == [GOOD]
+    assert [a.stage for a in out.attempts] == ["policy", "repeat"]
+    assert "same answer as attempt 1" in out.reason and "shell_execution" in out.reason
+
+
+def test_different_answers_are_still_all_tried(root):
+    out = R.repair(finding(), root, ScriptedModel(CHEAT, GOOD), StubGates(), max_attempts=3)
+    assert out.status == "proven" and [a.stage for a in out.attempts] == ["policy", "accepted"]
+
+
+# -- the adaptive ladder: alpha, then beta, then gamma on a stronger model -----------------------------------------
+
+def test_an_easy_bug_costs_one_call_under_the_adaptive_strategy(root):
+    model = ScriptedModel(GOOD)
+    out = R.repair(finding(), root, model, StubGates(), max_attempts=2, strategy="adaptive")
+    assert out.status == "proven" and len(model.prompts) == 1 and out.attempts[0].agent == "alpha"
+
+
+def test_a_failed_tier_hands_over_to_the_next_agent_with_what_was_tried(root):
+    model = ScriptedModel(CHEAT, CHEAT2, GOOD)                          # alpha twice rejected, beta fixes it
+    out = R.repair(finding(), root, model, StubGates(), max_attempts=2, strategy="adaptive")
+    assert out.status == "proven" and [a.agent for a in out.attempts] == ["alpha", "alpha", "beta"]
+    assert "Work out the root cause" in model.systems[0] and "SMALLEST change" in model.systems[2]
+    assert "EARLIER ATTEMPTS" in model.prompts[2] and "(alpha) policy" in model.prompts[2]
+
+
+def test_the_last_tier_uses_the_stronger_model_only_if_one_is_declared(root):
+    answers = [CHEAT, CHEAT2, GOOD3.replace("bad", "x"), GOOD2.replace("input", "inputs"), GOOD, GOOD2]
+    gates = StubGates(regress=[(R.FAIL, "flow broke")] * 4)
+    with_big = ScriptedModel(*[a + f"\n// {i}" for i, a in enumerate(answers)], escalate="big-model")
+    R.repair(finding(), root, with_big, gates, max_attempts=2, strategy="adaptive")
+    assert with_big.models[:4] == [None] * 4 and with_big.models[4:] == ["big-model", "big-model"]
+    without = ScriptedModel(*[a + f"\n// {i}" for i, a in enumerate(answers)], escalate="")
+    R.repair(finding(), root, without, StubGates(regress=[(R.FAIL, "flow broke")] * 4), max_attempts=2, strategy="adaptive")
+    assert without.models == [None] * 6
+
+
+def test_a_repeated_answer_skips_the_rest_of_that_agent_and_moves_on(root):
+    model = ScriptedModel(CHEAT, CHEAT, GOOD)
+    out = R.repair(finding(), root, model, StubGates(), max_attempts=2, strategy="adaptive")
+    assert out.status == "proven" and [(a.agent, a.stage) for a in out.attempts] == [
+        ("alpha", "policy"), ("alpha", "repeat"), ("beta", "accepted")]
+
+
+def test_the_single_strategy_only_ever_uses_alpha(root):
+    model = ScriptedModel(CHEAT, CHEAT2, GOOD)
+    out = R.repair(finding(), root, model, StubGates(), max_attempts=3)
+    assert {a.agent for a in out.attempts} == {"alpha"} and out.status == "proven"
+
+
+def test_the_agent_and_model_are_recorded_in_the_outcome(root):
+    out = R.repair(finding(), root, ScriptedModel(GOOD), StubGates(), strategy="adaptive")
+    d = out.to_dict()["attempts"][0]
+    assert d["agent"] == "alpha" and d["model"] == ""

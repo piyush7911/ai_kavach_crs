@@ -75,3 +75,9 @@ reports/js_fix/*.jsonl
 # local MongoDB for the NodeGoat benchmark (binary + data; recreate with the steps in INSTALLED.md)
 tools/mongodb-*/
 tools/mongo-data/
+
+# fix-command outputs: keep evidence/patches, not the patched copy (it links node_modules) or the full model trace
+reports/js_fix/*/combined/
+reports/js_fix/*/trace.jsonl
+reports/js_fix/*/start_ts
+reports/js_fix/*/classified_calls.json

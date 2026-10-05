@@ -65,8 +65,8 @@ def _scan(target: Path, llm, out: Path) -> list[dict]:
     return dicts
 
 
-def run(target: Path, gates, llm, out_dir: Path, findings: Optional[list] = None, attempts: int = 3,
-        max_findings: int = 0, classes: Optional[set] = None,
+def run(target: Path, gates, llm, out_dir: Path, findings: Optional[list] = None, attempts: int = 2,
+        max_findings: int = 0, classes: Optional[set] = None, strategy: str = "adaptive",
         on_event: Callable[[str, str], None] = lambda k, m: None) -> dict:
     started = time.time()
     target, out = Path(target).resolve(), Path(out_dir).resolve()
@@ -132,7 +132,7 @@ def run(target: Path, gates, llm, out_dir: Path, findings: Optional[list] = None
                 exploit = None                                        # no PoV gate: it could never be `proven`
         work_finding = {**f, "exploit": exploit}
         outcome = R.repair(work_finding, combined, llm, gates, max_attempts=attempts, variants=variants,
-                           on_event=on_event)
+                           on_event=on_event, strategy=strategy)
         e.update(status=outcome.status, reason=outcome.reason, hardened=outcome.hardened,
                  gates=outcome.gates, attempts=[a.__dict__ for a in outcome.attempts])
         if outcome.new_text:
@@ -155,7 +155,7 @@ def run(target: Path, gates, llm, out_dir: Path, findings: Optional[list] = None
     for e in entries:
         counts[e["status"]] = counts.get(e["status"], 0) + 1
     evidence = {
-        "target": str(target), "seconds": round(time.time() - started, 1), "attempts_per_finding": attempts,
+        "target": str(target), "seconds": round(time.time() - started, 1), "attempts_per_tier": attempts, "strategy": strategy,
         "findings_total": len(findings), "attempted": len(entries), "by_status": counts,
         "model_calls": len(getattr(llm, "usage_log", [])) - calls_before,
         "llm_trace": os.getenv("KAVACH_LLM_TRACE", ""), "final_check": final, "findings": entries,
@@ -184,7 +184,9 @@ def main(argv=None) -> int:
     ap.add_argument("--runner", default=os.getenv("KAVACH_RUNNER_MODULE", ""),
                     help="Python module implementing start/replay/regress (or set KAVACH_RUNNER_MODULE)")
     ap.add_argument("--out", default="reports/js_fix")
-    ap.add_argument("--attempts", type=int, default=3)
+    ap.add_argument("--attempts", type=int, default=2, help="tries per tier (adaptive) or in total (single)")
+    ap.add_argument("--strategy", choices=["adaptive", "single"], default="adaptive",
+                    help="adaptive: alpha, then beta, then gamma (stronger model if declared); single: alpha only")
     ap.add_argument("--max-findings", type=int, default=0, help="0 = all")
     ap.add_argument("--classes", default="", help="comma list, e.g. open-redirect,eval-injection")
     ap.add_argument("--findings", default="", help="use this findings JSON instead of scanning")
@@ -195,7 +197,7 @@ def main(argv=None) -> int:
     gates = R.RunnerGates(module=args.runner or None, cwd=Path.cwd())
     findings = json.loads(Path(args.findings).read_text())["findings"] if args.findings else None
     ev = run(Path(args.target), gates, llm, Path(args.out), findings=findings, attempts=args.attempts,
-             max_findings=args.max_findings, classes=set(filter(None, args.classes.split(","))) or None,
+             max_findings=args.max_findings, strategy=args.strategy, classes=set(filter(None, args.classes.split(","))) or None,
              on_event=lambda k, m: print(f"  {k:8} {m}", flush=True))
     print(f"\n{ev['attempted']} finding(s) attempted in {ev['seconds']}s, {ev['model_calls']} model call(s)")
     for status, n in sorted(ev["by_status"].items()):

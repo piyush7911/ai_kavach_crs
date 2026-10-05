@@ -21,6 +21,7 @@ patch the policy refused (see patch.py).
 import difflib
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -44,9 +45,11 @@ class Gates(Protocol):
 @dataclass
 class Attempt:
     number: int
-    stage: str = ""                 # generation | apply | policy | start | pov | regression | accepted
+    stage: str = ""                 # generation | apply | policy | start | pov | regression | hardening | repeat | accepted
     detail: str = ""
     seconds: float = 0.0
+    agent: str = ""                 # alpha | beta | gamma
+    model: str = ""                 # set only when a stronger model than the default was used
 
 
 @dataclass
@@ -84,7 +87,7 @@ def _diff(before: str, after: str, name: str) -> str:
 
 def repair(finding: dict, root: Path, llm, gates: Gates, max_attempts: int = 3,
            workdir: Optional[Path] = None, on_event: Callable[[str, str], None] = lambda k, m: None,
-           variants: Optional[list] = None) -> RepairOutcome:
+           variants: Optional[list] = None, strategy: str = "single") -> RepairOutcome:
     """
     Try to fix `finding` (a `Finding.to_dict()`), working on a COPY of `root`. The original tree is never
     modified; a passing patch is returned as a diff for the caller to apply.
@@ -92,6 +95,12 @@ def repair(finding: dict, root: Path, llm, gates: Gates, max_attempts: int = 3,
     `variants` are other spellings of the exploit (probes.variants_for). After the primary exploit is
     blocked and regression passes, every variant is replayed: a patch that blocks one spelling and
     leaks another is overfitted, and is rejected with the leaking variant as feedback, inside the loop.
+
+    `strategy` "single": alpha only, `max_attempts` tries. "adaptive": `max_attempts` tries PER TIER, in
+    order alpha (analyst), beta (minimal change), gamma (standard remediation, on a stronger model when one
+    is declared and usable). A later tier is told what the earlier ones tried and how each was rejected.
+    An easy bug costs one call; a hard one is handed on. An identical answer to an earlier one skips the
+    rest of that tier: at temperature 0 asking again would only repeat the same rejection.
     """
     started = time.time()
     root = Path(root).resolve()
@@ -115,25 +124,51 @@ def repair(finding: dict, root: Path, llm, gates: Gates, max_attempts: int = 3,
         target = tree / prep.file
         original = target.read_text(errors="replace")
         feedback = ""
-        for n in range(1, max_attempts + 1):
+        seen_answers: dict[str, int] = {}
+        history: list[tuple] = []                                 # (agent, stage, detail) of every rejection
+        skipped: set[str] = set()
+        schedule = _schedule(strategy, max_attempts)
+        strong: Optional[str] = None
+        strong_resolved = False
+        repeat_note = ""
+        accepted = False
+        for n, (agent, wants_strong) in enumerate(schedule, 1):
+            if agent in skipped:
+                continue
             t0 = time.time()
-            att = Attempt(number=n)
+            att = Attempt(number=n, agent=agent)
             out.attempts.append(att)
-            prompt = prep.prompt + (f"\n\nYOUR PREVIOUS ATTEMPT WAS REJECTED:\n{feedback}\nFix this and answer again."
-                                    if feedback else "")
+            if wants_strong and not strong_resolved:
+                probe = getattr(llm, "usable_escalate_model", None)
+                strong, strong_resolved = ((probe() if callable(probe) else "") or None), True
+            kw = {"model": strong} if (wants_strong and strong) else {}
+            att.model = kw.get("model", "")
+            prompt = prep.prompt + _handoff(history, feedback)
             try:
-                answer = llm.complete(context.SYSTEM, prompt, purpose=f"js-repair#{n}", max_tokens=2500)
+                answer = llm.complete(context.system_for(agent), prompt, purpose=f"js-repair#{n}",
+                                      max_tokens=2500, **kw)
             except Exception as e:                              # a failing model is reported, never swallowed
                 att.stage, att.detail = "generation", f"{type(e).__name__}: {str(e)[:200]}"
                 out.status, out.reason = "error", f"the model call failed: {att.detail}"
                 break
+            key = re.sub(r"\s+", " ", patch.extract_code(answer)).strip()
+            if key in seen_answers:
+                att.stage = "repeat"
+                att.detail = f"the model returned the same answer as attempt {seen_answers[key]}"
+                att.seconds = round(time.time() - t0, 2)
+                skipped.add(agent)
+                repeat_note = f"; stopped asking {agent} after a repeat ({att.detail})"
+                on_event("attempt_rejected", f"{n}: {agent}: repeat: {att.detail}")
+                continue
+            seen_answers[key] = n
             after, problems = context.apply_answer(tree, prep, answer)
             if after is None:
                 att.stage = "policy" if any("[" in p or "outside" in p or "cap" in p or "empties" in p
                                             or "test file" in p for p in problems) else "apply"
                 att.detail = feedback = "; ".join(problems)
                 att.seconds = round(time.time() - t0, 2)
-                on_event("attempt_rejected", f"{n}: {att.stage}: {att.detail[:120]}")
+                history.append((agent, att.stage, att.detail[:200]))
+                on_event("attempt_rejected", f"{n}: {agent}: {att.stage}: {att.detail[:120]}")
                 continue
             target.write_text(after)
             gate_result = _run_gates(tree, finding, gates, variants)
@@ -142,10 +177,12 @@ def repair(finding: dict, root: Path, llm, gates: Gates, max_attempts: int = 3,
             if gate_result["failed"]:
                 att.stage, att.detail = gate_result["failed"], gate_result["detail"]
                 feedback = f"the {att.stage} gate failed: {att.detail}"
+                history.append((agent, att.stage, att.detail[:200]))
                 target.write_text(original)                       # next attempt starts from the original
-                on_event("attempt_rejected", f"{n}: {att.stage}: {att.detail[:120]}")
+                on_event("attempt_rejected", f"{n}: {agent}: {att.stage}: {att.detail[:120]}")
                 continue
             att.stage = "accepted"
+            accepted = True
             out.new_text = after
             out.diff = _diff(original, after, prep.file)
             proven = out.gates.get("pov") == PASS and out.gates.get("regression") == PASS
@@ -155,16 +192,33 @@ def repair(finding: dict, root: Path, llm, gates: Gates, max_attempts: int = 3,
                           "no gate failed, but " + ", ".join(k for k, v in out.gates.items() if v != PASS)
                           + " did not pass (skipped gates are never counted as a pass)")
             break
-        else:
-            last = out.attempts[-1] if out.attempts else Attempt(0)
-            out.reason = f"no attempt passed in {max_attempts} tries; last: {last.stage}: {last.detail[:160]}"
-        if out.status == "unresolved" and not out.reason:
-            out.reason = "no attempt passed"
+        if not accepted and out.status != "error":
+            last = next((a for a in reversed(out.attempts) if a.stage != "repeat"), Attempt(0))
+            out.reason = (f"no attempt passed in {len(out.attempts)} tries; last: {last.stage}: {last.detail[:160]}"
+                          + repeat_note)
     finally:
         if own_tmp:
             shutil.rmtree(work, ignore_errors=True)
     out.seconds = round(time.time() - started, 2)
     return out
+
+
+def _schedule(strategy: str, per_tier: int) -> list[tuple[str, bool]]:
+    """(agent, uses the stronger model) for each attempt, in order."""
+    if strategy == "adaptive":
+        return [("alpha", False)] * per_tier + [("beta", False)] * per_tier + [("gamma", True)] * per_tier
+    return [("alpha", False)] * per_tier
+
+
+def _handoff(history: list, feedback: str) -> str:
+    """What was already tried and why it was rejected, so the next attempt does not repeat it."""
+    if not history:
+        return ""
+    lines = [f"- ({a}) {stage}: {detail}" for a, stage, detail in history[:-1][-6:]]
+    out = ["", "", f"YOUR PREVIOUS ATTEMPT WAS REJECTED:\n{feedback}\nFix this and answer again."]
+    if lines:
+        out += ["", "EARLIER ATTEMPTS (all rejected; do not repeat them):"] + lines
+    return "\n".join(out)
 
 
 def _run_gates(tree: Path, finding: dict, gates: Gates, variants: Optional[list] = None) -> dict:

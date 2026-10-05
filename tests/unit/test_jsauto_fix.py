@@ -46,7 +46,7 @@ class Model:
     def __init__(self, *answers):
         self.answers, self.usage_log = list(answers), []
 
-    def complete(self, system, prompt, purpose="", max_tokens=0):
+    def complete(self, system, prompt, purpose="", max_tokens=0, model=None):
         self.usage_log.append(purpose)
         return self.answers.pop(0)
 
@@ -107,6 +107,7 @@ def app(tmp_path):
 
 def go(app, tmp_path, findings, runner=None, model=None, **kw):
     out = tmp_path / "out"
+    kw.setdefault("strategy", "single")                                 # the ladder has its own tests below
     ev = fix.run(app, runner or Runner(), model or Model(*[GOOD] * 6), out, findings=findings, **kw)
     return ev, out
 
@@ -144,7 +145,7 @@ def test_variants_that_never_worked_on_the_original_are_not_used_to_judge_the_pa
 
 def test_a_regression_failure_leaves_the_finding_unresolved_and_the_tree_unchanged(app, tmp_path):
     ev, out = go(app, tmp_path, [finding()], runner=Runner(regress=R.FAIL), attempts=2,
-                 model=Model(GOOD, GOOD))
+                 model=Model(GOOD, GOOD.replace('"bad"', '"bad input"')))
     (e,) = ev["findings"]
     assert e["status"] == "unresolved" and [a["stage"] for a in e["attempts"]] == ["regression", "regression"]
     assert "eval(" in (out / "combined" / "routes.js").read_text() and not (out / "patches" / "JS-001.diff").exists()
@@ -200,3 +201,10 @@ def test_the_exploit_and_control_are_kept_in_the_evidence_for_debugging(app, tmp
     ev, _ = go(app, tmp_path, [finding()])
     (e,) = ev["findings"]
     assert e["exploit"]["body"]["a"] == "7*3" and e["control"]["body"]["a"] == "1"
+
+
+def test_the_default_strategy_is_adaptive_and_is_recorded_in_the_evidence(app, tmp_path):
+    out = tmp_path / "out"
+    ev = fix.run(app, Runner(), Model(GOOD), out, findings=[finding()])
+    assert ev["strategy"] == "adaptive" and ev["findings"][0]["status"] == "proven"
+    assert ev["findings"][0]["attempts"][0]["agent"] == "alpha"

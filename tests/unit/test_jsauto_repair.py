@@ -221,7 +221,7 @@ def test_the_prompt_names_the_class_the_route_the_chain_and_the_function_to_fix(
     assert "Do not build a $where JavaScript string" in p                      # the class guidance
     assert "CONTEXT (do not change): routes.js `handler`" in p                 # the hop the data came through
     assert p.index("FIX-BEGIN") < p.index("const find") < p.index("FIX-END")
-    assert "   1| const find" in p                                             # numbered lines
+    assert "   1| " not in p and "const find = (t, cb)" in p          # shown verbatim: models copy line-number prefixes
 
 
 def test_an_unlocatable_function_is_reported_not_guessed(tmp_path):
@@ -379,3 +379,26 @@ def test_variants_send_the_handler_s_other_fields_too():
     vs = probes.variants_for(f)
     assert len(vs) == 4 and all(v["body"]["afterTax"] == "1" for v in vs)
     assert [v["body"]["preTax"] for v in vs][:2] == ["7 * 3", "(7)*(3)"]
+
+
+# -- line-number prefixes copied from a listing ---------------------------------------------------------------------
+
+def test_line_number_prefixes_copied_by_the_model_are_removed():
+    numbered = "```js\n  28| this.f = (req, res) => {\n  29|     return res.send(1);\n  30| };\n```"
+    assert patch.extract_code(numbered) == "this.f = (req, res) => {\n    return res.send(1);\n};"
+
+
+def test_code_that_merely_contains_a_pipe_is_left_alone():
+    code = "```js\nconst a = 1 | 2;\nconst b = x || y;\nconst c = [1,2].map(n => n | 4);\n```"
+    assert patch.extract_code(code) == "const a = 1 | 2;\nconst b = x || y;\nconst c = [1,2].map(n => n | 4);"
+
+
+def test_a_few_numbered_lines_in_otherwise_plain_code_are_not_stripped():
+    code = "```js\nlet a = 1;\nlet b = 2;\n  3| odd\nlet c = 4;\n```"
+    assert "3| odd" in patch.extract_code(code)
+
+
+def test_the_prompt_no_longer_numbers_the_code_it_shows(tmp_path):
+    prep = context.prepare(make_project(tmp_path), tmp_path)
+    assert "FIX THIS (dao.js, lines 1-4)" in prep.prompt
+    assert not any(l[:4].strip().isdigit() and l[4:5] == "|" for l in prep.prompt.splitlines())
