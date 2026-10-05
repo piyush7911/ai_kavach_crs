@@ -203,3 +203,30 @@ this, so loopback mode is unsupported there (refuses under `required`). Added
 profile and the C pipeline are unchanged). Positive control in
 `test_sandbox_loopback.py`: external TCP denied (EPERM), loopback TCP allowed. Verified
 `replay` and `regress` pass with the sandbox required.
+
+---
+
+## Boolean-based injection oracle (task 2.3 unblock) — Track 1, 2026-10-06
+
+`config/js_probes.json` lists `sql-injection` and `nosql-injection` as *unsupported*:
+"needs a benign baseline to compare against." The runner now provides that baseline. An
+exploit may carry a `differential` instead of `success_if`:
+
+    { "login_as": "user", "differential": {
+        "true_request":  { "method": "GET", "path": "/allocations/2?threshold=<always-TRUE injection>" },
+        "false_request": { "method": "GET", "path": "/allocations/2?threshold=<always-FALSE injection>" } } }
+
+`replay` sends both, normalizes each response (whitespace collapsed, digits stripped so random
+seed data does not count), and reports **exploitable** when the TRUE and FALSE responses differ
+in structure or status. A patch that parses/escapes the input makes both identical → safe.
+Verified on NodeGoat NG-02: vulnerable → true(200, rows) ≠ false(500, error); parseInt fix →
+identical. Generic: no app-specific marker, so it works on an unseen app.
+
+### Track 2 wiring (probes.py)
+Move `sql-injection` / `nosql-injection` from `unsupported` into `classes`, emitting a
+`differential` exploit: take the tainted field, build two payloads — a tautology
+(`<val>' || '1'=='1` / `<val>';return true;var x='`) and a contradiction
+(`...false...`) — and put each into `true_request` / `false_request` (same route, same other
+fields). No new oracle code is needed on the engine side; the runner handles the compare.
+The existing benign `control` already behaves like the FALSE case, so the control safeguard
+still holds.
