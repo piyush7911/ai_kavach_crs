@@ -84,17 +84,30 @@ def _sbpl_quote(path: str) -> str:
     return '"' + path.replace("\\", "\\\\").replace('"', '\\"') + '"'
 
 
-def macos_profile(writable: list[str]) -> str:
+def macos_profile(writable: list[str], allow_loopback: bool = False) -> str:
     """
     SBPL profile: everything allowed except network and writes outside
     `writable`. Paths must be real paths (/private/var/..., not /var/...):
     sandbox-exec matches after symlink resolution.
+
+    `allow_loopback` is for a web target that must bind its own port and reach a
+    local database on 127.0.0.1 while every other network destination stays denied
+    (task 1.2). sandbox-exec filters by policy rather than a network namespace, so
+    a loopback port opened here is still reachable by the test harness outside the
+    sandbox — which `bwrap --unshare-net` could not offer.
     """
     allowed = "\n".join(f"    (subpath {_sbpl_quote(p)})" for p in writable)
+    if allow_loopback:
+        net = ('(deny network*)\n'
+               '(allow network-bind (local ip "localhost:*"))\n'
+               '(allow network-inbound (local ip "localhost:*"))\n'
+               '(allow network-outbound (remote ip "localhost:*"))\n')
+    else:
+        net = "(deny network*)\n"
     return (
         "(version 1)\n"
         "(allow default)\n"
-        "(deny network*)\n"
+        f"{net}"
         "(deny file-write*)\n"
         "(allow file-write*\n"
         f"{allowed}\n"
@@ -107,9 +120,14 @@ def macos_profile(writable: list[str]) -> str:
 
 
 def plan(command: str, workspace: Path, env: dict,
-         extra_writable: Optional[list[str]] = None) -> SandboxPlan:
+         extra_writable: Optional[list[str]] = None,
+         allow_loopback: bool = False) -> SandboxPlan:
     """
     Decide how to run `command` (a shell string) for a gate in `workspace`.
+
+    `allow_loopback` keeps 127.0.0.1 reachable for a running web target (its own
+    port and a local database) while denying every external destination. Only the
+    sandbox-exec backend can do this per-policy; see the note below for bwrap.
 
     Raises SandboxUnavailable when the mode is `required` and no backend exists.
     """
@@ -137,8 +155,20 @@ def plan(command: str, workspace: Path, env: dict,
     env = dict(env, TMPDIR=str(tmp))
 
     if found == "sandbox-exec":
-        argv = ["sandbox-exec", "-p", macos_profile(writable), *sh]
-        return SandboxPlan(found, argv, env, f"network denied; writes limited to {ws}")
+        argv = ["sandbox-exec", "-p", macos_profile(writable, allow_loopback), *sh]
+        net = "loopback only" if allow_loopback else "network denied"
+        return SandboxPlan(found, argv, env, f"{net}; writes limited to {ws}")
+
+    if allow_loopback:
+        # bwrap isolates into a network namespace, which would hide the target's
+        # bound port from the harness. A per-process loopback-only filter is not
+        # available here, so loopback mode is unsupported on this backend.
+        if current == MODE_REQUIRED:
+            raise SandboxUnavailable(
+                "KAVACH_SANDBOX=required with loopback needs sandbox-exec (macOS); "
+                "bwrap cannot keep a loopback port reachable by the harness"
+            )
+        return SandboxPlan("none", sh, env, "bwrap cannot do loopback-only; running unsandboxed")
 
     argv = [
         "bwrap", "--ro-bind", "/", "/", "--dev", "/dev", "--proc", "/proc",

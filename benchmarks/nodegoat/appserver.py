@@ -11,6 +11,7 @@ from __future__ import annotations
 import json
 import os
 import secrets
+import shlex
 import signal
 import socket
 import subprocess
@@ -20,6 +21,11 @@ import urllib.request
 from contextlib import closing
 from dataclasses import dataclass, field
 from pathlib import Path
+
+try:  # shared sandbox (Track 2's module); optional so the runner works without it
+    from src.patch_validator import sandbox as _sandbox
+except Exception:  # noqa: BLE001
+    _sandbox = None
 
 HERE = Path(__file__).resolve().parent
 PRELOAD = HERE / "loopback_preload.js"
@@ -48,8 +54,22 @@ class AppServer:
     port: int = 0
     db_name: str = ""
     boot_seconds: float = 0.0
+    sandbox_note: str = "sandbox off"
     _proc: subprocess.Popen | None = field(default=None, repr=False)
     _log: Path | None = field(default=None, repr=False)
+
+    def _wrap(self, argv: list[str], env: dict) -> tuple[list[str], dict]:
+        """Apply the shared loopback sandbox to a node command when enabled.
+
+        The app binds its own port and talks to Mongo on 127.0.0.1; every other
+        network destination is denied, and writes are confined to the tree.
+        """
+        if _sandbox is None or _sandbox.mode() == "off":
+            return argv, env
+        p = _sandbox.plan(shlex.join(argv), self.tree, env,
+                          allow_loopback=True)
+        self.sandbox_note = f"{p.backend}: {p.note}"
+        return p.argv, p.env
 
     @property
     def base_url(self) -> str:
@@ -69,7 +89,8 @@ class AppServer:
         seed = self.tree / "artifacts" / "db-reset.js"
         if not seed.exists():
             return
-        r = subprocess.run([NODE, str(seed)], cwd=self.tree, env=self._env(),
+        argv, env = self._wrap([NODE, str(seed)], self._env())
+        r = subprocess.run(argv, cwd=self.tree, env=env,
                            capture_output=True, text=True, timeout=timeout)
         if r.returncode != 0:
             raise RuntimeError(f"db seed failed (rc={r.returncode}): {r.stderr[-500:]}")
@@ -83,11 +104,11 @@ class AppServer:
         log_dir = log_dir or Path(os.environ.get("TMPDIR", "/tmp"))
         self._log = log_dir / f"{self.db_name}.log"
         main = _main_script(self.tree)
+        argv, env = self._wrap([NODE, "--require", str(PRELOAD), main], self._env())
         t0 = time.monotonic()
         with open(self._log, "wb") as logf:
             self._proc = subprocess.Popen(
-                [NODE, "--require", str(PRELOAD), main],
-                cwd=self.tree, env=self._env(), stdout=logf, stderr=subprocess.STDOUT,
+                argv, cwd=self.tree, env=env, stdout=logf, stderr=subprocess.STDOUT,
                 start_new_session=True,  # own process group → clean group kill
             )
         self._await_health(health_timeout, t0)

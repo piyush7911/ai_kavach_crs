@@ -184,3 +184,22 @@ fix → hardened; a fix that only blocks the literal `evil.example.com` host →
 NG-03 IDOR (1), NG-04 redirect (2), NG-06 XSS (1); each confirmed exploitable on the
 vulnerable tree. The engine's hardening step can call `harden`, or replay the manifest's
 `variants` directly (same exploit shape as `replay`).
+
+---
+
+## Sandbox (task 1.2) — Track 1, added 2026-10-06
+
+The runner runs the target under the shared sandbox when `KAVACH_SANDBOX=auto|required`,
+using a new loopback-only mode: the app may bind its own port and reach 127.0.0.1 (its
+DB) while every external destination is denied — so an untrusted jury app cannot phone
+home (RoE: no unauthorised network). Writes are confined to the tree.
+
+    KAVACH_SANDBOX=required python -m benchmarks.nodegoat.runner replay --tree DIR --exploit E.json
+
+Backend: `sandbox-exec` (macOS), which filters by policy, so a loopback port stays
+reachable by the harness. `bwrap` (Linux) isolates into a net namespace and cannot offer
+this, so loopback mode is unsupported there (refuses under `required`). Added
+`allow_loopback` to `src/patch_validator/sandbox.py` (additive; the default deny-all
+profile and the C pipeline are unchanged). Positive control in
+`test_sandbox_loopback.py`: external TCP denied (EPERM), loopback TCP allowed. Verified
+`replay` and `regress` pass with the sandbox required.
