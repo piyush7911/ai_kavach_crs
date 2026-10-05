@@ -32,3 +32,13 @@ where `Number`/`parseInt` would not. Then this finding would go `proven`.
 Pipeline runs end to end: detect → confirm → model patch → policy/apply → PoV → regress →
 hardening → final check, with every model call in the audit trace. Two gates demonstrably
 caught bad patches; one real fix was produced and independently confirmed by Track 1.
+
+## Update — first fully proven fix on the local model (2026-10-06)
+
+After Track 2's probe fixes, re-ran eval-injection end to end with `gemma4:e2b` (LAN, no cloud):
+**JS-002 → `proven (hardened)`**, 2 model calls, 36 s. confirmed=True, status=proven,
+hardened=True, final check: 1 exploit blocked, 0 flows broken. The model's patch replaces
+`eval(...)` with `Number(...)`. This is the full loop — detect → confirm → local-model patch →
+policy → PoV → regression → hardening → proven — with no cloud and the weakest available model.
+Open-redirect still needs a stronger model or a deterministic template (the apply/parse failures
+dominate 8-attempt runs); yield, not safety, is the remaining lever.
