@@ -60,3 +60,32 @@ hard gap.
 
 Items 2's oracles and the whole verify-first design carry over; items 1 and 3 are per-language and
 are the real work. Until then, the honest VAmPI score is **0 found, 0 fixed.**
+
+---
+
+## Update (2026-10-06): verification layer PROVEN cross-language
+
+After the 0/0 above, we tested whether the part that is *supposed* to be language-neutral — the
+HTTP verification layer — actually works on a Python app. It does. VAmPI was booted in Docker on
+loopback (`127.0.0.1:5001`, Python 3.11 image, seeded via `/createdb`), and our **unchanged oracle
+code** (the same used against the Node app) confirmed real VAmPI bugs, with only an **auth config**
+added for VAmPI's JWT login:
+
+| VAmPI bug | Oracle used (unchanged) | Result |
+|---|---|---|
+| Excessive data exposure, `/_debug` leaks passwords (CWE-213) | single-request body oracle | CONFIRMED |
+| Mass assignment → admin (CWE-915) | access-control / metamorphic reasoning | CONFIRMED |
+| (VAmPI's DELETE is actually admin-protected) | access-control oracle | correctly NOT flagged |
+
+The only change to the code was making `Session` auth pluggable: default stays NodeGoat's cookie
+form-login; VAmPI uses `{"kind":"bearer_json","login_path":"/users/v1/login",...}`. NodeGoat's
+oracles and tests are unchanged and still pass. Reproducible: `python -m benchmarks.crosslang_vampi`.
+
+**What this proves and what it does not.** The *verification* half of the system — exploit replay,
+regression, hardening, and the metamorphic oracles (injection, IDOR, access-control) — is genuinely
+language-neutral: it speaks HTTP. So for an unknown-language finale app, confirming and hardening
+fixes carries over. **Still not done for Python:** *detection* (needs Python Semgrep rules +
+`tree-sitter-python`) and *repair* (needs Python prompts + a Python patch splicer). So the full
+find -> fix loop on Python is not yet closed — but the hardest-to-generalise part, trustworthy
+verification, is. The remaining per-language work is detection and repair; the runner's start/seed
+abstraction is shown here via Docker and should be formalised into the per-app adapter.
