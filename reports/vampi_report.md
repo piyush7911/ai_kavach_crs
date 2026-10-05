@@ -87,5 +87,11 @@ language-neutral: it speaks HTTP. So for an unknown-language finale app, confirm
 fixes carries over. **Still not done for Python:** *detection* (needs Python Semgrep rules +
 `tree-sitter-python`) and *repair* (needs Python prompts + a Python patch splicer). So the full
 find -> fix loop on Python is not yet closed — but the hardest-to-generalise part, trustworthy
-verification, is. The remaining per-language work is detection and repair; the runner's start/seed
-abstraction is shown here via Docker and should be formalised into the per-app adapter.
+verification, is. The remaining per-language work is detection and repair.
+
+**Per-app adapter (done):** the runner now drives any web app, not just the Node tree, via
+`--app <config.json>` (`benchmarks/appadapter.py`). VAmPI's config
+(`benchmarks/apps/vampi.json`) describes its base URL, HTTP seed (`/createdb`) and JWT auth; then
+`python -m benchmarks.nodegoat.runner start|replay --app benchmarks/apps/vampi.json ...` confirms
+VAmPI's data-exposure bug through the real runner CLI. NodeGoat's `--tree` path is unchanged. So an
+unknown HTTP app is a small config plus (per language) detection and repair.

@@ -1,0 +1,2 @@
+{ "method": "GET", "path": "/users/v1/_debug", "login_as": "none",
+  "success_if": { "status": 200, "body_regex": "\"password\"" } }

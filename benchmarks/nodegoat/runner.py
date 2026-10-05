@@ -25,6 +25,7 @@ from pathlib import Path
 
 from .appserver import AppServer
 from .exploit import Session, run_exploit
+from benchmarks.appadapter import AppConfig, ExternalApp, with_auth
 
 HERE = Path(__file__).resolve().parent
 DEFAULT_FLOWS = HERE / "flows.json"
@@ -37,29 +38,41 @@ def _emit(obj: dict, path: str | None) -> None:
     print(text)
 
 
+def _open_app(args):
+    """(app, config). `--app <config.json>` drives any web app via the per-app adapter; without
+    it, the default NodeGoat `--tree` path (managed Node app) is used, unchanged."""
+    cfg = AppConfig.load(args.app) if getattr(args, "app", None) else None
+    if cfg and cfg.mode == "external":
+        return ExternalApp(cfg), cfg
+    if not getattr(args, "tree", None):
+        raise SystemExit("need --tree (a Node app) or --app <external app config>")
+    return AppServer(Path(args.tree).resolve()), cfg
+
+
 def cmd_start(args) -> int:
-    app = AppServer(Path(args.tree).resolve())
+    app, _ = _open_app(args)
     try:
         app.start()
     except Exception as e:  # noqa: BLE001 - report any boot failure as data
         _emit({"ok": False, "error": str(e)}, args.json)
         return 1
-    _emit({"ok": True, "base_url": app.base_url, "port": app.port,
-           "db": app.db_name, "boot_seconds": app.boot_seconds}, args.json)
+    _emit({"ok": True, "base_url": app.base_url,
+           "port": getattr(app, "port", None), "db": getattr(app, "db_name", None),
+           "boot_seconds": app.boot_seconds}, args.json)
     app.stop()
     return 0
 
 
 def cmd_replay(args) -> int:
     exploit = json.loads(Path(args.exploit).read_text())
-    app = AppServer(Path(args.tree).resolve())
+    app, cfg = _open_app(args)
     try:
         app.start()
     except Exception as e:  # noqa: BLE001
         _emit({"error": f"app failed to start: {e}"}, args.json)
         return 2
     try:
-        exploitable, detail = run_exploit(app.base_url, exploit)
+        exploitable, detail = run_exploit(app.base_url, with_auth(exploit, cfg))
     finally:
         app.stop()
     _emit({"exploitable": exploitable, "detail": detail,
@@ -73,7 +86,7 @@ def cmd_regress(args) -> int:
         _emit({"error": f"no golden flows at {flows_path}; record them first (task 1.5)"}, args.json)
         return 2
     flows = json.loads(flows_path.read_text())
-    app = AppServer(Path(args.tree).resolve())
+    app, cfg = _open_app(args)
     try:
         app.start()
     except Exception as e:  # noqa: BLE001
@@ -82,7 +95,7 @@ def cmd_regress(args) -> int:
     results, ok = [], True
     try:
         for flow in flows:
-            passed, detail = _check_flow(app.base_url, flow)
+            passed, detail = _check_flow(app.base_url, with_auth(flow, cfg))
             ok = ok and passed
             results.append({"name": flow.get("name", flow["path"]), "pass": passed, "detail": detail})
     finally:
@@ -92,7 +105,7 @@ def cmd_regress(args) -> int:
 
 
 def _check_flow(base_url: str, flow: dict) -> tuple[bool, str]:
-    sess = Session(base_url, follow_redirects=bool(flow.get("follow_redirects")))
+    sess = Session(base_url, follow_redirects=bool(flow.get("follow_redirects")), auth=flow.get("auth"))
     if not sess.login(flow.get("login_as", "none")):
         return False, "login failed"
     resp = sess.request(flow.get("method", "GET"), flow["path"],
@@ -126,17 +139,17 @@ def cmd_harden(args) -> int:
     primary = json.loads((base / vuln["pov"]).read_text())
     variants = [(p, json.loads((base / p).read_text())) for p in vuln.get("variants", [])]
 
-    app = AppServer(Path(args.tree).resolve())
+    app, cfg = _open_app(args)
     try:
         app.start()
     except Exception as e:  # noqa: BLE001
         _emit({"error": f"app failed to start: {e}"}, args.json)
         return 2
     try:
-        p_exploitable, p_detail = run_exploit(app.base_url, primary)
+        p_exploitable, p_detail = run_exploit(app.base_url, with_auth(primary, cfg))
         results = []
         for path, ex in variants:
-            ex_hit, detail = run_exploit(app.base_url, ex)
+            ex_hit, detail = run_exploit(app.base_url, with_auth(ex, cfg))
             results.append({"variant": path, "exploitable": ex_hit, "detail": detail})
     finally:
         app.stop()
@@ -229,13 +242,13 @@ def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="benchmarks.nodegoat.runner")
     sub = p.add_subparsers(dest="cmd", required=True)
 
-    s = sub.add_parser("start"); s.add_argument("--tree", required=True); s.add_argument("--json")
+    s = sub.add_parser("start"); s.add_argument("--tree"); s.add_argument("--app"); s.add_argument("--json")
     s.set_defaults(fn=cmd_start)
-    r = sub.add_parser("replay"); r.add_argument("--tree", required=True)
+    r = sub.add_parser("replay"); r.add_argument("--tree"); r.add_argument("--app")
     r.add_argument("--exploit", required=True); r.add_argument("--json"); r.set_defaults(fn=cmd_replay)
-    g = sub.add_parser("regress"); g.add_argument("--tree", required=True)
+    g = sub.add_parser("regress"); g.add_argument("--tree"); g.add_argument("--app")
     g.add_argument("--flows"); g.add_argument("--json"); g.set_defaults(fn=cmd_regress)
-    h = sub.add_parser("harden"); h.add_argument("--tree", required=True)
+    h = sub.add_parser("harden"); h.add_argument("--tree"); h.add_argument("--app")
     h.add_argument("--id", required=True); h.add_argument("--manifest", default=str(HERE / "manifest.json"))
     h.add_argument("--json"); h.set_defaults(fn=cmd_harden)
     c = sub.add_parser("score"); c.add_argument("--findings", required=True)

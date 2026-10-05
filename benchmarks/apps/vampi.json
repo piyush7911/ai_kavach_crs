@@ -1,0 +1,12 @@
+{
+  "name": "vampi",
+  "mode": "external",
+  "base_url": "http://127.0.0.1:5001",
+  "health_path": "/",
+  "seed": { "method": "GET", "path": "/createdb" },
+  "auth": {
+    "kind": "bearer_json", "body_json": true, "login_path": "/users/v1/login",
+    "user_field": "username", "pass_field": "password", "token_field": "auth_token",
+    "roles": { "admin": ["admin", "pass1"], "user": ["name1", "pass1"], "user2": ["name2", "pass2"] }
+  }
+}
