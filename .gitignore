@@ -69,3 +69,7 @@ benchmark_workspace/nodegoat/
 
 # held-out evaluation targets (clones)
 benchmark_workspace/heldout/
+
+# JS fix run artifacts (keep the report, drop per-run outputs)
+reports/js_fix/*/
+reports/js_fix/*.jsonl
