@@ -61,3 +61,6 @@ reports/AB_index.txt
 benchmark_workspace/cJSON_cve/
 benchmark_workspace/real_cve_trees/
 benchmark_workspace/zlib_cve/
+
+# NodeGoat target tree — cloned by benchmarks/nodegoat/setup.sh, not committed
+benchmark_workspace/NodeGoat/

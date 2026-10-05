@@ -1,0 +1,7 @@
+{
+  "method": "GET",
+  "path": "/learn?url=https://evil.example.com/pwned",
+  "login_as": "user",
+  "follow_redirects": false,
+  "success_if": { "status": 302, "redirect_regex": "^https?://evil\\.example\\.com" }
+}
