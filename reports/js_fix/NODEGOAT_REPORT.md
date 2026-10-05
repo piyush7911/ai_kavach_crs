@@ -74,3 +74,25 @@ flows pass — on the weakest local model, air-gap compatible. 17 model calls, ~
 Find 9/12. Attack 9 with real exploits. Fix end-to-end on the weakest local model: 1 proven,
 0 fakes. Safety is intact (nothing false shipped). The two named, fixable levers: a stronger
 local coding model (yield) and live probes for IDOR/XSS/CSRF (detection).
+
+## Update (2026-10-06): 4 proven end-to-end + overfitting check
+
+After wiring the NoSQL differential oracle and the XSS probes, the full CodeGemma run (local, no
+cloud) now proves and hardens **4 of the 5 confirmable bugs**: eval, NoSQL, SSRF, XSS. Only
+open-redirect is unresolved (every model fails it; it is the template candidate). proven: 2 -> 4.
+
+**Overfitting check (important for credibility).** NodeGoat ships the fix for each bug as a comment
+(e.g. `// const preTax = parseInt(...)` right inside the eval function). To rule out the model just
+copying the answer, we stripped EVERY comment from the app source (41 files, all still parse) and
+re-ran the 4 confirmed classes:
+
+| class | with NodeGoat comments | comments STRIPPED |
+|---|---|---|
+| eval-injection | proven | proven |
+| nosql-injection | proven | proven |
+| ssrf | proven | proven |
+| xss | proven | proven |
+
+All four stay proven with no fix hints in the source. The model reasons the fix, it does not read
+the answer — so these numbers are expected to transfer to the jury's customised app (which has no
+such comments). The honest cross-check remains the held-out app (DVNA), not NodeGoat.
