@@ -93,3 +93,26 @@ Goal: given only a path to an unknown Node app, find real bugs, patch them, and 
 - **Dependency vulnerabilities are a different kind of fix** (bump a version, then run regression) and scoring needs to count them separately from code fixes.
 - **Some NodeGoat code already carries "fixed" comments** (for example the allocations IDOR). The manifest must record what is actually vulnerable at this commit, verified by exploit, not by comments.
 - **Declared model endpoints:** needs an answer before 2.8 can pin them.
+
+---
+
+## Track 2 status (updated 2026-10-05)
+
+| Task | State | Evidence |
+|---|---|---|
+| Local model | **done** | `qwen3:8b` (5.2 GB). Thinking must be off: default thinking spent 800 tokens and 54 s and returned an empty answer; `reasoning_effort=none` answered in 1.7 s. On a real NodeGoat handler (`eval`), none fixed it in 15 s; `low` used all 1,500 tokens in 89 s and returned nothing. `llm_client._reasoning_kwargs`, `KAVACH_REASONING`. |
+| 2.2 static detection | **done** | `python -m src.jsauto --target DIR`. 233 vendored Semgrep rules (offline) + 7 generic Kavach rules (`config/semgrep/kavach_js.yaml`) checked against an annotated fixture (positives and negatives). On NodeGoat: 11 code/config findings + 10 runtime-dependency findings in about 5 s, each mapped to its enclosing function; 3 hits suppressed with a recorded reason. |
+| Dependency audit | **done, needs network** | `npm audit --omit=dev` (runtime only: 51 advisories vs 145 with dev tooling). Fails loudly, never returns an empty "clean" list. **Decision needed: is querying the npm registry allowed at the event?** If not, we need a vendored advisory snapshot. |
+| 2.1 neutral core | partial | `Finding` type and a separate `src/jsauto/` package; the C pipeline is untouched (266 unit tests pass). |
+| 2.3 dynamic probes | not started | needs Track 1's runner to run the app |
+| 2.4 JS context and prompts | not started | |
+| 2.5 policy gate for JS | not started | |
+| 2.6 repair loop on the runner | not started | needs Track 1 |
+| 2.7 JS hardening | not started | |
+| 2.8 audit and endpoint pinning | not started | |
+
+Known weaknesses of the detector, stated plainly:
+
+- Static hits are **candidates**. The `$where` rule is syntactic: it flags the vulnerable interpolation but would also flag a safe one (numerically parsed) if both were live code; only a dynamic probe confirms.
+- Not detected statically: XSS through `marked`/templates, insecure direct object references, weak session/crypto design, missing CSRF. Probes (2.3) and model review have to cover these.
+- Semgrep skips `test/` directories by its own default; findings in test code are never reported.

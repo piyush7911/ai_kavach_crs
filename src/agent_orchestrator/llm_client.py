@@ -7,6 +7,7 @@ Designed to be swappable to local vLLM by changing base_url only.
 import re
 import time
 import logging
+import os
 import threading
 from typing import Optional
 
@@ -235,6 +236,7 @@ class LLMClient:
             max_tokens=max_tokens,
             temperature=0.0,          # diagnosis should be reproducible
             response_format={"type": "json_schema", "json_schema": schema},
+            **self._reasoning_kwargs(model),
         )
 
         usage = {
@@ -252,6 +254,23 @@ class LLMClient:
 
         return response.choices[0].message.content or ""
 
+    def _reasoning_kwargs(self, model: str) -> dict:
+        """
+        Control "thinking" for reasoning models served locally (Qwen3 on Ollama).
+
+        Measured on qwen3:8b, one short fix request: default thinking spent the whole
+        800-token budget on reasoning, returned an EMPTY answer and took 54 s;
+        reasoning_effort=none answered in 1.7 s with 24 tokens. For patch generation the
+        gates, not the model's deliberation, carry correctness, so thinking is off by
+        default. KAVACH_REASONING=low|medium|high|none overrides it; `default` leaves the
+        server's own behaviour. Never sent to the official OpenAI endpoint, whose
+        non-reasoning models reject the parameter.
+        """
+        if "api.openai.com" in self._base_url:
+            return {}
+        mode = os.getenv("KAVACH_REASONING", "none" if "qwen3" in model.lower() else "default")
+        return {} if mode == "default" else {"reasoning_effort": mode}
+
     def _call_with_retry(self, model: str, messages: list, max_tokens: int, max_retries: int = 3):
         """Call OpenAI API with exponential backoff retry."""
         for attempt in range(max_retries):
@@ -261,6 +280,7 @@ class LLMClient:
                     messages=messages,
                     max_tokens=max_tokens,
                     temperature=self.temperature,
+                    **self._reasoning_kwargs(model),
                 )
                 if self.seed is not None:
                     kwargs["seed"] = self.seed

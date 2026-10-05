@@ -27,6 +27,8 @@
 | ~~python-pptx~~ | — | installed 2026-08-30, **removed the same day** (deck step dropped) | already uninstalled |
 | **fastapi** (pinned **0.135.4**) | Serves the live dashboard (`dashboard/app.py`). `uvicorn`, `starlette`, `python-multipart`, `sse-starlette` were already present. **Do not install an unpinned/latest FastAPI**: 0.142+ requires `opentelemetry-api>=1.44`, which breaks Semgrep (pinned to 1.37.0). This happened once on 2026-10-01 and was reverted | **added 2026-10-01** | `pip install fastapi==0.135.4 opentelemetry-api==1.37.0` | `pip uninstall fastapi annotated-doc` |
 | **qwen2.5-coder:7b** (Ollama model) | Local patching model: 4.7 GB on disk, ~4.9 GB resident when loaded (measured via Ollama `/api/ps`). Chosen for a 16 GB M3 Air, where macOS exposes ~11.8 GiB to the GPU. A derived model **`kavach-coder:7b`** (`config/ollama/Modelfile`: `num_ctx 8192`, `temperature 0`, `seed 1337`) is what the project uses | **added 2026-10-01** | `ollama pull qwen2.5-coder:7b && ollama create kavach-coder:7b -f config/ollama/Modelfile` | `ollama rm kavach-coder:7b qwen2.5-coder:7b` |
+| **tree-sitter-javascript** 0.25.0 | JavaScript grammar for the NodeGoat track (enclosing function, routes, DAOs) | **added 2026-10-05** | `pip install tree-sitter-javascript` | `pip uninstall tree-sitter-javascript` |
+| **qwen3:8b** (Ollama model) | Local model for the NodeGoat track: 5.2 GB on disk. Thinking must be off: measured on one short request, default thinking used all 800 tokens on reasoning, returned an empty answer, 54 s; `reasoning_effort=none` gave a 24-token answer in 1.7 s (`KAVACH_REASONING`, see `llm_client._reasoning_kwargs`). Pulled by the user 2026-10-05 | **added 2026-10-05** | `ollama pull qwen3:8b` | `ollama rm qwen3:8b` |
 | ~~langgraph~~ | — | **NOT used**; commented out of requirements.txt | `pip uninstall langgraph` |
 | ~~langchain-openai~~ | — | **NOT used**; commented out | `pip uninstall langchain-openai` |
 | ~~langchain-core~~ | — | **NOT used**; commented out | `pip uninstall langchain-core` |
@@ -88,6 +90,7 @@ reports/special/redteam.json      # verifier red-team result
 reports/heldout/                  # held-out validation reports
 reports/ci/                       # generated PoV-replay CI workflow
 benchmark_workspace/heldout/      # held-out library clones
+benchmark_workspace/nodegoat/        # pinned clone of OWASP/NodeGoat @ c5cb68a (git-ignored)
 ```
 
 No new packages or tools were installed for the finale code (sandbox-exec ships

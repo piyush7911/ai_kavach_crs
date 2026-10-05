@@ -1,0 +1,473 @@
+rules:
+# Generic Node/Express rules written for AI Kavach. Nothing here names a particular application:
+# the engine must work on code it has not seen. Static hits are CANDIDATES; the dynamic probe
+# (or a replayable exploit) is what confirms one.
+
+- id: kavach-js-ssrf
+  mode: taint
+  languages: [javascript, typescript]
+  severity: ERROR
+  message: A URL built from request input reaches an outbound HTTP client (SSRF).
+  metadata: {cwe: "CWE-918", owasp: "A10:2021", kavach_class: ssrf, confidence: high}
+  pattern-sources:
+    - patterns:
+        - pattern-either:
+            - pattern: $REQ.query
+            - pattern: $REQ.body
+            - pattern: $REQ.params
+            - pattern: $REQ.headers
+            - pattern: $REQ.cookies
+        # The request is recognised by ROLE, not by name: the first parameter of a handler that
+        # also takes a response/next argument. A target may call it req, request, ctx or x.
+        - pattern-inside: |
+            function ($REQ, $RES, ...) { ... }
+    - patterns:
+        - pattern-either:
+            - pattern: $REQ.query
+            - pattern: $REQ.body
+            - pattern: $REQ.params
+            - pattern: $REQ.headers
+            - pattern: $REQ.cookies
+        # The request is recognised by ROLE, not by name: the first parameter of a handler that
+        # also takes a response/next argument. A target may call it req, request, ctx or x.
+        - pattern-inside: |
+            function $F($REQ, $RES, ...) { ... }
+    - patterns:
+        - pattern-either:
+            - pattern: $REQ.query
+            - pattern: $REQ.body
+            - pattern: $REQ.params
+            - pattern: $REQ.headers
+            - pattern: $REQ.cookies
+        # The request is recognised by ROLE, not by name: the first parameter of a handler that
+        # also takes a response/next argument. A target may call it req, request, ctx or x.
+        - pattern-inside: |
+            async function ($REQ, $RES, ...) { ... }
+    - patterns:
+        - pattern-either:
+            - pattern: $REQ.query
+            - pattern: $REQ.body
+            - pattern: $REQ.params
+            - pattern: $REQ.headers
+            - pattern: $REQ.cookies
+        # The request is recognised by ROLE, not by name: the first parameter of a handler that
+        # also takes a response/next argument. A target may call it req, request, ctx or x.
+        - pattern-inside: |
+            async function $F($REQ, $RES, ...) { ... }
+    - patterns:
+        - pattern-either:
+            - pattern: $REQ.query
+            - pattern: $REQ.body
+            - pattern: $REQ.params
+            - pattern: $REQ.headers
+            - pattern: $REQ.cookies
+        # The request is recognised by ROLE, not by name: the first parameter of a handler that
+        # also takes a response/next argument. A target may call it req, request, ctx or x.
+        - pattern-inside: |
+            ($REQ, $RES, ...) => { ... }
+    - patterns:
+        - pattern-either:
+            - pattern: $REQ.query
+            - pattern: $REQ.body
+            - pattern: $REQ.params
+            - pattern: $REQ.headers
+            - pattern: $REQ.cookies
+        # The request is recognised by ROLE, not by name: the first parameter of a handler that
+        # also takes a response/next argument. A target may call it req, request, ctx or x.
+        - pattern-inside: |
+            async ($REQ, $RES, ...) => { ... }
+    - patterns:
+        - pattern-either:
+            - pattern: $REQ.query
+            - pattern: $REQ.body
+            - pattern: $REQ.params
+            - pattern: $REQ.headers
+            - pattern: $REQ.cookies
+        # The request is recognised by ROLE, not by name: the first parameter of a handler that
+        # also takes a response/next argument. A target may call it req, request, ctx or x.
+        - pattern-inside: |
+            $M($REQ, $RES, ...) { ... }
+    - patterns:
+        - pattern-either:
+            - pattern: $REQ.query
+            - pattern: $REQ.body
+            - pattern: $REQ.params
+            - pattern: $REQ.headers
+            - pattern: $REQ.cookies
+        # The request is recognised by ROLE, not by name: the first parameter of a handler that
+        # also takes a response/next argument. A target may call it req, request, ctx or x.
+        - pattern-inside: |
+            async $M($REQ, $RES, ...) { ... }
+  pattern-sanitizers:
+    - pattern: encodeURIComponent(...)
+    - pattern: parseInt(...)
+    - pattern: Number(...)
+  pattern-sinks:
+    - patterns: [{pattern: "needle.get($U, ...)"}, {focus-metavariable: $U}]
+    - patterns: [{pattern: "needle($M, $U, ...)"}, {focus-metavariable: $U}]
+    - patterns: [{pattern: "axios.get($U, ...)"}, {focus-metavariable: $U}]
+    - patterns: [{pattern: "axios($U, ...)"}, {focus-metavariable: $U}]
+    - patterns: [{pattern: "request($U, ...)"}, {focus-metavariable: $U}]
+    - patterns: [{pattern: "request.get($U, ...)"}, {focus-metavariable: $U}]
+    - patterns: [{pattern: "http.get($U, ...)"}, {focus-metavariable: $U}]
+    - patterns: [{pattern: "https.get($U, ...)"}, {focus-metavariable: $U}]
+    - patterns: [{pattern: "got($U, ...)"}, {focus-metavariable: $U}]
+    - patterns: [{pattern: "fetch($U, ...)"}, {focus-metavariable: $U}]
+
+- id: kavach-js-code-injection
+  mode: taint
+  languages: [javascript, typescript]
+  severity: ERROR
+  message: Request input is evaluated as code (eval, Function, vm).
+  metadata: {cwe: "CWE-95", owasp: "A03:2021", kavach_class: eval-injection, confidence: high}
+  pattern-sources:
+    - patterns:
+        - pattern-either:
+            - pattern: $REQ.query
+            - pattern: $REQ.body
+            - pattern: $REQ.params
+            - pattern: $REQ.headers
+            - pattern: $REQ.cookies
+        # The request is recognised by ROLE, not by name: the first parameter of a handler that
+        # also takes a response/next argument. A target may call it req, request, ctx or x.
+        - pattern-inside: |
+            function ($REQ, $RES, ...) { ... }
+    - patterns:
+        - pattern-either:
+            - pattern: $REQ.query
+            - pattern: $REQ.body
+            - pattern: $REQ.params
+            - pattern: $REQ.headers
+            - pattern: $REQ.cookies
+        # The request is recognised by ROLE, not by name: the first parameter of a handler that
+        # also takes a response/next argument. A target may call it req, request, ctx or x.
+        - pattern-inside: |
+            function $F($REQ, $RES, ...) { ... }
+    - patterns:
+        - pattern-either:
+            - pattern: $REQ.query
+            - pattern: $REQ.body
+            - pattern: $REQ.params
+            - pattern: $REQ.headers
+            - pattern: $REQ.cookies
+        # The request is recognised by ROLE, not by name: the first parameter of a handler that
+        # also takes a response/next argument. A target may call it req, request, ctx or x.
+        - pattern-inside: |
+            async function ($REQ, $RES, ...) { ... }
+    - patterns:
+        - pattern-either:
+            - pattern: $REQ.query
+            - pattern: $REQ.body
+            - pattern: $REQ.params
+            - pattern: $REQ.headers
+            - pattern: $REQ.cookies
+        # The request is recognised by ROLE, not by name: the first parameter of a handler that
+        # also takes a response/next argument. A target may call it req, request, ctx or x.
+        - pattern-inside: |
+            async function $F($REQ, $RES, ...) { ... }
+    - patterns:
+        - pattern-either:
+            - pattern: $REQ.query
+            - pattern: $REQ.body
+            - pattern: $REQ.params
+            - pattern: $REQ.headers
+            - pattern: $REQ.cookies
+        # The request is recognised by ROLE, not by name: the first parameter of a handler that
+        # also takes a response/next argument. A target may call it req, request, ctx or x.
+        - pattern-inside: |
+            ($REQ, $RES, ...) => { ... }
+    - patterns:
+        - pattern-either:
+            - pattern: $REQ.query
+            - pattern: $REQ.body
+            - pattern: $REQ.params
+            - pattern: $REQ.headers
+            - pattern: $REQ.cookies
+        # The request is recognised by ROLE, not by name: the first parameter of a handler that
+        # also takes a response/next argument. A target may call it req, request, ctx or x.
+        - pattern-inside: |
+            async ($REQ, $RES, ...) => { ... }
+    - patterns:
+        - pattern-either:
+            - pattern: $REQ.query
+            - pattern: $REQ.body
+            - pattern: $REQ.params
+            - pattern: $REQ.headers
+            - pattern: $REQ.cookies
+        # The request is recognised by ROLE, not by name: the first parameter of a handler that
+        # also takes a response/next argument. A target may call it req, request, ctx or x.
+        - pattern-inside: |
+            $M($REQ, $RES, ...) { ... }
+    - patterns:
+        - pattern-either:
+            - pattern: $REQ.query
+            - pattern: $REQ.body
+            - pattern: $REQ.params
+            - pattern: $REQ.headers
+            - pattern: $REQ.cookies
+        # The request is recognised by ROLE, not by name: the first parameter of a handler that
+        # also takes a response/next argument. A target may call it req, request, ctx or x.
+        - pattern-inside: |
+            async $M($REQ, $RES, ...) { ... }
+  pattern-sanitizers:
+    - pattern: parseInt(...)
+    - pattern: parseFloat(...)
+    - pattern: Number(...)
+    - pattern: JSON.parse(...)
+  pattern-sinks:
+    - pattern: eval($X)
+    - pattern: new Function(..., $X)
+    - pattern: vm.runInNewContext($X, ...)
+    - pattern: vm.runInThisContext($X, ...)
+    - pattern: setTimeout($X, ...)
+    - pattern: setInterval($X, ...)
+
+- id: kavach-js-command-injection
+  mode: taint
+  languages: [javascript, typescript]
+  severity: ERROR
+  message: Request input reaches a shell command.
+  metadata: {cwe: "CWE-78", owasp: "A03:2021", kavach_class: command-injection, confidence: high}
+  pattern-sources:
+    - patterns:
+        - pattern-either:
+            - pattern: $REQ.query
+            - pattern: $REQ.body
+            - pattern: $REQ.params
+            - pattern: $REQ.headers
+            - pattern: $REQ.cookies
+        # The request is recognised by ROLE, not by name: the first parameter of a handler that
+        # also takes a response/next argument. A target may call it req, request, ctx or x.
+        - pattern-inside: |
+            function ($REQ, $RES, ...) { ... }
+    - patterns:
+        - pattern-either:
+            - pattern: $REQ.query
+            - pattern: $REQ.body
+            - pattern: $REQ.params
+            - pattern: $REQ.headers
+            - pattern: $REQ.cookies
+        # The request is recognised by ROLE, not by name: the first parameter of a handler that
+        # also takes a response/next argument. A target may call it req, request, ctx or x.
+        - pattern-inside: |
+            function $F($REQ, $RES, ...) { ... }
+    - patterns:
+        - pattern-either:
+            - pattern: $REQ.query
+            - pattern: $REQ.body
+            - pattern: $REQ.params
+            - pattern: $REQ.headers
+            - pattern: $REQ.cookies
+        # The request is recognised by ROLE, not by name: the first parameter of a handler that
+        # also takes a response/next argument. A target may call it req, request, ctx or x.
+        - pattern-inside: |
+            async function ($REQ, $RES, ...) { ... }
+    - patterns:
+        - pattern-either:
+            - pattern: $REQ.query
+            - pattern: $REQ.body
+            - pattern: $REQ.params
+            - pattern: $REQ.headers
+            - pattern: $REQ.cookies
+        # The request is recognised by ROLE, not by name: the first parameter of a handler that
+        # also takes a response/next argument. A target may call it req, request, ctx or x.
+        - pattern-inside: |
+            async function $F($REQ, $RES, ...) { ... }
+    - patterns:
+        - pattern-either:
+            - pattern: $REQ.query
+            - pattern: $REQ.body
+            - pattern: $REQ.params
+            - pattern: $REQ.headers
+            - pattern: $REQ.cookies
+        # The request is recognised by ROLE, not by name: the first parameter of a handler that
+        # also takes a response/next argument. A target may call it req, request, ctx or x.
+        - pattern-inside: |
+            ($REQ, $RES, ...) => { ... }
+    - patterns:
+        - pattern-either:
+            - pattern: $REQ.query
+            - pattern: $REQ.body
+            - pattern: $REQ.params
+            - pattern: $REQ.headers
+            - pattern: $REQ.cookies
+        # The request is recognised by ROLE, not by name: the first parameter of a handler that
+        # also takes a response/next argument. A target may call it req, request, ctx or x.
+        - pattern-inside: |
+            async ($REQ, $RES, ...) => { ... }
+    - patterns:
+        - pattern-either:
+            - pattern: $REQ.query
+            - pattern: $REQ.body
+            - pattern: $REQ.params
+            - pattern: $REQ.headers
+            - pattern: $REQ.cookies
+        # The request is recognised by ROLE, not by name: the first parameter of a handler that
+        # also takes a response/next argument. A target may call it req, request, ctx or x.
+        - pattern-inside: |
+            $M($REQ, $RES, ...) { ... }
+    - patterns:
+        - pattern-either:
+            - pattern: $REQ.query
+            - pattern: $REQ.body
+            - pattern: $REQ.params
+            - pattern: $REQ.headers
+            - pattern: $REQ.cookies
+        # The request is recognised by ROLE, not by name: the first parameter of a handler that
+        # also takes a response/next argument. A target may call it req, request, ctx or x.
+        - pattern-inside: |
+            async $M($REQ, $RES, ...) { ... }
+  pattern-sanitizers:
+    - pattern: parseInt(...)
+    - pattern: Number(...)
+  pattern-sinks:
+    - pattern: exec($C, ...)
+    - pattern: execSync($C, ...)
+    - pattern: child_process.exec($C, ...)
+    - pattern: child_process.execSync($C, ...)
+    - pattern: cp.exec($C, ...)
+
+- id: kavach-js-path-traversal
+  mode: taint
+  languages: [javascript, typescript]
+  severity: ERROR
+  message: Request input is used as a file path without being confined to a directory.
+  metadata: {cwe: "CWE-22", owasp: "A01:2021", kavach_class: path-traversal, confidence: high}
+  pattern-sources:
+    - patterns:
+        - pattern-either:
+            - pattern: $REQ.query
+            - pattern: $REQ.body
+            - pattern: $REQ.params
+            - pattern: $REQ.headers
+            - pattern: $REQ.cookies
+        # The request is recognised by ROLE, not by name: the first parameter of a handler that
+        # also takes a response/next argument. A target may call it req, request, ctx or x.
+        - pattern-inside: |
+            function ($REQ, $RES, ...) { ... }
+    - patterns:
+        - pattern-either:
+            - pattern: $REQ.query
+            - pattern: $REQ.body
+            - pattern: $REQ.params
+            - pattern: $REQ.headers
+            - pattern: $REQ.cookies
+        # The request is recognised by ROLE, not by name: the first parameter of a handler that
+        # also takes a response/next argument. A target may call it req, request, ctx or x.
+        - pattern-inside: |
+            function $F($REQ, $RES, ...) { ... }
+    - patterns:
+        - pattern-either:
+            - pattern: $REQ.query
+            - pattern: $REQ.body
+            - pattern: $REQ.params
+            - pattern: $REQ.headers
+            - pattern: $REQ.cookies
+        # The request is recognised by ROLE, not by name: the first parameter of a handler that
+        # also takes a response/next argument. A target may call it req, request, ctx or x.
+        - pattern-inside: |
+            async function ($REQ, $RES, ...) { ... }
+    - patterns:
+        - pattern-either:
+            - pattern: $REQ.query
+            - pattern: $REQ.body
+            - pattern: $REQ.params
+            - pattern: $REQ.headers
+            - pattern: $REQ.cookies
+        # The request is recognised by ROLE, not by name: the first parameter of a handler that
+        # also takes a response/next argument. A target may call it req, request, ctx or x.
+        - pattern-inside: |
+            async function $F($REQ, $RES, ...) { ... }
+    - patterns:
+        - pattern-either:
+            - pattern: $REQ.query
+            - pattern: $REQ.body
+            - pattern: $REQ.params
+            - pattern: $REQ.headers
+            - pattern: $REQ.cookies
+        # The request is recognised by ROLE, not by name: the first parameter of a handler that
+        # also takes a response/next argument. A target may call it req, request, ctx or x.
+        - pattern-inside: |
+            ($REQ, $RES, ...) => { ... }
+    - patterns:
+        - pattern-either:
+            - pattern: $REQ.query
+            - pattern: $REQ.body
+            - pattern: $REQ.params
+            - pattern: $REQ.headers
+            - pattern: $REQ.cookies
+        # The request is recognised by ROLE, not by name: the first parameter of a handler that
+        # also takes a response/next argument. A target may call it req, request, ctx or x.
+        - pattern-inside: |
+            async ($REQ, $RES, ...) => { ... }
+    - patterns:
+        - pattern-either:
+            - pattern: $REQ.query
+            - pattern: $REQ.body
+            - pattern: $REQ.params
+            - pattern: $REQ.headers
+            - pattern: $REQ.cookies
+        # The request is recognised by ROLE, not by name: the first parameter of a handler that
+        # also takes a response/next argument. A target may call it req, request, ctx or x.
+        - pattern-inside: |
+            $M($REQ, $RES, ...) { ... }
+    - patterns:
+        - pattern-either:
+            - pattern: $REQ.query
+            - pattern: $REQ.body
+            - pattern: $REQ.params
+            - pattern: $REQ.headers
+            - pattern: $REQ.cookies
+        # The request is recognised by ROLE, not by name: the first parameter of a handler that
+        # also takes a response/next argument. A target may call it req, request, ctx or x.
+        - pattern-inside: |
+            async $M($REQ, $RES, ...) { ... }
+  pattern-sanitizers:
+    - pattern: path.basename(...)
+    - pattern: parseInt(...)
+  pattern-sinks:
+    - patterns: [{pattern: "fs.readFile($P, ...)"}, {focus-metavariable: $P}]
+    - patterns: [{pattern: "fs.readFileSync($P, ...)"}, {focus-metavariable: $P}]
+    - patterns: [{pattern: "fs.createReadStream($P, ...)"}, {focus-metavariable: $P}]
+    - patterns: [{pattern: "$RES.sendFile($P, ...)"}, {focus-metavariable: $P}]
+    - patterns: [{pattern: "$RES.download($P, ...)"}, {focus-metavariable: $P}]
+
+- id: kavach-js-nosql-where
+  languages: [javascript, typescript]
+  severity: ERROR
+  message: >
+    A MongoDB $where clause is built by string interpolation. $where runs JavaScript on the
+    database, so any interpolated value that is not provably numeric is injectable.
+  metadata: {cwe: "CWE-943", owasp: "A03:2021", kavach_class: nosql-injection, confidence: medium}
+  patterns:
+    - pattern-either:
+        - pattern: "{..., $where: `...${$V}...`, ...}"
+        - pattern: '{..., $where: "..." + $V, ...}'
+        - pattern: "{..., $where: $V, ...}"
+    - pattern-not: '{..., $where: "...", ...}'
+
+- id: kavach-js-hardcoded-secret
+  languages: [javascript, typescript]
+  severity: WARNING
+  message: A secret-looking property is set to a literal string in source.
+  metadata: {cwe: "CWE-798", owasp: "A02:2021", kavach_class: hardcoded-secret, confidence: medium}
+  patterns:
+    - pattern-either:
+        - pattern: '{..., $K: "$V", ...}'
+        - pattern: 'const $K = "$V"'
+    - metavariable-regex:
+        metavariable: $K
+        regex: '(?i)^.*(secret|apikey|api_key|passwd|password|privatekey|private_key|cryptokey|signingkey).*$'
+    - metavariable-regex:
+        metavariable: $V
+        regex: '^\S{8,}$'          # a secret has no spaces; "Invalid password" is a message
+    - metavariable-regex:
+        metavariable: $V
+        regex: '^(?!.*(\$\{|process\.env|<|example|changeme)).*$'
+
+- id: kavach-js-redos-nested-quantifier
+  languages: [javascript, typescript]
+  severity: WARNING
+  message: A regular expression has a nested quantifier such as (a+)+, which backtracks catastrophically.
+  metadata: {cwe: "CWE-1333", owasp: "A05:2021", kavach_class: redos, confidence: low}
+  pattern-regex: '/[^/\n]*\([^()\n]*[+*]\)[+*][^/\n]*/'

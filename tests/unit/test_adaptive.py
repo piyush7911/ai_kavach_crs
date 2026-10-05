@@ -183,3 +183,26 @@ def test_other_endpoints_are_never_probed_for_openai_names(monkeypatch):
 def test_an_explicit_escalation_model_is_still_verified(monkeypatch):
     c, tried = _client(monkeypatch, "https://ollama.example/v1", usable={"big:70b"}, explicit="big:70b")
     assert c.usable_escalate_model() == "big:70b" and tried == ["big:70b"]
+
+
+# -- reasoning control for local reasoning models (Qwen3) ---------------------------------------
+
+def test_qwen3_on_a_local_server_gets_reasoning_off_by_default(monkeypatch):
+    monkeypatch.delenv("KAVACH_REASONING", raising=False)
+    c, _ = _client(monkeypatch, "http://localhost:11434/v1", usable=set())
+    assert c._reasoning_kwargs("qwen3:8b") == {"reasoning_effort": "none"}
+    assert c._reasoning_kwargs("qwen2.5-coder:7b") == {}          # not a reasoning model: untouched
+
+
+def test_reasoning_override_and_default_passthrough(monkeypatch):
+    c, _ = _client(monkeypatch, "http://localhost:11434/v1", usable=set())
+    monkeypatch.setenv("KAVACH_REASONING", "low")
+    assert c._reasoning_kwargs("qwen3:8b") == {"reasoning_effort": "low"}
+    monkeypatch.setenv("KAVACH_REASONING", "default")
+    assert c._reasoning_kwargs("qwen3:8b") == {}
+
+
+def test_the_parameter_is_never_sent_to_the_official_openai_endpoint(monkeypatch):
+    monkeypatch.setenv("KAVACH_REASONING", "none")
+    c, _ = _client(monkeypatch, "https://api.openai.com/v1", usable=set())
+    assert c._reasoning_kwargs("qwen3:8b") == {} and c._reasoning_kwargs("gpt-4o-mini") == {}
