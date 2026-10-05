@@ -1,44 +1,103 @@
-# Where we are (2026-10-05)
+# Where we are (2026-10-06)
 
-First finale target: **OWASP NodeGoat** (Node.js, Express, MongoDB). Rules: own hardware, declared
-models only, no unauthorised network (so **no npm registry**), real fixes that keep the app working.
-Local model: `gemma4:12b`. Plan: [`NODEGOAT_PLAN.md`](NODEGOAT_PLAN.md). Interface:
+First finale target: **OWASP NodeGoat** (Node.js, Express, MongoDB). Rules: own hardware, declared models
+only, no unauthorised network (so **no npm registry**), real fixes that keep the app working. Local model:
+`gemma4:12b`. Plan: [`NODEGOAT_PLAN.md`](NODEGOAT_PLAN.md). Track 1/2 interface:
 [`benchmarks/nodegoat/CONTRACT.md`](benchmarks/nodegoat/CONTRACT.md).
 
-## Built and checked
+## What exists
 
 | Area | State |
 |---|---|
 | C pipeline (autonomous mode, adaptive repair, sandbox, hardening) | done; cJSON `cJSON_Minify` found and patched with no hand-written proof |
-| JS static detection | 233 vendored Semgrep rules plus 7 generic Node rules, offline |
-| Generic flow analysis (`src/jsauto/flow.py`) | entry points by role, cross-file taint, sinks from `config/js_knowledge.json`, model fallback for unknown calls |
-| Dependency audit | **offline**: lockfile matched against a vendored advisory snapshot (400 KB, 7,216 advisories); identical to `npm audit` on NodeGoat (10/10 packages) |
-| Track 1 (runner, manifest, PoVs, flows) | built by the other half; runtime needs MongoDB 4.4, which this Mac lacks |
-| Genericity guards | rename-mutation tests, name tripwire, held-out app (DVNA) |
+| **Track 1** (runner, manifest, 12 PoVs + variants, 12 regression flows, loopback sandbox, scoring) | done by the other half; needs MongoDB 4.4 |
+| **Track 2** detection: 233 vendored Semgrep rules + 7 generic Node rules + generic flow analysis | done, unit-tested; held-out DVNA: 6 of 6 core injection classes with the local model |
+| Dependency audit | **offline**: lockfile vs a vendored advisory snapshot (400 KB, 7,216 advisories); same 10 packages as `npm audit` on NodeGoat |
+| Track 2 repair: patch splicing + policy gate, probes + variants, repair loop, **`fix` command** | written and unit-tested with a stub runner (121 passed, 2 marked known gaps); **never run against a live app** |
+| Audit trace + endpoint pinning | every model call logged to `KAVACH_LLM_TRACE`; `KAVACH_ALLOWED_ENDPOINTS` / `KAVACH_ALLOWED_MODELS` enforced |
+
+## The new command (Track 2)
+
+    python -m src.jsauto.fix --target benchmark_workspace/NodeGoat --runner benchmarks.nodegoat.runner \
+        --out reports/js_fix/run1 [--classes open-redirect,eval-injection] [--attempts 3] [--max-findings N]
+
+For each finding: **confirm** the exploit on the unpatched app (if it does not reproduce it is dropped and
+the result can never be `proven`), keep only the **variants** that work on the unpatched app, ask the model
+for a fix, **vet** it (parse + patch policy), run the **start / replay / regress / hardening** gates, and
+feed every rejection back. Patches accumulate on a copy (`combined/`), so a later fix sees earlier ones.
+At the end the final tree is started, the flows are run, and every confirmed exploit is replayed.
+Outputs: `evidence.json`, `patches/<id>.diff`, `final.diff`, `combined/`.
+
+## What the friend needs to do (live test on the laptop that has MongoDB)
+
+Nothing below has been run live; expect some first-run fixes, and please report them rather than work
+around them.
+
+**0. Setup**
+1. `git pull origin pre-finale`. Python env with the project packages (`pip install tree-sitter-javascript`
+   if missing; see `INSTALLED.md`). Ollama running with `gemma4:12b` pulled. MongoDB 4.4 on
+   `127.0.0.1:27017`. NodeGoat with `node_modules`: `sh benchmarks/nodegoat/setup.sh`.
+2. Environment (from `ai_kavach_crs/`):
+
+        export OPENAI_BASE_URL=http://localhost:11434/v1 OPENAI_API_KEY=ollama
+        export MODEL_ALPHA=gemma4:12b MODEL_BETA=gemma4:12b MODEL_GAMMA=gemma4:12b
+        export KAVACH_RUNNER_MODULE=benchmarks.nodegoat.runner
+        export KAVACH_ALLOWED_ENDPOINTS=localhost:11434 KAVACH_ALLOWED_MODELS=gemma4:12b
+        export KAVACH_LLM_TRACE=reports/js_fix/trace.jsonl
+
+**1. Unit tests, new files only (no app needed)**
+
+    python -m pytest tests/unit/test_jsauto_fix.py tests/unit/test_jsauto_repair.py \
+        tests/unit/test_jsauto_repair_loop.py tests/unit/test_llm_audit.py \
+        tests/unit/test_jsauto_more.py tests/unit/test_jsauto_offline_deps.py -q
+
+Expected: 121 passed, 2 xfailed. Anything else: send the output.
+
+**2. Check the runner on the untouched tree** (your own commands): `start`, `regress` three times in a row
+(must pass every time: a flaky flow makes every patch look like a regression), and `replay` the existing PoVs.
+
+**3. Smoke test one class, then widen**
+
+    python -m src.jsauto.fix --target benchmark_workspace/NodeGoat --out reports/js_fix/open_redirect \
+        --classes open-redirect --attempts 3
+
+Then `eval-injection`, `ssrf`, `reflected-output`, then everything (no `--classes`).
+
+**4. What to look at and send back**
+- `evidence.json`: `by_status`, and per finding `confirmed`, `variants` (kept of total), `status`, `reason`,
+  `attempts[].stage`.
+- `final.diff` (is each patch a real fix?) and `final_check` (start, regression, exploits blocked vs still working).
+- `trace.jsonl` line count (one line per model call) and the seconds per finding.
+
+**5. Things I expect to go wrong, and what each would mean**
+- **`confirmed: false` for a class the PoVs already cover.** The engine builds its own exploit from the
+  route and the field the code reads, so its request can differ from yours. Send the generated `exploit`
+  (it is in `evidence.json` input) and the runner's detail text; the likely fix is in `config/js_probes.json`.
+  The `eval-injection` oracle (a response containing 31338) only works if the page prints the result.
+- **`login failed` from `replay`.** The engine uses `login_as: "user"`; tell me if the route needs admin.
+- **A patch fails at `regression` every time.** First rule out a flaky flow (step 2).
+- **Everything `unresolved` at the `apply` stage.** The model's answer did not parse; check the trace to see
+  what gemma returned (it may be wrapping code in prose or returning a diff).
+- **SSRF probe never calls back.** The probe uses the runner's `{OOB_URL}` / `{OOB_MARKER}` placeholders
+  and the `oob_marker` oracle; confirm `replay` fills them in inside a query string.
+
+**6. Remaining Track 1 items**
+- `node_modules` must be present at the venue: `npm install` needs the registry, which is not allowed.
+- Answer for the organisers: confirm the venue has no registry access (we assumed none).
+- Re-run `score` on the engine's new findings file once step 3 has produced one.
 
 ## Measured
 
-- NodeGoat static detection: recall 8/11 (0.727), precision 0.81 (inflated by 10 dependency findings
-  counting as hits; about 0.64 without them). Misses IDOR, XSS, CSRF: they need dynamic probes.
-- DVNA (unseen, untuned): without a model 5 of 6 core injection classes found by some detector, 3 of 6 by flow alone; **with the local model classifying unknown calls, 6 of 6** (6 model calls, 84 s; one run, so not a guarantee).
+- NodeGoat static detection: recall 9/12 (0.75); misses IDOR, XSS, CSRF (need live probes).
+- DVNA (unseen, untuned): without a model 5 of 6 core injection classes found by some detector, 3 of 6 by flow
+  alone; **with the local model classifying unknown calls, 6 of 6** (6 model calls, 84 s; one run).
 - Local model: with thinking on, one short request took 118 s and returned nothing; off, 9.3 s.
-
-## Written 2026-10-06, then run (only the new tests: 106 passed, 2 expected failures)
-
-Running them found and fixed: a wrong test, two real bugs (advisory count, route-vs-helper evidence order) and a hard-coded runner name in the engine.
-
-| Piece | Files | What it does |
-|---|---|---|
-| Audit trace + endpoint pinning | `llm_client.py` (`_create`), `tests/unit/test_llm_audit.py` | every model call is logged (prompt, response, tokens, errors) to `KAVACH_LLM_TRACE`; `KAVACH_ALLOWED_ENDPOINTS` / `KAVACH_ALLOWED_MODELS` refuse anything undeclared, also for escalation |
-| JS patching | `src/jsauto/patch.py` | splice a function by syntax-tree range, parse check, patch policy (only the flagged function, size cap, no added code/shell execution, outbound calls, swallowed errors, time conditions, emptied function), dependency-bump vetting |
-| Model context | `src/jsauto/context.py`, `config/js_fix_guidance.json` | what the model sees: class guidance, route, call chain, the function to fix |
-| Probes | `src/jsauto/probes.py`, `config/js_probes.json` | describe a replayable exploit per finding (nothing is sent); classes without a usable oracle say why |
-| Repair loop | `src/jsauto/repair.py`, `tests/unit/test_jsauto_repair_loop.py` | model -> splice -> policy -> start/replay/regress gates, rejections fed back; skipped gate is never a pass; dependency fixes are deterministic |
-| Tests | `test_jsauto_repair.py`, `test_jsauto_more.py`, `test_jsauto_offline_deps.py` | around 100 cases in total |
 
 ## Not done / not measured
 
-- **Nothing runs end to end on a live app yet**: no MongoDB here, so probes and the repair loop's gates have only been described and stubbed.
-- JS hardening (exploit variants, re-run regression) is not written.
-- Last full run: 396 passed, 2 expected failures (known gaps), 1 failure that was then fixed and re-run alone.
-- Pre-installed `node_modules` are needed at the venue: `npm install` also hits the registry.
+- **Nothing has run against a live app**: no MongoDB on this Mac. Probes, confirm, repair gates and the final
+  check are tested with stubs only.
+- No probe oracle for SQL/NoSQL injection, ReDoS or deserialization (listed, with reasons, in
+  `config/js_probes.json`); those can only be repaired without a PoV gate and are never reported `proven`.
+- Gemma's quality as a *repairer* on real handlers is unmeasured; only its classification has been measured.
+- Two known detector gaps are marked `xfail`: aliased destructured imports and chained `router.route()`.

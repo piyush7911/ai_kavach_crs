@@ -54,10 +54,12 @@ def _fill_path(route_path: str, params: dict) -> str:
     return re.sub(r":([A-Za-z_]\w*)|\$\{(\w+)\}", sub, route_path)
 
 
-def exploit_for(finding: dict, oob_url: str = "{OOB}", probes: Optional[dict] = None) -> tuple[Optional[dict], str]:
+def exploit_for(finding: dict, probes: Optional[dict] = None,
+                payload: Optional[str] = None, success_if: Optional[dict] = None) -> tuple[Optional[dict], str]:
     """
     (exploit, note). `exploit` is None when no probe can be built, and `note` says why. When it is built,
-    `note` records which input carries the payload.
+    `note` records which input carries the payload. `payload` / `success_if` override the class default;
+    that is how variants are built (same request, same carrier field, another spelling of the attack).
     """
     probes = probes or load_probes()
     klass = finding.get("klass", "")
@@ -76,10 +78,10 @@ def exploit_for(finding: dict, oob_url: str = "{OOB}", probes: Optional[dict] = 
         return None, "the tainted expression does not name a query, body or path field"
 
     benign = probes.get("benign_value", "1")
-    payload = spec["value"].replace("{OOB}", oob_url)
+    payload = payload if payload is not None else spec["value"]
     carrier = carriers[0]                                     # the first field is the one given the payload
     values = {f[1]: (payload if f == carrier else benign) for f in carriers}
-    success = dict(spec["success_if"])
+    success = dict(success_if if success_if is not None else spec["success_if"])
 
     method = (route.get("method") or "GET").upper()
     if method == "ALL":
@@ -89,11 +91,14 @@ def exploit_for(finding: dict, oob_url: str = "{OOB}", probes: Optional[dict] = 
     query = {n: v for (loc, n), v in zip(carriers, [values[c[1]] for c in carriers]) if loc == "query"}
     body = {n: v for (loc, n), v in zip(carriers, [values[c[1]] for c in carriers]) if loc in ("body", "payload")}
     if query:
-        path += ("&" if "?" in path else "?") + urlencode(query)
+        # braces stay literal: the runner substitutes {OOB_URL}/{OOB_MARKER} in the request text itself
+        path += ("&" if "?" in path else "?") + urlencode(query, quote_via=quote, safe="{}")
     exploit["path"] = path
     if body:
         exploit["body"] = body
         exploit["headers"] = {"Content-Type": "application/x-www-form-urlencoded"}
+    if "{OOB_URL}" in json.dumps([payload, success]):
+        exploit["oob"] = True                                    # the runner starts its callback listener
     if spec.get("follow_redirects") is False:
         exploit["follow_redirects"] = False
     exploit["success_if"] = success
@@ -101,13 +106,31 @@ def exploit_for(finding: dict, oob_url: str = "{OOB}", probes: Optional[dict] = 
     return exploit, f"payload carried by {where}; other fields get a benign value"
 
 
-def attach(findings: list, oob_url: str = "{OOB}") -> dict:
+def variants_for(finding: dict, probes: Optional[dict] = None) -> list[dict]:
+    """
+    Other spellings of the same attack, as exploit requests against the same route and field. A patch
+    that stops only the primary payload (a blocklist of one string) leaks one of these.
+    """
+    probes = probes or load_probes()
+    spec = probes["classes"].get(finding.get("klass", ""))
+    if spec is None:
+        return []
+    out = []
+    for v in spec.get("variants", []):
+        value, success = (v, None) if isinstance(v, str) else (v["value"], v.get("success_if"))
+        exploit, _ = exploit_for(finding, probes, payload=value, success_if=success)
+        if exploit is not None:
+            out.append(exploit)
+    return out
+
+
+def attach(findings: list) -> dict:
     """Fill `exploit` on every finding that has a buildable probe. Returns {finding id: note}."""
     probes = load_probes()
     notes = {}
     for f in findings:
         d = f if isinstance(f, dict) else f.to_dict()
-        exploit, note = exploit_for(d, oob_url, probes)
+        exploit, note = exploit_for(d, probes)
         notes[d["id"]] = note
         if exploit is not None:
             if isinstance(f, dict):

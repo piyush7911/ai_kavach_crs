@@ -58,6 +58,8 @@ class RepairOutcome:
     diff: str = ""
     file: str = ""
     seconds: float = 0.0
+    hardened: bool = False          # every exploit variant was replayed against the patch and none worked
+    new_text: str = ""              # the patched file's full text, for the caller to apply
 
     def to_dict(self) -> dict:
         d = dict(self.__dict__)
@@ -81,10 +83,15 @@ def _diff(before: str, after: str, name: str) -> str:
 
 
 def repair(finding: dict, root: Path, llm, gates: Gates, max_attempts: int = 3,
-           workdir: Optional[Path] = None, on_event: Callable[[str, str], None] = lambda k, m: None) -> RepairOutcome:
+           workdir: Optional[Path] = None, on_event: Callable[[str, str], None] = lambda k, m: None,
+           variants: Optional[list] = None) -> RepairOutcome:
     """
     Try to fix `finding` (a `Finding.to_dict()`), working on a COPY of `root`. The original tree is never
     modified; a passing patch is returned as a diff for the caller to apply.
+
+    `variants` are other spellings of the exploit (probes.variants_for). After the primary exploit is
+    blocked and regression passes, every variant is replayed: a patch that blocks one spelling and
+    leaks another is overfitted, and is rejected with the leaking variant as feedback, inside the loop.
     """
     started = time.time()
     root = Path(root).resolve()
@@ -129,7 +136,7 @@ def repair(finding: dict, root: Path, llm, gates: Gates, max_attempts: int = 3,
                 on_event("attempt_rejected", f"{n}: {att.stage}: {att.detail[:120]}")
                 continue
             target.write_text(after)
-            gate_result = _run_gates(tree, finding, gates)
+            gate_result = _run_gates(tree, finding, gates, variants)
             out.gates = gate_result["gates"]
             att.seconds = round(time.time() - t0, 2)
             if gate_result["failed"]:
@@ -139,10 +146,12 @@ def repair(finding: dict, root: Path, llm, gates: Gates, max_attempts: int = 3,
                 on_event("attempt_rejected", f"{n}: {att.stage}: {att.detail[:120]}")
                 continue
             att.stage = "accepted"
+            out.new_text = after
             out.diff = _diff(original, after, prep.file)
             proven = out.gates.get("pov") == PASS and out.gates.get("regression") == PASS
+            out.hardened = out.gates.get("hardening") == PASS
             out.status = "proven" if proven else "patched_unproven"
-            out.reason = ("every gate passed" if proven else
+            out.reason = (("every gate passed" + ("" if out.hardened else "; no exploit variants were replayed")) if proven else
                           "no gate failed, but " + ", ".join(k for k, v in out.gates.items() if v != PASS)
                           + " did not pass (skipped gates are never counted as a pass)")
             break
@@ -158,8 +167,8 @@ def repair(finding: dict, root: Path, llm, gates: Gates, max_attempts: int = 3,
     return out
 
 
-def _run_gates(tree: Path, finding: dict, gates: Gates) -> dict:
-    """Run start, pov and regression on the patched tree. Stops at the first failure."""
+def _run_gates(tree: Path, finding: dict, gates: Gates, variants: Optional[list] = None) -> dict:
+    """Run start, pov, regression and hardening on the patched tree. Stops at the first failure."""
     result = {"gates": {}, "failed": "", "detail": ""}
     g = result["gates"]
     g["start"], detail = gates.start(tree)
@@ -177,6 +186,21 @@ def _run_gates(tree: Path, finding: dict, gates: Gates) -> dict:
     g["regression"], detail = gates.regress(tree)
     if g["regression"] == FAIL:
         result.update(failed="regression", detail=detail)
+        return result
+    # Hardening: the primary exploit is blocked and behaviour is intact; now try other spellings of it.
+    if exploit and variants and g["pov"] == PASS:
+        for i, v in enumerate(variants, 1):
+            state, vdetail = gates.replay(tree, v)
+            if state == FAIL:
+                g["hardening"] = FAIL
+                result.update(failed="hardening", detail=(
+                    f"the primary exploit is blocked but variant {i} of {len(variants)} still works "
+                    f"({v.get('method', 'GET')} {v.get('path', '')[:100]}): {vdetail}. Block the attack, "
+                    "not one spelling of it"))
+                return result
+        g["hardening"] = PASS
+    else:
+        g["hardening"] = SKIPPED
     return result
 
 
@@ -215,6 +239,7 @@ def _repair_dependency(finding: dict, root: Path, gates: Gates, out: RepairOutco
             out.reason = f"the {res['failed']} gate failed after the bump: {res['detail']}"
         else:
             out.diff = _diff(before, after, "package.json")
+            out.new_text = after
             out.status = "patched_unproven"
             out.reason = ("version raised; the installed packages were NOT re-resolved, so the gates ran "
                           "against the old node_modules")
@@ -251,16 +276,22 @@ class RunnerGates:
         code, text = self._run("start", "--tree", str(tree))
         return (PASS if code == 0 else FAIL), text
 
-    def replay(self, tree: Path, exploit: dict) -> tuple[str, str]:
+    def exploitable(self, tree: Path, exploit: dict) -> tuple[Optional[bool], str]:
+        """True/False if the exploit works against `tree`; None if the runner could not tell (an error)."""
         with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as fh:
             json.dump(exploit, fh)
         try:
             code, text = self._run("replay", "--tree", str(tree), "--exploit", fh.name)
         finally:
             Path(fh.name).unlink(missing_ok=True)
-        if code == 0:
+        return {0: False, 1: True}.get(code), text
+
+    def replay(self, tree: Path, exploit: dict) -> tuple[str, str]:
+        """Gate view: PASS means the exploit no longer works. An error is a FAIL, never a pass."""
+        works, text = self.exploitable(tree, exploit)
+        if works is False:
             return PASS, "no longer exploitable"
-        return (FAIL, "still exploitable: " + text) if code == 1 else (FAIL, "replay error: " + text)
+        return (FAIL, "still exploitable: " + text) if works else (FAIL, "replay error: " + text)
 
     def regress(self, tree: Path) -> tuple[str, str]:
         code, text = self._run("regress", "--tree", str(tree))

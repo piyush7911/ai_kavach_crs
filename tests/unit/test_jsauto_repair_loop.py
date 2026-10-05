@@ -100,7 +100,7 @@ def root(tmp_path):
 def test_a_good_first_answer_is_proven_and_the_original_tree_is_untouched(root):
     out = R.repair(finding(), root, ScriptedModel(GOOD), StubGates())
     assert out.status == "proven" and len(out.attempts) == 1 and out.attempts[0].stage == "accepted"
-    assert out.gates == {"start": R.PASS, "pov": R.PASS, "regression": R.PASS}
+    assert out.gates == {"start": R.PASS, "pov": R.PASS, "regression": R.PASS, "hardening": R.SKIPPED}
     assert "-        const a = eval(req.body.a);" in out.diff and "+        const a = Number(req.body.a);" in out.diff
     assert (root / "routes.js").read_text() == SOURCE                     # a diff is returned, nothing applied
 
@@ -236,3 +236,52 @@ def test_a_runner_must_be_configured_there_is_no_default(monkeypatch):
     assert "KAVACH_RUNNER_MODULE" in str(e.value)
     monkeypatch.setenv("KAVACH_RUNNER_MODULE", "pkg.runner")
     assert R.RunnerGates().module == "pkg.runner"
+
+
+# -- hardening: other spellings of the exploit ---------------------------------------------------------------------
+
+VARIANTS = [{"method": "POST", "path": f"/c?v={i}", "success_if": {}} for i in range(3)]
+
+
+class VariantGates(StubGates):
+    """Primary exploit blocked, but variant `leaks` (1-based) still works until the patch changes."""
+
+    def __init__(self, leaks=None, **kw):
+        super().__init__(**kw)
+        self.leaks, self.seen = leaks, []
+
+    def replay(self, tree, exploit):
+        self.seen.append(exploit["path"])
+        if self.leaks and exploit["path"] == f"/c?v={self.leaks - 1}":
+            return R.FAIL, "still exploitable: marker in body"
+        return R.PASS, "no longer exploitable"
+
+
+def test_a_patch_that_blocks_every_variant_is_hardened(root):
+    gates = VariantGates()
+    out = R.repair(finding(), root, ScriptedModel(GOOD), gates, variants=VARIANTS)
+    assert out.status == "proven" and out.hardened is True and out.gates["hardening"] == R.PASS
+    assert gates.seen == [EXPLOIT["path"]] + [v["path"] for v in VARIANTS]
+    assert out.reason == "every gate passed"
+
+
+def test_a_leaking_variant_rejects_the_patch_and_is_named_to_the_model(root):
+    gates = VariantGates(leaks=2)
+    model = ScriptedModel(GOOD, GOOD)
+    out = R.repair(finding(), root, model, gates, max_attempts=2, variants=VARIANTS)
+    assert out.status == "unresolved" and [a.stage for a in out.attempts] == ["hardening", "hardening"]
+    assert "variant 2 of 3 still works" in model.prompts[1] and "not one spelling of it" in model.prompts[1]
+    assert out.hardened is False and out.new_text == ""
+
+
+def test_variants_are_not_replayed_when_the_primary_exploit_is_still_working(root):
+    gates = VariantGates()
+    gates_primary_fails = StubGates(replay=[(R.FAIL, "still exploitable")] * 2)
+    out = R.repair(finding(), root, ScriptedModel(GOOD, GOOD), gates_primary_fails, max_attempts=2, variants=VARIANTS)
+    assert out.attempts[0].stage == "pov" and gates.seen == []
+
+
+def test_no_variants_are_replayed_without_a_primary_exploit(root):
+    gates = VariantGates()
+    out = R.repair(finding(exploit=None), root, ScriptedModel(GOOD), gates, variants=VARIANTS)
+    assert gates.seen == [] and out.gates["hardening"] == R.SKIPPED and out.status == "patched_unproven"

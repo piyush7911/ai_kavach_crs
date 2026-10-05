@@ -1,14 +1,95 @@
 {
-  "_about": "Generic probe payloads per vulnerability class, with an oracle that can be checked from the response alone. Arithmetic on a marker (31337+1 = 31338) is used where possible: the answer is not contained in the payload, so reflecting the input back cannot fake a hit. Classes with no oracle that fits the contract are listed under `unsupported` with the reason, never silently skipped.",
-  "marker": {"operand": 31337, "result": 31338},
+  "_about": "Generic probe payloads per vulnerability class, with an oracle that can be checked from the response alone. Arithmetic on a marker (31337+1 = 31338) is used where possible: the answer is not contained in the payload, so reflecting the input back cannot fake a hit. `variants` are other spellings of the SAME attack (alternate encodings, alternate hosts): a patch that blocks only the first spelling is overfitted, and replaying the variants is how that is caught. A variant is a string, or {value, success_if} when its oracle differs. Classes with no oracle that fits the contract are listed under `unsupported` with the reason, never silently skipped. Placeholders {OOB_URL} and {OOB_MARKER} are filled in by the runner (a loopback listener that records callbacks); the oob_marker oracle checks for the callback, so it works even when the application does not reflect the fetched body.",
+  "marker": {
+    "operand": 31337,
+    "result": 31338
+  },
   "classes": {
-    "open-redirect": {"value": "https://kavach-probe.invalid/landing",
-                       "follow_redirects": false, "success_if": {"redirect_regex": "kavach-probe\\.invalid"}},
-    "eval-injection": {"value": "31337+1", "success_if": {"body_regex": "31338"}},
-    "command-injection": {"value": ";expr 31337 + 1", "success_if": {"body_regex": "31338"}},
-    "path-traversal": {"value": "../../../../../../etc/passwd", "success_if": {"body_regex": "root:[^\\n]*:0:0"}},
-    "ssrf": {"value": "{OOB}/kavach", "success_if": {"oob_marker": true}},
-    "reflected-output": {"value": "kvch<b>7x7</b>", "success_if": {"body_regex": "kvch<b>7x7</b>"}}
+    "open-redirect": {
+      "value": "https://kavach-probe.invalid/landing",
+      "follow_redirects": false,
+      "success_if": {
+        "redirect_regex": "kavach-probe\\.invalid"
+      },
+      "variants": [
+        "//kavach-probe.invalid/landing",
+        "https:kavach-probe.invalid/landing",
+        "/\\kavach-probe.invalid/landing",
+        "HTTPS://kavach-probe.invalid/landing"
+      ]
+    },
+    "eval-injection": {
+      "value": "31337+1",
+      "success_if": {
+        "body_regex": "31338"
+      },
+      "variants": [
+        "31337 + 1",
+        "(31337)+(1)",
+        "[31337+1][0]",
+        "31337+1/*c*/"
+      ]
+    },
+    "command-injection": {
+      "value": ";expr 31337 + 1",
+      "success_if": {
+        "body_regex": "31338"
+      },
+      "variants": [
+        "|expr 31337 + 1",
+        "$(expr 31337 + 1)",
+        "`expr 31337 + 1`",
+        "&& expr 31337 + 1"
+      ]
+    },
+    "path-traversal": {
+      "value": "../../../../../../etc/passwd",
+      "success_if": {
+        "body_regex": "root:[^\\n]*:0:0"
+      },
+      "variants": [
+        "....//....//....//....//....//....//etc/passwd",
+        "/etc/passwd",
+        "..\\..\\..\\..\\..\\..\\etc\\passwd",
+        "../../../../../../etc/passwd%00"
+      ]
+    },
+    "ssrf": {
+      "value": "{OOB_URL}",
+      "success_if": {
+        "oob_marker": "{OOB_MARKER}"
+      },
+      "variants": [
+        "{OOB_URL}?a=b",
+        "{OOB_URL}/x/../y"
+      ]
+    },
+    "reflected-output": {
+      "value": "kvch<b>7x7</b>",
+      "success_if": {
+        "body_regex": "kvch<b>7x7</b>"
+      },
+      "variants": [
+        {
+          "value": "kvch<B>7x7</B>",
+          "success_if": {
+            "body_regex": "kvch<B>7x7</B>"
+          }
+        },
+        {
+          "value": "kvch<b >7x7</b>",
+          "success_if": {
+            "body_regex": "kvch<b >7x7</b>"
+          }
+        },
+        {
+          "value": "\"kvch<b>7x7</b>",
+          "success_if": {
+            "body_regex": "\"kvch<b>7x7</b>"
+          }
+        }
+      ]
+    }
   },
   "unsupported": {
     "sql-injection": "needs a benign baseline to compare against; the replay contract has no such oracle yet",

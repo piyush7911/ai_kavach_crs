@@ -264,13 +264,11 @@ def test_the_input_fields_are_read_from_the_tainted_expression_in_order():
     assert probes.input_fields("t") == []
 
 
-def test_ssrf_probe_carries_the_payload_in_the_first_field_and_a_benign_value_in_the_rest():
-    e, note = probes.exploit_for(finding("ssrf", "req.query.url + req.query.symbol", path="/research"),
-                                 oob_url="http://127.0.0.1:9999")
-    u = urlparse(e["path"])
-    assert u.path == "/research"
-    assert parse_qs(u.query) == {"url": ["http://127.0.0.1:9999/kavach"], "symbol": ["1"]}
-    assert e["success_if"] == {"oob_marker": True} and e["login_as"] == "user" and "query.url" in note
+def test_ssrf_probe_uses_the_runner_placeholders_unencoded_and_the_callback_oracle():
+    e, note = probes.exploit_for(finding("ssrf", "req.query.url + req.query.symbol", path="/research"))
+    assert e["path"] == "/research?url={OOB_URL}&symbol=1"          # braces literal: the runner substitutes them
+    assert e["oob"] is True and e["success_if"] == {"oob_marker": "{OOB_MARKER}"}
+    assert e["login_as"] == "user" and "query.url" in note
 
 
 def test_open_redirect_probe_does_not_follow_redirects_and_checks_the_location():
