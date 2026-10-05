@@ -230,3 +230,32 @@ Move `sql-injection` / `nosql-injection` from `unsupported` into `classes`, emit
 fields). No new oracle code is needed on the engine side; the runner handles the compare.
 The existing benign `control` already behaves like the FALSE case, so the control safeguard
 still holds.
+
+---
+
+## IDOR + CSRF confirmation (task 2.3) — Track 1, 2026-10-06
+
+Closes the two remaining confirm gaps so the engine's 12/12 detection becomes 12/12 confirmable.
+
+**IDOR** — new `idor` oracle (two users, generic, no app marker):
+
+    { "login_as": "user", "idor": {
+        "foreign_request": { "method": "GET", "path": "/allocations/<OTHER user's id>" },
+        "own_request":     { "method": "GET", "path": "/allocations/<this user's id>" } } }
+
+As one user, request another user's object id and the user's own; exploitable when the foreign
+request is served (200/302) and returns DIFFERENT data (bodies compared raw — digits are the
+signal here, unlike the injection oracle). A fix that reads the id from the session returns the
+user's own data for both → identical → safe. Verified NG-03: vulnerable → different; session-id
+fix → identical.
+
+**CSRF** — needs NO new runner code. A state-changing POST accepted without a token is already
+confirmed by the status oracle (`povs/ng_csrf.json`: POST with valid body, no CSRF token,
+`success_if {status: 200|302}`). A CSRF-protected app returns 403, so the same probe flips safe.
+
+### Track 2 wiring (probes.py)
+- IDOR: from the flow analysis, find a route with an id parameter and two seeded users; emit an
+  `idor` exploit with the other user's id in `foreign_request` and this user's in `own_request`.
+- CSRF: for each state-changing route (POST/PUT/PATCH/DELETE) with cookie sessions and no CSRF
+  module, emit a normal POST with a benign body and `success_if {status: 200|302}`; move
+  `insecure-session-cookie`'s sibling `csrf` out of `unsupported`.

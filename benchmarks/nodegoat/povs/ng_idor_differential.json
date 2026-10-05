@@ -1,0 +1,5 @@
+{ "login_as": "user",
+  "idor": {
+    "foreign_request": { "method": "GET", "path": "/allocations/1" },
+    "own_request":     { "method": "GET", "path": "/allocations/2" }
+  } }
