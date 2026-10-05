@@ -24,6 +24,8 @@
     "expect": { "status": 200, "body_regex": "research" } },
   { "name": "benefits",      "method": "GET",  "path": "/benefits",       "login_as": "admin",
     "expect": { "status": 200, "body_regex": "benefit" } },
+  { "name": "learn-legit-redirect", "method": "GET", "path": "/learn?url=/tutorial", "login_as": "user",
+    "expect": { "status": 302, "redirect_regex": "^/tutorial" } },
   { "name": "logout",        "method": "GET",  "path": "/logout",         "login_as": "user",
     "expect": { "status": 302, "redirect_regex": "/$" } }
 ]
