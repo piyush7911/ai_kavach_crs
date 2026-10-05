@@ -12,7 +12,7 @@ import pytest
 from src.jsauto import deps, static
 
 ROOT = Path(__file__).resolve().parents[2]
-NODEGOAT = ROOT / "benchmark_workspace" / "nodegoat"
+NODEGOAT = ROOT / "benchmark_workspace" / "NodeGoat"
 
 HANDLER = """const needle = require("needle");
 function Handler() {
@@ -118,7 +118,7 @@ def test_no_lockfile_is_reported_not_treated_as_clean(tmp_path):
 
 # -- smoke test on the real benchmark target (skipped if it is not cloned) ----------------------------
 
-@pytest.mark.skipif(not NODEGOAT.exists(), reason="benchmark_workspace/nodegoat not cloned")
+@pytest.mark.skipif(not NODEGOAT.exists(), reason="benchmark_workspace/NodeGoat not cloned")
 def test_nodegoat_detection_smoke():
     classes = {f.klass for f in static.scan(NODEGOAT)["findings"]}
     assert {"eval-injection", "ssrf", "nosql-injection", "open-redirect", "redos",
@@ -146,7 +146,7 @@ def test_detection_survives_renaming_the_request_parameter_files_and_functions(t
     assert {f.klass for f in static.scan(twin)["findings"]} == base
 
 
-@pytest.mark.skipif(not NODEGOAT.exists(), reason="benchmark_workspace/nodegoat not cloned")
+@pytest.mark.skipif(not NODEGOAT.exists(), reason="benchmark_workspace/NodeGoat not cloned")
 def test_nodegoat_detection_is_unchanged_when_every_name_in_it_is_changed(tmp_path):
     from tests.jsauto.mutate import mutate
     twin = tmp_path / "ng"

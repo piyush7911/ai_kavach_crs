@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Kavach Pitch</title>
+<style>
+  :root{
+    --ink:#0D1524; --ink2:#152238; --paper:#F4F1EA; --paper2:#E9E4D8;
+    --saffron:#F29F3D; --teal:#3FB6A8; --red:#E5604D;
+    --muted-d:#9FB0C8; --muted-l:#55607A;
+    --sans: "Avenir Next","Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --mono: "SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:#05080F;overflow:hidden;font-family:var(--sans)}
+  #viewport{position:fixed;inset:0;display:grid;place-items:center}
+  #deck{position:relative;width:1920px;height:1080px;transform-origin:center center}
+  .slide{position:absolute;inset:0;padding:120px 140px;display:flex;flex-direction:column;
+    opacity:0;pointer-events:none;transition:opacity .5s ease}
+  .slide.active{opacity:1;pointer-events:auto}
+  .dark{background:var(--ink);color:var(--paper)}
+  .dark2{background:radial-gradient(circle at 80% 20%, #1D3150 0%, var(--ink) 60%);color:var(--paper)}
+  .light{background:var(--paper);color:var(--ink)}
+  .accent{background:var(--saffron);color:var(--ink)}
+
+  /* reveal animation */
+  .r{opacity:0;transform:translateY(28px);transition:opacity .6s ease, transform .6s ease}
+  .active .r{opacity:1;transform:none}
+  .active .d1{transition-delay:.15s}.active .d2{transition-delay:.3s}.active .d3{transition-delay:.45s}
+  .active .d4{transition-delay:.6s}.active .d5{transition-delay:.75s}.active .d6{transition-delay:.9s}
+
+  .eyebrow{font-size:28px;letter-spacing:6px;text-transform:uppercase;font-weight:700;color:var(--saffron)}
+  .light .eyebrow{color:#B96A10}
+  h1{font-size:150px;line-height:1;font-weight:800;letter-spacing:-3px}
+  h2{font-size:88px;line-height:1.05;font-weight:800;letter-spacing:-1.5px}
+  h3{font-size:44px;font-weight:700;line-height:1.15}
+  p{font-size:34px;line-height:1.4}
+  .muted{color:var(--muted-d)} .light .muted{color:var(--muted-l)}
+  .hl{color:var(--saffron)} .light .hl{color:#B96A10}
+  .teal{color:var(--teal)} .red{color:var(--red)}
+  .grow{flex:1}
+  .row{display:flex;gap:40px}
+  .card{flex:1;border-radius:24px;padding:48px;display:flex;flex-direction:column;gap:20px}
+  .dark .card,.dark2 .card{background:var(--ink2);border:1px solid #243654}
+  .light .card{background:#FFFDF8;border:1px solid #DDD6C6}
+  .num{font-size:30px;font-weight:800;font-family:var(--mono);color:var(--saffron)}
+  .light .num{color:#B96A10}
+  .big{font-size:150px;font-weight:800;line-height:1;letter-spacing:-6px}
+  .footer{position:absolute;left:140px;right:140px;bottom:56px;display:flex;justify-content:space-between;font-size:24px;opacity:.55}
+  .pill{display:inline-block;padding:10px 26px;border-radius:999px;font-size:26px;font-weight:700}
+  .icon{width:72px;height:72px}
+  .mono{font-family:var(--mono)}
+
+  /* nav chrome */
+  #bar{position:fixed;left:0;bottom:0;height:5px;background:var(--saffron);transition:width .4s ease;z-index:5}
+  #count{position:fixed;right:18px;bottom:14px;color:#8894AA;font:14px var(--sans);z-index:5;opacity:.7}
+  #hint{position:fixed;left:18px;bottom:14px;color:#8894AA;font:14px var(--sans);z-index:5;opacity:.5}
+  @media print{
+    @page{size:1920px 1080px;margin:0}
+    html,body{overflow:visible;background:none}
+    #viewport{position:static;display:block}
+    #deck{transform:none!important;width:auto;height:auto}
+    .slide{position:relative;opacity:1;page-break-after:always;width:1920px;height:1080px}
+    .r{opacity:1;transform:none}
+    #bar,#count,#hint{display:none}
+  }
+</style>
+</head>
+<body>
+<div id="viewport"><div id="deck">
+
+<!-- 1 COVER -->
+<section class="slide dark2" style="justify-content:center">
+  <svg class="r" style="position:absolute;right:140px;top:50%;transform:translateY(-50%);width:560px;height:640px" viewBox="0 0 280 320" aria-hidden="true">
+    <path d="M140 10 L260 55 V150 C260 230 205 285 140 310 C75 285 20 230 20 150 V55 Z" fill="none" stroke="#F29F3D" stroke-width="6"/>
+    <path d="M140 42 L230 76 V150 C230 212 190 256 140 278 C90 256 50 212 50 150 V76 Z" fill="#F29F3D" opacity=".12"/>
+    <path d="M95 160 L128 193 L190 125" fill="none" stroke="#3FB6A8" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <div class="eyebrow r">Terrier Cyber Quest 2026</div>
+  <h1 class="r d1" style="margin-top:36px">AI Kavach</h1>
+  <p class="r d2 muted" style="font-size:44px;margin-top:40px;max-width:1000px;line-height:1.3">
+    Finds security bugs. Fixes them.<br><span class="hl">Proves</span> the fix is real.
+  </p>
+</section>
+
+<!-- 2 PROBLEM: bug types -->
+<section class="slide light">
+  <div class="eyebrow r">The problem</div>
+  <h2 class="r d1" style="margin-top:24px">Small bugs, big breaches</h2>
+  <div class="grow"></div>
+  <table style="width:100%;border-collapse:collapse;font-size:34px">
+    <tr class="r d1" style="text-align:left;color:#55607A;font-size:26px;text-transform:uppercase;letter-spacing:3px">
+      <th style="padding:14px 0;width:30%">Bug</th><th style="width:40%">In plain words</th><th>Attacker gets</th></tr>
+    <tr class="r d2" style="border-top:2px solid #DDD6C6"><td style="padding:22px 0"><b>Buffer overflow</b></td><td style="color:#55607A">Writes past the end of memory</td><td class="red"><b>Runs their own code</b></td></tr>
+    <tr class="r d2" style="border-top:2px solid #DDD6C6"><td style="padding:22px 0"><b>Use-after-free</b></td><td style="color:#55607A">Uses memory already thrown away</td><td class="red"><b>Hijacks the program</b></td></tr>
+    <tr class="r d3" style="border-top:2px solid #DDD6C6"><td style="padding:22px 0"><b>Integer overflow</b></td><td style="color:#55607A">A number wraps to a tiny one</td><td class="red"><b>Tiny box, huge write</b></td></tr>
+    <tr class="r d3" style="border-top:2px solid #DDD6C6"><td style="padding:22px 0"><b>Command injection</b></td><td style="color:#55607A">Input handed to the system shell</td><td class="red"><b>Any command they like</b></td></tr>
+    <tr class="r d4" style="border-top:2px solid #DDD6C6"><td style="padding:22px 0"><b>Path traversal</b></td><td style="color:#55607A"><span class="mono">../</span> sneaks out of a folder</td><td class="red"><b>Reads secret files</b></td></tr>
+  </table>
+  <div class="grow"></div>
+  <p class="r d5" style="font-size:32px"><b>Heartbleed</b> <span class="muted">(2014)</span> and <b>WannaCry</b> <span class="muted">(2017)</span> <span class="muted">both began with memory bugs like these.</span></p>
+</section>
+
+<!-- 3 PROBLEM: by hand -->
+<section class="slide dark">
+  <div class="eyebrow r">Today</div>
+  <h2 class="r d1" style="margin-top:24px">Fixing is slow and manual</h2>
+  <div class="grow"></div>
+  <div class="row">
+    <div class="card r d2"><div class="num">01</div><h3>Find</h3><p class="muted">A needle in millions of lines</p></div>
+    <div class="card r d3"><div class="num">02</div><h3>Understand</h3><p class="muted">What exactly went wrong</p></div>
+    <div class="card r d4"><div class="num">03</div><h3>Fix</h3><p class="muted">Write the patch</p></div>
+    <div class="card r d5"><div class="num">04</div><h3>Check</h3><p class="muted">Did it work? Did it break anything?</p></div>
+  </div>
+  <div class="grow"></div>
+  <p class="r d6" style="font-size:40px">Hours to days <span class="muted">per bug, by an expert.</span> Too many bugs, too few experts.</p>
+</section>
+
+<!-- 4 AI can lie -->
+<section class="slide light">
+  <div class="eyebrow r">The catch</div>
+  <h2 class="r d1" style="margin-top:24px">AI fixes sound right.<br>Some are not.</h2>
+  <div class="grow"></div>
+  <div class="row">
+    <div class="card r d2"><h3 class="red">Doesn't fix it</h3><p class="muted">The bug is still there</p></div>
+    <div class="card r d3"><h3 class="red">Blocks one attack</h3><p class="muted">Locks one window, leaves the door open</p></div>
+    <div class="card r d4"><h3 class="red">Switches it off</h3><p class="muted">No bug because no feature</p></div>
+  </div>
+  <div class="grow"></div>
+  <p class="r d5" style="font-size:36px">Trusting a bad fix is worse than knowing you're broken.</p>
+</section>
+
+<!-- 4b Why not coding agents -->
+<section class="slide dark">
+  <div class="eyebrow r">Fair question</div>
+  <h2 class="r d1" style="margin-top:24px">Why not Claude Code or Codex?</h2>
+  <div class="grow"></div>
+  <table style="width:100%;border-collapse:collapse;font-size:36px">
+    <tr class="r d1" style="text-align:left;font-size:26px;text-transform:uppercase;letter-spacing:3px">
+      <th style="padding:14px 0;width:46%;color:#9FB0C8">Coding agents</th><th style="color:#F29F3D">AI Kavach</th></tr>
+    <tr class="r d2" style="border-top:2px solid #243654"><td style="padding:24px 0;color:#9FB0C8">Wait for a human to ask</td><td><b>Hunts bugs on its own, by fuzzing</b></td></tr>
+    <tr class="r d3" style="border-top:2px solid #243654"><td style="padding:24px 0;color:#9FB0C8">Same AI writes the fix and judges it</td><td><b>AI suggests, fixed checks judge</b></td></tr>
+    <tr class="r d4" style="border-top:2px solid #243654"><td style="padding:24px 0;color:#9FB0C8">Runs tests it picked or wrote itself</td><td><b>Replays the real attack, every time</b></td></tr>
+    <tr class="r d5" style="border-top:2px solid #243654"><td style="padding:24px 0;color:#9FB0C8">Can quietly game its own tests</td><td><b>Attacks its own fix to catch cheats</b></td></tr>
+  </table>
+  <div class="grow"></div>
+  <p class="r d6" style="font-size:34px">They're brilliant engineers. <span class="hl">We're the independent inspector.</span></p>
+</section>
+
+<!-- 5 Statement -->
+<section class="slide accent" style="justify-content:center;align-items:center;text-align:center">
+  <div class="eyebrow r" style="color:#0D1524;opacity:.7">Our rule</div>
+  <h1 class="r d1" style="font-size:140px;margin-top:40px">The AI suggests.<br>Tools decide.</h1>
+  <p class="r d2" style="font-size:40px;margin-top:56px;opacity:.8">Like a student and a strict examiner. Only the test result counts.</p>
+</section>
+
+<!-- 6 Pipeline -->
+<section class="slide dark">
+  <div class="eyebrow r">How it works</div>
+  <h2 class="r d1" style="margin-top:24px">Five steps, no human needed</h2>
+  <div class="grow"></div>
+  <div class="row" style="gap:20px;align-items:stretch">
+    <div class="card r d1" style="align-items:flex-start"><div class="num">1</div><h3>Find</h3><p class="muted" style="font-size:28px">Throw millions of weird inputs</p></div>
+    <div class="card r d2"><div class="num">2</div><h3>Locate</h3><p class="muted" style="font-size:28px">Exact file and line</p></div>
+    <div class="card r d3"><div class="num">3</div><h3>Fix</h3><p class="muted" style="font-size:28px">Three AIs write patches</p></div>
+    <div class="card r d4" style="border-color:#3FB6A8"><div class="num" style="color:#3FB6A8">4</div><h3>Prove</h3><p class="muted" style="font-size:28px">Replay the attack</p></div>
+    <div class="card r d5" style="border-color:#F29F3D"><div class="num">5</div><h3>Attack</h3><p class="muted" style="font-size:28px">Try to break its own fix</p></div>
+  </div>
+  <div class="grow"></div>
+  <p class="r d6 muted" style="font-size:32px">Steps 4 and 5 are what make it trustworthy.</p>
+</section>
+
+<!-- 7 Find -->
+<section class="slide light">
+  <div class="eyebrow r">Step 1 · Find</div>
+  <h2 class="r d1" style="margin-top:24px">Press every button until it breaks</h2>
+  <div class="grow"></div>
+  <div class="row" style="align-items:center;gap:60px">
+    <div class="card r d2" style="flex:1.2">
+      <h3>Fuzzing</h3>
+      <p class="muted">Millions of random inputs thrown at the program, like a curious toddler.</p>
+    </div>
+    <svg class="r d3" viewBox="0 0 100 50" style="width:160px;height:80px" aria-hidden="true"><path d="M0 25 H80 M65 8 L88 25 L65 42" fill="none" stroke="#B96A10" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div class="card r d4" style="flex:1.2">
+      <h3>Sanitizer</h3>
+      <p class="muted">A watchdog that shouts the instant anything spills out of its box.</p>
+    </div>
+  </div>
+  <div class="grow"></div>
+  <p class="r d5" style="font-size:34px">Output: <b>“line 9, writing past the end.”</b> <span class="muted">Duplicate crashes are grouped.</span></p>
+</section>
+
+<!-- 8 Fix: agents -->
+<section class="slide dark">
+  <div class="eyebrow r">Step 3 · Fix</div>
+  <h2 class="r d1" style="margin-top:24px">Three AI doctors, one critic</h2>
+  <div class="grow"></div>
+  <div class="row">
+    <div class="card r d2"><div class="num">Alpha</div><h3>The thinker</h3><p class="muted">Reasons step by step, then fixes</p></div>
+    <div class="card r d3"><div class="num">Beta</div><h3>The minimalist</h3><p class="muted">Smallest possible fix</p></div>
+    <div class="card r d4"><div class="num">Gamma</div><h3>The textbook</h3><p class="muted">Standard fix for that bug type</p></div>
+    <div class="card r d5" style="border-color:#3FB6A8"><div class="num" style="color:#3FB6A8">Delta</div><h3>The critic</h3><p class="muted">Explains why a fix failed. Never writes code.</p></div>
+  </div>
+  <div class="grow"></div>
+  <p class="r d6" style="font-size:34px">Several pass? <span class="hl">The smallest fix wins.</span> <span class="muted">Less change, less risk.</span></p>
+</section>
+
+<!-- 9 Prove: gates -->
+<section class="slide light">
+  <div class="eyebrow r">Step 4 · Prove</div>
+  <h2 class="r d1" style="margin-top:24px">Every fix sits the exam</h2>
+  <div class="grow"></div>
+  <div style="display:flex;flex-direction:column;gap:18px">
+    <div class="row r d1" style="align-items:center;gap:32px"><span class="pill" style="background:#0D1524;color:#F4F1EA;width:90px;text-align:center">1</span><h3>Does it fit into the code?</h3></div>
+    <div class="row r d2" style="align-items:center;gap:32px"><span class="pill" style="background:#0D1524;color:#F4F1EA;width:90px;text-align:center">2</span><h3>Does it still build?</h3></div>
+    <div class="row r d3" style="align-items:center;gap:32px"><span class="pill" style="background:#F29F3D;color:#0D1524;width:90px;text-align:center">3</span><h3>Replay the real attack. <span style="color:#B96A10">Still crashes? Rejected.</span></h3></div>
+    <div class="row r d4" style="align-items:center;gap:32px"><span class="pill" style="background:#0D1524;color:#F4F1EA;width:90px;text-align:center">4</span><h3>Normal input, same correct answer?</h3></div>
+    <div class="row r d5" style="align-items:center;gap:32px"><span class="pill" style="background:#0D1524;color:#F4F1EA;width:90px;text-align:center">5</span><h3>Any new problems introduced?</h3></div>
+  </div>
+  <div class="grow"></div>
+  <p class="r d6 muted" style="font-size:30px">Before any fix: we prove the attack really crashes the original. No crash, no claim.</p>
+</section>
+
+<!-- 10 Attack own fix -->
+<section class="slide dark2">
+  <div class="eyebrow r">Step 5 · Attack</div>
+  <h2 class="r d1" style="margin-top:24px">Then we try to break our own fix</h2>
+  <div class="grow"></div>
+  <div class="row">
+    <div class="card r d2"><h3>Re-fuzz</h3><p class="muted">Millions of new inputs</p><p class="teal" style="font-size:28px">Catches: blocked only one attack</p></div>
+    <div class="card r d3"><h3>Before vs after</h3><p class="muted">Same inputs, answers must match</p><p class="teal" style="font-size:28px">Catches: feature switched off</p></div>
+    <div class="card r d4"><h3>Disguised attacks</h3><p class="muted">The attack in a costume</p><p class="teal" style="font-size:28px">Catches: easy-to-dodge filters</p></div>
+  </div>
+  <div class="grow"></div>
+  <div class="row r d5" style="gap:24px;align-items:center">
+    <span class="pill" style="background:#3FB6A8;color:#0D1524">Survived</span>
+    <span class="pill" style="background:#E5604D;color:#0D1524">Falsified</span>
+    <span class="pill" style="border:2px solid #9FB0C8;color:#9FB0C8">Not hardened: said honestly</span>
+  </div>
+</section>
+
+<!-- 11 Cheat demo -->
+<section class="slide light">
+  <div class="eyebrow r">Live demo · No AI involved</div>
+  <h2 class="r d1" style="margin-top:24px">Can it spot a fake fix?</h2>
+  <div class="grow"></div>
+  <table class="r d2" style="width:100%;border-collapse:collapse;font-size:36px">
+    <tr style="text-align:left;color:#55607A;font-size:28px;text-transform:uppercase;letter-spacing:3px">
+      <th style="padding:18px 0;width:40%">Fix</th><th style="width:30%">Normal exam</th><th>Attack own fix</th></tr>
+    <tr style="border-top:2px solid #DDD6C6"><td style="padding:28px 0"><b>Honest</b> <span style="color:#55607A">right-size box</span></td><td class="teal"><b>Pass</b></td><td class="teal"><b>Survives</b></td></tr>
+    <tr style="border-top:2px solid #DDD6C6"><td style="padding:28px 0"><b>Cheater</b> <span style="color:#55607A">blocks one input</span></td><td class="teal"><b>Pass</b></td><td class="red"><b>Caught by re-fuzz</b></td></tr>
+    <tr style="border-top:2px solid #DDD6C6"><td style="padding:28px 0"><b>Lazy</b> <span style="color:#55607A">just returns early</span></td><td class="teal"><b>Pass</b></td><td class="red"><b>Caught by before/after</b></td></tr>
+  </table>
+  <div class="grow"></div>
+  <p class="r d4" style="font-size:36px">A normal exam can't tell them apart. <b>AI Kavach can.</b></p>
+</section>
+
+<!-- 12 Formal -->
+<section class="slide dark">
+  <div class="eyebrow r">Bonus · Math proof</div>
+  <h2 class="r d1" style="margin-top:24px">Testing tastes the soup.<br>Proof analyses the pot.</h2>
+  <div class="grow"></div>
+  <div class="row">
+    <div class="card r d2"><h3>Testing</h3><p class="muted">Many inputs checked</p></div>
+    <div class="card r d3" style="border-color:#F29F3D"><h3 class="hl">CBMC proof</h3><p class="muted">Every possible input, up to a size limit. The bug mathematically cannot happen.</p></div>
+  </div>
+  <div class="grow"></div>
+  <p class="r d4 muted" style="font-size:30px">Used where a proof harness exists. Everything else is labelled honestly.</p>
+</section>
+
+<!-- 13 Results -->
+<section class="slide light">
+  <div class="eyebrow r">Results</div>
+  <h2 class="r d1" style="margin-top:24px">Measured, not claimed</h2>
+  <div class="grow"></div>
+  <div class="row" style="gap:60px">
+    <div class="r d2" style="flex:1"><div class="big">44<span style="color:#B96A10">/44</span></div><p class="muted">targets patched</p></div>
+    <div class="r d3" style="flex:1"><div class="big">30<span style="color:#B96A10">/30</span></div><p class="muted">proven against the real attack</p></div>
+    <div class="r d4" style="flex:1"><div class="big">$0.07</div><p class="muted">total AI cost, all 44</p></div>
+  </div>
+  <div class="grow"></div>
+  <p class="r d5 muted" style="font-size:30px">95% confidence interval 92–100%. Median 5.8 s per target.</p>
+  <div class="footer" style="color:#0D1524"><span>Run of 2026-08-30 · benchmark.md</span><span>AI Kavach</span></div>
+</section>
+
+<!-- 14 Field ready -->
+<section class="slide dark">
+  <div class="eyebrow r">Built for the field</div>
+  <h2 class="r d1" style="margin-top:24px">Runs on a laptop.<br>Works offline.</h2>
+  <div class="grow"></div>
+  <div class="row">
+    <div class="card r d2"><div class="num">0</div><h3>GPUs needed</h3></div>
+    <div class="card r d3"><div class="num">1.3 GB</div><h3>Peak memory</h3></div>
+    <div class="card r d4"><div class="num">Air-gap</div><h3>Point it at an in-house AI model</h3></div>
+  </div>
+  <div class="grow"></div>
+  <p class="r d5 muted" style="font-size:32px">Cheap because free tools do the heavy checking. A small AI model is enough.</p>
+</section>
+
+<!-- 15 Honest -->
+<section class="slide accent">
+  <div class="eyebrow r" style="color:#0D1524;opacity:.7">What we promise</div>
+  <h2 class="r d1" style="margin-top:24px;font-size:110px">If a fix can't be proven,<br>we don't call it fixed.</h2>
+  <div class="grow"></div>
+  <div class="row r d2" style="gap:24px">
+    <span class="pill" style="background:#0D1524;color:#F4F1EA">Skipped checks shown as skipped</span>
+    <span class="pill" style="background:#0D1524;color:#F4F1EA">Every fix re-attacked</span>
+    <span class="pill" style="background:#0D1524;color:#F4F1EA">Confidence intervals, not hype</span>
+  </div>
+</section>
+
+<!-- 16 Close -->
+<section class="slide dark2" style="justify-content:center;align-items:center;text-align:center">
+  <h1 class="r" style="font-size:180px">Find. Fix. <span class="hl">Prove.</span></h1>
+  <p class="r d2 muted" style="font-size:44px;margin-top:48px">AI Kavach · a shield that checks its own armour.</p>
+</section>
+
+</div></div>
+<div id="bar"></div><div id="count"></div><div id="hint">← → / click · F fullscreen</div>
+<script>
+  const slides=[...document.querySelectorAll('.slide')], deck=document.getElementById('deck');
+  let i=Math.min(Math.max(parseInt(location.hash.slice(1))-1||0,0),slides.length-1);
+  function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);deck.style.transform=`scale(${s})`}
+  function show(n){i=Math.max(0,Math.min(n,slides.length-1));
+    slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+    document.getElementById('bar').style.width=((i+1)/slides.length*100)+'%';
+    document.getElementById('count').textContent=`${i+1} / ${slides.length}`;
+    history.replaceState(null,'','#'+(i+1))}
+  addEventListener('resize',fit);
+  addEventListener('keydown',e=>{
+    if(['ArrowRight','PageDown',' ','Enter'].includes(e.key))show(i+1);
+    else if(['ArrowLeft','PageUp','Backspace'].includes(e.key))show(i-1);
+    else if(e.key==='Home')show(0); else if(e.key==='End')show(slides.length-1);
+    else if(e.key==='f'||e.key==='F')(document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen());
+  });
+  addEventListener('click',e=>show(e.clientX>innerWidth/3?i+1:i-1));
+  fit();show(i);
+</script>
+</body>
+</html>

@@ -30,7 +30,7 @@
 | **gemma4:12b** (Ollama model) | Local model chosen by the team: 8.0 GB on disk, 11.9B parameters, Q4_K_M, reports a thinking capability. Thinking must be off: one short request took 118 s and returned an empty answer with it on, 9.3 s with it off (`llm_client._reasoning_kwargs` asks the server whether a model can think). Pulled by the user 2026-10-05 | **added 2026-10-05** | `ollama pull gemma4:12b` | `ollama rm gemma4:12b` |
 | **Rosetta 2** (macOS component) | Runs the x86_64-only MongoDB 4.4 binary on Apple silicon (there is no arm64 build of 4.4, and NodeGoat's old driver cannot talk to MongoDB 5.1+) | **added 2026-10-06** | `softwareupdate --install-rosetta --agree-to-license` | system component; Apple documents no uninstall |
 | **MongoDB 4.4.29** (binary, not a package) | NodeGoat's database for the live benchmark. Unpacked into `tools/mongodb-4.4.29/` (60 MB), data in `tools/mongo-data/`, started on `127.0.0.1:27017` only by `sh tools/mongo.sh start` | **added 2026-10-06** | `curl -O https://fastdl.mongodb.org/osx/mongodb-macos-x86_64-4.4.29.tgz` then unpack to `tools/` | `sh tools/mongo.sh stop; rm -rf tools/mongodb-4.4.29 tools/mongo-data` |
-| **NodeGoat `node_modules`** (npm, 397 packages, runtime deps only) | Lets the benchmark app start. Installed in the git-ignored clone `benchmark_workspace/nodegoat/` with `npm install --omit=dev --ignore-scripts` (this is the one step that needs the npm registry; do it before the event) | **added 2026-10-06** | `cd benchmark_workspace/nodegoat && npm install --omit=dev --no-audit --no-fund --ignore-scripts` | `rm -rf benchmark_workspace/nodegoat/node_modules` |
+| **NodeGoat `node_modules`** (npm, 397 packages, runtime deps only) | Lets the benchmark app start. Installed in the git-ignored clone `benchmark_workspace/NodeGoat/` with `npm install --omit=dev --ignore-scripts` (this is the one step that needs the npm registry; do it before the event) | **added 2026-10-06** | `cd benchmark_workspace/NodeGoat && npm install --omit=dev --no-audit --no-fund --ignore-scripts` | `rm -rf benchmark_workspace/NodeGoat/node_modules` |
 | ~~langgraph~~ | — | **NOT used**; commented out of requirements.txt | `pip uninstall langgraph` |
 | ~~langchain-openai~~ | — | **NOT used**; commented out | `pip uninstall langchain-openai` |
 | ~~langchain-core~~ | — | **NOT used**; commented out | `pip uninstall langchain-core` |
@@ -92,7 +92,7 @@ reports/special/redteam.json      # verifier red-team result
 reports/heldout/                  # held-out validation reports
 reports/ci/                       # generated PoV-replay CI workflow
 benchmark_workspace/heldout/      # held-out library clones
-benchmark_workspace/nodegoat/        # pinned clone of OWASP/NodeGoat @ c5cb68a (git-ignored)
+benchmark_workspace/NodeGoat/        # pinned clone of OWASP/NodeGoat @ c5cb68a (git-ignored)
 ```
 
 No new packages or tools were installed for the finale code (sandbox-exec ships
