@@ -136,6 +136,28 @@ you really use). Send `evidence.json` again; each finding now carries its `explo
   alone; **with the local model classifying unknown calls, 6 of 6** (6 model calls, 84 s; one run).
 - Local model: with thinking on, one short request took 118 s and returned nothing; off, 9.3 s.
 
+### Live end-to-end on NodeGoat (2026-10-06) — the loop is closed
+
+Run on a real MongoDB 4.4 + the Track-1 runner, model `codegemma:7b` over LAN (no cloud). The
+`fix` command ran detect -> confirm -> local-model patch -> policy -> PoV -> regression -> hardening:
+
+- **4 of 5 confirmable bugs PROVEN + HARDENED: eval, NoSQL, SSRF, XSS.** Only open-redirect is
+  unresolved (every model fails it; it is the deterministic-template candidate). proven went 2 -> 4
+  after Track 1 wired the NoSQL boolean-differential oracle and XSS probes landed.
+- **Overfitting check:** NodeGoat ships each fix as a comment (e.g. `// const preTax = parseInt(...)`).
+  With EVERY comment stripped from the source (41 files, all still parse), all 4 stay proven. The model
+  reasons the fix, it does not copy the answer key — so the result is expected to transfer to the jury's
+  customised app (which has no such comments).
+- Repairer bake-off (same bugs, same gates): `codegemma:7b` 4 proven; `gemma4:e2b` 1; cloud
+  `gpt-4.1-mini` 1 (different bug). A 7B *code* model beat a frontier cloud *chat* model — the bottleneck
+  was clean code output, not intelligence. `codegemma:7b` is the finalist local model (non-Chinese, fits).
+- NoSQL/SQL now have a real proof gate (differential oracle); IDOR has the runner's two-user `idor`
+  oracle and CSRF the tokenless-POST status oracle — wiring those two probe classes is the remaining
+  confirm work. Classes with no oracle are patched WITHOUT a PoV gate and never reported `proven`.
+
+Fresh checkout now `pytest`s clean: `tree-sitter-javascript` pinned, and the C-side tests skip when
+clang cannot build+link (broken/absent SDK) or no API key is set, instead of failing red.
+
 ## Not done / not measured
 
 - **Nothing has run against a live app**: no MongoDB on this Mac. Probes, confirm, repair gates and the final
