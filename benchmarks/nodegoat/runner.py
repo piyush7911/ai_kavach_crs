@@ -109,7 +109,8 @@ def _check_flow(base_url: str, flow: dict) -> tuple[bool, str]:
 
 
 def cmd_score(args) -> int:
-    findings = json.loads(Path(args.findings).read_text())
+    raw = json.loads(Path(args.findings).read_text())
+    findings = raw["findings"] if isinstance(raw, dict) else raw  # accept {findings:[...]} or [...]
     manifest = json.loads(Path(args.manifest).read_text())
     board = _score(findings, manifest.get("vulns", []))
     _emit(board, args.json)
@@ -117,18 +118,28 @@ def cmd_score(args) -> int:
 
 
 def _score(findings: list, vulns: list) -> dict:
-    """Recall/precision by matching a finding to a manifest vuln on same file ± a few lines."""
-    matched_vulns, true_pos = set(), 0
+    """Recall and precision by matching each finding to a manifest vuln on same file + line.
+
+    recall    = distinct manifest vulns hit / total vulns
+    precision = findings that hit some real vuln / total findings
+    We match on file + line proximity only: our class names and CWEs and the engine's
+    deliberately differ, so matching on those would under-count (that mapping is the
+    contract's job, see CONTRACT.md). Several findings may hit one vuln (e.g. one per
+    vulnerable dependency) — that counts as precise, not as noise.
+    """
+    matched_vulns, precise_finds = set(), 0
     for f in findings:
-        hit = next((v for v in vulns if _same_site(f, v) and v["id"] not in matched_vulns), None)
+        hit = next((v for v in vulns if _same_site(f, v)), None)
         if hit:
             matched_vulns.add(hit["id"])
-            true_pos += 1
+            precise_finds += 1
     n_find = len(findings) or 1
     n_vuln = len(vulns) or 1
     return {
-        "vulns": len(vulns), "findings": len(findings), "true_positives": true_pos,
-        "recall": round(true_pos / n_vuln, 3), "precision": round(true_pos / n_find, 3),
+        "vulns": len(vulns), "findings": len(findings), "true_positives": len(matched_vulns),
+        "recall": round(len(matched_vulns) / n_vuln, 3),
+        "precision": round(precise_finds / n_find, 3),
+        "found": sorted(matched_vulns),
         "missed": [v["id"] for v in vulns if v["id"] not in matched_vulns],
     }
 
@@ -137,9 +148,12 @@ def _same_site(finding: dict, vuln: dict) -> bool:
     if Path(finding.get("file", "")).name != Path(vuln.get("file", "")).name:
         return False
     try:
-        return abs(int(finding.get("line", -999)) - int(vuln.get("line", 999))) <= 5
+        fl, vl = int(finding.get("line", 0)), int(vuln.get("line", 0))
     except (TypeError, ValueError):
-        return True  # same file, no usable line → count as a site match
+        return True
+    if fl <= 0 or vl <= 0:
+        return True  # a line of 0 means "whole file" (config, dependencies)
+    return abs(fl - vl) <= 5
 
 
 def main(argv=None) -> int:

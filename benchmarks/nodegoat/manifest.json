@@ -50,7 +50,7 @@
     },
     {
       "id": "NG-08", "owasp": "A6", "cwe": "CWE-798", "class": "hardcoded-secret",
-      "kind": "secret", "file": "config/config.js", "line": 7,
+      "kind": "secret", "file": "config/env/all.js", "line": 8,
       "sink": "cookieSecret and cryptoKey hard-coded in source",
       "pov": null, "variants": [], "validation": "inspection"
     },
