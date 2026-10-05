@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import secrets
 import shlex
 import signal
@@ -85,10 +86,26 @@ class AppServer:
         # Keep NODE_ENV as the caller set it (default: unset → development).
         return env
 
+    def _db_reachable(self) -> bool:
+        host, port = "127.0.0.1", 27017
+        m = re.search(r"//([^:/]+):(\d+)", MONGO_BASE)
+        if m:
+            host, port = m.group(1), int(m.group(2))
+        with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as s:
+            s.settimeout(2)
+            return s.connect_ex((host, port)) == 0
+
     def _seed(self, timeout: int = 60) -> None:
         seed = self.tree / "artifacts" / "db-reset.js"
         if not seed.exists():
             return
+        if not self._db_reachable():
+            # A dead DB otherwise surfaces as an opaque "db seed failed rc=1" and looks
+            # like a broken patch. Fail distinctly so the real cause is obvious.
+            raise RuntimeError(
+                f"MongoDB not reachable at {MONGO_BASE} — start it before running "
+                f"(sh tools/mongo.sh start, or docker start kavach-mongo44). "
+                f"This is an environment problem, not a patch failure.")
         argv, env = self._wrap([NODE, str(seed)], self._env())
         r = subprocess.run(argv, cwd=self.tree, env=env,
                            capture_output=True, text=True, timeout=timeout)
