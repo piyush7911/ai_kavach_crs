@@ -118,27 +118,38 @@ def cmd_score(args) -> int:
 
 
 def _score(findings: list, vulns: list) -> dict:
-    """Recall and precision by matching each finding to a manifest vuln on same file + line.
+    """Recall and precision of the engine's findings against the manifest answer key.
 
     recall    = distinct manifest vulns hit / total vulns
-    precision = findings that hit some real vuln / total findings
-    We match on file + line proximity only: our class names and CWEs and the engine's
-    deliberately differ, so matching on those would under-count (that mapping is the
-    contract's job, see CONTRACT.md). Several findings may hit one vuln (e.g. one per
-    vulnerable dependency) — that counts as precise, not as noise.
+    precision = finding GROUPS (same file+class) that hit a real vuln / total groups
+    Findings the engine marked informational/suppressed (e.g. a password in a seed
+    script) are not defects, so they are excluded from precision but still reported.
+    Grouping by (file, class) stops N vulnerable-dependency findings on package.json
+    from each counting separately. Matching is file+line (CONTRACT.md explains why).
     """
-    matched_vulns, precise_finds = set(), 0
-    for f in findings:
+    scored = [f for f in findings if f.get("status") not in ("informational", "suppressed")]
+    excluded = len(findings) - len(scored)
+
+    matched_vulns = set()
+    for f in scored:
         hit = _best_match(f, vulns)
         if hit:
             matched_vulns.add(hit["id"])
-            precise_finds += 1
-    n_find = len(findings) or 1
+
+    groups: dict = {}
+    for f in scored:
+        key = (Path(f.get("file", "")).name, f.get("klass") or f.get("class") or "")
+        groups.setdefault(key, []).append(f)
+    precise_groups = sum(1 for g in groups.values() if any(_best_match(f, vulns) for f in g))
+
+    n_grp = len(groups) or 1
     n_vuln = len(vulns) or 1
     return {
-        "vulns": len(vulns), "findings": len(findings), "true_positives": len(matched_vulns),
+        "vulns": len(vulns), "findings": len(findings), "scored": len(scored),
+        "informational_excluded": excluded, "finding_groups": len(groups),
+        "true_positives": len(matched_vulns),
         "recall": round(len(matched_vulns) / n_vuln, 3),
-        "precision": round(precise_finds / n_find, 3),
+        "precision": round(precise_groups / n_grp, 3),
         "found": sorted(matched_vulns),
         "missed": [v["id"] for v in vulns if v["id"] not in matched_vulns],
     }
