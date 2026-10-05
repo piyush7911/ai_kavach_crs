@@ -259,3 +259,16 @@ confirmed by the status oracle (`povs/ng_csrf.json`: POST with valid body, no CS
 - CSRF: for each state-changing route (POST/PUT/PATCH/DELETE) with cookie sessions and no CSRF
   module, emit a normal POST with a benign body and `success_if {status: 200|302}`; move
   `insecure-session-cookie`'s sibling `csrf` out of `unsupported`.
+
+## Update: NoSQL/SQL probes WIRED (2026-10-06)
+
+`sql-injection` and `nosql-injection` moved from `unsupported` into `classes` in
+`config/js_probes.json` with `oracle_kind: "differential"`. `probes.py` builds a two-request
+differential (tautology `' || '1'=='1` vs contradiction `' || '1'=='2`) and — key fix — injects
+the payload into EVERY tainted carrier field, not just the first, so a field that is actually
+injectable makes the responses differ even when the flagged set also includes a safe path param
+(NodeGoat flags both `params.userId`, which is parseInt'd, and `query.threshold`, which is not).
+Verified end to end on the real NodeGoat finding: vulnerable -> true != false; parseInt fix ->
+identical. `control_for` returns None for differential classes (the FALSE condition is the baseline).
+Still open: IDOR (needs two seeded user ids from the engine) and CSRF (structural: tokenless POST
+accepted) — runner oracles exist (`idor`, status), engine wiring pending.

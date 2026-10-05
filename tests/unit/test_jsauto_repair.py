@@ -303,11 +303,22 @@ def test_route_parameters_other_than_the_carrier_get_a_benign_value():
     assert e["path"].startswith("/users/1/search?")
 
 
-@pytest.mark.parametrize("klass", ["nosql-injection", "sql-injection", "redos", "hardcoded-secret",
+@pytest.mark.parametrize("klass", ["redos", "hardcoded-secret",
                                    "vulnerable-dependency", "insecure-session-cookie"])
 def test_classes_without_a_replayable_oracle_say_why(klass):
     e, reason = probes.exploit_for(finding(klass, "req.query.x"))
     assert e is None and reason
+
+
+@pytest.mark.parametrize("klass", ["nosql-injection", "sql-injection"])
+def test_injection_builds_a_differential_probe(klass):
+    # No reflected marker exists for query injection; the probe sends a TRUE and a FALSE
+    # condition and the runner compares the responses. control_for returns None (the FALSE
+    # condition is the baseline).
+    e, _ = probes.exploit_for(finding(klass, "req.query.x"))
+    assert e is not None and "differential" in e
+    assert e["differential"]["true_request"]["path"] != e["differential"]["false_request"]["path"]
+    assert probes.control_for(finding(klass, "req.query.x")) is None
 
 
 def test_no_probe_without_a_route_or_a_nameable_input():

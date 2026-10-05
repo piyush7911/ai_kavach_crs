@@ -140,11 +140,21 @@
           }
         }
       ]
+    },
+    "nosql-injection": {
+      "oracle_kind": "differential",
+      "true_value": "1' || '1'=='1",
+      "false_value": "1' || '1'=='2",
+      "variants": []
+    },
+    "sql-injection": {
+      "oracle_kind": "differential",
+      "true_value": "1' || '1'=='1",
+      "false_value": "1' || '1'=='2",
+      "variants": []
     }
   },
   "unsupported": {
-    "sql-injection": "needs a benign baseline to compare against; the replay contract has no such oracle yet",
-    "nosql-injection": "needs a benign baseline to compare against; the replay contract has no such oracle yet",
     "redos": "needs a timing oracle, and a timing probe is itself a denial-of-service risk on a shared host",
     "deserialization": "needs an out-of-band code-execution marker",
     "hardcoded-secret": "static finding: nothing to replay",

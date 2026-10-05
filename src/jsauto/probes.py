@@ -60,6 +60,10 @@ def exploit_for(finding: dict, probes: Optional[dict] = None,
     (exploit, note). `exploit` is None when no probe can be built, and `note` says why. When it is built,
     `note` records which input carries the payload. `payload` / `success_if` override the class default;
     that is how variants are built (same request, same carrier field, another spelling of the attack).
+
+    A class whose spec has `oracle_kind: "differential"` is confirmed by sending a TRUE and a FALSE
+    condition and comparing the responses (SQL/NoSQL injection, where no reflected marker exists). The
+    runner's `differential` oracle does the compare; the carrier/field logic below is shared.
     """
     probes = probes or load_probes()
     klass = _probe_class(finding)
@@ -68,6 +72,31 @@ def exploit_for(finding: dict, probes: Optional[dict] = None,
     spec = probes["classes"].get(klass)
     if spec is None:
         return None, f"no probe is defined for class {klass!r}"
+    if spec.get("oracle_kind") == "differential" and payload is None:
+        return _differential_exploit(finding, probes, spec)
+    return _single_exploit(finding, probes, spec, payload, success_if)
+
+
+def _differential_exploit(finding: dict, probes: dict, spec: dict) -> tuple[Optional[dict], str]:
+    """Build the two-request differential exploit: the carrier field gets a tautology, then a
+    contradiction; the runner compares the responses. Reuses `_single_exploit` for all the field logic."""
+    def one(value):
+        ex, note = _single_exploit(finding, probes, spec, payload=value, success_if={"status": 200},
+                                   all_carriers=True)
+        if ex is None:
+            return None, note
+        return {k: ex[k] for k in ("method", "path", "body", "headers") if k in ex}, note
+    t, note = one(spec["true_value"])
+    if t is None:
+        return None, note
+    f, _ = one(spec["false_value"])
+    exploit = {"login_as": "user", "differential": {"true_request": t, "false_request": f}}
+    return exploit, f"differential: {note}"
+
+
+def _single_exploit(finding: dict, probes: dict, spec: dict,
+                    payload: Optional[str], success_if: Optional[dict],
+                    all_carriers: bool = False) -> tuple[Optional[dict], str]:
     ev = finding.get("evidence") or {}
     route = (ev.get("entry") or {}).get("route")
     if not route:
@@ -86,7 +115,11 @@ def exploit_for(finding: dict, probes: Optional[dict] = None,
     # its own validation before reaching the vulnerable line, which looks exactly like "not vulnerable".
     handler_fields = [tuple(x) for x in (ev.get("entry") or {}).get("request_fields", []) if x[0] in _LOCATIONS]
     sent = list(dict.fromkeys(carriers + handler_fields))
-    values = {f: (payload if f == carrier else benign) for f in sent}
+    # `all_carriers` (differential): when several fields are flagged but only one is injectable, put the
+    # payload in EVERY carrier. The non-injectable ones become identical noise in both requests; the
+    # injectable one is what makes the TRUE and FALSE responses differ.
+    carried = set(carriers) if all_carriers else {carrier}
+    values = {f: (payload if f in carried else benign) for f in sent}
     by_name = {f[1]: v for f, v in values.items()}
     success = dict(success_if if success_if is not None else spec["success_if"])
 
@@ -148,6 +181,9 @@ def control_for(finding: dict, probes: Optional[dict] = None) -> Optional[dict]:
     exploit built on it proves nothing. Used at confirmation time.
     """
     probes = probes or load_probes()
+    spec = probes["classes"].get(_probe_class(finding))
+    if spec and spec.get("oracle_kind") == "differential":
+        return None  # the differential's own FALSE condition is the baseline; no separate control
     exploit, _ = exploit_for(finding, probes, payload=probes.get("benign_value", "1"))
     return exploit
 
