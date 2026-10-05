@@ -1,347 +1,271 @@
-# 🛡️ AI Kavach: Autonomous Cyber Reasoning System (CRS)
-## Technical Architecture & Systems Engineering Design Document
+# AI Kavach CRS — Architecture
 
-**System Class:** Autonomous Cyber Reasoning System (CRS) for C/C++ Vulnerability Remediation  
-**Design Reference:** Inspired by DARPA AIxCC (Artificial Intelligence Cyber Challenge) Architecture  
-**Implementation Date:** August 2026  
-**Evaluation Reference:** [`benchmark.md`]
+**What it is:** an autonomous Cyber Reasoning System for C/C++. It finds a memory-safety
+bug, patches it, and then tries to prove its own patch wrong before reporting it.
+**Updated:** October 2026 (pre-finale build). **Results and method:** [`benchmark.md`](benchmark.md).
+**Plan and status log:** [`FINALE_PLAN.md`](FINALE_PLAN.md).
 
----
-
-## 1. Executive Summary
-
-**AI Kavach** is an autonomous, production-grade Cyber Reasoning System (CRS) engineered to detect, triage, patch, and verify memory-safety and complex logic vulnerabilities in C/C++ software without human intervention. 
-
-Traditional automated repair tools fail in real-world C/C++ software for three fundamental reasons:
-1. **Context Blindness:** Standard Large Language Models (LLMs) evaluate code snippets in isolation, lacking visibility into deeply nested `typedef` chains, packed bitfields, and header-level `struct` definitions.
-2. **Hallucination & Rubber-Stamping:** Standard AI tools generate patches that fail to compile or silently disable security checks without verifying that the underlying crash is resolved.
-3. **Overfitting & Functionality Gutting:** Simple LLM patches frequently overfit to the exact crashing input (`if (input == 4) return;`) or gut legitimate functionality via early returns.
-
-AI Kavach solves these challenges through a closed-loop **Observe-Orient-Decide-Act (OODA)** architecture powered by:
-- **Tree-sitter AST Context Extraction:** Structurally resolving custom types and header dependencies.
-- **Parallel Multi-Agent Ensemble with Critic Feedback:** Specialized patching agents (Alpha, Beta, Gamma) dispatched concurrently, paired with an LLM-as-judge Critic (Agent Delta).
-- **Detect-Repair-Verify (DRV) Sandbox Loop:** Enforcing physical compiler (`clang` under ASan/UBSan) and Proof-of-Vulnerability (PoV) replay gates.
-- **Phase 6 Patch Hardening:** Falsifying candidate patches via adversarial re-fuzzing and differential execution testing.
-- **4-Tier Cross-Run Memory Engine:** Learning ground-truth verified fix patterns across CWE categories.
+> **How to read the claims in this document.** Every number is from a run on a MacBook
+> Air M3 (16 GB). Sections marked *carried over* describe components that were not
+> changed or re-tested in the pre-finale work; they are reproduced from the earlier
+> document. Section 10 lists what is not proven.
 
 ---
 
-## 2. High-Level System Architecture
+## 1. The idea in one paragraph
 
-The AI Kavach pipeline operates as a deterministic, multi-stage pipeline designed around empirical ground-truth validation:
+A language model proposes patches; **the model is never trusted**. Every patch must pass
+physical checks (it compiles under sanitizers, the exploit no longer crashes the rebuilt
+binary, normal behaviour is preserved), and is then attacked (re-fuzzed, compared against
+the original, bounded-model-checked where a proof harness exists). The design bet is that
+verification, not model strength, carries correctness, so a small cheap model is enough.
+
+---
+
+## 2. Two ways in
+
+| | **Benchmark / scan path** | **Autonomous path** (new) |
+|---|---|---|
+| Input | A curated target: known bug, hand-written PoV and regression command | Any C repository, nothing declared in advance |
+| Entry | `python benchmark.py ...`, `python -m src.main --target X` | `python -m src.main --mode auto ...`, or drag-and-drop in the dashboard |
+| Where the bug comes from | Semgrep finding or fuzz harness we wrote | Semgrep **and** public-parser fuzzing (`--surface`) |
+| PoV | Hand-written, pre-flighted on the unpatched build | The fuzzer's own crashing input |
+| Regression gate | A command we wrote | A behaviour oracle recorded from the original binary |
+| Repair strategy | Ensemble (default) or adaptive | Adaptive (default) or ensemble |
+
+Both paths share the same repair loop, gates and hardening.
+
+---
+
+## 3. Autonomous path (new)
 
 ```mermaid
 graph TD
-    subgraph Phase 1: Detection
-        A[Source Code] --> B{Detection Engine}
-        B -->|Static Analysis| C(Semgrep Ruleset)
-        B -->|Dynamic Analysis| D("Coverage Fuzzing<br/>(libFuzzer / AFL++)")
-    end
-
-    subgraph Phase 2: Triage & Context
-        C -->|SARIF v2.1.0| F[Vulnerability Report]
-        D -->|ASan/UBSan Crash| G("Crash Triage Engine<br/>(CASR / Native Dedup)")
-        G -->|Root-Cause Signature| F
-        F --> H["Tree-sitter AST Engine<br/>(Enclosing Function + Structs)"]
-    end
-
-    subgraph Phase 3 & 4: Ensemble & DRV Loop
-        H --> I{Multi-Agent Ensemble}
-        I -->|Parallel| J(Agent Alpha — Analyst)
-        I -->|Parallel| K(Agent Beta — Minimalist)
-        I -->|Parallel| L(Agent Gamma — SARIF)
-        
-        J --> M{DRV Sandbox Loop}
-        K --> M
-        L --> M
-
-        M -->|Gate Failure| N["Agent Delta (The Critic)<br/>(ASan Diagnosis → Instruction)"]
-        N -->|Structured Feedback| I
-    end
-
-    subgraph Phase 6: Hardening & Memory
-        M -->|All Gates Pass| O{"Phase 6 Hardening<br/>(Re-fuzzing & Differential)"}
-        O -->|Falsified| P[/"Rejected: Overfitted / Behaviour Shift"/]
-        O -->|Survived| Q["Verified Security Patch<br/>(Minimal Diff Wins)"]
-        Q --> R[(Semantic Memory Engine)]
-        R -.->|Recall Fix Patterns| H
-    end
-
-    style P fill:#f9d5d5,stroke:#c00
-    style Q fill:#d5f9d5,stroke:#090
+    A[Repo snapshot<br/>sha256, census, build plan] --> B[Static scan<br/>Semgrep]
+    A --> C["Public surface<br/>(--surface N): parsers, decoders, minifiers"]
+    B --> D[Harness per function<br/>templates first, model second]
+    C --> D
+    D --> E["Sanitizer build in sandbox<br/>ASan + UBSan, -O0"]
+    E --> F{"Reach judge<br/>LLVM coverage:<br/>flagged function executed?"}
+    F -- no --> G[/"not_reached"/]
+    F -- yes --> H[Fuzz campaign<br/>time-boxed libFuzzer]
+    H -- no crash --> I[/"no_crash<br/>(absence of evidence, stated)"/]
+    H -- crash --> J[Triage<br/>reproduce, dedupe, keep repo frames]
+    J --> K[Repair + gates<br/>section 5]
+    K --> L[Hardening<br/>section 6]
+    L --> M[/"proven | falsified | unresolved"/]
 ```
 
----
+Every finding ends in `evidence.json` with a **status and a written reason**; nothing is
+dropped silently. Statuses: `not_reached`, `no_crash`, `build_failed`, `crash_confirmed`,
+`proven`, `patched_unhardened`, `falsified`, `unresolved`, `unproven`.
 
-## 3. Deep-Dive Pipeline Phases
+Design points, each from a failure we hit:
 
-### Phase 1: Dual-Path Detection Engine (Static & Dynamic Analysis)
-
-AI Kavach unifies static vulnerability scanning with coverage-guided dynamic fuzzing:
-
-1. **Static Analysis Engine (Semgrep):**
-   - Executes pre-configured, high-precision security rulesets (`p/security-audit`, Trail of Bits rules).
-   - Generates standardized SARIF v2.1.0 reports detailing vulnerable source lines, CWE mappings, and call-site context.
-   
-2. **Coverage-Guided Dynamic Fuzzing (libFuzzer & AFL++):**
-   - Targets are instrumented with AddressSanitizer (ASan) and UndefinedBehaviorSanitizer (UBSan) using fatal flags: `-fsanitize=address,undefined -fno-sanitize-recover=all`.
-   - Uses a unified C harness entrypoint (`LLVMFuzzerTestOneInput`). For AFL++, an automated adapter (`afl_driver.c`) bridges file-based `@@` inputs to the in-memory fuzzer harness.
-   - Automatically configures macOS shared-memory parameters (`AFL_MAP_SIZE=65536`) and detects Homebrew LLVM toolchains where Apple `clang` lacks native fuzzer runtimes.
-
----
-
-### Phase 2: Crash Triage & Tree-sitter AST Context Engine
-
-1. **Crash Triage & Deduplication Engine:**
-   - Replays crashing inputs against instrumented binaries and captures raw stderr sanitizer reports.
-   - Extracts crash class (e.g., `heap-buffer-overflow`, `heap-use-after-free`, `global-buffer-overflow`) and normalizes stack frames, stripping out sanitizer interceptors, libc routines, and fuzzer scaffolding.
-   - Clusters thousands of raw fuzzer crashes into a single canonical report per root cause, mapping crash signatures directly to CWE IDs (e.g., `heap-use-after-free` $\rightarrow$ CWE-416). Uses `casr-san` when available, falling back to a native sanitizer triage parser.
-
-2. **Tree-sitter AST Context Engine:**
-   - Standard LLMs fail when patching C code because they do not see type definitions.
-   - The Context Engine parses the complete C/C++ Abstract Syntax Tree (AST), identifies the vulnerable function node, and recursively walks up the AST to extract:
-     - Enclosing function boundaries and local variable declarations.
-     - Struct, union, and enum definitions referenced by function parameters or local variables.
-     - Chained `typedef` definitions and packed bitfield layouts defined across header files.
-   - Injects the complete structural context into the LLM prompt, enabling type-accurate patch synthesis.
+- **Harnesses are derived from the code, not guessed.** The index (Tree-sitter) mines
+  preconditions from real callers (literal argument sets, minimum buffer sizes,
+  `sizeof` relations). Templates cover byte-buffer+length, C string, integers and
+  caller-sized output buffers; the model drafts the rest.
+- **Model-drafted harnesses are repaired, not trusted.** A compile error or a crash that
+  occurs *before* the target runs is fed back to the model (up to 3 attempts, recorded).
+  Models routinely pass the fuzzer's un-terminated bytes to string APIs, which makes the
+  harness itself over-read, so a wrapper hands a drafted harness a NUL-terminated copy.
+- **A harness that never reaches the flagged function proves nothing.** The reach judge
+  builds with LLVM source coverage and requires that function to have executed
+  (`-print_coverage` is empty on macOS, so it is not used).
+- **`-O0`** so inlining cannot move a crash into the harness; **dSYM** so crash frames
+  keep file:line.
+- **`--surface N`** fuzzes public input-parsing functions that no static rule flagged.
+  Semgrep flagged cJSON's *print* code; the real CVE-2019-11835 is in `cJSON_Minify`.
+- Everything that executes uploaded code runs through the sandbox (section 7).
 
 ---
 
-### Phase 3: Multi-Agent Ensemble & Agent Delta (The Critic)
+## 4. Detection, triage and context (*carried over, plus autonomous additions above*)
 
-AI Kavach deploys a parallel **multi-agent ensemble** operating under a specialized division of labor. Agents are dispatched with `concurrent.futures.ThreadPoolExecutor`; **LangGraph is not used** by the current implementation and is commented out of `requirements.txt`.
-
-```
-                          ┌───────────────────────────┐
-                          │   Vulnerability Context   │
-                          └─────────────┬─────────────┘
-                                        │
-                ┌───────────────────────┼───────────────────────┐
-                ▼                       ▼                       ▼
-      Agent Alpha (Analyst)   Agent Beta (Minimalist)  Agent Gamma (SARIF)
-      - Chain-of-Thought      - Surgical 1-line diffs  - Static remediation
-      - Complex state logic   - Bounds / null checks   - Deprecated API swap
-                └───────────────────────┼───────────────────────┘
-                                        │
-                                        ▼
-                            DRV Verification Sandbox
-                                        │
-                                [Gate Failure]
-                                        │
-                                        ▼
-                            Agent Delta (The Critic)
-                            - LLM-as-Judge (JSON Schema)
-                            - Diagnoses ASan dump
-                            - Emits 1 actionable directive
-```
-
-1. **Agent Alpha (The Analyst):** Employs Chain-of-Thought (CoT) reasoning to explain *why* the memory flaw occurs before generating code. Specialized for multi-variable state bugs, integer truncation, and underflows.
-2. **Agent Beta (The Minimalist):** Constrained to produce the smallest valid AST modification (e.g., single bounds check or null check). Specialized for OOB reads/writes and memory leaks.
-3. **Agent Gamma (The SARIF Patcher):** Specialized in handling static analysis findings (e.g., replacing `strcpy` with `snprintf`, fixing format string specifiers).
-4. **Agent Delta (The Critic - LLM-as-Judge):**
-   - Invoked *only* when a patch fails a DRV gate.
-   - Does **not** write code. Instead, it parses the raw AddressSanitizer stack trace, compiler error, or failing PoV output and outputs a structured JSON verdict:
-     ```json
-     {
-       "verdict": "insufficient_fix",
-       "root_cause": "Bounding the write removed the NUL terminator, causing printf to over-read.",
-       "what_the_patch_missed": "The buffer size check passed, but dest[size] was not NUL-terminated.",
-       "actionable_instruction": "Add dest[size-1] = '\\0'; immediately after the bounded copy."
-     }
-     ```
-   - Resolves LLM oscillation loops by transforming verbose ASan dumps into single, high-precision repair instructions.
-
-#### Dual Patch Format Support
-Agents support two patch delivery mechanisms:
-- **Unified Diff Format (`patch.diff`):** Traditional line-based patch diffs.
-- **Whole-Function AST Splicing (`// FUNCTION: <name>`):** Splicing the complete corrected function directly into the AST range. Eliminates wasted iterations caused by whitespace or line-drift diff application failures.
+- **Static:** Semgrep (`p/security-audit`), SARIF.
+- **Dynamic:** libFuzzer (Homebrew LLVM, since Apple clang ships no fuzzer runtime) and
+  AFL++ with an adapter; ASan/UBSan with `-fno-sanitize-recover=all`.
+- **Triage:** replays crashes, normalises stacks (drops interceptors, libc, fuzzer
+  frames), clusters by root cause, maps crash class to CWE. CASR if present, else a native
+  parser.
+- **Context:** Tree-sitter extracts the enclosing function plus the structs, unions,
+  enums and typedef chains it uses, so the model sees real types.
+- **Concolic (Driller / angr):** self-gated. A known-answer self-test runs first, and if
+  the solver cannot recover it on this platform it disables itself with a logged reason.
 
 ---
 
-### Phase 4: Detect-Repair-Verify (DRV) Sandbox Loop
+## 5. Repair and verification
 
-Every generated patch undergoes physical sandbox testing in an isolated workspace. A patch is validated **only** if it passes all 5 physical gates:
+### 5.1 Agents
 
-```mermaid
-stateDiagram-v2
-    [*] --> Gate0_Apply: Patch Submitted
-    Gate0_Apply --> Gate1_Build: Diff Applies Cleanly
-    Gate0_Apply --> Failed: Patch Apply Fails
-
-    Gate1_Build --> Gate2_PoV: Compiles under ASan/UBSan
-    Gate1_Build --> Failed: Compiler / Sanitizer Error
-
-    Gate2_PoV --> Gate3_Regression: PoV Input No Longer Crashes
-    Gate2_PoV --> Failed: PoV Still Trips Sanitizer
-
-    Gate3_Regression --> Gate4_PostScan: Benign Input Passes & Matches Output
-    Gate3_Regression --> Failed: Benign Input Crashes or Output Shift
-
-    Gate4_PostScan --> Passed: Semgrep Reports Zero New Findings
-    Gate4_PostScan --> Failed: New Static Weaknesses Introduced
-
-    Failed --> AgentDelta_Critic: Invoke Critic
-    AgentDelta_Critic --> Gate0_Apply: Retry with Guidance
-```
-
-| Gate | Check Name | Verification Action | Fail Condition |
-| :---: | :--- | :--- | :--- |
-| **Gate 0** | **Apply** | Dry-run patch application against pristine copy | Hunk context mismatch or ambiguous placement |
-| **Gate 1** | **Build** | Compile under `clang` with ASan + UBSan (`-fno-sanitize-recover=all`) | Compiler error or sanitizer warning during compilation |
-| **Gate 2** | **PoV Replay** | Replay original crashing input against **rebuilt patched binary** | Sanitizer signal (SIGSEGV, ASan report, non-zero return) |
-| **Gate 3** | **Regression** | Execute benign reference inputs | Crash, non-zero exit code, or stdout deviation |
-| **Gate 4** | **Post-Scan** | Re-run Semgrep static analyzer | Presence of newly introduced security findings |
-
-#### Deterministic Escalation Policy & Working Memory
-Repair loop control is governed by an un-hallucinable Python state machine (`EscalationPolicy` & `WorkingMemory`):
-- **Critic Trigger:** If PoV replay fails $\rightarrow$ Immediately invoke Agent Delta (The Critic) to deliver structured JSON guidance.
-- **Format Escalation:** If Gate 0 (Apply) fails twice $\rightarrow$ Force agents to switch from unified diffs to Whole-Function AST Splicing.
-- **Format-Aware Patch Gisting (`WorkingMemory.summarise_patch`):** Automatically differentiates unified diffs from whole-function replacements. For whole-function replacements, it extracts modified control-flow statements rather than collapsing to identical function headers.
-- **True Consecutive-Stall Detection (`EscalationPolicy.should_stop_early`):** Early loop termination triggers strictly after 4 *consecutive identical patch gists*. Agents are allowed to iterate through all configured attempts as long as candidate patches continue to evolve.
-
----
-
-### Phase 5: Self-Gated Concolic Execution Engine (Driller)
-
-Coverage-guided fuzzers frequently stall on hard magic-value comparisons (e.g., `if (header->magic == 0x4b415641)` has a 1-in-4-billion chance of random discovery).
-
-1. **Plateau Monitor:** Monitors AFL++ `fuzzer_stats` or libFuzzer coverage logs to detect coverage plateaus (no new paths across N execution cycles).
-2. **angr Symbolic Solver:** Symbolically executes the binary up to the stalled branch, uses SMT solving (Z3) to calculate the exact byte sequence required to satisfy the condition, and injects the solved input back into the fuzzer queue.
-3. **Automated Self-Testing Gate (`DrillerEngine.self_test()`):**
-   - Symbolically executing binaries across different CPU architectures can produce false solutions.
-   - At startup, Driller runs a known-answer test binary requiring input `"KAVA"`.
-   - If the solver fails to recover `"KAVA"` (e.g., due to `angr` limitations on arm64 Mach-O binaries), Driller **automatically disables itself** and logs a clear platform reason, ensuring no invalid solved inputs are ever fed to the pipeline.
-
----
-
-### Phase 6: Adversarial Patch Hardening & Falsification Engine
-
-Passing the 5 DRV gates proves an input no longer crashes, but does not prove the fix is correct. Phase 6 actively attempts to **falsify** validated patches before final acceptance:
-
-1. **PoV Overfitting Defense (Adversarial Re-Fuzzing):**
-   - Re-fuzzes the *patched binary* for 20 seconds, seeded with the original crashing input.
-   - If the fuzzer discovers a new crash, the patch is rejected as an input-specific overfit (`if (val == 4) return;`).
-   
-2. **Functionality Gutting Defense (Differential Execution Testing):**
-   - Executes the original and patched binaries side-by-side across 25 generated benign inputs.
-   - Compares stdout, stderr, and exit codes. If behavior diverges on inputs where the original did *not* crash, the patch is rejected for gutting functionality.
-
-3. **Behavioral Contracts (`preserve` / `restrict` / `replace`):**
-   - **`preserve` (Default):** For memory safety fixes (UAF, Buffer Overflow), program behavior must match the original exactly.
-   - **`restrict`:** For input validation fixes (CWE-78 Command Injection, CWE-22 Path Traversal), the security remediation **is** to reject inputs the original accepted. Differential testing is automatically bypassed for `restrict` targets, relying on the regression gate instead to prevent false rejections.
-   - **`replace`:** For fixes whose remediation is to change a compiled-in value — a hardcoded secret (CWE-321). The program's output is *required* to differ from the original; equivalence would mean the fix did nothing. Holding such a target to `preserve` is unsatisfiable, and did in fact falsify a correct patch ("output changed on benign input '42'") before the contract existed.
-
-   A contract is not an exemption from verification, only a statement of which
-   check applies. Every contract still faces build, PoV replay and regression.
-
-4. **Evasion Battery (Validation Bypass Defense):**
-   - For `restrict` targets, re-fuzzing has no crash to find and differential testing cannot judge a deliberately narrowed input domain. The battery replays bypass encodings (`....//`, `sub/../../`, `.././`) against the patched build and rejects the patch if any escapes. It reports *inconclusive* if legitimate access is broken, so a patch that rejects everything cannot score as hardened.
-
----
-
-### Phase 7: Bounded Formal Verification (CBMC)
-
-Every preceding check is **empirical** — it runs the program on inputs we chose, and can say nothing about the inputs nobody tried. Phase 7 changes the kind of claim available.
-
-CBMC compiles the patched function into a bit-precise logical formula and asks an SMT solver whether *any* assignment of the inputs violates array bounds, pointer safety, or arithmetic overflow.
-
-1. **Bounded proof, never "correct":** loops are unwound `K` times; `--unwinding-assertions` reports when `K` was insufficient, and a run whose bound was not exhausted is recorded **INCONCLUSIVE** rather than proven. The bound is printed with every result (`PROVEN within unwind=70`).
-
-2. **Verification targets a proof harness, not `main()`:** running CBMC over `main` with unconstrained `argv` produces failures inside its own models of libc (`strtol`) that persist on a *correctly patched* file. Harnesses live in `tests/benchmarks/cbmc_harnesses/` and obey the same precondition rule as the fuzz harnesses.
-
-3. **Complementary to the sanitizers, not a superset:** `memcpy` into a struct member is checked at object granularity, so SYN-18's intra-object overrun verifies as SAFE — exactly as AddressSanitizer treats it.
-
-**Measured justification.** An overfitted patch (`if (col == 1000000) return -1;`) **passes** the dynamic PoV gate, and CBMC **rejects** it — on a target that has no fuzz harness, so adversarial re-fuzzing could not have caught it either. This is a gap no other channel covers, and it is pinned by a regression test.
-
----
-
-## 4. Multi-Tier Cross-Run Memory Engine
-
-AI Kavach incorporates a 4-tier memory architecture (`src/memory/`) to eliminate repetitive LLM work and transfer fix strategies across vulnerabilities:
-
-```
-┌────────────────────────────────────────────────────────────────────────┐
-│                        AI KAVACH MEMORY ENGINE                         │
-├───────────────────┬────────────────────────────────────────────────────┤
-│ 1. Working        │ Format-aware attempt ledger & Critic verdicts (consecutive stall detection) │
-│ 2. Episodic       │ Append-only JSONL execution trajectories           │
-│ 3. Semantic       │ Ground-truth verified fix patterns (CWE-indexed)  │
-│ 4. Procedural     │ Agent success rates & iteration routing per CWE    │
-└───────────────────┴────────────────────────────────────────────────────┘
-```
-
-### The Ground-Truth Memory Principle
-Standard LLM agent memory suffers from **hallucinated reflection**: storing unverified agent notes as permanent facts. 
-
-AI Kavach avoids this by enforcing **Ground-Truth Learning**:
-- A fix pattern is written to Semantic Memory **only after** it compiles under ASan/UBSan, passes PoV replay, passes regression, and survives Phase 6 Hardening.
-- **Confidence Decay:** If a recalled semantic pattern is applied to a new target and fails DRV verification, its confidence score decays, preventing stale or bad patterns from persisting.
-
----
-
-## 4b. Model Backend & Provider Portability
-
-The LLM is the only component in the pipeline that is not local, and it is
-deliberately the only one that is swappable.
-
-| | |
+| Agent | Role |
 |---|---|
-| **Model used for all published results** | `gpt-4o-mini` (all three repair agents and the Critic) |
-| **Why a small model** | The lightweight/resource-utilisation axis. $0.0739 for 44 targets. This is affordable only because verification — not model capability — carries the correctness burden: a weaker model produces worse candidate patches, and the gates reject them. |
-| **How the provider is selected** | `config/__init__.py` reads `OPENAI_BASE_URL` and passes it to the client. Nothing else in the codebase references a provider. |
-| **Compatible backends** | Any OpenAI-compatible chat-completions endpoint: self-hosted **vLLM**, **llama.cpp**, **Ollama**, or an on-prem gateway |
-| **Code changes required** | None — `LLMClient` was written against the OpenAI *protocol*, not the OpenAI *service* |
+| **Alpha** | Analyst: reasons about root cause, then patches |
+| **Beta** | Minimalist: smallest bounds/null check |
+| **Gamma** | Standard CWE remediation |
+| **Delta** | Critic: reads a failed gate's output and returns one structured instruction. Never writes code. |
 
-```bash
-export OPENAI_BASE_URL=http://10.0.0.5:8000/v1
-export OPENAI_API_KEY=whatever-your-endpoint-wants
-export MODEL_ALPHA=... MODEL_BETA=... MODEL_GAMMA=...
-python benchmark.py --suite all
-```
+Patches arrive as a unified diff or as a whole-function replacement spliced by AST range
+(forced after two apply failures).
 
-**Why this matters for the stated deployment.** For defence infrastructure with
-no outbound internet, this is the whole offline story: fuzzing, compilation,
-sanitizers, triage, tree-sitter, CBMC and every hardening check already run
-locally. Redirecting inference to a local endpoint makes the pipeline fully
-self-contained. Semgrep's rule pack is the only other network touch, and it
-accepts a vendored local YAML — verified running with no registry access.
+### 5.2 Strategy (new)
 
-**Measured limit.** Patch quality under a locally-hosted model has *not* been
-measured. The verification contract is model-independent, so a weaker model
-shows up as a lower pass rate rather than as unsafe patches slipping through —
-but the rate itself must be re-measured per deployment.
+**`adaptive`** (default in autonomous mode) spends model calls in proportion to how hard
+the bug is:
+
+1. **Alpha**, up to 3 tries. An easy bug costs one agent run and nothing else.
+2. **Beta**, up to 3 tries, told what alpha tried and the verbatim rejection.
+3. **Gamma on a stronger model**, up to 5 tries, told everything that failed.
+
+The stronger model is **probed per API key and never assumed** (this key can call
+`gpt-4.1-mini` only; an assumed `gpt-4o` crashed a tier once). Elsewhere it is unset and
+nothing claims it. Agents keep their names; the model used is recorded separately.
+
+**`ensemble`** (default in the benchmark, so published numbers keep their meaning) runs
+alpha, beta and gamma in parallel and picks the smallest validated patch.
+
+Measured on OpenAI, same targets, same flags:
+
+| | Passed | Model calls | Cost |
+|---|---|---|---|
+| Synthetic 10, ensemble | 10/10 | 43 | $0.0101 |
+| Synthetic 10, adaptive | 10/10 | 11 | $0.0043 |
+| Real CVE 3, ensemble | 3/3 | 33 | $0.0222 |
+| Real CVE 3, adaptive | 3/3 | 9 | $0.0068 |
+
+About 74% fewer calls, 55–70% lower cost. The price: patches grow (mean 3.6 → 4.9 and
+2.3 → 4.3 lines) because the ensemble used to pick the smallest of three. Single runs,
+small n; no significance claimed.
+
+### 5.3 Gates
+
+A patch is accepted only if every configured gate passes. **A gate with no command is
+`SKIPPED` and is never counted as a pass.**
+
+| # | Gate | Check |
+|---|---|---|
+| 0 | Apply | Diff or function replacement applies to a pristine copy |
+| 1 | **Policy** (new) | Single file; no test or build-file edits; change inside the flagged function; at most 80 changed lines; no added `signal`/`sigaction`, `no_sanitize`/`optnone` attributes, inline asm, `exit`, `getenv`, `setjmp`/`longjmp` |
+| 2 | Build | Compiles under ASan + UBSan |
+| 3 | PoV | The exploit no longer crashes the rebuilt patched binary. **In autonomous mode this replays every crash in the cluster plus near-variants that crash the original at the same line.** A hung binary is SIGKILLed after 10 s and reported as a hang. |
+| 4 | Regression | Benign behaviour preserved. Autonomous mode uses an oracle recorded from the original binary (exit code and stdout hash on every input it handled cleanly). |
+| 5 | Post-scan | Semgrep finds nothing new. **Skipped for uploaded repos**, and reported as skipped. |
+
+A deterministic controller (not a model) decides when to call the critic, force the
+whole-function format, or stop early after four consecutive identical attempts.
 
 ---
 
-## 5. Technology Stack & System Requirements
+## 6. Hardening: trying to falsify a patch
 
-| Layer | Technology / Library | Version / Details |
-| :--- | :--- | :--- |
-| **Language & Runtime** | Python | 3.11.15 |
-| **CLI & Interface** | Rich CLI | Terminal formatting, progress tables |
-| **LLM Backend** | OpenAI API Client | Thread-safe usage tracking; default `gpt-4o-mini` |
-| **AST Parser** | Tree-sitter | `tree-sitter-c`, `tree-sitter-cpp` |
-| **Static Analysis** | Semgrep | v1.172.0 (`p/security-audit` ruleset), SARIF v2.1.0 |
-| **Dynamic Fuzzing** | libFuzzer & AFL++ | LLVM 22 (`clang`), AFL++ v5.02c |
-| **Bounded Model Checking** | CBMC | v6.10.0 — SAT/SMT proof over all inputs within an unwind bound |
-| **Crash Triage** | Native ASan / CASR | Stack trace normalization, CWE mapping |
-| **Concolic Execution** | `angr` & Z3 | SMT constraint solving (Self-gated) |
-| **Compilers & Sanitizers** | LLVM `clang` | ASan, UBSan (`-fno-sanitize-recover=all`) |
-| **Hardening** | LibFuzzer & Differential | Adversarial re-fuzzing + side-by-side diff execution |
-| **Unit Testing** | `pytest` | 102 unit tests, 0 API calls required for unit suite |
+Passing the gates shows one input stopped crashing; it does not show the fix is right.
 
----
+1. **Re-fuzz** the patched build (fork mode, so one crash does not end the campaign).
+   A crash on an input where the *original is clean* falsifies the patch (overfitting, or a
+   leak that accumulates into an out-of-memory). A crash the original also has is a
+   **separate pre-existing bug**: it is listed in the evidence and not blamed on the patch.
+2. **Differential test** against the original on the corpus, seeds and mutated
+   neighbours of the crashing input. Skipped when re-fuzz has already falsified the patch.
+3. **Behavioural contracts** (*carried over*): `preserve` (memory-safety fixes must not
+   change behaviour), `restrict` (input-validation fixes must reject what the original
+   accepted), `replace` (a changed compiled-in value must change output).
+4. **Evasion battery** (*carried over*): replays bypass encodings against `restrict` fixes.
+5. **Retry** (new): a falsified patch goes back to the model **once** with the real reason
+   (`--hardening-retries`, default 1). The first failure is kept in `previous_attempts`, so
+   a retry is never shown as a first-try success, and both attempts' cost is counted.
 
-## 6. Formal Verification Contract & Pre-Flight Rules
+`HardeningVerdict.survived` requires that a check **actually compared something**; a check
+that tested zero inputs is not credited.
 
-To ensure mathematical honesty in all benchmark reporting, AI Kavach operates under 3 strict verification rules:
-
-1. **`SKIPPED` is Never a Pass:** If a target lacks a PoV command or regression command, the gate status is explicitly recorded as `SKIPPED` with a documented reason. It is never counted toward PoV-proven totals.
-2. **Mandatory Pre-Flight PoV Validation:** Before any agent runs, the target is compiled *unpatched* and the PoV executed. If the PoV fails to reproduce a crash on the unpatched binary, it is disabled—ensuring a patch can never be credited for fixing something that was not broken.
-3. **Determinism Screening:** Differential execution testing runs the original binary twice per input. If the original's output is non-deterministic (e.g., DNS lookups or timestamps), differential comparison is skipped to avoid false regression readings.
+**Bounded model checking (CBMC)** (*carried over*): proves the patched function safe over
+all inputs within an unwind bound, never "correct". Three proofs exist, all on synthetic
+targets. A CBMC spike on a real function (cJSON `parse_string`) has not been done.
 
 ---
 
-## 7. Operational Summary
+## 7. Sandbox and prompt-injection defence (new)
 
-AI Kavach bridges the gap between academic AI research and defense-grade Cyber Reasoning Systems. By combining **Tree-sitter AST structural awareness**, **Parallel Multi-Agent Orchestration with Critic Feedback**, **Physical ASan/UBSan DRV Loop Validation**, **Adversarial Hardening**, and **Ground-Truth Semantic Memory**, AI Kavach delivers autonomous, surgical, and rigorously verified security patches for mission-critical C/C++ infrastructure.
+`KAVACH_SANDBOX=off | auto | required`. Autonomous mode defaults to `required`: if no
+backend exists the command is **not run**, and the result says why.
+
+- **macOS:** `sandbox-exec` with the network denied and writes confined to the run
+  workspace (TMPDIR moved inside it). **Linux:** `bwrap`.
+- The network-denial test has a positive control: the same probe connects unsandboxed and
+  is refused inside. We state what the sandbox denies and show the test; we do not claim
+  "air-gapped".
+- **Measured overhead:** one benchmark target took 49–58 s under `required` against
+  36–37 s off (n = 2; includes cloud model latency).
+- **Injection scrub:** comments in target source that match injection patterns are
+  replaced by a same-length marker before the prompt is built; code and strings are
+  untouched, and the event is logged.
+
+---
+
+## 8. Platform
+
+- **Dashboard** (FastAPI, `python -m dashboard`, localhost only; a non-localhost bind
+  requires a token): drag-and-drop a repository or zip, start auto mode (fuzz seconds,
+  repair on/off), run the benchmark or special cases, watch a live event stream. It shows
+  provider, tool availability and, for local models, the model server's memory (read from
+  Ollama `/api/ps`, because Apple-silicon GPU memory is not in the process RSS).
+- **Event stream:** JSONL events from the benchmark and autonomous runner, streamed by SSE.
+- **Reproducibility bundle:** every run directory gets `manifest.json` (sha256 of every
+  file; hash-manifested, not signed), `tool-versions.json` and `reproduce.sh`.
+  `reproduce.sh` fails (exit 3) unless the re-run produced a new run directory.
+- **Verifier red-team:** 11 deliberate cheat classes plus the honest fix, each run
+  through policy, gates and hardening. **11 of 11 caught, honest fix passes every layer.**
+  The execution gates alone catch none of them; the policy and hardening layers do.
+- **Memory** (*carried over*): working (attempt ledger), episodic (JSONL), semantic
+  (only gate- and hardening-validated fixes, with confidence decay), procedural (agent
+  success per CWE; on only with `--memory`).
+
+---
+
+## 9. Model backend
+
+The client speaks the OpenAI chat-completions protocol, so any compatible endpoint works
+by setting `OPENAI_BASE_URL` (Ollama, vLLM, llama.cpp, a gateway). Nothing else names a
+provider.
+
+| Backend | Result | Note |
+|---|---|---|
+| OpenAI `gpt-4o-mini` | Synthetic 10/10 (7/7 PoV-proven); real CVE 2/3 and 3/3 across runs | Published baseline |
+| Hosted Qwen2.5-Coder-14B | Synthetic 9–10/10; real CVE 3/3 | **A remote server, not on-device and not air-gapped** |
+| On-device Qwen2.5-Coder-7B (Ollama) | Demo double-free proven; 15.2 tok/s, 4.9 GB resident | Repair takes about 3–12 min per bug; no benchmark sweep yet |
+
+A weaker model shows up as a lower pass rate, not as unsafe patches getting through, but
+the rate must be re-measured per deployment.
+
+---
+
+## 10. Measured results and what is not proven
+
+**Last full sweep (2026-08-30, 44 targets, `gpt-4o-mini`, before the pre-finale changes):**
+44/44 passed all gates (95% CI 92.0–100.0), 30/30 PoV-proven, hardening 32 attacked, 0
+falsified, 5 with no applicable check; $0.0739 total. That sweep has **not** been re-run
+on the current code. Since the changes, only the synthetic 10 and the 3 real CVEs were
+re-run (table in 5.2 and section 9).
+
+**Autonomous mode, cJSON v1.7.10, no hand-written PoV or root cause:** `--surface`
+found the real overflow in `cJSON_Minify` (CVE-2019-11835); the patch was `proven` in 4
+of 5 adaptive runs (the miss was the model-availability bug above, since fixed), at about
+133–160 s and $0.002–0.013 per run. Of that time only about 13 s is analysis; the rest is
+model calls and the hardening re-fuzz.
+
+**Not proven, stated plainly:**
+
+- Autonomous mode has been shown on **one real library (cJSON)** and one demo repo. No
+  held-out library yet.
+- "`proven`" means the patch survived a 137-input differential and a 15–20 s re-fuzz. It
+  is **not** a formal proof of correctness.
+- Fuzzing finding nothing (`no_crash`) is absence of evidence, never a safety claim.
+- The post-scan gate is skipped for uploaded repositories.
+- Real-CVE CVE-2019-11834 (`parse_string`) is unstable: it failed in some runs.
+- Adaptive vs ensemble rests on single runs; the 55–70% saving is a measurement, not a
+  guarantee.
+- zlib CVE-2022-37434, a CBMC proof on a real function, and the four pre-registered
+  held-out libraries are **not done**.
+
+**Tests:** 253 unit tests passed at the last full run; none needs an API call.
