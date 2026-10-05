@@ -272,3 +272,24 @@ Verified end to end on the real NodeGoat finding: vulnerable -> true != false; p
 identical. `control_for` returns None for differential classes (the FALSE condition is the baseline).
 Still open: IDOR (needs two seeded user ids from the engine) and CSRF (structural: tokenless POST
 accepted) — runner oracles exist (`idor`, status), engine wiring pending.
+
+## Metamorphic access-control oracle (2026-10-06) — Track 1
+
+Confirms broken access control / privilege escalation generically, as a metamorphic relation
+(ref: "Metamorphic Security Testing for Web Systems"). No app marker.
+
+    { "access_control": {
+        "request": { "method": "POST", "path": "/benefits", "body": {...} },
+        "authorized": "admin", "unauthorized": "user" } }
+
+Runs the SAME privileged request as an authorized and an unauthorized role. Property: the
+unauthorized role must be DENIED (401/403, or a redirect to login/landing). Exploitable when it is
+served just like the authorized role. A role-check fix makes it redirect/403 -> safe. Verified
+NG-13 (NodeGoat `/benefits`, guarded only by `isLoggedIn`): vulnerable -> unauthorized served 200;
+isAdmin fix -> unauthorized 302 to login. This plus the `idor` and `differential` oracles cover the
+access-control + injection families as metamorphic relations.
+
+### Track 2 wiring (probes.py)
+For a route flagged broken-access-control / missing-authorization: emit an `access_control` exploit
+with the privileged request and two seeded roles (authorized = a role the route is meant for;
+unauthorized = a lower-privilege role). Move `broken-access-control` out of `unsupported`.

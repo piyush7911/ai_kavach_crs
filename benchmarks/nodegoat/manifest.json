@@ -172,6 +172,19 @@
       "pov": "povs/ng_session_cookie.json",
       "variants": [],
       "validation": "both"
+    },
+    {
+      "id": "NG-13",
+      "owasp": "A1",
+      "cwe": "CWE-285",
+      "class": "broken-access-control",
+      "kind": "code",
+      "file": "app/routes/index.js",
+      "line": 56,
+      "sink": "POST/GET /benefits guarded only by isLoggedIn; the isAdmin middleware is commented out",
+      "pov": "povs/ng_access_control.json",
+      "variants": [],
+      "validation": "both"
     }
   ],
   "flows": [

@@ -19,3 +19,12 @@ if __name__ == "__main__":
     test_norm_strips_volatile_values(); print("ok norm strips volatile")
     test_norm_keeps_structural_difference(); print("ok norm keeps structure")
     print("all passed")
+
+
+def test_denied_recognises_refusals_and_serves():
+    from benchmarks.nodegoat.exploit import _denied, Response
+    assert _denied(Response(403, "", ""))                       # forbidden
+    assert _denied(Response(302, "", "/login"))                 # bounced to login
+    assert _denied(Response(302, "", "/dashboard"))             # bounced to landing
+    assert not _denied(Response(200, "ok", ""))                 # served
+    assert not _denied(Response(302, "", "/benefits"))          # redirect to the resource itself = served

@@ -1,0 +1,3 @@
+{ "access_control": {
+    "request": { "method": "POST", "path": "/benefits", "body": { "userId": "2", "benefitStartDate": "2030-01-01" } },
+    "authorized": "admin", "unauthorized": "user" } }
