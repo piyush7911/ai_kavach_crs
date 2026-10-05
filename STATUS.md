@@ -71,9 +71,9 @@ Then `eval-injection`, `ssrf`, `reflected-output`, then everything (no `--classe
 
 **5. Things I expect to go wrong, and what each would mean**
 - **`confirmed: false` for a class the PoVs already cover.** The engine builds its own exploit from the
-  route and the field the code reads, so its request can differ from yours. Send the generated `exploit`
-  (it is in `evidence.json` input) and the runner's detail text; the likely fix is in `config/js_probes.json`.
-  The `eval-injection` oracle (a response containing 31338) only works if the page prints the result.
+  route and the fields the handler reads, so its request can differ from yours. `evidence.json` now keeps the
+  generated `exploit` and `control`; send them with the runner's detail text. The likely fix is in
+  `config/js_probes.json`.
 - **`login failed` from `replay`.** The engine uses `login_as: "user"`; tell me if the route needs admin.
 - **A patch fails at `regression` every time.** First rule out a flaky flow (step 2).
 - **Everything `unresolved` at the `apply` stage.** The model's answer did not parse; check the trace to see
@@ -85,6 +85,35 @@ Then `eval-injection`, `ssrf`, `reflected-output`, then everything (no `--classe
 - `node_modules` must be present at the venue: `npm install` needs the registry, which is not allowed.
 - Answer for the organisers: confirm the venue has no registry access (we assumed none).
 - Re-run `score` on the engine's new findings file once step 3 has produced one.
+
+## First live run (friend's laptop, 2026-10-06) and what it changed
+
+Report: `reports/js_fix/LIVE_RUN_REPORT.md`. Runner, flows and PoVs worked on the untouched tree; the model
+was `gemma4:e2b` over the LAN (not the 12b), far weaker than intended.
+
+- **open-redirect: unresolved, gates behaved.** Confirmed, 4/4 variants kept; attempt 1 was rejected by
+  **hardening** (blocked the main payload, leaked the protocol-relative variant), attempt 2 did not parse,
+  attempt 3 still exploitable. No fake fix was reported.
+- **eval-injection: a correct fix, reported only `patched_unproven`.** Two engine bugs, both fixed:
+  1. my marker `31337+1` is rejected by the app's "total at most 30" check, so the result is never shown
+     -> the marker is now `7*3` (matched as a standalone `21`);
+  2. the request sent only `preTax`, but the handler `eval`s `afterTax` and `roth` too (undefined -> "Invalid")
+     -> the flow analysis now records every request field the handler reads, and the probe sends all of
+     them (benign value for all but the carrier).
+- **Also found while checking against the real app:** the SSRF finding produced no probe, because the sink
+  argument is a variable (`url`). The flow analysis now tracks which request fields feed each sink
+  (including `const { x } = req.query` and values passed into other files), and probes use them.
+- **New safeguard:** at confirmation a benign *control* request is sent with the same oracle; if the oracle
+  also matches it, the exploit is not trusted (`control_matched` in the evidence). The exploit and control
+  are now kept in `evidence.json`.
+
+Engine now generates, for NodeGoat: eval `POST /contributions {preTax: 7*3, afterTax: 1, roth: 1}` (same shape
+as the confirmed PoV), SSRF `GET /research?url={OOB_URL}&symbol=1`, open-redirect `GET /learn?url=...`.
+Unit tests for these: 102 passed, 2 known gaps (xfail). Not yet re-run live.
+
+**Friend, next:** `git pull`, re-run step 3 for `eval-injection`, `ssrf`, `open-redirect`, then everything,
+ideally with the `gemma4:12b` model (check `ollama list`; keep `KAVACH_ALLOWED_ENDPOINTS` equal to the host
+you really use). Send `evidence.json` again; each finding now carries its `exploit`, `control`, `confirmed`.
 
 ## Measured
 

@@ -279,14 +279,18 @@ def test_open_redirect_probe_does_not_follow_redirects_and_checks_the_location()
 
 def test_a_body_field_becomes_a_form_post():
     e, _ = probes.exploit_for(finding("eval-injection", "req.body.preTax", method="POST", path="/contributions"))
-    assert e["method"] == "POST" and e["path"] == "/contributions" and e["body"] == {"preTax": "31337+1"}
+    assert e["method"] == "POST" and e["path"] == "/contributions" and e["body"] == {"preTax": "7*3"}
     assert e["headers"]["Content-Type"] == "application/x-www-form-urlencoded"
 
 
-def test_the_marker_arithmetic_cannot_be_faked_by_reflecting_the_input():
+def test_the_eval_marker_is_small_and_matched_as_a_standalone_number():
+    import re
     spec = probes.load_probes()["classes"]["eval-injection"]
-    assert spec["value"] == "31337+1" and "31338" in spec["success_if"]["body_regex"]
-    assert "31338" not in spec["value"]
+    rx = re.compile(spec["success_if"]["body_regex"])
+    assert spec["value"] == "7*3" and "21" not in spec["value"]
+    assert rx.search("<td>21 %</td>") and rx.search(">21<")
+    for incidental in ("copyright 2021", "width: 21px", "version 1.21", "id=a21b", "3.21"):
+        assert not rx.search(incidental), incidental
 
 
 def test_a_path_parameter_is_substituted_into_the_path_and_encoded():
@@ -324,3 +328,54 @@ def test_attach_fills_exploit_on_findings_that_can_be_probed_and_explains_the_re
     notes = probes.attach([a, b])
     assert a.exploit and a.exploit["path"].startswith("/go?u=")
     assert b.exploit is None and "static" in notes["JS-002"]
+
+
+# -- every field the handler reads is sent; the control request --------------------------------------------------
+
+def with_fields(klass, expr, fields, method="POST", path="/c"):
+    f = finding(klass, expr, method=method, path=path)
+    f["evidence"]["entry"]["request_fields"] = fields
+    return f
+
+
+def test_all_the_fields_the_handler_reads_are_sent_with_benign_values_except_the_carrier():
+    f = with_fields("eval-injection", "req.body.preTax",
+                    [["body", "preTax"], ["body", "afterTax"], ["body", "roth"]], path="/contributions")
+    e, _ = probes.exploit_for(f)
+    assert e["body"] == {"preTax": "7*3", "afterTax": "1", "roth": "1"}
+
+
+def test_handler_fields_in_the_query_and_path_are_sent_too():
+    f = with_fields("open-redirect", "req.query.url", [["query", "url"], ["query", "lang"], ["params", "id"]],
+                    method="GET", path="/go/:id")
+    e, _ = probes.exploit_for(f)
+    q = parse_qs(urlparse(e["path"]).query)
+    assert urlparse(e["path"]).path == "/go/1" and q["lang"] == ["1"] and "kavach-probe" in q["url"][0]
+
+
+def test_headers_and_cookies_the_handler_reads_are_not_turned_into_request_fields():
+    f = with_fields("open-redirect", "req.query.url", [["query", "url"], ["headers", "host"], ["cookies", "sid"]],
+                    method="GET", path="/go")
+    e, _ = probes.exploit_for(f)
+    assert set(parse_qs(urlparse(e["path"]).query)) == {"url"}
+
+
+def test_the_control_request_is_the_same_request_with_a_benign_value_and_the_same_oracle():
+    f = with_fields("eval-injection", "req.body.preTax", [["body", "preTax"], ["body", "afterTax"]],
+                    path="/contributions")
+    attack, _ = probes.exploit_for(f)
+    control = probes.control_for(f)
+    assert control["body"] == {"preTax": "1", "afterTax": "1"} and control["path"] == attack["path"]
+    assert control["success_if"] == attack["success_if"] and control["method"] == attack["method"]
+
+
+def test_no_control_for_a_class_that_cannot_be_probed():
+    assert probes.control_for(finding("redos", "req.query.x")) is None
+
+
+def test_variants_send_the_handler_s_other_fields_too():
+    f = with_fields("eval-injection", "req.body.preTax", [["body", "preTax"], ["body", "afterTax"]],
+                    path="/contributions")
+    vs = probes.variants_for(f)
+    assert len(vs) == 4 and all(v["body"]["afterTax"] == "1" for v in vs)
+    assert [v["body"]["preTax"] for v in vs][:2] == ["7 * 3", "(7)*(3)"]

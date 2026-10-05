@@ -72,7 +72,9 @@ def exploit_for(finding: dict, probes: Optional[dict] = None,
     route = (ev.get("entry") or {}).get("route")
     if not route:
         return None, "the entry point has no route, so there is no request to send"
-    fields = input_fields(ev.get("tainted_expr", ""))
+    # The fields recorded by the flow analysis are authoritative (the sink argument is often just a variable);
+    # reading them off the expression text is the fallback for findings that did not come from it.
+    fields = [tuple(x) for x in ev.get("tainted_fields", [])] or input_fields(ev.get("tainted_expr", ""))
     carriers = [f for f in fields if f[0] in _LOCATIONS]
     if not carriers:
         return None, "the tainted expression does not name a query, body or path field"
@@ -80,16 +82,21 @@ def exploit_for(finding: dict, probes: Optional[dict] = None,
     benign = probes.get("benign_value", "1")
     payload = payload if payload is not None else spec["value"]
     carrier = carriers[0]                                     # the first field is the one given the payload
-    values = {f[1]: (payload if f == carrier else benign) for f in carriers}
+    # Every request field the handler reads is sent. A handler that reads three fields and gets one fails
+    # its own validation before reaching the vulnerable line, which looks exactly like "not vulnerable".
+    handler_fields = [tuple(x) for x in (ev.get("entry") or {}).get("request_fields", []) if x[0] in _LOCATIONS]
+    sent = list(dict.fromkeys(carriers + handler_fields))
+    values = {f: (payload if f == carrier else benign) for f in sent}
+    by_name = {f[1]: v for f, v in values.items()}
     success = dict(success_if if success_if is not None else spec["success_if"])
 
     method = (route.get("method") or "GET").upper()
     if method == "ALL":
         method = "GET"
-    path = _fill_path(route["path"], {**values, "_benign": benign})
+    path = _fill_path(route["path"], {**by_name, "_benign": benign})
     exploit: dict = {"method": method, "login_as": "user"}
-    query = {n: v for (loc, n), v in zip(carriers, [values[c[1]] for c in carriers]) if loc == "query"}
-    body = {n: v for (loc, n), v in zip(carriers, [values[c[1]] for c in carriers]) if loc in ("body", "payload")}
+    query = {n: v for (loc, n), v in values.items() if loc == "query"}
+    body = {n: v for (loc, n), v in values.items() if loc in ("body", "payload")}
     if query:
         # braces stay literal: the runner substitutes {OOB_URL}/{OOB_MARKER} in the request text itself
         path += ("&" if "?" in path else "?") + urlencode(query, quote_via=quote, safe="{}")
@@ -122,6 +129,17 @@ def variants_for(finding: dict, probes: Optional[dict] = None) -> list[dict]:
         if exploit is not None:
             out.append(exploit)
     return out
+
+
+def control_for(finding: dict, probes: Optional[dict] = None) -> Optional[dict]:
+    """
+    The same request with a BENIGN value where the payload goes, judged by the same oracle. If the oracle
+    also matches this, it matches without any attack (the marker is in the page anyway), so a "confirmed"
+    exploit built on it proves nothing. Used at confirmation time.
+    """
+    probes = probes or load_probes()
+    exploit, _ = exploit_for(finding, probes, payload=probes.get("benign_value", "1"))
+    return exploit
 
 
 def attach(findings: list) -> dict:

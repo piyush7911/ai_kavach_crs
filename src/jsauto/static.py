@@ -235,7 +235,7 @@ def _flow_findings(root: Path, llm=None, learned_path=None) -> tuple[list[Findin
             message=f"user-controlled `{s.tainted_expr[:60]}` reaches {s.callee}() "
                     f"via {' -> '.join(c.split(':', 1)[1] for c in s.chain)}",
             evidence={"rules": [f"flow:{s.callee}"], "callee": s.callee, "arg_index": s.arg_index,
-                      "tainted_expr": s.tainted_expr, "chain": s.chain, "entry": s.entry,
+                      "tainted_expr": s.tainted_expr, "tainted_fields": s.fields, "chain": s.chain, "entry": s.entry,
                       "classified_by": s.classified_by}))
     meta = {"entry_points": a.entry_points, "classifier_calls": a.classifier_calls,
             "classifier_errors": a.classifier_errors,

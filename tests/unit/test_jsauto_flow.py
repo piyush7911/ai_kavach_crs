@@ -209,3 +209,67 @@ def test_a_failing_classifier_is_reported_and_the_call_stays_unclassified(tmp_pa
     a = flow.analyze(app(tmp_path, UNLISTED), classifier=broken)
     assert a.sinks == [] and len(a.unclassified) == 1
     assert a.classifier_calls == 1 and "model server down" in a.classifier_errors[0]
+
+
+def test_the_entry_point_records_every_request_field_the_handler_reads(tmp_path):
+    a = flow.analyze(app(tmp_path, {"c.js": """
+const fs = require("fs");
+app.post("/c", (req, res) => {
+  const a = req.body.preTax; const b = req.body.afterTax; const c = req.query.lang; const d = req.params.id;
+  const e = req.body.preTax; const s = req.session.userId; const h = req.headers.host;
+  fs.readFile(a, () => {});
+});
+"""}))
+    (entry,) = a.entry_points
+    assert entry["request_fields"] == [["body", "preTax"], ["body", "afterTax"], ["query", "lang"], ["params", "id"]]
+
+
+# -- provenance: which request fields feed a sink ------------------------------------------------------------------
+
+def test_a_sink_argument_that_is_only_a_variable_still_names_the_request_fields_behind_it(tmp_path):
+    a = flow.analyze(app(tmp_path, {"r.js": """
+const needle = require("needle");
+app.get("/research", (req, res) => {
+  const url = req.query.base + req.query.symbol;
+  needle.get(url, () => {});
+});
+"""}))
+    (s,) = a.sinks
+    assert s.tainted_expr == "url" and s.fields == [["query", "base"], ["query", "symbol"]]
+
+
+def test_destructured_request_fields_keep_their_names(tmp_path):
+    a = flow.analyze(app(tmp_path, {"d.js": """
+const fs = require("fs");
+module.exports = (req, res) => {
+  const { name, ext } = req.query;
+  const full = `/data/${name}`;
+  fs.readFile(full, () => {});
+};
+"""}))
+    (s,) = a.sinks
+    assert s.fields == [["query", "name"]]                    # only `name` reaches the sink, not `ext`
+
+
+def test_provenance_follows_a_value_across_files_into_the_data_layer(tmp_path):
+    a = flow.analyze(app(tmp_path, {
+        "routes.js": 'const dao = require("./dao");\napp.get("/a", (req, res) => { const t = req.query.t; dao.search(t, () => {}); });\n',
+        "dao.js": "exports.search = (x, cb) => { col.find({ $where: `this.v > '${x}'` }, cb); };\n"}))
+    (s,) = a.sinks
+    assert s.file == "dao.js" and s.tainted_expr.startswith("`this.v") and s.fields == [["query", "t"]]
+
+
+def test_a_constant_or_sanitised_value_has_no_fields_and_no_sink(tmp_path):
+    a = flow.analyze(app(tmp_path, {"c.js": """
+const fs = require("fs");
+app.get("/c", (req, res) => { const n = parseInt(req.query.n, 10); fs.readFile("/d/" + n, () => {}); });
+"""}))
+    assert a.sinks == []
+
+
+def test_the_probe_uses_the_recorded_fields_when_the_expression_is_just_a_variable():
+    from src.jsauto import probes
+    f = {"id": "1", "klass": "ssrf", "evidence": {"tainted_expr": "url", "tainted_fields": [["query", "base"], ["query", "symbol"]],
+                                                  "entry": {"route": {"method": "GET", "path": "/research"}}}}
+    e, _ = probes.exploit_for(f)
+    assert e["path"] == "/research?base={OOB_URL}&symbol=1" and e["oob"] is True

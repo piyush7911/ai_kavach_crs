@@ -64,6 +64,7 @@ class Sink:
     entry: dict = field(default_factory=dict)     # {"function","file","route","via"}
     confidence: str = "medium"
     classified_by: str = "catalog"                 # catalog | model
+    fields: list = field(default_factory=list)     # [[location, field], ...] of the request that fed the sink
 
 
 @dataclass
@@ -346,6 +347,26 @@ class Analyzer:
                     out.add(root)
         return out
 
+    def _request_fields(self, fn: Fn, reqs: set) -> list:
+        """
+        [[location, field], ...] the handler reads off its request parameter(s), in order. A probe has to
+        send ALL of them: a handler that reads three fields and gets one fails its own validation before
+        it reaches the vulnerable line, which looks exactly like "not vulnerable".
+        """
+        body = fn.node.child_by_field_name("body")
+        if body is None or not reqs:
+            return []
+        text = self.p.text(fn.file, body)
+        locs = "|".join(sorted(self.props & {"query", "body", "params", "payload"}))
+        found, seen = [], set()
+        for r in sorted(reqs):
+            for m in re.finditer(r"\b%s\.(%s)\.([A-Za-z_$][\w$]*)" % (re.escape(r), locs), text):
+                key = (m.group(1), m.group(2))
+                if key not in seen:
+                    seen.add(key)
+                    found.append(list(key))
+        return found
+
     def _root(self, f: str, node) -> str:
         while node is not None and node.type in ("member_expression", "subscript_expression", "call_expression",
                                                  "await_expression", "parenthesized_expression"):
@@ -367,7 +388,7 @@ class Analyzer:
         route = self.p.routes.get(key)
         entry = {"function": fn.name, "file": fn.file, "line": fn.start,
                  "route": route, "via": "route" if registered else "request-property-access",
-                 "request_param": sorted(reqs)}
+                 "request_param": sorted(reqs), "request_fields": self._request_fields(fn, reqs)}
         self.entry_points.append(entry)
         self._analyze(fn, req_params=set(reqs), tainted=set(), chain=[f"{fn.file}:{fn.name}"],
                       entry=entry, depth=0, visited=frozenset({key}))
@@ -409,32 +430,71 @@ class Analyzer:
             node = node.child_by_field_name("object")
         return out
 
+    def _fields_in(self, text: str) -> list:
+        """
+        [[location, field], ...] of the request that an expression's text draws on: direct reads such as
+        `req.query.url`, plus the origin of every tainted variable named in it. This is how a sink argument
+        that is just a variable (`url`) still says which request fields feed it, which a probe needs.
+        """
+        cur = self._cur
+        locs = "|".join(sorted(self.props & {"query", "body", "params", "payload"}))
+        found, seen = [], set()
+
+        def add(pair):
+            if pair not in seen:
+                seen.add(pair)
+                found.append(list(pair))
+        for r in sorted(cur["reqs"]):
+            for m in re.finditer(r"\b%s\.(%s)\.([A-Za-z_$][\w$]*)" % (re.escape(r), locs), text):
+                add((m.group(1), m.group(2)))
+        for ident in re.findall(r"[A-Za-z_$][\w$]*", text):
+            for loc, name in cur["origin"].get(ident, []):
+                add((loc, name))
+        return found
+
     def _analyze(self, fn: Fn, req_params: set, tainted: set, chain: list, entry: dict,
-                 depth: int, visited: frozenset) -> None:
+                 depth: int, visited: frozenset, origin: Optional[dict] = None) -> None:
         f = fn.file
         body = fn.node.child_by_field_name("body")
         if body is None:
             return
         params = set(p for p in fn.params if p)
         tainted = set(tainted)
-        # ordered walk: assignments feed later calls
-        for n in self.p._walk(body):
-            t = n.type
-            if t == "variable_declarator":
-                val = n.child_by_field_name("value")
-                name = n.child_by_field_name("name")
-                if val is not None and name is not None and self._is_tainted(f, val, req_params, tainted):
-                    tainted.update(self.p._pattern_names(f, name))
-            elif t == "assignment_expression":
-                left, right = n.child_by_field_name("left"), n.child_by_field_name("right")
-                if left is not None and right is not None and self._is_tainted(f, right, req_params, tainted):
-                    tainted.add(self.p.text(f, left))
-            elif t == "pair":
-                self._check_key_sink(fn, n, req_params, tainted, chain, entry)
-            elif t == "call_expression":
-                self._check_call(fn, n, req_params, tainted, params, chain, entry, depth, visited)
-            elif t == "new_expression":
-                self._check_new(fn, n, req_params, tainted, chain, entry)
+        outer = getattr(self, "_cur", None)
+        self._cur = {"origin": dict(origin or {}), "reqs": set(req_params)}
+        try:
+            # ordered walk: assignments feed later calls
+            for n in self.p._walk(body):
+                t = n.type
+                if t == "variable_declarator":
+                    val = n.child_by_field_name("value")
+                    name = n.child_by_field_name("name")
+                    if val is not None and name is not None and self._is_tainted(f, val, req_params, tainted):
+                        names = self.p._pattern_names(f, name)
+                        tainted.update(names)
+                        fields = self._fields_in(self.p.text(f, val))
+                        for nm in names:
+                            self._cur["origin"][nm] = fields
+                        # `const { name } = req.query`: the text names no field, the pattern does
+                        m = re.fullmatch(r"(\w+)\.(query|body|params|payload)", self.p.text(f, val).strip())
+                        if m and m.group(1) in req_params and name.type == "object_pattern":
+                            for c in name.named_children:
+                                if c.type == "shorthand_property_identifier_pattern":
+                                    nm = self.p.text(f, c)
+                                    self._cur["origin"][nm] = [[m.group(2), nm]]
+                elif t == "assignment_expression":
+                    left, right = n.child_by_field_name("left"), n.child_by_field_name("right")
+                    if left is not None and right is not None and self._is_tainted(f, right, req_params, tainted):
+                        tainted.add(self.p.text(f, left))
+                        self._cur["origin"][self.p.text(f, left)] = self._fields_in(self.p.text(f, right))
+                elif t == "pair":
+                    self._check_key_sink(fn, n, req_params, tainted, chain, entry)
+                elif t == "call_expression":
+                    self._check_call(fn, n, req_params, tainted, params, chain, entry, depth, visited)
+                elif t == "new_expression":
+                    self._check_new(fn, n, req_params, tainted, chain, entry)
+        finally:
+            self._cur = outer
 
     # --- sinks
     def _confidence(self, entry: dict, base: str) -> str:
@@ -455,7 +515,7 @@ class Analyzer:
             klass=spec["class"], cwe=spec.get("cwe", ""), file=fn.file, line=node.start_point[0] + 1,
             function=inner.name, callee=callee, arg_index=idx, tainted_expr=expr[:120], chain=list(chain),
             entry=entry, confidence=self._confidence(entry, spec.get("confidence", "high")),
-            classified_by=by))
+            classified_by=by, fields=self._fields_in(expr) if getattr(self, "_cur", None) else []))
 
     def _innermost(self, fn: Fn, node) -> Fn:
         """The innermost function (named or anonymous) containing `node`; falls back to `fn`."""
@@ -523,10 +583,12 @@ class Analyzer:
                 if key in visited:
                     continue
                 new_t = {d.params[i] for i in tainted_idx if i < len(d.params) and d.params[i]}
+                new_origin = {d.params[i]: self._fields_in(self.p.text(f, argl[i]))
+                              for i in tainted_idx if i < len(d.params) and d.params[i]}
                 new_r = {d.params[i] for i in req_idx if i < len(d.params) and d.params[i]}
                 if new_t or new_r:
                     self._analyze(d, new_r, new_t, chain + [f"{d.file}:{d.name}"], entry, depth + 1,
-                                  visited | {key})
+                                  visited | {key}, origin=new_origin)
             return
 
         # 2. catalogued sinks (by imported module, global name, or response method)

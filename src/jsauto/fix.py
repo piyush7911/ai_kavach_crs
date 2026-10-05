@@ -103,7 +103,17 @@ def run(target: Path, gates, llm, out_dir: Path, findings: Optional[list] = None
 
         exploit, variants = f.get("exploit"), []
         if exploit:
+            e["exploit"] = exploit                                    # kept in the evidence so a miss can be debugged
             on_original, detail = exploitable(gates, target, exploit)
+            if on_original:
+                control = probes.control_for(f)
+                if control is not None:
+                    e["control"] = control
+                    matches, _ = exploitable(gates, target, control)
+                    if matches:                                       # the oracle fires without any attack
+                        on_original, detail = False, ("the oracle also matches a benign control request, so "
+                                                      "it cannot tell the attack from normal behaviour")
+                        e["control_matched"] = True
             e["confirmed"] = bool(on_original)
             if on_original:
                 now, _ = exploitable(gates, combined, exploit)       # an earlier patch may have fixed it already
@@ -116,7 +126,8 @@ def run(target: Path, gates, llm, out_dir: Path, findings: Optional[list] = None
                 variants = [v for v in every if exploitable(gates, combined, v)[0] is True]
                 e["variants"]["kept"] = len(variants)
             else:
-                e["unconfirmed_reason"] = ("the exploit did not reproduce on the unpatched application"
+                e["unconfirmed_reason"] = (detail if e.get("control_matched") else
+                                           "the exploit did not reproduce on the unpatched application"
                                            if on_original is False else f"the runner could not tell: {detail[:120]}")
                 exploit = None                                        # no PoV gate: it could never be `proven`
         work_finding = {**f, "exploit": exploit}

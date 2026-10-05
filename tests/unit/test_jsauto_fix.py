@@ -54,8 +54,9 @@ class Model:
 class Runner:
     """A tree is vulnerable while routes.js contains `eval(`. Knobs let a test change what the runner says."""
 
-    def __init__(self, reproduces=True, only_first_variant_works=False, regress=R.PASS):
+    def __init__(self, reproduces=True, only_first_variant_works=False, regress=R.PASS, control_matches=False):
         self.reproduces, self.only_first, self.regress_state = reproduces, only_first_variant_works, regress
+        self.control_matches = control_matches
         self.calls = []
 
     def _vulnerable(self, tree):
@@ -67,7 +68,10 @@ class Runner:
             return False, "not exploitable"
         if not self.reproduces:
             return False, "exploit did not work"
-        if self.only_first and exploit.get("body", {}).get("a") not in ("31337+1",):
+        value = exploit.get("body", {}).get("a")
+        if value == "1":                                   # the benign control request
+            return (True, "oracle matched") if self.control_matches else (False, "benign: no match")
+        if self.only_first and value != "7*3":
             return False, "this spelling never worked"
         return True, "worked"
 
@@ -182,3 +186,17 @@ def test_findings_are_taken_most_severe_first_and_can_be_limited_or_filtered(app
 def test_the_model_call_count_in_the_evidence_is_this_runs_own(app, tmp_path):
     ev, _ = go(app, tmp_path, [finding()])
     assert ev["model_calls"] == 1 and ev["attempted"] == 1
+
+
+def test_an_oracle_that_also_matches_the_benign_control_is_not_trusted(app, tmp_path):
+    ev, _ = go(app, tmp_path, [finding()], runner=Runner(control_matches=True))
+    (e,) = ev["findings"]
+    assert e["confirmed"] is False and e["control_matched"] is True
+    assert "benign control" in e["unconfirmed_reason"] and e["status"] == "patched_unproven"
+    assert e["gates"]["pov"] == R.SKIPPED and ev["final_check"]["confirmed_exploits_blocked"] == []
+
+
+def test_the_exploit_and_control_are_kept_in_the_evidence_for_debugging(app, tmp_path):
+    ev, _ = go(app, tmp_path, [finding()])
+    (e,) = ev["findings"]
+    assert e["exploit"]["body"]["a"] == "7*3" and e["control"]["body"]["a"] == "1"

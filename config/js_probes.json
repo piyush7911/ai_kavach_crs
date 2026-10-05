@@ -1,5 +1,5 @@
 {
-  "_about": "Generic probe payloads per vulnerability class, with an oracle that can be checked from the response alone. Arithmetic on a marker (31337+1 = 31338) is used where possible: the answer is not contained in the payload, so reflecting the input back cannot fake a hit. `variants` are other spellings of the SAME attack (alternate encodings, alternate hosts): a patch that blocks only the first spelling is overfitted, and replaying the variants is how that is caught. A variant is a string, or {value, success_if} when its oracle differs. Classes with no oracle that fits the contract are listed under `unsupported` with the reason, never silently skipped. Placeholders {OOB_URL} and {OOB_MARKER} are filled in by the runner (a loopback listener that records callbacks); the oob_marker oracle checks for the callback, so it works even when the application does not reflect the fetched body.",
+  "_about": "Generic probe payloads per vulnerability class, with an oracle that can be checked from the response alone. Arithmetic on a marker (31337+1 = 31338) is used where possible: the answer is not contained in the payload, so reflecting the input back cannot fake a hit. `variants` are other spellings of the SAME attack (alternate encodings, alternate hosts): a patch that blocks only the first spelling is overfitted, and replaying the variants is how that is caught. A variant is a string, or {value, success_if} when its oracle differs. Classes with no oracle that fits the contract are listed under `unsupported` with the reason, never silently skipped. Placeholders {OOB_URL} and {OOB_MARKER} are filled in by the runner (a loopback listener that records callbacks); the oob_marker oracle checks for the callback, so it works even when the application does not reflect the fetched body. The eval marker is small (7*3=21): applications often validate numeric input (for example a total of at most 30), and a rejected request never shows the result. The result is matched as a standalone number so 2021 or 21px do not count, and the confirmation step also sends a benign control request and distrusts the oracle if the control matches too.",
   "marker": {
     "operand": 31337,
     "result": 31338
@@ -19,15 +19,15 @@
       ]
     },
     "eval-injection": {
-      "value": "31337+1",
+      "value": "7*3",
       "success_if": {
-        "body_regex": "31338"
+        "body_regex": "(?<![\\w.])21(?![\\w.])"
       },
       "variants": [
-        "31337 + 1",
-        "(31337)+(1)",
-        "[31337+1][0]",
-        "31337+1/*c*/"
+        "7 * 3",
+        "(7)*(3)",
+        "[7*3][0]",
+        "7*3/*c*/"
       ]
     },
     "command-injection": {
