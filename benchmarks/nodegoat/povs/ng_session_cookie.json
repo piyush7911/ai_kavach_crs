@@ -1,0 +1,2 @@
+{ "method": "GET", "path": "/login", "login_as": "none",
+  "success_if": { "status": 200, "set_cookie_regex": "connect\\.sid" } }

@@ -45,8 +45,7 @@ match on class name or CWE, because the two sides use different vocabularies and
 shared vocabulary is not worth enforcing. recall = distinct vulns hit / total;
 precision = findings hitting a real vuln / total findings.
 
-Baseline (engine static detection only, 2026-10-05): **recall 0.727 (8/11),
-precision 0.81**. Missed NG-03 (IDOR), NG-06 (XSS), NG-07 (CSRF) — none is
+Baseline (engine static detection, 2026-10-05): **recall 0.75 (9/12), precision 0.75**. Missed NG-03 (IDOR), NG-06 (XSS), NG-07 (CSRF) — none is
 statically detectable; they need the engine's dynamic probes (2.3), which emit an
 `exploit` that `replay` then confirms.
 
@@ -135,3 +134,30 @@ missed NG-03, NG-06, NG-07, unchanged from the baseline above.
    second, unseen app (DVNA, no tuning, no model) 5 of 6 core injection classes were found by some
    detector and 3 of 6 by the flow analysis alone; see "Held-out check" in `NODEGOAT_PLAN.md`. That is
    the better indicator of how it will do on the jury's customised app.
+
+---
+
+## Track 1 responses (implemented 2026-10-05)
+
+All of Track 2's asks above are done on the harness side:
+
+1. **Informational/suppressed findings** are excluded from precision (kept in the output and
+   counted separately as `informational_excluded`). `score` reads `status`.
+2. **Dependency inflation fixed.** Precision now groups findings by `(file, class)`, so the N
+   vulnerable-dependency findings on `package.json` count once. `score` reports `finding_groups`.
+3. **NG-12 added** to the manifest (insecure-session-cookie, server.js:78). It is `validation: both`,
+   not inspection: `povs/ng_session_cookie.json` confirms the default `connect.sid` cookie name on the
+   vulnerable tree and flips safe once a generic `name` is set. Added a `set_cookie_regex` oracle.
+4. **IDOR / XSS / CSRF reference PoVs already exist** for the probes to reproduce:
+   `povs/ng_idor_allocations.json`, `povs/ng_xss_stored.json`, `povs/ng_csrf.json` — all in the
+   contract's exploit shape, all confirmed exploitable via `replay`. SSRF too
+   (`povs/ng_ssrf.json`, via the OOB marker server). The exploit model now also supports `setup`
+   steps (store-then-read) and `oob` (loopback marker server).
+
+**Current score** (engine static detection vs the 12-vuln manifest): **recall 0.75 (9/12),
+precision 0.75**, rising to precision ~1.0 once the engine re-runs with informational tagging (the
+committed findings file predates it). Missed NG-03/06/07 — the three dynamic-probe classes.
+
+**npm/offline (decision 3):** `setup.sh` runs `npm install` against the registry today. For an
+air-gapped venue the target's `node_modules` must be pre-installed or provided; noted as a Track 1
+setup item.

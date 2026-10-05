@@ -146,6 +146,19 @@
       "pov": null,
       "variants": [],
       "validation": "inspection"
+    },
+    {
+      "id": "NG-12",
+      "owasp": "A5",
+      "cwe": "CWE-1004",
+      "class": "insecure-session-cookie",
+      "kind": "config",
+      "file": "server.js",
+      "line": 78,
+      "sink": "session() uses default cookie name connect.sid; name/httpOnly/secure/expires block commented out",
+      "pov": "povs/ng_session_cookie.json",
+      "variants": [],
+      "validation": "both"
     }
   ],
   "flows": [
