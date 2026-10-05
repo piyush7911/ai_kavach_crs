@@ -100,7 +100,7 @@ Goal: given only a path to an unknown Node app, find real bugs, patch them, and 
 
 | Task | State | Evidence |
 |---|---|---|
-| Local model | **done** | `qwen3:8b` (5.2 GB). Thinking must be off: default thinking spent 800 tokens and 54 s and returned an empty answer; `reasoning_effort=none` answered in 1.7 s. On a real NodeGoat handler (`eval`), none fixed it in 15 s; `low` used all 1,500 tokens in 89 s and returned nothing. `llm_client._reasoning_kwargs`, `KAVACH_REASONING`. |
+| Local model | **done** | `gemma4:12b` (8.0 GB). Thinking must be off: with it on, one short request spent all 800 tokens on reasoning, took 118 s and returned an empty answer; off (`reasoning_effort=none`) it took 9.3 s. The client asks the model server whether a model can think, so this does not depend on a model name (`llm_client._reasoning_kwargs`, `KAVACH_REASONING`). Quality on real handlers is not yet measured; its one-line open-redirect fix was bypassable. |
 | 2.2 static detection | **done** | `python -m src.jsauto --target DIR`. 233 vendored Semgrep rules (offline) + 7 generic Kavach rules (`config/semgrep/kavach_js.yaml`) checked against an annotated fixture (positives and negatives). On NodeGoat: 11 code/config findings + 10 runtime-dependency findings in about 5 s, each mapped to its enclosing function; 3 hits suppressed with a recorded reason. |
 | Dependency audit | **done, needs network** | `npm audit --omit=dev` (runtime only: 51 advisories vs 145 with dev tooling). Fails loudly, never returns an empty "clean" list. **Decision needed: is querying the npm registry allowed at the event?** If not, we need a vendored advisory snapshot. |
 | 2.1 neutral core | partial | `Finding` type and a separate `src/jsauto/` package; the C pipeline is untouched (266 unit tests pass). |
@@ -116,3 +116,26 @@ Known weaknesses of the detector, stated plainly:
 - Static hits are **candidates**. The `$where` rule is syntactic: it flags the vulnerable interpolation but would also flag a safe one (numerically parsed) if both were live code; only a dynamic probe confirms.
 - Not detected statically: XSS through `marked`/templates, insecure direct object references, weak session/crypto design, missing CSRF. Probes (2.3) and model review have to cover these.
 - Semgrep skips `test/` directories by its own default; findings in test code are never reported.
+
+
+### Held-out check on an unseen app (DVNA, 2026-10-05, no tuning, no model)
+
+DVNA (`appsecco/dvna`, a different intentionally vulnerable Express app) was cloned to
+`benchmark_workspace/heldout/dvna` and scanned by the engine as it stood, without changing any rule
+for it. Ground truth was written by reading the code before the scan: SQL injection, command
+injection, `mathjs.eval`, open redirect, unsafe deserialization, XXE, IDOR, hard-coded session secret,
+insecure cookie, predictable md5 reset token, dependencies.
+
+| Defect | Result |
+|---|---|
+| command injection, open redirect, unsafe deserialization | found by the flow analysis (and Semgrep) |
+| SQL injection, XXE | found by vendored Semgrep; the flow analysis listed the call as unclassified |
+| hard-coded session secret, insecure cookie | found by Semgrep |
+| `mathjs.eval` (code injection) | **missed**; listed as an unclassified call only |
+| IDOR, md5 reset token | **missed** (not a taint-to-sink pattern) |
+| dependencies | **not audited**: no lockfile, reported as such |
+
+Core injection classes: 5 of 6 found by some detector, 3 of 6 by the flow analysis alone. All 32
+entry points resolved to routes. **Not yet measured:** whether the local model, asked about the
+unclassified calls, recovers `mathjs.eval`, `db.sequelize.query` and `libxmljs.parseXmlString`. That
+run was interrupted and is pending.

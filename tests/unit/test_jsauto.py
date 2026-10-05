@@ -174,3 +174,35 @@ def test_no_engine_file_names_the_benchmark_target():
             text = re.sub(r"https?://\S+", "", path.read_text(errors="replace")).lower()
             offenders += [f"{path.relative_to(ROOT)}: {w}" for w in forbidden if w in text]
     assert not offenders, offenders
+
+
+# -- non-production credentials are informational, not defects ----------------------------------------
+
+def _secret_app(tmp_path, files):
+    (tmp_path / "package.json").write_text("{}")
+    for name, text in files.items():
+        p = tmp_path / name
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(text)
+    return tmp_path
+
+
+def test_credentials_in_dev_test_and_seed_files_are_informational_but_still_reported(tmp_path):
+    app = _secret_app(tmp_path, {
+        "config/env/development.js": 'module.exports = { apiKey: "dev_key_12345678" };\n',
+        "config/env/test.js": 'module.exports = { apiKey: "test_key_12345678" };\n',
+        "scripts/db-reset.js": 'const u = { password: "Admin_123456" };\n',
+        "config/env/all.js": 'module.exports = { cookieSecret: "session_cookie_secret_key_here" };\n',
+    })
+    secrets = {f.file: f for f in static.scan(app, use_flow=False)["findings"] if f.klass == "hardcoded-secret"}
+    assert {k for k, v in secrets.items() if v.status == "informational"} == {
+        "config/env/development.js", "config/env/test.js", "scripts/db-reset.js"}
+    assert secrets["config/env/all.js"].status == "candidate"          # production config stays a defect
+    assert all(secrets[k].reason for k in secrets if secrets[k].status == "informational")
+
+
+def test_a_committed_private_key_is_never_downgraded_by_its_location(tmp_path):
+    key = "-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEAxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n-----END RSA PRIVATE KEY-----\n"
+    app = _secret_app(tmp_path, {"test/fixtures/server.key": key, "certs/server.key": key})
+    found = [f for f in static.scan(app, use_flow=False)["findings"] if f.klass == "private-key-in-repo"]
+    assert found and all(f.status == "candidate" for f in found)

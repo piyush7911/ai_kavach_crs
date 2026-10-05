@@ -109,36 +109,26 @@ Measured from the Ollama server log on this machine **[measured]**:
 - The Air is fanless: sustained generation will throttle. Plan demos around short bursts and
   avoid back-to-back full sweeps on battery.
 
-Model options (sizes read from the Ollama registry **[measured]**):
+Local model: **`gemma4:12b`** (Ollama; 8.0 GB on disk, 11.9B parameters, Q4_K_M; capabilities:
+completion, vision, audio, tools, thinking). Chosen by the team. Against the 11.8 GiB GPU budget it
+leaves about 3.8 GiB, which is tight beside clang, the fuzzer and a running web app **[arithmetic,
+not measured]**. Watch memory on the first real run.
 
-| Model | Size | Verdict on this machine |
-|---|---:|---|
-| `qwen3-coder:30b` | 19 GB | Does **not** fit (weights alone exceed the 11.8 GiB budget) |
-| `qwen3-coder-next` | 52 GB | No |
-| `deepseek-coder-v2:16b` (MoE) | 8.9 GB | Fits; fast per token; weaker on C repair, to be tested if needed |
-| `qwen2.5-coder:14b` | 9.0 GB | Fits but tight next to clang and the fuzzer; slow on a fanless chip |
-| **`qwen2.5-coder:7b`** | **4.7 GB** | **Chosen.** Comfortable; leaves room for the harness |
-
-**Decision: `qwen2.5-coder:7b` first** (IN PROGRESS: downloading). Test the 14B only if the 7B
-result shows quality, not speed, is the bottleneck. Decide with data, not preference.
-
-**Local model measured on this machine [measured]** (`kavach-coder:7b`, a derived
-`qwen2.5-coder:7b` with `num_ctx 8192`, `temperature 0`, `seed 1337`; definition in
-`config/ollama/Modelfile`):
+**Measured so far:**
 
 | Measurement | Value |
 |---|---|
-| Throughput, steady state (warm-up excluded) | **15.2 tok/s** |
-| Repair-shaped request (477 in / 134 out) | 8.8 s |
-| Critic strict JSON-schema call | **works**, 7.4 s, all required keys returned |
-| Memory held by the loaded model (Ollama's own report) | **4,882 MB**, 100% GPU, 8,192 context |
-| Our client against Ollama | **works unchanged** through `OPENAI_BASE_URL` |
+| Thinking on (the default), one short fix request, 800-token cap | 118 s, every token spent on reasoning, **empty answer** |
+| Thinking off (`reasoning_effort=none`), same request | 9.3 s, 60 tokens, answer returned |
+| Our client against Ollama | works through `OPENAI_BASE_URL`; the client asks the server whether a model can think and turns it off (`llm_client._reasoning_kwargs`) |
+| Answer quality | the one-line open-redirect fix it returned was bypassable; nothing broader measured |
+
+**Not yet measured:** sustained tokens per second, resident memory, pass rate on any suite.
 
 Two measurement traps found along the way: (1) the first request includes model load and
-reads as ~11 tok/s, so a warm-up must be excluded; (2) **`ps` RSS showed 24 MB for a model
-Ollama reports as 4.77 GiB**, because Apple-Silicon weights live in GPU-visible memory. Local
-footprint must be asked of Ollama, never read from RSS. A local run's real memory is the
-harness plus ~4.9 GB, not the harness alone.
+reads as ~11 tok/s, so a warm-up must be excluded; (2) **`ps` RSS shows tens of MB for a multi-GB model**, because Apple-Silicon weights live in
+GPU-visible memory. Local footprint must be asked of Ollama (`/api/ps`), never read from RSS. A
+local run's real memory is the harness plus the model, not the harness alone.
 
 Workload to serve (mean per call, from the last run **[measured]**): ~1,520 input tokens,
 ~287 output tokens. A full 44-target sweep is ~161 calls, about 46k output tokens. Expect that
@@ -186,12 +176,12 @@ the design note should say so.
 
 ### B. Measured local-model run — P0 — IN PROGRESS (readiness measured; benchmark run pending)
 
-- Pull `qwen2.5-coder:7b` (**in progress**).
+- Local model: `gemma4:12b` (installed by the team).
 - Make the client work against Ollama: `response_format` JSON schema for the Critic, `seed`,
   `num_ctx`, `max_tokens`; fail with a clear message if the server lacks structured output.
 - Run the **3 real CVEs + a 10-target synthetic subset** locally. Record pass rate, time per
   target, tokens/s, peak RSS, cost ($0), and the same on the cloud model.
-- **Publish whatever comes out.** A 7B model failing some targets is acceptable: the gates turn
+- **Publish whatever comes out.** A small local model failing some targets is acceptable: the gates turn
   a weaker model into a lower pass rate, not into unsafe patches. That is precisely the claim,
   and a measured weak result is more credible than a claimed strong one.
 - Replace every estimate in our docs about local GPU sizing and speed with the measurement.
@@ -394,7 +384,7 @@ All of these, each with its number:
 | Risk | Mitigation |
 |---|---|
 | Build detection for arbitrary repos is hard | Support flat `.c`, Makefile and CMake only; otherwise require `--build-cmd` and fail with a clear message. Never guess silently |
-| 7B local model is too weak for real CVEs | Publish the measured result; the gates keep it safe; test 14B only if quality is the bottleneck |
+| The local model is too weak for real CVEs | Publish the measured result; the gates keep it safe |
 | Fanless Air throttles during long local runs | Time-box local sweeps, run plugged in, measure and report sustained tokens/s |
 | CBMC on real code hits modelling limits | 2-hour spike with a go/no-go; keep the synthetic proofs; never half-claim |
 | Uploaded code is hostile | Sandbox before uploads are accepted; bind to localhost; size and path guards |
@@ -407,13 +397,12 @@ All of these, each with its number:
 
 | Item | Status | Note |
 |---|---|---|
-| Model `qwen2.5-coder:7b` + derived `kavach-coder:7b` | **DONE** | 4.7 GB; Modelfile in `config/ollama/` |
-| Local model readiness (client, JSON schema, speed, memory) | **DONE** | 15.2 tok/s, 4,882 MB, schema call works |
+| Local model `gemma4:12b` | **installed** | 8.0 GB; thinking must be off (118 s with an empty answer vs 9.3 s) |
 | Plan rewritten (pre-event scope) | **DONE** | |
 | Structured events (`src/events.py`, `benchmark.py --events`) | **DONE** | shared by the dashboard and the future autonomous mode |
 | D dashboard (FastAPI) | **DONE** | 56+ tests; Drop view runs auto mode (fuzz seconds, repair toggle) and shows crash, hardening and diff; verified through the API on local Ollama |
-| B provider comparison | **DONE, measured** | cloud gpt-4o-mini vs a *remote hosted* Qwen2.5-Coder-14B (NOT on-device, not air-gapped). Synthetic 10: cloud 10/10, Qwen 9/10 (SYN-05 passed the gates but hardening falsified it; an earlier identical Qwen run was 10/10, so run-to-run variance is real). Real CVE 3: cloud 2/3, Qwen 3/3. Single runs, n small, no significance claim. Tables: `reports/compare_synthetic.md`, `reports/compare_real_cve.md`. On-device 7B benchmark still pending |
-| A autonomous mode | **DONE, measured on 3 targets** | ingest → scan → (optional `--surface N` public-parser fuzzing) → harness → sanitizer build in sandbox → reach judge → fuzz → triage → repair → re-fuzz + differential. Demo double-free proven on local Qwen-7B ($0). **cJSON v1.7.10, OpenAI gpt-4o-mini, no hand-written PoV or root cause: `--surface` fuzzing found the real CVE-2019-11835 overflow in `cJSON_Minify` (cJSON.c:2642) and the patch was `proven` in 2 of 2 runs (133-160 s, ~$0.01), hardening: 137-input differential preserved, re-fuzz clean.** Semgrep alone missed it (it flagged print code). Fixes made on the way: hung-binary gates (SIGKILL timeout; alarm is swallowed by libFuzzer), replay-oracle trailing-newline bug, PoV gate replays every crash in the cluster plus same-line variants, root-cause brief in the prompt, re-fuzz in fork mode with a pre-existing second bug reported as a separate finding instead of blamed on the patch, hardening retry. Limits: `proven` = survived 137-input differential + 15-20 s re-fuzz, not a formal proof; post-scan gate is skipped for uploads; 7B local repair is slow; 1 library so far (cJSON), not yet a held-out one |
+| B provider comparison | **local model not yet benchmarked** | cloud-only baselines stand (synthetic 10/10; real CVE 2/3 to 3/3 across runs). The `gemma4:12b` run on the same targets is pending |
+| A autonomous mode | **DONE, measured on 3 targets** | ingest → scan → (optional `--surface N` public-parser fuzzing) → harness → sanitizer build in sandbox → reach judge → fuzz → triage → repair → re-fuzz + differential. Local-model repair has not been re-measured with the current local model. **cJSON v1.7.10, OpenAI gpt-4o-mini, no hand-written PoV or root cause: `--surface` fuzzing found the real CVE-2019-11835 overflow in `cJSON_Minify` (cJSON.c:2642) and the patch was `proven` in 2 of 2 runs (133-160 s, ~$0.01), hardening: 137-input differential preserved, re-fuzz clean.** Semgrep alone missed it (it flagged print code). Fixes made on the way: hung-binary gates (SIGKILL timeout; alarm is swallowed by libFuzzer), replay-oracle trailing-newline bug, PoV gate replays every crash in the cluster plus same-line variants, root-cause brief in the prompt, re-fuzz in fork mode with a pre-existing second bug reported as a separate finding instead of blamed on the patch, hardening retry. Limits: `proven` = survived 137-input differential + 15-20 s re-fuzz, not a formal proof; post-scan gate is skipped for uploads; local-model repair speed is not yet measured with the current local model; 1 library so far (cJSON), not yet a held-out one |
 | A2 adaptive repair strategy | **DONE, measured** | `--strategy adaptive`: alpha (3 tries) -> beta (3 tries, told what alpha tried) -> gamma on a stronger model (5 tries, told everything); agents keep their names, delta is the critic. Escalation model is probed per API key (this key: gpt-4.1-mini only), never assumed. A/B on OpenAI, same targets, same flags: synthetic 10: ensemble 10/10, 43 model calls, $0.0101 vs adaptive 10/10, 11 calls, $0.0043; real CVE 3: ensemble 3/3, 33 calls, $0.0222 vs adaptive 3/3, 9 calls, $0.0068 (**-74% calls, -55..-70% cost**, wall time -10..15%). Cost: mean patch size grows (3.6->4.9 and 2.3->4.3 lines) because the ensemble picked the smallest of three. Hard case (auto-mode cJSON_Minify): proven 3/3 after a probe fix (an unusable gpt-4o had crashed tier 3 once). Single runs, small n. Default: adaptive in auto mode, ensemble in the benchmark (published numbers stay comparable) |
 | J reproducibility bundle | **DONE, bug fixed** | bundle present in run dirs; `reproduce.sh` used to print "reproduced" when the re-run never ran (wrong interpreter); now exits 3 unless a new run dir is produced; test added |
 | E cheats + patch policy | **DONE, measured** | policy gate: 10/10 synthetic still pass, 7/7 PoV-proven; red-team: 11/11 cheats caught, honest fix passes every layer (policy 6, gates 3, hardening 9; the execution gates alone catch none) |

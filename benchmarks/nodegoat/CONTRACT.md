@@ -50,17 +50,88 @@ precision 0.81**. Missed NG-03 (IDOR), NG-06 (XSS), NG-07 (CSRF) — none is
 statically detectable; they need the engine's dynamic probes (2.3), which emit an
 `exploit` that `replay` then confirms.
 
-## Open decisions (need the team / the rules)
+## Open decisions, with Track 2's answers (2026-10-05)
 
-1. **Do seeded test credentials and dev/test config secrets count as defects?**
-   The engine flags `artifacts/db-reset.js`, `config/env/development.js`,
-   `config/env/test.js`; the manifest does not. This is the ~4 findings that pull
-   precision below 1.0. Decide whether to add them to the manifest or treat them as
-   expected false positives.
-2. **Is the session-cookie weakness (`server.js:78`, CWE-522) its own vuln?**
-   The engine emits it; the manifest folds it into NG-08. Add NG-12 if yes.
-3. **Is querying the npm registry allowed at the event?** The engine's dependency
-   audit needs it. If not, we need a vendored advisory snapshot (RoE: declared
-   resources / no unauthorized external network).
-4. **IDOR / XSS / CSRF** reach the manifest only once the engine's probes produce a
-   confirming `exploit`. Until then they sit as `validation: inspection`.
+Status: **ANSWERED** = decided and implemented or ready to implement; **NEEDS ORGANISERS** = we cannot
+decide it from the code.
+
+### 1. Do seeded test credentials and dev/test config secrets count as defects?  ANSWERED: no, report them as informational
+
+They are real hard-coded credentials, but a password in a seed script or in `development.js` is not a
+production secret, and counting it as a defect would be scored as noise by anyone reading the report.
+Hiding it would be worse, because a reviewer should still see it. So:
+
+- The engine now tags a `hardcoded-secret` found in a test, seed, fixture, example or local-development
+  file as `status: "informational"`, `severity: "low"`, with a reason. Decided on the file's **role**
+  (directory such as `test/`, `seeds/`; stem such as `development.js`, `test.js`; name containing
+  `seed`/`reset`/`fixture`/`migrate`), never on this application's file names. Implemented in
+  `src/jsauto/static.py` (`_mark_non_production`) with unit tests.
+- **A committed private key is never downgraded this way.** A key in a repository is exposed whatever the
+  file is called (`artifacts/cert/server.key` stays NG-09).
+- **Track 1 action:** make `score` skip findings whose `status` is `informational` or `suppressed` when
+  computing precision (they stay in the output). Keep them out of the manifest.
+
+### 2. Is the session-cookie weakness (`server.js:78`) its own vuln?  ANSWERED: yes, add NG-12
+
+Verified in the code: the session middleware is configured with only `secret`, `saveUninitialized`
+and `resave`; the block that sets a generic cookie name and the cookie flags is **commented out**
+("Fix for A5 - Security MisConfig"). So the cookie has the default name and no `httpOnly`, `secure`,
+`path` or `expires` attributes. That is a different defect from the hard-coded secret: different
+weakness (CWE-614 / CWE-1004 / CWE-16 against CWE-798), a different fix (set cookie options, not move a
+secret), and a different probe (inspect `Set-Cookie`). Folding it into NG-08 would hide a fix the jury
+can see.
+
+Proposed manifest entry: `NG-12`, `owasp: A5` (security misconfiguration), `cwe: CWE-1004`,
+`class: insecure-session-cookie`, `kind: config`, `file: server.js`, `line: 78`,
+`validation: inspection` (a PoV is easy: read `Set-Cookie` after login and check the attributes).
+
+### 3. Is querying the npm registry allowed at the event?  NEEDS ORGANISERS (assume NO until told)
+
+The rules allow only our own hardware, authorised software stacks and declared model endpoints, and
+list "unauthorized public or external network resources" as out of scope. The npm registry is
+external and was not declared, so the safe default is **not allowed**. Two consequences:
+
+- **Detection:** `npm audit` needs the registry. Until we have an answer, the engine must not rely on
+  it. Plan: ask the organisers one yes/no question at check-in. If the answer is no, build a **vendored
+  advisory snapshot** before the event (advisory data for npm packages, filtered to the versions that
+  popular apps pin), and match the lockfile against it offline. Size and coverage of that snapshot are
+  **not measured yet**; do not promise it covers an unseen app's dependencies.
+- **Running the target:** `npm install` also hits the registry. If the venue has no outbound access, the
+  target's `node_modules` must be pre-installed or provided. That is Track 1's setup question too.
+- Whatever is decided, a failed audit already says so loudly and never reports an empty "clean" list.
+
+### 4. IDOR / XSS / CSRF  ANSWERED: Track 2 owns them; here is how, generically
+
+They stay `validation: inspection` until a probe confirms them. None needs an application-specific rule:
+
+- **CSRF (NG-07):** partly detectable statically with a general rule: the app uses cookie sessions, has
+  state-changing routes (POST/PUT/PATCH/DELETE), and imports no CSRF-protection module. Low confidence
+  until a probe shows a state-changing request is accepted without a token or from a foreign `Origin`.
+  Will be added to the engine.
+- **XSS (NG-06):** needs a reflection probe: submit a unique canary through each input the flow analysis
+  found, read the pages back, and check whether it returns unencoded in a script/attribute/URL context.
+  Needs the runner (Track 1 runtime), so it waits for it.
+- **IDOR (NG-03):** needs authorisation-aware probing: with two seeded users, request user B's resource
+  as user A using ids taken from routes that accept an id. Also needs the runner and two users.
+
+All three emit an `exploit` in the contract's format, which `replay` then confirms.
+
+## Review notes on scoring (Track 2's reading of `score`)
+
+Measured with the current engine against the current manifest: **recall 0.727 (8/11), precision 0.81**,
+missed NG-03, NG-06, NG-07, unchanged from the baseline above.
+
+1. **Precision is inflated by dependency findings.** The 21 findings include 10 separate
+   vulnerable-dependency findings (one per package), and every one lands on `package.json` line 0, so all
+   10 count as true positives against the single manifest entry NG-11. Without them, the other 11
+   findings have 7 hits, which is **0.64**, not 0.81. Recall is not affected. Suggest counting findings
+   of the same class and file as one for precision, or reporting dependency findings separately.
+2. **Matching ignores class by design,** so a wrong-class finding near a manifest line counts as a hit.
+   That is acceptable while the engine is the only finding source, but say so in any published number.
+3. **Projected, not re-scored:** with decisions 1 and 2 applied (informational findings excluded, NG-12
+   added) and dependency findings counted once, the same output would give recall 9/12 = 0.75 and no
+   false positives on this target. That is arithmetic from the current output, not a new run.
+4. **Overfitting caution.** These numbers are on the application the engine was developed against. On a
+   second, unseen app (DVNA, no tuning, no model) 5 of 6 core injection classes were found by some
+   detector and 3 of 6 by the flow analysis alone; see "Held-out check" in `NODEGOAT_PLAN.md`. That is
+   the better indicator of how it will do on the jury's customised app.

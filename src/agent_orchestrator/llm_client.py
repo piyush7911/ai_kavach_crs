@@ -254,22 +254,51 @@ class LLMClient:
 
         return response.choices[0].message.content or ""
 
+    def _can_think(self, model: str) -> bool:
+        """
+        Does this model serve a "thinking" mode? Asked of the model server (Ollama's /api/show lists
+        capabilities), never decided from a model's name, so it holds for whichever model is
+        installed. Cached. Anything that cannot be determined is "no": the parameter is then not
+        sent, which is always safe.
+        """
+        cache = self.__dict__.setdefault("_think_cache", {})
+        if model in cache:
+            return cache[model]
+        ok = False
+        try:
+            import json as _json
+            import urllib.request
+            root = self._base_url.rstrip("/")
+            root = root[:-3] if root.endswith("/v1") else root
+            req = urllib.request.Request(root + "/api/show", _json.dumps({"model": model}).encode(),
+                                         {"Content-Type": "application/json"})
+            with urllib.request.urlopen(req, timeout=5) as r:
+                ok = "thinking" in (_json.load(r).get("capabilities") or [])
+        except Exception:
+            ok = False
+        cache[model] = ok
+        return ok
+
     def _reasoning_kwargs(self, model: str) -> dict:
         """
-        Control "thinking" for reasoning models served locally (Qwen3 on Ollama).
+        Turn "thinking" off for local models that have it.
 
-        Measured on qwen3:8b, one short fix request: default thinking spent the whole
-        800-token budget on reasoning, returned an EMPTY answer and took 54 s;
-        reasoning_effort=none answered in 1.7 s with 24 tokens. For patch generation the
-        gates, not the model's deliberation, carry correctness, so thinking is off by
-        default. KAVACH_REASONING=low|medium|high|none overrides it; `default` leaves the
-        server's own behaviour. Never sent to the official OpenAI endpoint, whose
-        non-reasoning models reject the parameter.
+        Measured on a local 12B model, one short fix request: default thinking spent the whole
+        800-token budget on reasoning, returned an EMPTY answer and took 118 s; with thinking off
+        it answered in 9.3 s with 60 tokens. For patch generation the gates, not the model's
+        deliberation, carry correctness, so thinking is off by default for any model that reports the
+        capability. KAVACH_REASONING=low|medium|high|none sets it explicitly; `default` leaves the
+        server's own behaviour. Never sent to the official OpenAI endpoint, whose non-reasoning
+        models reject the parameter.
         """
         if "api.openai.com" in self._base_url:
             return {}
-        mode = os.getenv("KAVACH_REASONING", "none" if "qwen3" in model.lower() else "default")
-        return {} if mode == "default" else {"reasoning_effort": mode}
+        mode = os.getenv("KAVACH_REASONING", "")
+        if mode == "default":
+            return {}
+        if mode:
+            return {"reasoning_effort": mode}
+        return {"reasoning_effort": "none"} if self._can_think(model) else {}
 
     def _call_with_retry(self, model: str, messages: list, max_tokens: int, max_retries: int = 3):
         """Call OpenAI API with exponential backoff retry."""

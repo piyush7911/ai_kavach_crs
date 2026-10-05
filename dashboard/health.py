@@ -20,7 +20,7 @@ from typing import Optional
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 OLLAMA_URL = os.getenv("OLLAMA_HOST_URL", "http://localhost:11434")
-LOCAL_MODEL = os.getenv("KAVACH_LOCAL_MODEL", "kavach-coder:7b")
+LOCAL_MODEL = os.getenv("KAVACH_LOCAL_MODEL", "gemma4:12b")
 
 _cache: dict = {"at": 0.0, "value": None}
 CACHE_SECONDS = 15

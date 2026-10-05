@@ -15,7 +15,7 @@ dominates the software defence systems actually run on.
 ## What makes this suitable for that setting
 
 - **Runs offline.** The whole pipeline runs on a laptop against a local model
-  (`kavach-coder:7b`, measured on a MacBook Air M3). No source code leaves the
+  (for example `gemma4:12b`; its on-device speed and repair quality are still being measured). No source code leaves the
   machine.
 - **Proof before trust.** A patch is accepted only after the original crash input
   no longer reproduces, benign behaviour is preserved, and hardening fails to

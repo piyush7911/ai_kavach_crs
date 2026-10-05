@@ -185,24 +185,66 @@ def test_an_explicit_escalation_model_is_still_verified(monkeypatch):
     assert c.usable_escalate_model() == "big:70b" and tried == ["big:70b"]
 
 
-# -- reasoning control for local reasoning models (Qwen3) ---------------------------------------
+# -- reasoning control for local thinking models ----------------------------------------------
 
-def test_qwen3_on_a_local_server_gets_reasoning_off_by_default(monkeypatch):
+def _thinking_server(monkeypatch, models: dict):
+    """Stub the model server's /api/show: models maps name -> list of capabilities."""
+    import io
+    import json as _json
+    import urllib.request
+
+    def fake_urlopen(req, timeout=0):
+        name = _json.loads(req.data)["model"]
+        if name not in models:
+            raise OSError("unknown model")
+        return io.BytesIO(_json.dumps({"capabilities": models[name]}).encode())
+    monkeypatch.setattr(urllib.request, "urlopen", fake_urlopen)
+
+
+def test_thinking_is_turned_off_for_models_that_report_the_capability(monkeypatch):
     monkeypatch.delenv("KAVACH_REASONING", raising=False)
+    _thinking_server(monkeypatch, {"model-a": ["completion", "thinking"], "model-b": ["completion"]})
     c, _ = _client(monkeypatch, "http://localhost:11434/v1", usable=set())
-    assert c._reasoning_kwargs("qwen3:8b") == {"reasoning_effort": "none"}
-    assert c._reasoning_kwargs("qwen2.5-coder:7b") == {}          # not a reasoning model: untouched
+    assert c._reasoning_kwargs("model-a") == {"reasoning_effort": "none"}
+    assert c._reasoning_kwargs("model-b") == {}                  # no thinking mode: parameter not sent
+
+
+def test_the_decision_comes_from_the_server_never_from_the_model_name(monkeypatch):
+    monkeypatch.delenv("KAVACH_REASONING", raising=False)
+    _thinking_server(monkeypatch, {"anything-at-all": ["thinking"]})
+    c, _ = _client(monkeypatch, "http://localhost:11434/v1", usable=set())
+    assert c._reasoning_kwargs("anything-at-all") == {"reasoning_effort": "none"}
+    assert c._reasoning_kwargs("unknown-to-server") == {}        # server cannot say: do not send
 
 
 def test_reasoning_override_and_default_passthrough(monkeypatch):
+    _thinking_server(monkeypatch, {"m": ["thinking"]})
     c, _ = _client(monkeypatch, "http://localhost:11434/v1", usable=set())
     monkeypatch.setenv("KAVACH_REASONING", "low")
-    assert c._reasoning_kwargs("qwen3:8b") == {"reasoning_effort": "low"}
+    assert c._reasoning_kwargs("m") == {"reasoning_effort": "low"}
     monkeypatch.setenv("KAVACH_REASONING", "default")
-    assert c._reasoning_kwargs("qwen3:8b") == {}
+    assert c._reasoning_kwargs("m") == {}
 
 
 def test_the_parameter_is_never_sent_to_the_official_openai_endpoint(monkeypatch):
     monkeypatch.setenv("KAVACH_REASONING", "none")
+    _thinking_server(monkeypatch, {"m": ["thinking"]})
     c, _ = _client(monkeypatch, "https://api.openai.com/v1", usable=set())
-    assert c._reasoning_kwargs("qwen3:8b") == {} and c._reasoning_kwargs("gpt-4o-mini") == {}
+    assert c._reasoning_kwargs("m") == {} and c._reasoning_kwargs("gpt-4o-mini") == {}
+
+
+def test_the_capability_is_asked_once_per_model(monkeypatch):
+    monkeypatch.delenv("KAVACH_REASONING", raising=False)
+    import io
+    import json as _json
+    import urllib.request
+    calls = []
+
+    def fake(req, timeout=0):
+        calls.append(1)
+        return io.BytesIO(_json.dumps({"capabilities": ["thinking"]}).encode())
+    monkeypatch.setattr(urllib.request, "urlopen", fake)
+    c, _ = _client(monkeypatch, "http://localhost:11434/v1", usable=set())
+    for _ in range(3):
+        c._reasoning_kwargs("m")
+    assert len(calls) == 1

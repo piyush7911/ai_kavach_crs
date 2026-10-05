@@ -45,7 +45,7 @@ _SEVERITY = {"ERROR": "high", "WARNING": "medium", "INFO": "low"}
 
 _FUNCTION_NODES = {
     "function_declaration", "generator_function_declaration", "function_expression",
-    "function", "arrow_function", "method_definition",
+    "arrow_function", "method_definition",     # not "function": that is the keyword token
 }
 
 
@@ -100,22 +100,28 @@ def _function_name(node, src: bytes) -> str:
     return ""
 
 
-def enclosing_function(source: bytes, line: int) -> tuple[str, int, int]:
-    """(name, start_line, end_line) of the innermost NAMED function covering `line` (1-based)."""
+def enclosing_function(source: bytes, line: int, col: int = 0) -> tuple[str, int, int]:
+    """
+    (name, start_line, end_line) of the INNERMOST function containing the position (1-based line,
+    0-based column), anonymous inline handlers included (named `<anonymous@LINE>`). The column
+    matters: in `needle.get(url, (err, res) => {...})` the callback starts on the same line as the
+    call, but the call itself belongs to the outer function.
+    """
     tree = _parser().parse(source)
-    best = ("", 0, 0)
+    best = None
     stack = [tree.root_node]
-    row = line - 1
+    pos = (line - 1, col)
     while stack:
         node = stack.pop()
-        if node.start_point[0] > row or node.end_point[0] < row:
+        if node.start_point > pos or node.end_point < pos:
             continue
-        if node.type in _FUNCTION_NODES:
-            name = _function_name(node, source)
-            if name and (best[1] == 0 or node.start_point[0] >= best[1] - 1):
-                best = (name, node.start_point[0] + 1, node.end_point[0] + 1)
+        if node.type in _FUNCTION_NODES and (best is None or node.start_byte >= best.start_byte):
+            best = node
         stack.extend(node.children)
-    return best
+    if best is None:
+        return ("", 0, 0)
+    name = _function_name(best, source) or f"<anonymous@{best.start_point[0] + 1}>"
+    return (name, best.start_point[0] + 1, best.end_point[0] + 1)
 
 
 # -- scan ---------------------------------------------------------------------------------------------
@@ -155,11 +161,33 @@ def _suppression(klass: str, result: dict, text: str) -> str:
     return ""
 
 
+# A hard-coded credential in a file that exists to run tests, seed a database or hold local
+# development settings is not a production secret. It is still reported, as informational, so a
+# reviewer can see it; it is not counted as a defect. Matched on the file's role (directory or name),
+# never on an application's file names. A committed PRIVATE KEY is not downgraded this way: a key in a
+# repository is exposed whatever the file is called.
+_NON_PRODUCTION = re.compile(
+    r"(^|/)(tests?|spec|__tests__|fixtures?|mocks?|examples?|samples?|demos?|seeds?|migrations?)(/|$)"
+    r"|(^|/)(dev|development|test|testing|local|staging)\.(js|mjs|cjs|json|ya?ml)$"
+    r"|(^|/)[^/]*(seed|reset|fixture|migrate|migration|sample|demo)[^/]*\.(js|mjs|cjs)$", re.I)
+
+
+def _mark_non_production(findings: list[Finding]) -> None:
+    for f in findings:
+        if f.klass == "hardcoded-secret" and _NON_PRODUCTION.search(f.file):
+            f.status, f.severity = "informational", "low"
+            f.reason = ("credential in a test, seed or local-development file; reported for review, "
+                        "not counted as a production defect")
+
+
 def _merge_by_scope(findings: list[Finding]) -> list[Finding]:
     """
     One defect, one finding. Three `eval()` calls in one handler are one repair task, and so are
-    several secrets in one seed file; the lines are kept in evidence so nothing is lost.
+    several secrets in one seed file; the lines are kept in evidence so nothing is lost. When the
+    flow analysis and a Semgrep rule report the same defect they are one finding detected by both,
+    and the flow evidence (entry point, route, call chain) is kept.
     """
+    rank = ["low", "medium", "high"]
     out: dict[tuple, Finding] = {}
     for f in findings:
         if f.klass == "hardcoded-secret":
@@ -168,18 +196,55 @@ def _merge_by_scope(findings: list[Finding]) -> list[Finding]:
             key = (f.file, f.function, f.klass)
         else:
             key = (f.file, f.line, f.klass)
+        f.evidence.setdefault("lines", [f.line])
+        f.evidence["detected_by"] = [f.source]
         if key not in out:
-            f.evidence["lines"] = [f.line]
             out[key] = f
             continue
         keep = out[key]
-        keep.evidence["lines"] = sorted(set(keep.evidence["lines"]) | {f.line})
-        keep.evidence["rules"] = sorted(set(keep.evidence["rules"]) | set(f.evidence["rules"]))
+        if f.source == "flow" and keep.source != "flow":          # prefer the richer evidence
+            f.evidence["rules"] = sorted(set(f.evidence.get("rules", [])) | set(keep.evidence.get("rules", [])))
+            f.evidence["lines"] = sorted(set(f.evidence["lines"]) | set(keep.evidence["lines"]))
+            f.evidence["detected_by"] = sorted(set(keep.evidence["detected_by"]) | {"flow"})
+            f.line, f.end_line = min(f.line, keep.line), max(f.end_line, keep.end_line)
+            if keep.confidence in rank and f.confidence in rank and rank.index(keep.confidence) > rank.index(f.confidence):
+                f.confidence = keep.confidence
+            out[key] = f
+            continue
+        keep.evidence["lines"] = sorted(set(keep.evidence["lines"]) | set(f.evidence["lines"]))
+        keep.evidence["rules"] = sorted(set(keep.evidence.get("rules", [])) | set(f.evidence.get("rules", [])))
+        keep.evidence["detected_by"] = sorted(set(keep.evidence["detected_by"]) | {f.source})
         keep.line, keep.end_line = min(keep.line, f.line), max(keep.end_line, f.end_line)
+        if f.confidence in rank and keep.confidence in rank and rank.index(f.confidence) > rank.index(keep.confidence):
+            keep.confidence = f.confidence
     return list(out.values())
 
 
-def scan(root: Path) -> dict:
+def _flow_findings(root: Path, llm=None, learned_path=None) -> tuple[list[Finding], dict]:
+    """Candidates from the generic taint-flow analysis, as Findings."""
+    from src.jsauto import flow
+    from src.jsauto.classify import make_classifier
+    classifier = make_classifier(llm, learned_path=learned_path) if llm is not None else None
+    a = flow.analyze(root, classifier)
+    out = []
+    for s in a.sinks:
+        sev = a.severity.get(s.klass, "medium")
+        out.append(Finding(
+            id="", source="flow", klass=s.klass, file=s.file, line=s.line, end_line=s.line, function=s.function,
+            rule=f"flow:{s.callee}", cwe=s.cwe, severity=sev, confidence=s.confidence,
+            message=f"user-controlled `{s.tainted_expr[:60]}` reaches {s.callee}() "
+                    f"via {' -> '.join(c.split(':', 1)[1] for c in s.chain)}",
+            evidence={"rules": [f"flow:{s.callee}"], "callee": s.callee, "arg_index": s.arg_index,
+                      "tainted_expr": s.tainted_expr, "chain": s.chain, "entry": s.entry,
+                      "classified_by": s.classified_by}))
+    meta = {"entry_points": a.entry_points, "classifier_calls": a.classifier_calls,
+            "classifier_errors": a.classifier_errors,
+            "unclassified_calls": [{"callee": u.callee, "module": u.module, "file": u.file, "line": u.line}
+                                   for u in a.unclassified]}
+    return out, meta
+
+
+def scan(root: Path, llm=None, learned_path=None, use_flow: bool = True) -> dict:
     """
     Returns {"findings": [Finding], "suppressed": [Finding], "files_scanned": n, "semgrep_errors": [...]}.
     """
@@ -203,7 +268,7 @@ def scan(root: Path) -> dict:
             severity=_SEVERITY.get(r["extra"].get("severity", "WARNING"), "medium"),
             confidence=str(meta.get("confidence", "medium")).lower(),
             message=(r["extra"].get("message") or "").strip().split("\n")[0][:240],
-            evidence={"rules": [rule]},
+            evidence={"rules": [rule], "col": max(r["start"].get("col", 1) - 1, 0)},
         )
         if why:
             f.status, f.reason = "suppressed", why
@@ -224,14 +289,19 @@ def scan(root: Path) -> dict:
         path = root / f.file
         if path.suffix in (".js", ".mjs", ".cjs", ".ts"):
             src = sources.setdefault(f.file, path.read_bytes())
-            name, start, end = enclosing_function(src, f.line)
+            name, start, end = enclosing_function(src, f.line, f.evidence.get("col", 0))
             f.function = name
             if name:
                 f.evidence["function_lines"] = [start, end]
         f.evidence["rules"] = sorted(set(f.evidence["rules"]))
+    flow_meta = {"entry_points": [], "unclassified_calls": []}
+    if use_flow:
+        extra, flow_meta = _flow_findings(root, llm, learned_path)
+        findings += extra
     findings = _merge_by_scope(findings)
+    _mark_non_production(findings)
     findings.sort(key=lambda f: (f.file, f.line, f.klass))
     for i, f in enumerate(findings, 1):
         f.id = f"JS-{i:03d}"
-    return {"findings": findings, "suppressed": suppressed,
+    return {"findings": findings, "suppressed": suppressed, **flow_meta,
             "semgrep_errors": [e.get("message", str(e))[:160] for e in raw.get("errors", [])]}

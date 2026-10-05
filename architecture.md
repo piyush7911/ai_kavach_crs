@@ -232,8 +232,7 @@ provider.
 | Backend | Result | Note |
 |---|---|---|
 | OpenAI `gpt-4o-mini` | Synthetic 10/10 (7/7 PoV-proven); real CVE 2/3 and 3/3 across runs | Published baseline |
-| Hosted Qwen2.5-Coder-14B | Synthetic 9–10/10; real CVE 3/3 | **A remote server, not on-device and not air-gapped** |
-| On-device Qwen2.5-Coder-7B (Ollama) | Demo double-free proven; 15.2 tok/s, 4.9 GB resident | Repair takes about 3–12 min per bug; no benchmark sweep yet |
+| On-device `gemma4:12b` (Ollama) | Not yet benchmarked | Thinking must be off: one short request took 118 s with an empty answer when on, 9.3 s when off. Speed, memory and pass rate are unmeasured |
 
 A weaker model shows up as a lower pass rate, not as unsafe patches getting through, but
 the rate must be re-measured per deployment.

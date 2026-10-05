@@ -1,19 +1,18 @@
-# AI Kavach — local patching model.
+# AI Kavach: optional derived local model (NOT created automatically; the stock tag also works).
 #
-#   ollama create kavach-coder:7b -f config/ollama/Modelfile
+#   ollama create kavach-gemma -f config/ollama/Modelfile
 #
 # Why a derived model rather than the stock tag:
-#   * num_ctx 8192  — Ollama's default is 4096. The Critic's prompt can carry up
-#     to ~4000 chars of patch, ~4000 chars of gate output and the vulnerability
-#     context; a silent truncation there would feed the model a cut-off prompt
-#     and look like "the model is weak".
-#   * temperature 0 + fixed seed — the same determinism settings the cloud path
-#     uses, so local and cloud results are comparable.
+#   * num_ctx 8192: Ollama's default context is 4096 and truncates silently. The Critic's prompt can
+#     carry ~4000 chars of patch, ~4000 chars of gate output and the vulnerability context; a cut-off
+#     prompt would look like "the model is weak".
+#   * temperature 0 + fixed seed: the same determinism settings the cloud path uses.
 #   * num_predict caps output so a runaway generation cannot stall a demo.
 #
-# Sized for a 16 GB MacBook Air M3: macOS exposes ~11.8 GiB to the GPU, and a
-# 4.7 GB model leaves room for clang, the fuzzer and the harness.
-FROM qwen2.5-coder:7b
+# Memory: the model is 8.0 GB on disk. macOS exposes ~11.8 GiB to the GPU on a 16 GB machine, so about
+# 3.8 GiB is left for the KV cache, clang, the fuzzer and a running web app. That is arithmetic, not a
+# measurement: watch memory on the first real run (`/api/ps`), do not read process RSS.
+FROM gemma4:12b
 
 PARAMETER num_ctx 8192
 PARAMETER temperature 0

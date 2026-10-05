@@ -32,6 +32,9 @@ def main(argv=None) -> int:
         print(f"{f.id}  {f.severity:8} {f.klass:24} {where:36} {f.function or f.evidence.get('package', '')}")
     print(f"\n{len(findings)} finding(s) in {seconds}s | suppressed: {len(s['suppressed'])} "
           f"| dependency audit: {d['error'] or 'ok'} | semgrep errors: {len(s['semgrep_errors'])}")
+    if s.get("classifier_errors"):
+        print(f"WARNING: {len(s['classifier_errors'])} classifier call(s) failed, e.g. {s['classifier_errors'][0]}",
+              file=sys.stderr)
     if args.out:
         dump(findings, args.out, {"suppressed": [x.to_dict() for x in s["suppressed"]],
                                   "dependency_audit_error": d["error"], "dependency_totals": d["totals"],

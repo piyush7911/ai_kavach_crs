@@ -66,3 +66,6 @@ benchmark_workspace/zlib_cve/
 benchmark_workspace/NodeGoat/
 # NodeGoat benchmark target (pinned clone; recreate with the plan in NODEGOAT_PLAN.md)
 benchmark_workspace/nodegoat/
+
+# held-out evaluation targets (clones)
+benchmark_workspace/heldout/

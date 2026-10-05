@@ -4,6 +4,7 @@ A language-neutral finding, shared by static detection, dependency audit and dyn
 `status` is deliberately explicit:
   candidate  a detector flagged it; nothing has shown it is exploitable
   confirmed  a replayable exploit succeeded against a running instance
+  informational reported for review but not counted as a defect (for example a credential in a seed script)
   suppressed a detector flagged it and we decided it is not a defect; the reason is kept
 """
 

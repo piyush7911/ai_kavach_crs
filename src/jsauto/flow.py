@@ -38,7 +38,9 @@ SKIP_DIRS = {"node_modules", "vendor", "dist", "build", "coverage", ".git", "tes
 MAX_DEPTH = 4
 MAX_FILE_BYTES = 800_000
 
-_FUNCTION_TYPES = {"function_declaration", "generator_function_declaration", "function_expression", "function",
+# NB: Tree-sitter also emits the bare `function` KEYWORD as a token of type "function"; it is not a
+# function node and must not be listed (it shares its start byte with the declaration it begins).
+_FUNCTION_TYPES = {"function_declaration", "generator_function_declaration", "function_expression",
                    "arrow_function", "method_definition"}
 
 
@@ -76,6 +78,8 @@ class Unknown:
     snippet: str
     chain: list
     entry: dict
+    fn: object = None
+    node: object = None
 
 
 @dataclass
@@ -291,6 +295,8 @@ class Analyzer:
         self.unknown: list[Unknown] = []
         self.entry_points: list[dict] = []
         self.classifier = classifier
+        self.classifier_errors: list[str] = []     # a failing model must be visible, not a silent "no sink"
+        self.classifier_calls = 0
         self.unknown_cap = unknown_cap
         self._seen: set = set()
 
@@ -436,15 +442,27 @@ class Analyzer:
 
     def _emit(self, fn: Fn, node, spec: dict, callee: str, idx: int, expr: str, chain: list, entry: dict,
               by: str = "catalog") -> None:
+        inner = self._innermost(fn, node)
         key = (fn.file, node.start_point[0] + 1, spec["class"], callee)
         if key in self._seen:
             return
         self._seen.add(key)
         self.sinks.append(Sink(
             klass=spec["class"], cwe=spec.get("cwe", ""), file=fn.file, line=node.start_point[0] + 1,
-            function=fn.name, callee=callee, arg_index=idx, tainted_expr=expr[:120], chain=list(chain),
+            function=inner.name, callee=callee, arg_index=idx, tainted_expr=expr[:120], chain=list(chain),
             entry=entry, confidence=self._confidence(entry, spec.get("confidence", "high")),
             classified_by=by))
+
+    def _innermost(self, fn: Fn, node) -> Fn:
+        """The innermost function (named or anonymous) containing `node`; falls back to `fn`."""
+        cur = node
+        while cur is not None:
+            if cur.type in _FUNCTION_TYPES:
+                hit = self.p.by_node.get((fn.file, cur.start_byte))
+                if hit is not None:
+                    return hit
+            cur = cur.parent
+        return fn
 
     def _check_key_sink(self, fn, node, req_params, tainted, chain, entry) -> None:
         key = node.child_by_field_name("key")
@@ -488,6 +506,8 @@ class Analyzer:
         root = self._root(f, callee)
         last = ctext.split(".")[-1].split("(")[0]
         module = self.p.imports.get(f, {}).get(root, "")
+        if module.startswith((".", "/")):                       # require("./dao"): the repository, not a package
+            module = ""
 
         # 1. a call into the repository: follow it
         defs = [d for d in self.p.functions.get(last, []) if d.node is not fn.node] if module == "" else []
@@ -544,7 +564,7 @@ class Analyzer:
         snippet = "\n".join(src_lines[max(0, line - 3): line + 2])
         self.unknown.append(Unknown(callee=ctext, module=module, file=f, line=line, function=fn.name,
                                     arg_index=tainted_idx[0], tainted_expr=self.p.text(f, argl[tainted_idx[0]])[:120],
-                                    snippet=snippet, chain=list(chain), entry=entry))
+                                    snippet=snippet, chain=list(chain), entry=entry, fn=fn, node=node))
 
     # --- classifier for calls the knowledge file does not cover
     def _classify_unknown(self) -> None:
@@ -553,15 +573,16 @@ class Analyzer:
             key = (u.module, u.callee.split(".")[-1])
             if key not in cache:
                 try:
+                    self.classifier_calls += 1
                     cache[key] = self.classifier(u)
-                except Exception:
+                except Exception as e:
                     cache[key] = None
+                    self.classifier_errors.append(f"{u.callee}: {type(e).__name__}: {str(e)[:140]}")
             verdict = cache[key]
             if verdict and verdict.get("sink"):
-                fn = next((x for x in self.p.functions.get(u.function, []) if x.file == u.file), None)
-                if fn is None:
+                fn, node = u.fn, u.node
+                if fn is None or node is None:
                     continue
-                node = type("N", (), {"start_point": (u.line - 1, 0)})()
                 self._emit(fn, node, {"class": verdict["class"], "cwe": verdict.get("cwe", ""),
                                       "confidence": "low"}, u.callee, u.arg_index, u.tainted_expr,
                            u.chain, u.entry, by="model")
