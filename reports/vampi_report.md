@@ -122,3 +122,26 @@ confirmed by the HTTP oracles instead (see the cross-language section above).
 
 So VAmPI has gone from **0 found / 0 fixed** to **detection + verification working cross-language**,
 with Python repair as the last backend piece.
+
+---
+
+## Update (2026-10-06): Python REPAIR mechanics proven — full loop both directions
+
+Added the Python patch splicer (`src/pyauto/patch.py`): whole-function replacement by
+tree-sitter-python byte range, indentation-matched, with a `parse_errors` syntax gate — the Python
+counterpart of the JS splicer. A fix spliced into VAmPI's `register_user` (ignore the client-supplied
+admin flag) parses as valid Python.
+
+Live both-directions on VAmPI's mass-assignment bug (CWE-915), via Docker on loopback:
+- **Vulnerable** (`:5001`): register with `admin:true` then perform an admin-only action -> **200 (EXPLOITABLE)**.
+- **Patched** (`:5002`, spliced fix): same attack -> **401 (FIXED / denied)**.
+
+So on a Python/Flask app we never built for, the full loop works: **pyauto detects, the splicer
+applies a Python patch, and the HTTP oracle proves the fix both directions.** The patch here was a
+reference fix (as in our Node both-directions validation); the model that writes it is the same
+general LLM used for JS. The remaining wiring (Python repair prompts, policy, and a managed adapter
+that runs a patched copy per attempt) is documented in `src/pyauto/REPAIR_HANDOFF.md` for Track 2.
+
+### VAmPI final status
+Detection ✅ · Verification ✅ · Repair mechanics ✅ (loop proven both directions) ·
+Model-driven repair loop: wiring left (thin mirror of src/jsauto + a managed Python adapter).
