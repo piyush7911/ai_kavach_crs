@@ -1,0 +1,3 @@
+{ "method": "GET", "path": "/research?url={OOB_URL}&symbol=x", "login_as": "user",
+  "oob": true,
+  "success_if": { "status": 200, "body_regex": "{OOB_MARKER}" } }

@@ -129,7 +129,7 @@ def _score(findings: list, vulns: list) -> dict:
     """
     matched_vulns, precise_finds = set(), 0
     for f in findings:
-        hit = next((v for v in vulns if _same_site(f, v)), None)
+        hit = _best_match(f, vulns)
         if hit:
             matched_vulns.add(hit["id"])
             precise_finds += 1
@@ -142,6 +142,19 @@ def _score(findings: list, vulns: list) -> dict:
         "found": sorted(matched_vulns),
         "missed": [v["id"] for v in vulns if v["id"] not in matched_vulns],
     }
+
+
+def _best_match(finding: dict, vulns: list) -> dict | None:
+    """Among manifest vulns in the same file+line window, prefer a CWE match, then a
+    class match, then the first. Breaks ties when two vulns sit close in one file."""
+    cands = [v for v in vulns if _same_site(finding, v)]
+    if not cands:
+        return None
+    fc = finding.get("klass") or finding.get("class") or ""
+    fcwe = finding.get("cwe", "")
+    return (next((v for v in cands if fcwe and v.get("cwe") == fcwe), None)
+            or next((v for v in cands if fc and v.get("class") == fc), None)
+            or cands[0])
 
 
 def _same_site(finding: dict, vuln: dict) -> bool:

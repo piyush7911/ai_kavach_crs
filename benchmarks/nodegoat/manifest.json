@@ -4,75 +4,159 @@
   "note": "Ground-truth answer key for SCORING ONLY. The engine (Track 2) must never read this. 'validation': both = PoV confirmed exploitable on the vulnerable tree AND safe on a hand-fixed tree; inspection = confirmed by reading the sink, PoV pending.",
   "vulns": [
     {
-      "id": "NG-01", "owasp": "A1", "cwe": "CWE-95", "class": "eval-injection",
-      "kind": "code", "file": "app/routes/contributions.js", "line": 32,
+      "id": "NG-01",
+      "owasp": "A1",
+      "cwe": "CWE-95",
+      "class": "eval-injection",
+      "kind": "code",
+      "file": "app/routes/contributions.js",
+      "line": 32,
       "sink": "eval(req.body.preTax)",
-      "pov": "povs/ng_eval_injection.json", "variants": [], "validation": "both"
+      "pov": "povs/ng_eval_injection.json",
+      "variants": [],
+      "validation": "both"
     },
     {
-      "id": "NG-02", "owasp": "A1", "cwe": "CWE-943", "class": "nosql-injection",
-      "kind": "code", "file": "app/data/allocations-dao.js", "line": 78,
+      "id": "NG-02",
+      "owasp": "A1",
+      "cwe": "CWE-943",
+      "class": "nosql-injection",
+      "kind": "code",
+      "file": "app/data/allocations-dao.js",
+      "line": 78,
       "sink": "$where: `... this.stocks > '${threshold}'`",
-      "pov": "povs/ng_nosql_injection.json", "variants": [], "validation": "both"
+      "pov": "povs/ng_nosql_injection.json",
+      "variants": [],
+      "validation": "both"
     },
     {
-      "id": "NG-03", "owasp": "A4", "cwe": "CWE-639", "class": "idor",
-      "kind": "code", "file": "app/routes/allocations.js", "line": 18,
+      "id": "NG-03",
+      "owasp": "A4",
+      "cwe": "CWE-639",
+      "class": "idor",
+      "kind": "code",
+      "file": "app/routes/allocations.js",
+      "line": 18,
       "sink": "userId taken from req.params instead of req.session",
-      "pov": "povs/ng_idor_allocations.json", "variants": [], "validation": "both"
+      "pov": "povs/ng_idor_allocations.json",
+      "variants": [],
+      "validation": "both"
     },
     {
-      "id": "NG-04", "owasp": "A10", "cwe": "CWE-601", "class": "open-redirect",
-      "kind": "code", "file": "app/routes/index.js", "line": 72,
+      "id": "NG-04",
+      "owasp": "A10",
+      "cwe": "CWE-601",
+      "class": "open-redirect",
+      "kind": "code",
+      "file": "app/routes/index.js",
+      "line": 72,
       "sink": "res.redirect(req.query.url)",
-      "pov": "povs/ng_open_redirect.json", "variants": [], "validation": "both"
+      "pov": "povs/ng_open_redirect.json",
+      "variants": [],
+      "validation": "both"
     },
     {
-      "id": "NG-05", "owasp": "A10", "cwe": "CWE-918", "class": "ssrf",
-      "kind": "code", "file": "app/routes/research.js", "line": 15,
+      "id": "NG-05",
+      "owasp": "A10",
+      "cwe": "CWE-918",
+      "class": "ssrf",
+      "kind": "code",
+      "file": "app/routes/research.js",
+      "line": 15,
       "sink": "needle.get(req.query.url + req.query.symbol) and reflects the body",
-      "pov": null, "variants": [], "validation": "inspection",
-      "todo": "PoV needs a loopback marker server (reflected body oracle)"
+      "pov": "povs/ng_ssrf.json",
+      "variants": [],
+      "validation": "both"
     },
     {
-      "id": "NG-06", "owasp": "A7", "cwe": "CWE-79", "class": "xss-stored-reflected",
-      "kind": "code", "file": "app/routes/profile.js", "line": 28,
-      "sink": "website encoded for HTML but rendered in a URL/link context",
-      "pov": null, "variants": [], "validation": "inspection",
-      "todo": "PoV: store payload via profile update, read back on profile page"
+      "id": "NG-06",
+      "owasp": "A7",
+      "cwe": "CWE-79",
+      "class": "xss-stored-reflected",
+      "kind": "code",
+      "file": "app/routes/profile.js",
+      "line": 64,
+      "sink": "firstNameSafeString = firstName (unescaped) rendered into value=\"\" and href=\"\" on the error path; also website encodeForHTML in a URL context (line 28)",
+      "pov": "povs/ng_xss_stored.json",
+      "variants": [],
+      "validation": "both"
     },
     {
-      "id": "NG-07", "owasp": "A8", "cwe": "CWE-352", "class": "csrf-missing",
-      "kind": "code", "file": "server.js", "line": 107,
+      "id": "NG-07",
+      "owasp": "A8",
+      "cwe": "CWE-352",
+      "class": "csrf-missing",
+      "kind": "code",
+      "file": "server.js",
+      "line": 107,
       "sink": "app.use(csrf()) and its require are commented out",
-      "pov": null, "variants": [], "validation": "inspection",
-      "todo": "PoV: state-changing POST accepted with no CSRF token (already true in our other PoVs)"
+      "pov": "povs/ng_csrf.json",
+      "variants": [],
+      "validation": "vuln"
     },
     {
-      "id": "NG-08", "owasp": "A6", "cwe": "CWE-798", "class": "hardcoded-secret",
-      "kind": "secret", "file": "config/env/all.js", "line": 8,
+      "id": "NG-08",
+      "owasp": "A6",
+      "cwe": "CWE-798",
+      "class": "hardcoded-secret",
+      "kind": "secret",
+      "file": "config/env/all.js",
+      "line": 8,
       "sink": "cookieSecret and cryptoKey hard-coded in source",
-      "pov": null, "variants": [], "validation": "inspection"
+      "pov": null,
+      "variants": [],
+      "validation": "inspection"
     },
     {
-      "id": "NG-09", "owasp": "A6", "cwe": "CWE-312", "class": "committed-private-key",
-      "kind": "secret", "file": "artifacts/cert/server.key", "line": 1,
+      "id": "NG-09",
+      "owasp": "A6",
+      "cwe": "CWE-312",
+      "class": "committed-private-key",
+      "kind": "secret",
+      "file": "artifacts/cert/server.key",
+      "line": 1,
       "sink": "TLS private key committed to the repository",
-      "pov": null, "variants": [], "validation": "inspection"
+      "pov": null,
+      "variants": [],
+      "validation": "inspection"
     },
     {
-      "id": "NG-10", "owasp": "A6", "cwe": "CWE-1333", "class": "redos",
-      "kind": "code", "file": "app/routes/profile.js", "line": 59,
+      "id": "NG-10",
+      "owasp": "A6",
+      "cwe": "CWE-1333",
+      "class": "redos",
+      "kind": "code",
+      "file": "app/routes/profile.js",
+      "line": 59,
       "sink": "regexPattern = /([0-9]+)+\\#/ (catastrophic backtracking)",
-      "pov": null, "variants": [], "validation": "inspection",
-      "todo": "PoV: bankRouting of many digits + no # → CPU spike (bounded, no host DoS)"
+      "pov": null,
+      "variants": [],
+      "validation": "inspection",
+      "todo": "no live PoV: a ReDoS PoV is resource exhaustion (RoE forbids host DoS); confirmed statically by the engine"
     },
     {
-      "id": "NG-11", "owasp": "A9", "cwe": "CWE-1035", "class": "vulnerable-dependency",
-      "kind": "dependency", "file": "package.json", "line": 0,
+      "id": "NG-11",
+      "owasp": "A9",
+      "cwe": "CWE-1035",
+      "class": "vulnerable-dependency",
+      "kind": "dependency",
+      "file": "package.json",
+      "line": 0,
       "sink": "outdated deps (marked 'a9 insecure components'); detect via npm audit / advisory DB",
-      "pov": null, "variants": [], "validation": "inspection"
+      "pov": null,
+      "variants": [],
+      "validation": "inspection"
     }
   ],
-  "flows": ["login", "signup", "profile", "contributions", "allocations", "memos", "research", "benefits", "logout"]
+  "flows": [
+    "login",
+    "signup",
+    "profile",
+    "contributions",
+    "allocations",
+    "memos",
+    "research",
+    "benefits",
+    "logout"
+  ]
 }

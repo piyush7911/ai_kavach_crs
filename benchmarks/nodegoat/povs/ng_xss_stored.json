@@ -1,0 +1,4 @@
+{ "method": "POST", "path": "/profile", "login_as": "user",
+  "body": { "firstName": "javascript:KAVACHxss//", "lastName": "D", "ssn": "1", "dob": "2",
+            "address": "a", "bankAcc": "1", "bankRouting": "INVALID" },
+  "success_if": { "status": 200, "body_regex": "href=\"javascript:KAVACHxss" } }
