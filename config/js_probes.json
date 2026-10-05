@@ -1,5 +1,5 @@
 {
-  "_about": "Generic probe payloads per vulnerability class, with an oracle that can be checked from the response alone. Arithmetic on a marker (31337+1 = 31338) is used where possible: the answer is not contained in the payload, so reflecting the input back cannot fake a hit. `variants` are other spellings of the SAME attack (alternate encodings, alternate hosts): a patch that blocks only the first spelling is overfitted, and replaying the variants is how that is caught. A variant is a string, or {value, success_if} when its oracle differs. Classes with no oracle that fits the contract are listed under `unsupported` with the reason, never silently skipped. Placeholders {OOB_URL} and {OOB_MARKER} are filled in by the runner (a loopback listener that records callbacks); the oob_marker oracle checks for the callback, so it works even when the application does not reflect the fetched body. The eval marker is small (7*3=21): applications often validate numeric input (for example a total of at most 30), and a rejected request never shows the result. The result is matched as a standalone number so 2021 or 21px do not count, and the confirmation step also sends a benign control request and distrusts the oracle if the control matches too.",
+  "_about": "Generic probe payloads per vulnerability class, with an oracle that can be checked from the response alone. Arithmetic on a marker (31337+1 = 31338) is used where possible: the answer is not contained in the payload, so reflecting the input back cannot fake a hit. `variants` are other spellings of the SAME attack (alternate encodings, alternate hosts): a patch that blocks only the first spelling is overfitted, and replaying the variants is how that is caught. A variant is a string, or {value, success_if} when its oracle differs. Classes with no oracle that fits the contract are listed under `unsupported` with the reason, never silently skipped. Placeholders {OOB_URL} and {OOB_MARKER} are filled in by the runner (a loopback listener that records callbacks); the oob_marker oracle checks for the callback, so it works even when the application does not reflect the fetched body. The eval marker is small (7*3=21): applications often validate numeric input (for example a total of at most 30), and a rejected request never shows the result. The result is matched as a standalone number so 2021 or 21px do not count, and the confirmation step also sends a benign control request and distrusts the oracle if the control matches too. The open-redirect oracle checks WHERE the Location header points (an absolute or protocol-relative URL whose host is the marker, or a path with a literal tab/newline that browsers collapse to //host), not whether the marker text appears: a framework that percent-encodes the header turns `/<TAB>/host` into the same-origin path `/%09/host`, which is not a redirect.",
   "marker": {
     "operand": 31337,
     "result": 31338
@@ -9,13 +9,16 @@
       "value": "https://kavach-probe.invalid/landing",
       "follow_redirects": false,
       "success_if": {
-        "redirect_regex": "kavach-probe\\.invalid"
+        "redirect_regex": "(?i)^\\s*(?:(?:https?:)?[/\\\\]{2}|https?:[/\\\\]*|/[\\t\\r\\n]+[/\\\\])(?:[^/\\\\@]*@)?kavach-probe\\.invalid(?:[:/\\\\?#]|$)"
       },
       "variants": [
         "//kavach-probe.invalid/landing",
         "https:kavach-probe.invalid/landing",
         "/\\kavach-probe.invalid/landing",
-        "HTTPS://kavach-probe.invalid/landing"
+        "HTTPS://kavach-probe.invalid/landing",
+        "/\t/kavach-probe.invalid/landing",
+        "/\n/kavach-probe.invalid/landing",
+        "\\\\kavach-probe.invalid/landing"
       ]
     },
     "eval-injection": {
@@ -61,7 +64,9 @@
       },
       "variants": [
         "{OOB_URL}?a=b",
-        "{OOB_URL}/x/../y"
+        "{OOB_URL}/x/../y",
+        "{OOB_URL_LOCALHOST}",
+        "{OOB_URL_DECIMAL}"
       ]
     },
     "reflected-output": {
@@ -89,6 +94,52 @@
           }
         }
       ]
+    },
+    "xss-html": {
+      "value": "kvch<b>7x7</b>",
+      "success_if": {
+        "body_regex": "kvch<b>7x7</b>"
+      },
+      "variants": [
+        {
+          "value": "kvch<B>7x7</B>",
+          "success_if": {
+            "body_regex": "kvch<B>7x7</B>"
+          }
+        },
+        {
+          "value": "kvch<b >7x7</b>",
+          "success_if": {
+            "body_regex": "kvch<b >7x7</b>"
+          }
+        },
+        {
+          "value": "\"kvch<b>7x7</b>",
+          "success_if": {
+            "body_regex": "\"kvch<b>7x7</b>"
+          }
+        }
+      ]
+    },
+    "xss-url-start": {
+      "value": "javascript:KVCHxss//",
+      "success_if": {
+        "body_regex": "=[\"']javascript:KVCHxss"
+      },
+      "variants": [
+        {
+          "value": "JaVaScRiPt:KVCHxss//",
+          "success_if": {
+            "body_regex": "=[\"']JaVaScRiPt:KVCHxss"
+          }
+        },
+        {
+          "value": " javascript:KVCHxss//",
+          "success_if": {
+            "body_regex": "=[\"'] javascript:KVCHxss"
+          }
+        }
+      ]
     }
   },
   "unsupported": {
@@ -99,7 +150,14 @@
     "hardcoded-secret": "static finding: nothing to replay",
     "private-key-in-repo": "static finding: nothing to replay",
     "vulnerable-dependency": "static finding: nothing to replay",
-    "insecure-session-cookie": "checked by inspecting Set-Cookie, not by an exploit request"
+    "insecure-session-cookie": "checked by inspecting Set-Cookie, not by an exploit request",
+    "xss-event": "a JavaScript-context payload needs an execution oracle, not a text match",
+    "xss-script": "a JavaScript-context payload needs an execution oracle, not a text match",
+    "xss-attr": "HTML-attribute breakout depends on the quoting of one particular template",
+    "xss-css": "CSS-context injection has no reliable text oracle",
+    "xss-url": "a value later in a URL cannot change the scheme; only encoding matters",
+    "idor": "needs two seeded identities and a cross-user comparison; the replay contract has neither",
+    "csrf-missing": "acceptance of a cross-site request needs an application-specific success signal"
   },
   "benign_value": "1"
 }

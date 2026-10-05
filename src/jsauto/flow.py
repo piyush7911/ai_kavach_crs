@@ -29,6 +29,7 @@ from pathlib import Path
 from typing import Callable, Optional
 
 import tree_sitter_javascript
+from src.jsauto.templates import TemplateIndex
 from tree_sitter import Language, Parser
 
 KNOWLEDGE_PATH = Path(__file__).resolve().parents[2] / "config" / "js_knowledge.json"
@@ -65,6 +66,7 @@ class Sink:
     confidence: str = "medium"
     classified_by: str = "catalog"                 # catalog | model
     fields: list = field(default_factory=list)     # [[location, field], ...] of the request that fed the sink
+    extra: dict = field(default_factory=dict)      # class-specific evidence (template and context for xss, ...)
 
 
 @dataclass
@@ -108,6 +110,8 @@ class Project:
         self.routes: dict[tuple, dict] = {}                    # (file, start line) -> {"method","path"}
         self.registered: set[tuple] = set()                    # fn keys registered on a route
         self.ambiguous: set[tuple] = set()                     # registered by a name that several functions share
+        self.route_mw: dict[tuple, list] = {}                  # (file, start line) -> names of middleware on its route
+        self._templates: Optional[TemplateIndex] = None
         self._san = [re.compile(p) for p in self.k["sanitizers"]]
         self._load()
 
@@ -257,12 +261,14 @@ class Project:
             path = self.text(f, path_arg).strip("'\"`")
             if not path.startswith(("/", "*")):
                 continue
+            mw = [self.text(f, a) for a in named[:-1]
+                  if a is not path_arg and a.type in ("identifier", "member_expression", "call_expression")]
             for a in named:
                 if a is path_arg:
                     continue
-                self._register(f, a, method.upper(), path)
+                self._register(f, a, method.upper(), path, mw)
 
-    def _register(self, f: str, node, method: str, path: str) -> None:
+    def _register(self, f: str, node, method: str, path: str, mw: Optional[list] = None) -> None:
         targets = []
         if node.type in _FUNCTION_TYPES:
             fn = self.by_node.get((f, node.start_byte))
@@ -277,6 +283,14 @@ class Project:
                 self.ambiguous.add(key)
             self.registered.add(key)
             self.routes[key] = {"method": method, "path": path}
+            if mw is not None:
+                self.route_mw[key] = [m for m in mw if m]
+
+    @property
+    def templates(self) -> TemplateIndex:
+        if self._templates is None:
+            self._templates = TemplateIndex(self.root, self.k)
+        return self._templates
 
     # --- helpers for analysis
     def is_sanitizer(self, callee_text: str) -> bool:
@@ -315,6 +329,7 @@ class Analyzer:
         cands.sort(key=lambda fn: (fn.file, fn.start) not in self.p.registered)
         for fn in cands:
             self._maybe_entry(fn)
+        self._check_csrf()
         if self.classifier is not None:
             self._classify_unknown()
 
@@ -365,6 +380,18 @@ class Analyzer:
                 if key not in seen:
                     seen.add(key)
                     found.append(list(key))
+        # `const { a, b } = req.body`: the names are in the pattern, not in `req.body.a` text
+        for n in self.p._walk(body):
+            if n.type == "variable_declarator":
+                val, pat = n.child_by_field_name("value"), n.child_by_field_name("name")
+                m = re.fullmatch(r"(\w+)\.(%s)" % locs, self.p.text(fn.file, val).strip()) if val is not None else None
+                if m and pat is not None and pat.type == "object_pattern" and m.group(1) in reqs:
+                    for c in pat.named_children:
+                        if c.type == "shorthand_property_identifier_pattern":
+                            key = (m.group(2), self.p.text(fn.file, c))
+                            if key not in seen:
+                                seen.add(key)
+                                found.append(list(key))
         return found
 
     def _root(self, f: str, node) -> str:
@@ -398,7 +425,7 @@ class Analyzer:
         t = node.type
         if t in _FUNCTION_TYPES:
             return False
-        if t == "identifier":
+        if t in ("identifier", "shorthand_property_identifier"):          # `{ name }` is the variable `name`
             return self.p.text(f, node) in tainted
         if t == "member_expression":
             root = self._root(f, node)
@@ -461,7 +488,7 @@ class Analyzer:
         params = set(p for p in fn.params if p)
         tainted = set(tainted)
         outer = getattr(self, "_cur", None)
-        self._cur = {"origin": dict(origin or {}), "reqs": set(req_params)}
+        self._cur = {"origin": dict(origin or {}), "reqs": set(req_params), "lookups": []}
         try:
             # ordered walk: assignments feed later calls
             for n in self.p._walk(body):
@@ -493,6 +520,8 @@ class Analyzer:
                     self._check_call(fn, n, req_params, tainted, params, chain, entry, depth, visited)
                 elif t == "new_expression":
                     self._check_new(fn, n, req_params, tainted, chain, entry)
+            if depth == 0:
+                self._finish_idor(fn, entry, req_params, tainted, chain)
         finally:
             self._cur = outer
 
@@ -505,7 +534,7 @@ class Analyzer:
         return base
 
     def _emit(self, fn: Fn, node, spec: dict, callee: str, idx: int, expr: str, chain: list, entry: dict,
-              by: str = "catalog") -> None:
+              by: str = "catalog", extra: Optional[dict] = None, fields: Optional[list] = None) -> None:
         inner = self._innermost(fn, node)
         key = (fn.file, node.start_point[0] + 1, spec["class"], callee)
         if key in self._seen:
@@ -515,7 +544,8 @@ class Analyzer:
             klass=spec["class"], cwe=spec.get("cwe", ""), file=fn.file, line=node.start_point[0] + 1,
             function=inner.name, callee=callee, arg_index=idx, tainted_expr=expr[:120], chain=list(chain),
             entry=entry, confidence=self._confidence(entry, spec.get("confidence", "high")),
-            classified_by=by, fields=self._fields_in(expr) if getattr(self, "_cur", None) else []))
+            classified_by=by, extra=extra or {},
+            fields=fields if fields is not None else (self._fields_in(expr) if getattr(self, "_cur", None) else [])))
 
     def _innermost(self, fn: Fn, node) -> Fn:
         """The innermost function (named or anonymous) containing `node`; falls back to `fn`."""
@@ -527,6 +557,208 @@ class Analyzer:
                     return hit
             cur = cur.parent
         return fn
+
+    # --- cross-site scripting through templates -----------------------------------------------------------
+    def _check_render(self, fn, node, argl, req_params, tainted, chain, entry) -> None:
+        """
+        `res.render("view", { key: value })`: a request-derived value that the template prints raw, or at the
+        start of a URL attribute, in an event handler or inside <script>, is a cross-site-scripting candidate
+        however the handler encoded it. The finding is anchored on the render call; the template is evidence.
+        """
+        f = fn.file
+        if len(argl) < 2 or argl[0].type not in ("string", "template_string") or argl[1].type != "object":
+            return
+        view = self.p.text(f, argl[0]).strip("'\"`")
+        sites = self.p.templates.sites_for(view)
+        if not sites:
+            return
+        for child in argl[1].named_children:
+            if child.type == "shorthand_property_identifier":
+                key, val_text = self.p.text(f, child), self.p.text(f, child)
+                is_tainted = key in tainted
+            elif child.type == "pair":
+                k_node, v_node = child.child_by_field_name("key"), child.child_by_field_name("value")
+                if k_node is None or v_node is None:
+                    continue
+                key, val_text = self.p.text(f, k_node).strip("'\""), self.p.text(f, v_node)
+                is_tainted = self._is_tainted(f, v_node, req_params, tainted)
+            else:
+                continue                                                 # spread: data of unknown origin
+            if not is_tainted:
+                continue
+            for site in sites:
+                if site.var != key or not site.dangerous:
+                    continue
+                conf = "high" if (site.raw or site.context == "url-start") else "medium"
+                self._emit(fn, node, {"class": "xss", "cwe": "CWE-79", "confidence": conf}, f"render({view})", 1,
+                           val_text, chain, entry,
+                           extra={"template": site.file, "template_line": site.line, "context": site.context,
+                                  "raw": site.raw, "variable": key},
+                           fields=self._fields_in(val_text))
+
+    # --- insecure direct object references ------------------------------------------------------------------
+    def _is_id_field(self, name: str) -> bool:
+        return bool(re.search(self.k["id_field_pattern"], name))
+
+    def _note_lookup(self, fn, node, argl, tainted_idx, last: str) -> None:
+        """Remember a data lookup whose key is a request-supplied identifier (handler level only)."""
+        if not re.match(self.k["data_access_verbs"], last, re.I):
+            return
+        for i in tainted_idx:
+            ids = [fld for fld in self._fields_in(self.p.text(fn.file, argl[i])) if self._is_id_field(fld[1])]
+            if ids:
+                self._cur["lookups"].append({"callee": self.p.text(fn.file, node.child_by_field_name("function")),
+                                             "line": node.start_point[0] + 1, "ids": ids,
+                                             "text": self.p.text(fn.file, node)})
+                return
+
+    def _identity_ref(self) -> "re.Pattern":
+        props = "|".join(re.escape(x) for x in self.k["identity_properties"])
+        chains = "|".join(re.escape(x) for x in self.k["identity_member_chains"])
+        return re.compile(rf"\b\w+\.(?:{props})\b(?:\.\w+)*|(?:{chains})(?:\.\w+)*")
+
+    def _finish_idor(self, fn, entry, req_params, tainted, chain) -> None:
+        """
+        A handler that looks data up by an identifier the CLIENT supplies, and never ties that identifier to the
+        authenticated identity, lets any logged-in user read or change anyone's record. "Ties" means the
+        identity appears in a comparison or conditional with the identifier, or in the lookup itself; or the
+        route carries authorisation middleware (role, owner, permission ...), which is then someone else's check.
+        """
+        lookups = self._cur.get("lookups") or []
+        if not lookups:
+            return
+        mw = self.p.route_mw.get((fn.file, fn.start), [])
+        if any(re.search(self.k["authorization_middleware"], m) for m in mw):
+            return
+        body = fn.node.child_by_field_name("body")
+        ident = self._identity_ref()
+        id_names = {fld[1] for lk in lookups for fld in lk["ids"]}
+        id_names |= {v for v, flds in self._cur["origin"].items() if any(self._is_id_field(x[1]) for x in flds)}
+        for n in self.p._walk(body):
+            if n.type in ("binary_expression", "ternary_expression", "call_expression", "if_statement"):
+                # only SMALL expressions count as a check: a call that wraps a whole callback contains everything
+                # the handler does, so "identity and id both appear inside it" would prove nothing
+                if n.type == "call_expression" and any(c.type in _FUNCTION_TYPES for c in self.p._walk(n)):
+                    continue
+                text = self.p.text(fn.file, n.child_by_field_name("condition") or n) if n.type == "if_statement" \
+                    else self.p.text(fn.file, n)
+                if not ident.search(text):
+                    continue
+                # judge the request id on what is left once the identity chain is removed: `req.user.id` is
+                # the authenticated identity, not the client-supplied `id`
+                rest = ident.sub(" ", text)
+                if any(re.search(rf"\b{re.escape(v)}\b", rest) for v in id_names):
+                    return
+        lk = lookups[0]
+        loc, name = lk["ids"][0]
+        key = (fn.file, fn.name, name, "idor")
+        if key in self._seen:
+            return
+        self._seen.add(key)
+        inner = self._innermost(fn, fn.node)
+        self.sinks.append(Sink(
+            klass="idor", cwe="CWE-639", file=fn.file, line=self._line_of_field(fn, loc, name),
+            function=inner.name, callee=lk["callee"], arg_index=0, tainted_expr=lk["text"][:120], chain=list(chain),
+            entry=entry, confidence=("medium" if entry["via"] == "route" and re.search(
+                r"(?i)(user|owner|account|customer|member|profile|person|employee|author|tenant|org)", name) else "low"),
+            fields=[list(x) for x in lk["ids"]],
+            extra={"lookup": lk["callee"], "identifier": name, "lookup_line": lk["line"],
+                   "authorization_check": "none found: the identifier is never compared with the authenticated "
+                                          "identity and the route has no authorisation middleware",
+                   "route_middleware": mw}))
+
+    def _line_of_field(self, fn, loc: str, name: str) -> int:
+        """The line where the handler first reads `<req>.<loc>.<name>` (or destructures it)."""
+        reqs = self._cur["reqs"] or set()
+        for n in self.p._walk(fn.node.child_by_field_name("body")):
+            if n.type == "member_expression":
+                t = self.p.text(fn.file, n)
+                if any(re.fullmatch(rf"{re.escape(r)}\.{loc}\.{re.escape(name)}", t) for r in reqs):
+                    return n.start_point[0] + 1
+            elif n.type == "variable_declarator":
+                val, pat = n.child_by_field_name("value"), n.child_by_field_name("name")
+                if val is not None and pat is not None and pat.type == "object_pattern" and \
+                        any(re.fullmatch(rf"{re.escape(r)}\.{loc}", self.p.text(fn.file, val).strip()) for r in reqs):
+                    for c in pat.named_children:
+                        if c.type == "shorthand_property_identifier_pattern" and self.p.text(fn.file, c) == name:
+                            return c.start_point[0] + 1
+        return fn.start
+
+    # --- cross-site request forgery (an application-level property) -----------------------------------------
+    def _check_csrf(self) -> None:
+        """
+        Cookie-based sessions, at least one state-changing route, and no active CSRF protection. Protection is
+        active if a CSRF module is imported AND used, or if any code (not comments) handles a csrf/xsrf token, or
+        if the session cookie sets SameSite. Where a CSRF call exists but has been commented out, the finding is
+        anchored on it: that is the line a maintainer would re-enable.
+        """
+        k = self.k
+        sessions = sorted({m for imps in self.p.imports.values() for m in imps.values() if m in k["session_modules"]})
+        if not sessions:
+            return
+        state_routes = [r for r in self.p.routes.values() if r["method"].upper() in ("POST", "PUT", "PATCH", "DELETE")]
+        if not state_routes:
+            return
+        candidates: list[tuple] = []                                         # (score, file, line) of disabled references
+        for f, tree in self.p.trees.items():
+            src_names = {n for n, m in self.p.imports.get(f, {}).items() if m in k["csrf_modules"]}
+            for node in self.p._walk(tree.root_node):
+                t = node.type
+                if t in ("identifier", "property_identifier", "shorthand_property_identifier",
+                         "shorthand_property_identifier_pattern"):
+                    text = self.p.text(f, node)
+                    if re.search(r"csrf|xsrf", text, re.I):
+                        decl = node.parent
+                        name_node = decl.child_by_field_name("name") if decl is not None else None
+                        # (Tree-sitter hands out a new wrapper object on every access, so compare positions, not `is`)
+                        if decl is not None and decl.type == "variable_declarator" and name_node is not None and \
+                                name_node.start_byte == node.start_byte and text in src_names:
+                            continue                                      # the binding itself, not a use
+                        if t == "property_identifier" and decl is not None and decl.type == "pair":
+                            continue                                      # a label in an object literal, not a use
+                        return                                            # a csrf/xsrf token or middleware is used
+                    if t == "property_identifier" and text.lower() == "samesite":
+                        val = node.parent.child_by_field_name("value") if node.parent is not None else None
+                        if val is not None and self.p.text(f, val).strip("'\" ").lower() in ("strict", "lax", "true"):
+                            return
+                elif t == "string_fragment":
+                    # a header or field NAME for a token (`x-csrf-token`, `_csrf`), not any string that mentions CSRF:
+                    # an application's own list of vulnerability names must not count as protection
+                    if re.fullmatch(r"(?i)(x-)?(csrf|xsrf)(-|_)?token|_?csrf|x-xsrf-token", self.p.text(f, node)):
+                        return
+                elif t == "comment":
+                    lines = self.p.text(f, node).split("\n")
+                    for i, l in enumerate(lines):
+                        score = 2 if re.search(r"\b(csrf|csurf)\w*\s*\(", l, re.I) else \
+                            1 if re.search(r"csrf|csurf|xsrf", l, re.I) else 0
+                        if score:
+                            candidates.append((score, f, node.start_point[0] + i + 1))
+        disabled = None
+        if candidates:
+            best = max(c[0] for c in candidates)
+            disabled = next((c[1], c[2]) for c in candidates if c[0] == best)   # highest score, earliest
+        if disabled is not None:
+            file, line = disabled
+        else:                                                              # anchor on where sessions are set up
+            file, line = next(((f, next((n.start_point[0] + 1 for n in self.p._walk(self.p.trees[f].root_node)
+                                         if n.type == "call_expression" and self.p.text(f, n).startswith("require")
+                                         and any(m in self.p.text(f, n) for m in sessions)), 1))
+                               for f, imps in self.p.imports.items() if any(m in k["session_modules"] for m in imps.values())),
+                              (next(iter(self.p.trees)), 1))
+        entry = {"function": "", "file": file, "line": line, "route": None, "via": "application",
+                 "request_param": [], "request_fields": []}
+        owner = None
+        for fns in self.p.functions.values():
+            for cand in fns:
+                if cand.file == file and cand.start <= line <= cand.end and (owner is None or cand.start >= owner.start):
+                    owner = cand
+        self.sinks.append(Sink(
+            klass="csrf-missing", cwe="CWE-352", file=file, line=line, function=owner.name if owner else "",
+            callee="application", arg_index=0, tainted_expr="", chain=[], entry=entry,
+            confidence="high" if disabled else "medium",
+            extra={"session_modules": sessions, "state_changing_routes": len(state_routes),
+                   "disabled_protection_in_comment": disabled is not None,
+                   "routes": sorted({f"{r['method']} {r['path']}" for r in state_routes})[:12]}))
 
     def _check_key_sink(self, fn, node, req_params, tainted, chain, entry) -> None:
         key = node.child_by_field_name("key")
@@ -572,6 +804,11 @@ class Analyzer:
         module = self.p.imports.get(f, {}).get(root, "")
         if module.startswith((".", "/")):                       # require("./dao"): the repository, not a package
             module = ""
+
+        if depth == 0 and tainted_idx:
+            self._note_lookup(fn, node, argl, tainted_idx, last)
+        if root in fn.params and last in self.k["render_methods"]:
+            self._check_render(fn, node, argl, req_params, tainted, chain, entry)
 
         # 1. a call into the repository: follow it
         defs = [d for d in self.p.functions.get(last, []) if d.node is not fn.node] if module == "" else []

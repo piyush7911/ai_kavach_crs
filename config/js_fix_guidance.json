@@ -13,5 +13,8 @@
   "insecure-session-cookie": "Configure the session cookie explicitly: httpOnly true, secure true when served over TLS, a sameSite value, a non-default cookie name and an expiry.",
   "hardcoded-secret": "Read the secret from the environment (process.env.NAME) with no literal fallback, and fail at start-up if it is missing.",
   "vulnerable-dependency": "Raise the dependency to a version that contains the fix, within the same major version where one exists.",
-  "_generic": "Fix the root cause with the smallest change that preserves behaviour for legitimate input. Do not remove checks, swallow errors, or special-case the exact input that triggers the problem."
+  "_generic": "Fix the root cause with the smallest change that preserves behaviour for legitimate input. Do not remove checks, swallow errors, or special-case the exact input that triggers the problem.",
+  "xss": "Encode every value for the context it is printed in. Never print request data raw. In a URL attribute, allow only http, https or relative URLs (reject javascript: and data:) and encode; never put request data in an event handler or inside a script block.",
+  "idor": "Take the identity from the authenticated session, never from the request. Either use the session's identity as the lookup key, or check that the requested identifier belongs to it and reject otherwise. If only some roles may use the route, check the role.",
+  "csrf-missing": "Enable CSRF protection for cookie-authenticated, state-changing routes: install the CSRF middleware after the session, send the token to templates, and require it on every POST, PUT, PATCH and DELETE. A SameSite cookie setting is a useful extra, not a replacement."
 }

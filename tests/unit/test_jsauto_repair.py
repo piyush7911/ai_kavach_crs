@@ -402,3 +402,21 @@ def test_the_prompt_no_longer_numbers_the_code_it_shows(tmp_path):
     prep = context.prepare(make_project(tmp_path), tmp_path)
     assert "FIX THIS (dao.js, lines 1-4)" in prep.prompt
     assert not any(l[:4].strip().isdigit() and l[4:5] == "|" for l in prep.prompt.splitlines())
+
+
+# -- the open-redirect oracle checks where the redirect goes, not whether the marker text appears ------------------
+
+@pytest.mark.parametrize("location,is_redirect", [
+    ("https://kavach-probe.invalid/landing", True), ("//kavach-probe.invalid/landing", True),
+    ("https:kavach-probe.invalid/landing", True), ("HTTPS://kavach-probe.invalid/landing", True),
+    ("\\\\kavach-probe.invalid/x", True), ("//user@kavach-probe.invalid/", True),
+    ("/\\t/kavach-probe.invalid/landing".replace("\\t", "\t"), True),      # literal tab: browsers collapse to //host
+    ("/%09/kavach-probe.invalid/landing", False),                          # percent-encoded: a same-origin path
+    ("/%5Ckavach-probe.invalid/landing", False), ("/safe-page", False), ("/kavach-probe.invalid/landing", False),
+    ("https://good.example/?next=//kavach-probe.invalid", False),
+    ("https://kavach-probe.invalid@good.example/", False),                 # the host is good.example
+])
+def test_the_open_redirect_oracle_follows_the_host_not_the_text(location, is_redirect):
+    import re
+    rx = probes.load_probes()["classes"]["open-redirect"]["success_if"]["redirect_regex"]
+    assert bool(re.search(rx, location)) is is_redirect

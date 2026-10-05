@@ -1,0 +1,74 @@
+{
+  "_about": "Ground truth for calibrating the validator against ONE application. For each class: the file, the exact text to replace, and what to replace it with to make a hand-written correct fix, an overfitted fix (blocks only the exact payload) and a gutted fix (removes the feature). Test fixtures, like the answer key: the engine never reads this file, and the calibration harness has no knowledge of any application beyond it. `blind_spots` lists cases the validator is known to be unable to tell, with the reason.",
+  "classes": {
+    "open-redirect": {
+      "file": "app/routes/index.js",
+      "old": [
+        "return res.redirect(req.query.url);"
+      ],
+      "fixed": [
+        "const u = req.query.url; if (typeof u === 'string' && /^\\/(?![\\/\\\\])/.test(u)) { return res.redirect(u); } return res.redirect('/dashboard');"
+      ],
+      "overfit": [
+        "if (req.query.url === 'https://kavach-probe.invalid/landing') { return res.redirect('/dashboard'); } return res.redirect(req.query.url);"
+      ],
+      "gutted": [
+        "return res.redirect('/dashboard');"
+      ]
+    },
+    "eval-injection": {
+      "file": "app/routes/contributions.js",
+      "old": [
+        "const preTax = eval(req.body.preTax);",
+        "const afterTax = eval(req.body.afterTax);",
+        "const roth = eval(req.body.roth);"
+      ],
+      "fixed": [
+        "const preTax = parseInt(req.body.preTax);",
+        "const afterTax = parseInt(req.body.afterTax);",
+        "const roth = parseInt(req.body.roth);"
+      ],
+      "overfit": [
+        "const preTax = req.body.preTax === \"7*3\" ? NaN : eval(req.body.preTax);",
+        "const afterTax = req.body.afterTax === \"7*3\" ? NaN : eval(req.body.afterTax);",
+        "const roth = req.body.roth === \"7*3\" ? NaN : eval(req.body.roth);"
+      ],
+      "gutted": [
+        "const preTax = NaN;",
+        "const afterTax = NaN;",
+        "const roth = NaN;"
+      ]
+    },
+    "ssrf": {
+      "file": "app/routes/research.js",
+      "old": [
+        "const url = req.query.url + req.query.symbol;"
+      ],
+      "fixed": [
+        "const url = req.query.url + req.query.symbol; if (!/^https:\\/\\/finance\\.yahoo\\.com\\//.test(url)) { return res.status(400).send('invalid url'); }"
+      ],
+      "overfit": [
+        "const url = req.query.url + req.query.symbol; if (url.includes('127.0.0.1')) { return res.status(400).send('blocked'); }"
+      ],
+      "gutted": [
+        "const url = req.query.url + req.query.symbol; return res.status(400).send('disabled');"
+      ]
+    },
+    "xss": {
+      "file": "app/routes/profile.js",
+      "old": [
+        "const firstNameSafeString = firstName;"
+      ],
+      "fixed": [
+        "const firstNameSafeString = /^(https?:\\/\\/|\\/)/.test(firstName) ? firstName : '';"
+      ],
+      "overfit": [
+        "const firstNameSafeString = firstName === 'javascript:KVCHxss//' ? '' : firstName;"
+      ],
+      "gutted": [
+        "const firstNameSafeString = '';"
+      ]
+    }
+  },
+  "blind_spots": {}
+}

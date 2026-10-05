@@ -179,6 +179,15 @@ graph TD
   matched against the lockfile's dependency graph. A vulnerable sub-dependency is attributed to the direct
   package that brings it in. On NodeGoat it returns the same 10 packages and severities as `npm audit`.
   A missing lockfile or snapshot is an error, never an empty result.
+- **Structural classes, found by general rules** (`flow.py`, `templates.py`; evidence in the finding):
+  *XSS through templates*: a request-derived value passed to `render()` that the template prints raw, or at the
+  start of a URL attribute, in an event handler or in `<script>` (HTML-encoding in the handler does not help
+  there); the template analyser is HTML-context aware for mustache/handlebars/swig/nunjucks, ejs and pug syntax.
+  *IDOR*: a client-supplied identifier used as a data-lookup key with no comparison to the authenticated identity
+  in the handler and no role/owner middleware on the route; confidence is lower for a generic `id`, which is
+  often a shared resource. *Missing CSRF*: cookie sessions, a state-changing route, and no active protection
+  (a CSRF module that is imported *and used*, a token read, or a SameSite session cookie); anchored on a
+  disabled `csrf()` call when one exists.
 - Credentials in test, seed or local-development files are reported as `informational`, not as defects. A
   committed private key is never downgraded.
 
@@ -302,8 +311,10 @@ procedural; carried over, on only with `--memory`).
 `cJSON_Minify` with no hand-written proof; the patch was proven in 4 of 5 adaptive runs (the miss was a model
 availability bug, since fixed), about 133 to 160 s and $0.002 to 0.013 per run.
 
-**NodeGoat (first JS target).** Static detection against the 12-entry answer key: recall 9 of 12; the three
-misses (IDOR, XSS, CSRF) need live probes. The runner, 12 regression flows and exploit PoVs work on a
+**NodeGoat (first JS target).** Static detection against the 12-entry answer key: **recall 12 of 12**, precision
+0.92 (the extra finding is a real missing access check that the key does not list). The last three classes (XSS,
+IDOR, CSRF) come from the general structural rules in 5.1; detecting them is not the same as confirming or
+fixing them (IDOR and CSRF have no probe oracle). The runner, 12 regression flows and exploit PoVs work on a
 live app. First live run of the whole cycle: the open-redirect finding was `unresolved` (gates caught a
 patch that leaked a variant, a malformed answer, and a still-exploitable attempt; the model was too weak);
 the eval finding got a correct model fix but was reported `patched_unproven` because my probe did not

@@ -236,7 +236,7 @@ def _flow_findings(root: Path, llm=None, learned_path=None) -> tuple[list[Findin
                     f"via {' -> '.join(c.split(':', 1)[1] for c in s.chain)}",
             evidence={"rules": [f"flow:{s.callee}"], "callee": s.callee, "arg_index": s.arg_index,
                       "tainted_expr": s.tainted_expr, "tainted_fields": s.fields, "chain": s.chain, "entry": s.entry,
-                      "classified_by": s.classified_by}))
+                      "classified_by": s.classified_by, **s.extra}))
     meta = {"entry_points": a.entry_points, "classifier_calls": a.classifier_calls,
             "classifier_errors": a.classifier_errors,
             "unclassified_calls": [{"callee": u.callee, "module": u.module, "file": u.file, "line": u.line}

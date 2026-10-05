@@ -62,7 +62,7 @@ def exploit_for(finding: dict, probes: Optional[dict] = None,
     that is how variants are built (same request, same carrier field, another spelling of the attack).
     """
     probes = probes or load_probes()
-    klass = finding.get("klass", "")
+    klass = _probe_class(finding)
     if klass in probes["unsupported"]:
         return None, probes["unsupported"][klass]
     spec = probes["classes"].get(klass)
@@ -104,7 +104,7 @@ def exploit_for(finding: dict, probes: Optional[dict] = None,
     if body:
         exploit["body"] = body
         exploit["headers"] = {"Content-Type": "application/x-www-form-urlencoded"}
-    if "{OOB_URL}" in json.dumps([payload, success]):
+    if "{OOB_URL" in json.dumps([payload, success]):                 # {OOB_URL}, {OOB_URL_LOCALHOST}, ...
         exploit["oob"] = True                                    # the runner starts its callback listener
     if spec.get("follow_redirects") is False:
         exploit["follow_redirects"] = False
@@ -113,13 +113,23 @@ def exploit_for(finding: dict, probes: Optional[dict] = None,
     return exploit, f"payload carried by {where}; other fields get a benign value"
 
 
+def _probe_class(finding: dict) -> str:
+    """The probe key for a finding. Cross-site scripting is probed per CONTEXT (what the template does with it)."""
+    klass = finding.get("klass", "")
+    if klass != "xss":
+        return klass
+    ev = finding.get("evidence") or {}
+    ctx = ev.get("context", "")
+    return "xss-html" if ev.get("raw") and ctx in ("html", "attr", "") else f"xss-{ctx}"
+
+
 def variants_for(finding: dict, probes: Optional[dict] = None) -> list[dict]:
     """
     Other spellings of the same attack, as exploit requests against the same route and field. A patch
     that stops only the primary payload (a blocklist of one string) leaks one of these.
     """
     probes = probes or load_probes()
-    spec = probes["classes"].get(finding.get("klass", ""))
+    spec = probes["classes"].get(_probe_class(finding))
     if spec is None:
         return []
     out = []

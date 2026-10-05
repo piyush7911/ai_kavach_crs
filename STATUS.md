@@ -117,7 +117,21 @@ you really use). Send `evidence.json` again; each finding now carries its `explo
 
 ## Measured
 
-- NodeGoat static detection: recall 9/12 (0.75); misses IDOR, XSS, CSRF (need live probes).
+- **NodeGoat static detection: 12 of 12 answer-key bugs (recall 1.0), precision 0.92.** The one "extra" is a
+  real bug outside the key: `/benefits` lets any logged-in user update anyone's benefits (the commented-out
+  `isAdmin` fix shows it), reported as an IDOR. The key should probably gain an entry for it.
+  The last three classes came from new GENERAL rules, not a list: (1) **XSS**: a request-derived value passed
+  to `render()` that the template prints raw, or at the start of a URL attribute, in an event handler or in a
+  script block, found by a small template analyser (mustache/handlebars/swig/nunjucks, ejs, pug syntaxes,
+  HTML-context aware); (2) **IDOR**: a client-supplied identifier used as a data-lookup key with no comparison
+  to the authenticated identity and no role middleware on the route; (3) **CSRF**: cookie sessions + a
+  state-changing route + no active CSRF protection, anchored on a disabled `csrf()` call if there is one.
+  Evidence for generality: all three are still found after renaming every parameter, file and function, and on
+  the unseen DVNA app the same rules find its real XSS, its real IDOR (`userEditSubmit`) and its missing CSRF
+  (plus two low-confidence IDOR guesses on a shared product table, which are probably false positives).
+  **Detected is not confirmed or fixed:** XSS has a live probe (javascript: URL, replayed with variants) that has
+  not been run yet; IDOR and CSRF have no probe oracle in the replay contract, so they can only be patched
+  without a PoV gate.
 - DVNA (unseen, untuned): without a model 5 of 6 core injection classes found by some detector, 3 of 6 by flow
   alone; **with the local model classifying unknown calls, 6 of 6** (6 model calls, 84 s; one run).
 - Local model: with thinking on, one short request took 118 s and returned nothing; off, 9.3 s.

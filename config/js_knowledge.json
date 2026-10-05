@@ -1,65 +1,398 @@
 {
   "_about": "Ecosystem knowledge for the JavaScript/Node flow analyser, as DATA. It describes the platform (HTTP request shapes, dangerous Node/npm APIs), never a particular application. Calls this file does not recognise are classified by the model and can be added here once confirmed.",
-
-  "request_properties": ["query", "body", "params", "headers", "cookies", "payload", "searchParams",
-                          "originalUrl", "url", "rawBody", "files", "hostname", "path"],
-
-  "route_verbs": ["get", "post", "put", "delete", "patch", "all", "options", "head", "route"],
-
+  "request_properties": [
+    "query",
+    "body",
+    "params",
+    "headers",
+    "cookies",
+    "payload",
+    "searchParams",
+    "originalUrl",
+    "url",
+    "rawBody",
+    "files",
+    "hostname",
+    "path"
+  ],
+  "route_verbs": [
+    "get",
+    "post",
+    "put",
+    "delete",
+    "patch",
+    "all",
+    "options",
+    "head",
+    "route"
+  ],
   "sanitizers": [
     "^(parseInt|parseFloat|Number|Boolean|isNaN|isFinite|encodeURIComponent|encodeURI|escape|Math\\.\\w+)$",
     "(?i)(sanitiz|escape|validat|encode|normaliz|whitelist|allowlist)"
   ],
-
-  "ignore_roots": ["console", "JSON", "Math", "Object", "Array", "String", "Number", "Date", "Promise", "Buffer",
-                    "process", "Symbol", "Map", "Set", "RegExp", "Error", "logger", "log"],
-  "ignore_methods": ["log", "info", "warn", "error", "debug", "push", "pop", "shift", "unshift", "map", "filter",
-                      "forEach", "reduce", "some", "every", "find", "indexOf", "includes", "slice", "splice", "join",
-                      "concat", "split", "trim", "toString", "toLowerCase", "toUpperCase", "replace", "match",
-                      "test", "startsWith", "endsWith", "keys", "values", "entries", "hasOwnProperty", "bind",
-                      "call", "apply", "then", "catch", "finally", "status", "set", "header", "type", "json",
-                      "render", "cookie", "clearCookie", "end"],
-
+  "ignore_roots": [
+    "console",
+    "JSON",
+    "Math",
+    "Object",
+    "Array",
+    "String",
+    "Number",
+    "Date",
+    "Promise",
+    "Buffer",
+    "process",
+    "Symbol",
+    "Map",
+    "Set",
+    "RegExp",
+    "Error",
+    "logger",
+    "log"
+  ],
+  "ignore_methods": [
+    "log",
+    "info",
+    "warn",
+    "error",
+    "debug",
+    "push",
+    "pop",
+    "shift",
+    "unshift",
+    "map",
+    "filter",
+    "forEach",
+    "reduce",
+    "some",
+    "every",
+    "find",
+    "indexOf",
+    "includes",
+    "slice",
+    "splice",
+    "join",
+    "concat",
+    "split",
+    "trim",
+    "toString",
+    "toLowerCase",
+    "toUpperCase",
+    "replace",
+    "match",
+    "test",
+    "startsWith",
+    "endsWith",
+    "keys",
+    "values",
+    "entries",
+    "hasOwnProperty",
+    "bind",
+    "call",
+    "apply",
+    "then",
+    "catch",
+    "finally",
+    "status",
+    "set",
+    "header",
+    "type",
+    "json",
+    "render",
+    "cookie",
+    "clearCookie",
+    "end"
+  ],
   "global_sinks": [
-    {"callee": "^eval$", "args": [0], "class": "eval-injection", "cwe": "CWE-95"},
-    {"callee": "^Function$", "args": [-1], "class": "eval-injection", "cwe": "CWE-95"},
-    {"callee": "^(setTimeout|setInterval|setImmediate)$", "args": [0], "class": "eval-injection", "cwe": "CWE-95", "only_if_string": true},
-    {"callee": "^fetch$", "args": [0], "class": "ssrf", "cwe": "CWE-918"}
+    {
+      "callee": "^eval$",
+      "args": [
+        0
+      ],
+      "class": "eval-injection",
+      "cwe": "CWE-95"
+    },
+    {
+      "callee": "^Function$",
+      "args": [
+        -1
+      ],
+      "class": "eval-injection",
+      "cwe": "CWE-95"
+    },
+    {
+      "callee": "^(setTimeout|setInterval|setImmediate)$",
+      "args": [
+        0
+      ],
+      "class": "eval-injection",
+      "cwe": "CWE-95",
+      "only_if_string": true
+    },
+    {
+      "callee": "^fetch$",
+      "args": [
+        0
+      ],
+      "class": "ssrf",
+      "cwe": "CWE-918"
+    }
   ],
-
   "sink_modules": [
-    {"modules": ["child_process"], "functions": "^(exec|execSync|spawn|spawnSync|execFile|execFileSync|fork)$",
-     "args": [0], "class": "command-injection", "cwe": "CWE-78"},
-    {"modules": ["vm"], "functions": "^run\\w+$", "args": [0], "class": "eval-injection", "cwe": "CWE-95"},
-    {"modules": ["fs", "fs/promises", "fs-extra"],
-     "functions": "^(readFile|readFileSync|createReadStream|readdir|readdirSync|writeFile|writeFileSync|createWriteStream|unlink|unlinkSync|appendFile|appendFileSync|rm|rmSync|stat|statSync|access|open|openSync)$",
-     "args": [0], "class": "path-traversal", "cwe": "CWE-22"},
-    {"modules": ["http", "https", "needle", "axios", "request", "request-promise", "got", "node-fetch", "undici",
-                 "superagent", "urllib", "bent", "phin", "ky", "cross-fetch", "isomorphic-fetch"],
-     "functions": null, "args": [0], "class": "ssrf", "cwe": "CWE-918"},
-    {"modules": ["http", "https", "needle", "axios", "request", "request-promise", "got", "node-fetch", "undici",
-                 "superagent", "urllib", "bent", "phin", "ky"],
-     "functions": "^(get|post|put|patch|delete|head|request|fetch)$", "args": [0], "class": "ssrf", "cwe": "CWE-918"},
-    {"modules": ["serialize-javascript", "node-serialize", "js-yaml"], "functions": "^(unserialize|load|deserialize)$",
-     "args": [0], "class": "deserialization", "cwe": "CWE-502"},
-    {"modules": ["lodash", "underscore"], "functions": "^(template)$", "args": [0], "class": "eval-injection", "cwe": "CWE-95"},
-    {"modules": ["mysql", "mysql2", "pg", "sqlite3", "better-sqlite3", "sequelize", "knex"],
-     "functions": "^(query|exec|run|raw|all|get)$", "args": [0], "class": "sql-injection", "cwe": "CWE-89"}
+    {
+      "modules": [
+        "child_process"
+      ],
+      "functions": "^(exec|execSync|spawn|spawnSync|execFile|execFileSync|fork)$",
+      "args": [
+        0
+      ],
+      "class": "command-injection",
+      "cwe": "CWE-78"
+    },
+    {
+      "modules": [
+        "vm"
+      ],
+      "functions": "^run\\w+$",
+      "args": [
+        0
+      ],
+      "class": "eval-injection",
+      "cwe": "CWE-95"
+    },
+    {
+      "modules": [
+        "fs",
+        "fs/promises",
+        "fs-extra"
+      ],
+      "functions": "^(readFile|readFileSync|createReadStream|readdir|readdirSync|writeFile|writeFileSync|createWriteStream|unlink|unlinkSync|appendFile|appendFileSync|rm|rmSync|stat|statSync|access|open|openSync)$",
+      "args": [
+        0
+      ],
+      "class": "path-traversal",
+      "cwe": "CWE-22"
+    },
+    {
+      "modules": [
+        "http",
+        "https",
+        "needle",
+        "axios",
+        "request",
+        "request-promise",
+        "got",
+        "node-fetch",
+        "undici",
+        "superagent",
+        "urllib",
+        "bent",
+        "phin",
+        "ky",
+        "cross-fetch",
+        "isomorphic-fetch"
+      ],
+      "functions": null,
+      "args": [
+        0
+      ],
+      "class": "ssrf",
+      "cwe": "CWE-918"
+    },
+    {
+      "modules": [
+        "http",
+        "https",
+        "needle",
+        "axios",
+        "request",
+        "request-promise",
+        "got",
+        "node-fetch",
+        "undici",
+        "superagent",
+        "urllib",
+        "bent",
+        "phin",
+        "ky"
+      ],
+      "functions": "^(get|post|put|patch|delete|head|request|fetch)$",
+      "args": [
+        0
+      ],
+      "class": "ssrf",
+      "cwe": "CWE-918"
+    },
+    {
+      "modules": [
+        "serialize-javascript",
+        "node-serialize",
+        "js-yaml"
+      ],
+      "functions": "^(unserialize|load|deserialize)$",
+      "args": [
+        0
+      ],
+      "class": "deserialization",
+      "cwe": "CWE-502"
+    },
+    {
+      "modules": [
+        "lodash",
+        "underscore"
+      ],
+      "functions": "^(template)$",
+      "args": [
+        0
+      ],
+      "class": "eval-injection",
+      "cwe": "CWE-95"
+    },
+    {
+      "modules": [
+        "mysql",
+        "mysql2",
+        "pg",
+        "sqlite3",
+        "better-sqlite3",
+        "sequelize",
+        "knex"
+      ],
+      "functions": "^(query|exec|run|raw|all|get)$",
+      "args": [
+        0
+      ],
+      "class": "sql-injection",
+      "cwe": "CWE-89"
+    }
   ],
-
   "sink_keys": [
-    {"key": "$where", "class": "nosql-injection", "cwe": "CWE-943"},
-    {"key": "$function", "class": "nosql-injection", "cwe": "CWE-943"}
+    {
+      "key": "$where",
+      "class": "nosql-injection",
+      "cwe": "CWE-943"
+    },
+    {
+      "key": "$function",
+      "class": "nosql-injection",
+      "cwe": "CWE-943"
+    }
   ],
-
   "response_sinks": [
-    {"methods": "^redirect$", "args": [0], "class": "open-redirect", "cwe": "CWE-601", "confidence": "high"},
-    {"methods": "^(send|write|sendFile|download)$", "args": [0], "class": "reflected-output", "cwe": "CWE-79", "confidence": "low"}
+    {
+      "methods": "^redirect$",
+      "args": [
+        0
+      ],
+      "class": "open-redirect",
+      "cwe": "CWE-601",
+      "confidence": "high"
+    },
+    {
+      "methods": "^(send|write|sendFile|download)$",
+      "args": [
+        0
+      ],
+      "class": "reflected-output",
+      "cwe": "CWE-79",
+      "confidence": "low"
+    }
   ],
-
   "severity": {
-    "eval-injection": "critical", "command-injection": "critical", "sql-injection": "high",
-    "nosql-injection": "high", "ssrf": "high", "path-traversal": "high", "deserialization": "high",
-    "open-redirect": "medium", "reflected-output": "medium"
-  }
+    "eval-injection": "critical",
+    "command-injection": "critical",
+    "sql-injection": "high",
+    "nosql-injection": "high",
+    "ssrf": "high",
+    "path-traversal": "high",
+    "deserialization": "high",
+    "open-redirect": "medium",
+    "reflected-output": "medium",
+    "xss": "high",
+    "idor": "high",
+    "csrf-missing": "medium"
+  },
+  "session_modules": [
+    "express-session",
+    "cookie-session",
+    "client-sessions",
+    "koa-session",
+    "koa-generic-session",
+    "@fastify/session",
+    "@fastify/secure-session",
+    "fastify-session",
+    "hapi-auth-cookie",
+    "@hapi/cookie",
+    "iron-session",
+    "next-session"
+  ],
+  "csrf_modules": [
+    "csurf",
+    "csrf",
+    "lusca",
+    "csrf-csrf",
+    "@fastify/csrf-protection",
+    "fastify-csrf",
+    "koa-csrf",
+    "koa-csrf-protection",
+    "@dr.pogodin/csurf",
+    "tiny-csrf",
+    "xsrf",
+    "hapi-csrf",
+    "@hapi/crumb",
+    "crumb"
+  ],
+  "identity_properties": [
+    "session",
+    "user",
+    "auth",
+    "identity",
+    "principal",
+    "currentUser",
+    "claims",
+    "account"
+  ],
+  "identity_member_chains": [
+    "res.locals.user",
+    "ctx.state.user",
+    "request.auth",
+    "request.session"
+  ],
+  "data_access_verbs": "^(find|get|fetch|load|select|query|read|update|delete|remove|save|set|upsert|count|aggregate|insert|create|lookup|search|retrieve)",
+  "authorization_middleware": "(?i)(admin|role|permission|authori[sz]|owner|acl|guard|policy|can[A-Z_]|scope|privilege)",
+  "id_field_pattern": "^(id|_id|uid|pk)$|[a-z0-9]Id$|[a-z0-9]ID$|_id$",
+  "url_attributes": [
+    "href",
+    "src",
+    "action",
+    "formaction",
+    "poster",
+    "data",
+    "cite",
+    "background",
+    "srcset",
+    "xlink:href",
+    "codebase",
+    "longdesc",
+    "manifest"
+  ],
+  "template_extensions": [
+    ".html",
+    ".htm",
+    ".ejs",
+    ".hbs",
+    ".handlebars",
+    ".mustache",
+    ".pug",
+    ".jade",
+    ".njk",
+    ".nunjucks",
+    ".twig",
+    ".swig",
+    ".liquid"
+  ],
+  "render_methods": [
+    "render"
+  ]
 }
