@@ -1,0 +1,17 @@
+{
+  "_about": "Generic secure-fix guidance per vulnerability class, given to the repair model. It describes how a class of bug is fixed in Node, never anything about a particular application.",
+  "eval-injection": "Never evaluate request data as code. Convert numbers with Number() or parseInt and validate the result, or use JSON.parse for structured data. Remove eval, new Function and string timers on request data.",
+  "nosql-injection": "Do not build a $where JavaScript string from request data. Use ordinary query operators (for example { field: { $gt: value } }) with values converted to the expected type and validated.",
+  "sql-injection": "Use parameterised queries or bound parameters. Never build SQL by string concatenation or interpolation.",
+  "ssrf": "Do not request a URL assembled from request data. Take an identifier and map it to a fixed URL, or parse the URL and require https plus a host on an allow-list; reject private, loopback and link-local addresses.",
+  "open-redirect": "Redirect only to a relative path on this site (a single leading '/', not '//' or '/\\') or to a host on an allow-list; otherwise redirect to a fixed safe page.",
+  "command-injection": "Do not pass request data to a shell. Use execFile or spawn with an argument array, and validate the argument against a strict pattern first.",
+  "path-traversal": "Resolve the requested path against a fixed base directory and reject any result that is not inside it (path.resolve then check the prefix), or use path.basename on the input.",
+  "deserialization": "Do not deserialize untrusted data with a format that can run code. Use JSON.parse and validate the shape of the result.",
+  "reflected-output": "Encode output for the context it is written into (HTML-escape text; encode URLs) before sending it.",
+  "redos": "Rewrite the regular expression without nested quantifiers such as (a+)+, or bound the length of the input before matching.",
+  "insecure-session-cookie": "Configure the session cookie explicitly: httpOnly true, secure true when served over TLS, a sameSite value, a non-default cookie name and an expiry.",
+  "hardcoded-secret": "Read the secret from the environment (process.env.NAME) with no literal fallback, and fail at start-up if it is missing.",
+  "vulnerable-dependency": "Raise the dependency to a version that contains the fix, within the same major version where one exists.",
+  "_generic": "Fix the root cause with the smallest change that preserves behaviour for legitimate input. Do not remove checks, swallow errors, or special-case the exact input that triggers the problem."
+}

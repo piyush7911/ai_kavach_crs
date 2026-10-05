@@ -105,6 +105,7 @@ def build(zip_path: Path, out: Path = DEFAULT_SNAPSHOT) -> dict:
             if d.get("withdrawn"):
                 skipped += 1
                 continue
+            before = sum(len(v) for v in packages.values())
             cwe = (d.get("database_specific") or {}).get("cwe_ids") or []
             sev = ((d.get("database_specific") or {}).get("severity") or "").lower()
             for a in d.get("affected", []):
@@ -118,7 +119,10 @@ def build(zip_path: Path, out: Path = DEFAULT_SNAPSHOT) -> dict:
                     "id": d["id"], "aliases": d.get("aliases", [])[:4], "summary": (d.get("summary") or "")[:200],
                     "severity": {"moderate": "medium"}.get(sev, sev or "medium"),
                     "cwe": cwe[0] if cwe else "", "ranges": ranges, "versions": a.get("versions", [])[:200]})
-            kept += 1
+            if sum(len(v) for v in packages.values()) > before:       # count only advisories that contributed
+                kept += 1
+            else:
+                skipped += 1                                          # no npm package or no usable range
     meta = {"source": "OSV.dev npm dump (GitHub Advisory Database), malware reports excluded",
             "built": time.strftime("%Y-%m-%d"), "advisories": kept, "skipped_entries": skipped,
             "packages": len(packages), "zip_sha256": hashlib.sha256(zip_path.read_bytes()).hexdigest()}

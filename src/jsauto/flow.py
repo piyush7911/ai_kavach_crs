@@ -302,14 +302,18 @@ class Analyzer:
 
     # --- entry points
     def run(self) -> None:
-        for fns in list(self.p.functions.values()):
-            for fn in fns:
-                self._maybe_entry(fn)
+        cands: list[Fn] = [fn for fns in self.p.functions.values() for fn in fns]
         # anonymous inline handlers registered on a route
         for key in self.p.registered:
             fn = self.p.by_node.get(self._key_to_node(key))
             if fn and fn.name.startswith("<anonymous"):
-                self._maybe_entry(fn)
+                cands.append(fn)
+        # Route-registered handlers first. The same sink is often reachable both from a route and from
+        # a helper that merely reads a request property; the first analysis to report it wins, and the
+        # route-derived one is the better evidence (it knows the route and the full call chain).
+        cands.sort(key=lambda fn: (fn.file, fn.start) not in self.p.registered)
+        for fn in cands:
+            self._maybe_entry(fn)
         if self.classifier is not None:
             self._classify_unknown()
 

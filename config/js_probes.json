@@ -1,0 +1,24 @@
+{
+  "_about": "Generic probe payloads per vulnerability class, with an oracle that can be checked from the response alone. Arithmetic on a marker (31337+1 = 31338) is used where possible: the answer is not contained in the payload, so reflecting the input back cannot fake a hit. Classes with no oracle that fits the contract are listed under `unsupported` with the reason, never silently skipped.",
+  "marker": {"operand": 31337, "result": 31338},
+  "classes": {
+    "open-redirect": {"value": "https://kavach-probe.invalid/landing",
+                       "follow_redirects": false, "success_if": {"redirect_regex": "kavach-probe\\.invalid"}},
+    "eval-injection": {"value": "31337+1", "success_if": {"body_regex": "31338"}},
+    "command-injection": {"value": ";expr 31337 + 1", "success_if": {"body_regex": "31338"}},
+    "path-traversal": {"value": "../../../../../../etc/passwd", "success_if": {"body_regex": "root:[^\\n]*:0:0"}},
+    "ssrf": {"value": "{OOB}/kavach", "success_if": {"oob_marker": true}},
+    "reflected-output": {"value": "kvch<b>7x7</b>", "success_if": {"body_regex": "kvch<b>7x7</b>"}}
+  },
+  "unsupported": {
+    "sql-injection": "needs a benign baseline to compare against; the replay contract has no such oracle yet",
+    "nosql-injection": "needs a benign baseline to compare against; the replay contract has no such oracle yet",
+    "redos": "needs a timing oracle, and a timing probe is itself a denial-of-service risk on a shared host",
+    "deserialization": "needs an out-of-band code-execution marker",
+    "hardcoded-secret": "static finding: nothing to replay",
+    "private-key-in-repo": "static finding: nothing to replay",
+    "vulnerable-dependency": "static finding: nothing to replay",
+    "insecure-session-cookie": "checked by inspecting Set-Cookie, not by an exploit request"
+  },
+  "benign_value": "1"
+}

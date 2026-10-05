@@ -135,7 +135,14 @@ insecure cookie, predictable md5 reset token, dependencies.
 | IDOR, md5 reset token | **missed** (not a taint-to-sink pattern) |
 | dependencies | **not audited**: no lockfile, reported as such |
 
-Core injection classes: 5 of 6 found by some detector, 3 of 6 by the flow analysis alone. All 32
-entry points resolved to routes. **Not yet measured:** whether the local model, asked about the
-unclassified calls, recovers `mathjs.eval`, `db.sequelize.query` and `libxmljs.parseXmlString`. That
-run was interrupted and is pending.
+Core injection classes: 5 of 6 found by some detector and 3 of 6 by the flow analysis alone, without a
+model. All 32 entry points resolved to routes.
+
+**With the local model (`gemma4:12b`, thinking off) classifying the calls the knowledge file does not
+cover:** 6 model calls, 84 s, no errors. It identified `db.sequelize.query` as SQL injection,
+`mathjs.eval` as code injection and `libxmljs.parseXmlString` as XXE (the three that were missed or only
+listed as unclassified), and answered "not a sink" for `findAll`, `bcrypt.hashSync` and `md5`. So the flow
+analysis alone, with the model, reaches **6 of 6 core injection classes** on this unseen app, each marked
+`classified_by: model`, confidence low, until a probe confirms it. Caveats: one run, one app; the
+model's answers are not deterministic; the model said nothing about IDOR or the md5 reset token, which
+remain missed. The audit trace logged exactly the 6 calls.

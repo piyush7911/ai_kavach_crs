@@ -18,6 +18,14 @@ from config import get_llm_config, AGENT_PROMPTS
 logger = logging.getLogger(__name__)
 
 
+class EndpointNotAllowed(RuntimeError):
+    """A model call was refused because its endpoint or model is not on the declared list."""
+
+
+def _csv(name: str) -> list[str]:
+    return [x.strip() for x in os.getenv(name, "").split(",") if x.strip()]
+
+
 class LLMClient:
     """
     Unified LLM client for all AI Kavach agents.
@@ -99,7 +107,7 @@ class LLMClient:
             })
 
         # Call OpenAI with retry logic
-        response = self._call_with_retry(model, messages, max_tokens)
+        response = self._call_with_retry(model, messages, max_tokens, label=f"{agent_name}#{iteration}")
 
         # Parse response
         raw = response.choices[0].message.content or ""
@@ -163,6 +171,7 @@ class LLMClient:
             if m in base:
                 continue                                  # not stronger than what already ran
             try:
+                self._check_allowed(m)                    # never escalate to a model that is not declared
                 self.client.models.retrieve(m)
             except Exception as e:
                 logger.warning(f"escalation model {m!r} is not usable with this key "
@@ -195,7 +204,7 @@ class LLMClient:
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_content},
         ]
-        response = self._call_with_retry(model, messages, max_tokens)
+        response = self._call_with_retry(model, messages, max_tokens, label=purpose)
         usage = {
             "agent": purpose,
             "model": model,
@@ -230,9 +239,8 @@ class LLMClient:
             {"role": "user", "content": user_content},
         ]
 
-        response = self.client.chat.completions.create(
-            model=model,
-            messages=messages,
+        response = self._create(
+            model, messages, label="critic",
             max_tokens=max_tokens,
             temperature=0.0,          # diagnosis should be reproducible
             response_format={"type": "json_schema", "json_schema": schema},
@@ -300,20 +308,73 @@ class LLMClient:
             return {"reasoning_effort": mode}
         return {"reasoning_effort": "none"} if self._can_think(model) else {}
 
-    def _call_with_retry(self, model: str, messages: list, max_tokens: int, max_retries: int = 3):
+    # -- the single choke point every model call goes through -------------------------------------
+
+    def _check_allowed(self, model: str) -> None:
+        """
+        Refuse a call to an endpoint or model that was not declared. The rules allow only declared
+        model endpoints, so this is enforced here rather than trusted to every caller.
+        KAVACH_ALLOWED_ENDPOINTS: comma list of `host` or `host:port`.  KAVACH_ALLOWED_MODELS: comma
+        list of model names. Unset means no restriction on that axis.
+        """
+        from urllib.parse import urlparse
+        hosts = _csv("KAVACH_ALLOWED_ENDPOINTS")
+        if hosts:
+            u = urlparse(self._base_url)
+            if u.netloc not in hosts and (u.hostname or "") not in hosts:
+                raise EndpointNotAllowed(
+                    f"endpoint {u.netloc!r} is not in KAVACH_ALLOWED_ENDPOINTS={hosts}")
+        models = _csv("KAVACH_ALLOWED_MODELS")
+        if models and model not in models:
+            raise EndpointNotAllowed(f"model {model!r} is not in KAVACH_ALLOWED_MODELS={models}")
+
+    def _trace(self, record: dict) -> None:
+        """Append one audit record. The jury may ask for every query, so nothing is sampled."""
+        path = os.getenv("KAVACH_LLM_TRACE") or getattr(self, "trace_path", "")
+        if not path:
+            return
+        import json as _json
+        with self._usage_lock:
+            with open(path, "a", encoding="utf-8") as fh:
+                fh.write(_json.dumps(record, ensure_ascii=False) + "\n")
+
+    def _create(self, model: str, messages: list, label: str = "", **kwargs):
+        """Check the allow-lists, make the call, and write the audit trace (also on failure)."""
+        self._check_allowed(model)
+        from urllib.parse import urlparse
+        u = urlparse(self._base_url)
+        endpoint = f"{u.scheme}://{u.hostname}{':' + str(u.port) if u.port else ''}{u.path}"   # no credentials
+        started = time.time()
+        record = {"ts": started, "label": label, "endpoint": endpoint, "model": model,
+                  "params": {k: v for k, v in kwargs.items() if k != "response_format"},
+                  "messages": messages}
+        try:
+            response = self.client.chat.completions.create(model=model, messages=messages, **kwargs)
+        except Exception as e:
+            record.update(error=f"{type(e).__name__}: {str(e)[:300]}", seconds=round(time.time() - started, 3))
+            self._trace(record)
+            raise
+        usage = getattr(response, "usage", None)
+        record.update(
+            response=(response.choices[0].message.content or "") if response.choices else "",
+            input_tokens=getattr(usage, "prompt_tokens", 0), output_tokens=getattr(usage, "completion_tokens", 0),
+            seconds=round(time.time() - started, 3), fingerprint=getattr(response, "system_fingerprint", None))
+        self._trace(record)
+        return response
+
+    def _call_with_retry(self, model: str, messages: list, max_tokens: int, max_retries: int = 3,
+                         label: str = ""):
         """Call OpenAI API with exponential backoff retry."""
         for attempt in range(max_retries):
             try:
                 kwargs = dict(
-                    model=model,
-                    messages=messages,
                     max_tokens=max_tokens,
                     temperature=self.temperature,
                     **self._reasoning_kwargs(model),
                 )
                 if self.seed is not None:
                     kwargs["seed"] = self.seed
-                response = self.client.chat.completions.create(**kwargs)
+                response = self._create(model, messages, label=label, **kwargs)
                 fp = getattr(response, "system_fingerprint", None)
                 if fp:
                     self.fingerprints.add(fp)
