@@ -71,7 +71,7 @@ def test_a_bcrypt_hash_is_suppressed_with_a_reason_not_dropped(tmp_path):
     assert not out["findings"] and out["suppressed"] and out["suppressed"][0].reason
 
 
-# -- dependency audit (npm stubbed) ------------------------------------------------------------------
+# -- dependency audit through the registry (opt-in; npm stubbed) ------------------------------------------------------------------
 
 AUDIT = {"vulnerabilities": {
     "express": {"isDirect": True, "severity": "high", "range": "<=4.21.2",
@@ -96,7 +96,7 @@ def _pkg(tmp_path):
 
 def test_only_direct_runtime_dependencies_become_findings(tmp_path, monkeypatch):
     _stub_npm(monkeypatch, json.dumps(AUDIT))
-    out = deps.audit(_pkg(tmp_path))
+    out = deps.audit(_pkg(tmp_path), allow_network=True)
     assert [f.evidence["package"] for f in out["findings"]] == ["express"]
     f = out["findings"][0]
     assert f.evidence["installed"] == "4.16.4" and f.evidence["fix_version"] == "4.22.0"
@@ -105,15 +105,15 @@ def test_only_direct_runtime_dependencies_become_findings(tmp_path, monkeypatch)
 
 def test_a_failed_audit_is_an_error_never_an_empty_clean_result(tmp_path, monkeypatch):
     _stub_npm(monkeypatch, json.dumps({"error": {"summary": "request to registry failed, reason: ENOTFOUND"}}))
-    out = deps.audit(_pkg(tmp_path))
+    out = deps.audit(_pkg(tmp_path), allow_network=True)
     assert out["findings"] == [] and "ENOTFOUND" in out["error"]
     _stub_npm(monkeypatch, "not json")
-    assert deps.audit(_pkg(tmp_path))["error"]
+    assert deps.audit(_pkg(tmp_path), allow_network=True)["error"]
 
 
 def test_no_lockfile_is_reported_not_treated_as_clean(tmp_path):
     (tmp_path / "package.json").write_text("{}")
-    assert "no package-lock.json" in deps.audit(tmp_path)["error"]
+    assert "no package-lock.json" in deps.audit(tmp_path, allow_network=True)["error"]
 
 
 # -- smoke test on the real benchmark target (skipped if it is not cloned) ----------------------------
