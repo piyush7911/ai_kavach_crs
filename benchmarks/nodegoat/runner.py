@@ -108,6 +108,51 @@ def _check_flow(base_url: str, flow: dict) -> tuple[bool, str]:
     return True, f"status={resp.status}"
 
 
+def cmd_harden(args) -> int:
+    """Replay a vuln's primary PoV plus its variants (alternate encodings of the same
+    attack). A correct fix defeats all of them; a fix that only special-cases the
+    primary input is 'overfitted'. The web analogue of re-fuzzing a C patch.
+
+    Verdict: vulnerable (primary still exploitable), overfitted (primary safe but a
+    variant exploitable), hardened (primary + every variant safe).
+    Exit: 0 hardened, 1 overfitted, 2 vulnerable or error.
+    """
+    manifest = json.loads(Path(args.manifest).read_text())
+    vuln = next((v for v in manifest["vulns"] if v["id"] == args.id), None)
+    if not vuln or not vuln.get("pov"):
+        _emit({"error": f"no vuln/pov for id {args.id}"}, args.json)
+        return 2
+    base = Path(args.manifest).resolve().parent
+    primary = json.loads((base / vuln["pov"]).read_text())
+    variants = [(p, json.loads((base / p).read_text())) for p in vuln.get("variants", [])]
+
+    app = AppServer(Path(args.tree).resolve())
+    try:
+        app.start()
+    except Exception as e:  # noqa: BLE001
+        _emit({"error": f"app failed to start: {e}"}, args.json)
+        return 2
+    try:
+        p_exploitable, p_detail = run_exploit(app.base_url, primary)
+        results = []
+        for path, ex in variants:
+            ex_hit, detail = run_exploit(app.base_url, ex)
+            results.append({"variant": path, "exploitable": ex_hit, "detail": detail})
+    finally:
+        app.stop()
+
+    leaked = [r["variant"] for r in results if r["exploitable"]]
+    if p_exploitable:
+        verdict = "vulnerable"
+    elif leaked:
+        verdict = "overfitted"
+    else:
+        verdict = "hardened"
+    _emit({"id": args.id, "verdict": verdict, "primary_exploitable": p_exploitable,
+           "primary_detail": p_detail, "variants_leaked": leaked, "variants": results}, args.json)
+    return {"hardened": 0, "overfitted": 1, "vulnerable": 2}[verdict]
+
+
 def cmd_score(args) -> int:
     raw = json.loads(Path(args.findings).read_text())
     findings = raw["findings"] if isinstance(raw, dict) else raw  # accept {findings:[...]} or [...]
@@ -190,6 +235,9 @@ def main(argv=None) -> int:
     r.add_argument("--exploit", required=True); r.add_argument("--json"); r.set_defaults(fn=cmd_replay)
     g = sub.add_parser("regress"); g.add_argument("--tree", required=True)
     g.add_argument("--flows"); g.add_argument("--json"); g.set_defaults(fn=cmd_regress)
+    h = sub.add_parser("harden"); h.add_argument("--tree", required=True)
+    h.add_argument("--id", required=True); h.add_argument("--manifest", default=str(HERE / "manifest.json"))
+    h.add_argument("--json"); h.set_defaults(fn=cmd_harden)
     c = sub.add_parser("score"); c.add_argument("--findings", required=True)
     c.add_argument("--manifest", required=True); c.add_argument("--patches"); c.add_argument("--json")
     c.set_defaults(fn=cmd_score)

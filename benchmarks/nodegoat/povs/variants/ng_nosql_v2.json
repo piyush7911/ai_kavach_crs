@@ -1,0 +1,1 @@
+{ "method":"GET","path":"/allocations/2?threshold=777%27%3breturn%201%3bvar%20y%3d%27","login_as":"user","success_if":{"status":200,"body_regex":"<strong>[0-9]+ %</strong>"} }

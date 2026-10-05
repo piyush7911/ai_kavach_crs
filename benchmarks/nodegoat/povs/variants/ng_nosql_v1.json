@@ -1,0 +1,1 @@
+{ "method":"GET","path":"/allocations/2?threshold=888%27%20%7C%7C%20%271%27%3D%3D%271","login_as":"user","success_if":{"status":200,"body_regex":"<strong>[0-9]+ %</strong>"} }

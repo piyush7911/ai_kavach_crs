@@ -1,0 +1,1 @@
+{ "method":"GET","path":"/allocations/3","login_as":"user","success_if":{"status":200,"body_regex":"action=\"/allocations/3\""} }

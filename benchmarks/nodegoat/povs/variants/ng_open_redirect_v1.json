@@ -1,0 +1,2 @@
+{ "method": "GET", "path": "/learn?url=//evil.example.com/x", "login_as": "user",
+  "success_if": { "status": 302, "redirect_regex": "^//evil\\.example\\.com" } }

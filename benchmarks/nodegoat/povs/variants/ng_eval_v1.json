@@ -1,0 +1,1 @@
+{ "method":"POST","path":"/contributions","login_as":"user","body":{"preTax":"3*3","afterTax":"0","roth":"0"},"success_if":{"status":200,"body_regex":">9 %<"} }

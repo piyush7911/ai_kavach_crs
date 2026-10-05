@@ -161,3 +161,26 @@ committed findings file predates it). Missed NG-03/06/07 — the three dynamic-p
 **npm/offline (decision 3):** `setup.sh` runs `npm install` against the registry today. For an
 air-gapped venue the target's `node_modules` must be pre-installed or provided; noted as a Track 1
 setup item.
+
+---
+
+## Hardening (variants) — Track 1, added 2026-10-05
+
+The web analogue of re-fuzzing a C patch: replay alternate encodings of the same attack
+after a patch passes PoV+regress. A correct fix defeats all; an overfitted fix that only
+special-cases the primary input leaks a variant.
+
+    python -m benchmarks.nodegoat.runner harden --tree DIR --id NG-04 [--json out]
+
+Exit: 0 hardened, 1 overfitted, 2 vulnerable/error. Reads the vuln's `pov` + `variants`
+from the manifest, runs them against one app instance, verdict:
+- **vulnerable** — primary PoV still exploitable (patch did not fix it)
+- **overfitted** — primary safe but a variant still exploitable
+- **hardened** — primary and every variant safe
+
+Verified three-way on NG-04 (open redirect): vulnerable tree → vulnerable; a normalising
+fix → hardened; a fix that only blocks the literal `evil.example.com` host → overfitted
+(leaks the different-host variant). Variants added for NG-01 eval (2), NG-02 NoSQL (2),
+NG-03 IDOR (1), NG-04 redirect (2), NG-06 XSS (1); each confirmed exploitable on the
+vulnerable tree. The engine's hardening step can call `harden`, or replay the manifest's
+`variants` directly (same exploit shape as `replay`).
