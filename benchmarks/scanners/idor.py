@@ -99,7 +99,8 @@ def confirm_idor(findings: list[Finding], base_url: str, auth: dict | None = Non
     provided). Promotes on a hit; a candidate that never flips stays a candidate (0 FP). Authenticated IDOR
     with no creds configured, and cross-tenant IDOR with no path id, stay candidates."""
     from benchmarks.nodegoat.exploit import run_exploit
-    roles = ["none"] + sorted((auth or {}).get("roles", {})) if auth else ["none"]
+    # roles to try: unauthenticated, then each configured role (or NodeGoat's built-in creds when no spec)
+    roles = ["none"] + (sorted((auth or {}).get("roles", {})) if auth else ["user", "admin"])
     promoted = 0
     for f in findings:
         if f.status == "confirmed" or f.klass != "idor":
@@ -109,13 +110,17 @@ def confirm_idor(findings: list[Finding], base_url: str, auth: dict | None = Non
         if not seg or " " not in route:
             continue                                   # only path-id routes are auto-confirmable this way
         method, _, path = route.partition(" ")
+        placeholder = f"{{{seg}}}" if f"{{{seg}}}" in path else f":{seg}"   # brace {id} or colon :id form
         done = False
         for role in roles:
-            for own, foreign in (("1", "2"), ("2", "1"), ("1", "3"), ("2", "3")):
-                ex = {"idor": {"own_request": {"method": method, "path": path.replace(f"{{{seg}}}", own)},
-                               "foreign_request": {"method": method, "path": path.replace(f"{{{seg}}}", foreign)}},
+            for own, foreign in (("1", "2"), ("2", "1"), ("0", "1"), ("1", "0"), ("1", "3"), ("2", "3")):
+                ex = {"idor": {"own_request": {"method": method, "path": path.replace(placeholder, own)},
+                               "foreign_request": {"method": method, "path": path.replace(placeholder, foreign)}},
                       "login_as": role, "auth": auth or {}}
-                hit, detail = run_exploit(base_url, ex)
+                try:
+                    hit, detail = run_exploit(base_url, ex)
+                except ValueError:                       # role unknown for this app's auth — skip it
+                    continue
                 if hit:
                     f.status, f.confidence = "confirmed", "high"
                     f.reason = (f"direct object reference (as {role}): foreign id {foreign} returned different "

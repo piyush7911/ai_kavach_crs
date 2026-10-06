@@ -217,6 +217,8 @@ def main(argv=None) -> int:
                          "(CEGIS, gated) for confirmed code-location findings with no template. Needs "
                          "--target; LLM-fallback also needs --url + the LLM endpoint (+ --run-cmd for py/js). "
                          "Dependencies stay report-only")
+    ap.add_argument("--auth", help="a JSON auth spec (roles->creds + login shape) to enable authenticated "
+                                   "confirmation (authed IDOR/BOLA, live JWT). Shape matches Session's auth")
     ap.add_argument("--run-cmd", default="", help="command to start the app for the LLM-fix gate (py/js)")
     ap.add_argument("--seed", default="", help="seed/reset path hit before each gate attempt (e.g. /createdb)")
     ap.add_argument("--nuclei", help="a Nuclei JSONL report to ingest + confirm")
@@ -317,10 +319,13 @@ def main(argv=None) -> int:
         findings += mf
 
     if args.idor and args.routes:
+        import json as _json
         from benchmarks.scanners.idor import confirm_idor, findings_from_idor
+        auth_spec = _json.load(open(args.auth)) if args.auth else None
         idf = findings_from_idor(args.routes, args.target)
-        n_idor = confirm_idor(idf, args.url.rstrip("/")) if args.url else 0
-        print(f"[idor] {len(idf)} IDOR/BOLA candidate(s); {n_idor} CONFIRMED credential-free (path-id oracle)")
+        n_idor = confirm_idor(idf, args.url.rstrip("/"), auth=auth_spec) if args.url else 0
+        how = "authenticated + credential-free" if auth_spec else "credential-free"
+        print(f"[idor] {len(idf)} IDOR/BOLA candidate(s); {n_idor} CONFIRMED ({how} path-id oracle)")
         findings += idf
 
     # Correlate code-location candidates (static / Opengrep / Joern / scanner) to routes, then confirm via oracle.
