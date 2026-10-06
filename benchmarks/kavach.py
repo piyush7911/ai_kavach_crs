@@ -49,7 +49,8 @@ def _static(stack: str, target: Path) -> list[Finding]:
 
 
 def _dynamic(url: str, zap_report: str | None = None, nuclei_report: str | None = None,
-             llm: object | None = None, surface: bool = False, attacks: bool = False) -> tuple:
+             llm: object | None = None, surface: bool = False, attacks: bool = False,
+             target: str | None = None) -> tuple:
     from src.pyauto.probes import (ProbeCtx, enrich_routes, mine_params, probe,
                                    routes_from_crawl, routes_from_sitemap, Route)
     pu = urlparse(url.rstrip("/"))
@@ -92,7 +93,11 @@ def _dynamic(url: str, zap_report: str | None = None, nuclei_report: str | None 
                 return Session(origin).request(r.method, r.path).body
             except Exception:  # noqa: BLE001
                 return ""
-        cands = propose_candidates(routes, llm, fetch)
+        source_for = None
+        if target:                                     # Slice B.5: read the handler source for exact params
+            from src.pyauto.llm_attacks import make_source_lookup
+            source_for = make_source_lookup(target)
+        cands = propose_candidates(routes, llm, fetch, source_for=source_for)
         confirm_candidates(cands, ctx)                 # our sound oracle decides — not the LLM
         newc = [c for c in cands if c.status == "confirmed"]
         print(f"[llm-attacks] {len(cands)} param/class hypotheses on gap routes → {len(newc)} CONFIRMED by oracle")
@@ -152,7 +157,7 @@ def main(argv=None) -> int:
     if args.url:
         print(f"[dynamic] discovering + confirming on {args.url} ...")
         d, cov = _dynamic(args.url, zap_report=args.zap, nuclei_report=args.nuclei,
-                          llm=llm, surface=args.llm_surface, attacks=args.llm_attacks)
+                          llm=llm, surface=args.llm_surface, attacks=args.llm_attacks, target=args.target)
         print(f"[dynamic] {len(d)} CONFIRMED")
         print(f"[coverage] examined {cov['routes_examined']} routes; actively ATTACKED "
               f"{cov['routes_attacked']} ({cov['attack_coverage_pct']}%); attack-gap {cov['attack_gap']} "

@@ -22,13 +22,15 @@ _ALLOWED = {"sql-injection", "nosql-injection", "command-injection", "path-trave
             "open-redirect", "xss"}
 
 _PROMPT = (
-    "For the HTTP route below and its sample response, propose which request PARAMETERS the endpoint likely "
-    "reads, and for each the single most likely vulnerability class to TEST for (authorized security "
-    "testing).\n"
-    "Output ONLY a JSON array; each item {\"param\":\"name\",\"class\":\"<one of: %s>\"}. Use real "
-    "parameter names a client would send (query or body field); at most 4; de-duplicate; no prose.\n"
-    "ROUTE: %s %s\nSAMPLE RESPONSE (truncated):\n%s\n"
-) % ("|".join(sorted(_ALLOWED)), "%s", "%s", "%s")
+    "For the HTTP route below, propose which request PARAMETERS the endpoint reads and, for each, the single "
+    "most likely vulnerability class to TEST for (authorized security testing).\n"
+    "When HANDLER SOURCE is given, READ IT and use the EXACT parameter names the code reads (e.g. the key "
+    "in request.args.get(...), queryParams.get(...), req.query.X, @RequestParam) — do not guess if the code "
+    "shows them. Resolve obvious constants to their string value when visible.\n"
+    "Output ONLY a JSON array; each item {\"param\":\"name\",\"class\":\"<one of: %s>\"}; at most 4; "
+    "de-duplicate; no prose.\n"
+    "ROUTE: %s %s\n%sSAMPLE RESPONSE (truncated):\n%s\n"
+) % ("|".join(sorted(_ALLOWED)), "%s", "%s", "%s", "%s")
 
 
 def _extract_array(reply: str):
@@ -43,9 +45,11 @@ def _extract_array(reply: str):
 
 
 def propose_candidates(routes, llm: Callable[[str], str], fetch: Callable[[object], str],
-                       max_routes: int = 25) -> list[Finding]:
+                       source_for: Callable[[object], str] = None, max_routes: int = 25) -> list[Finding]:
     """For gap routes (no params found), ask the model for {param, class}; emit CANDIDATE findings that
-    `confirm_candidates` will then try to confirm with the real oracle. Bounded by `max_routes`."""
+    `confirm_candidates` will then try to confirm with the real oracle. When `source_for` returns the
+    route's handler code, the model reads the EXACT parameter names from it (source + endpoint together —
+    the reliable path on apps that obscure params). Bounded by `max_routes`."""
     out, i, used = [], 0, 0
     for r in routes:
         if r.query_fields or r.path_params or used >= max_routes:   # only routes we have no carrier for
@@ -53,7 +57,9 @@ def propose_candidates(routes, llm: Callable[[str], str], fetch: Callable[[objec
         used += 1
         try:
             sample = fetch(r)[:2000]
-            reply = llm(_PROMPT % (r.method, r.path, sample))
+            src = (source_for(r) if source_for else "") or ""
+            src_block = f"HANDLER SOURCE (read it for exact param names):\n{src[:6000]}\n" if src else ""
+            reply = llm(_PROMPT % (r.method, r.path, src_block, sample))
         except Exception:  # noqa: BLE001 — a model/fetch failure must not sink the run
             continue
         seen = set()
@@ -72,3 +78,38 @@ def propose_candidates(routes, llm: Callable[[str], str], fetch: Callable[[objec
                 message=f"LLM suspects {klass} via param {param!r} on {r.method} {r.path}",
                 evidence={"route": f"{r.method} {r.path}", "param": param}))
     return out
+
+
+def make_source_lookup(target) -> Callable[[object], str]:
+    """A best-effort route->handler-source resolver over a source tree: match a route's most distinctive
+    path segment (ignoring LEVEL_n / version / {id} parts) to a source file by name, else by content. Works
+    across frameworks where the handler file/class name relates to the route; returns "" when nothing fits.
+    Generic — no per-app knowledge."""
+    from pathlib import Path
+    root = Path(target)
+    exts = (".java", ".js", ".ts", ".py", ".rb", ".go", ".php", ".cs")
+    files = [p for p in root.rglob("*")
+             if p.suffix in exts and "node_modules" not in p.parts and ".git" not in p.parts
+             and "test" not in p.name.lower() and p.stat().st_size < 200_000]
+
+    def _segs(path: str) -> list[str]:
+        skip = re.compile(r"^(LEVEL_\d+|v\d+|\d+|api|rest)$|^\{.*\}$", re.I)
+        return [s for s in path.split("/") if s and not skip.match(s)]
+
+    def lookup(route) -> str:
+        segs = _segs(route.path)
+        if not segs:
+            return ""
+        key = segs[-1]
+        for p in files:                                  # filename match first (most precise)
+            if key.lower() in p.stem.lower():
+                return p.read_text(errors="replace")
+        for p in files:                                  # fallback: content mentions the segment
+            try:
+                t = p.read_text(errors="replace")
+            except OSError:
+                continue
+            if key in t:
+                return t
+        return ""
+    return lookup
