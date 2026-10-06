@@ -15,6 +15,7 @@ driver is. Mass-assignment is skipped: its proof is not a single-request oracle 
     python -m benchmarks.pyautofix_vampi
 """
 import os
+import re
 import sys
 import time
 import urllib.request
@@ -62,8 +63,14 @@ def _regression(f):
     ex = f.exploit
     if "access_control" in ex:                       # BOLA: the legitimate owner can still do it
         ac = ex["access_control"]
-        reg = {"name": "owner-allowed", "login_as": ac["authorized"], "auth": VAMPI_AUTH,
-               "method": ac["request"]["method"], "path": ac["request"]["path"],
+        actor, path = ac["authorized"], ac["request"]["path"]
+        # a password-change PoV mutates the owner's own password, so logging back in as that owner fails
+        # even for a correct fix. Verify the action as admin, whose credential the user-level PoV never
+        # touches, on admin's own resource.
+        if "password" in path:
+            actor, path = "admin", re.sub(r"/users/v1/[^/]+/", "/users/v1/admin/", path)
+        reg = {"name": "owner-allowed", "login_as": actor, "auth": VAMPI_AUTH,
+               "method": ac["request"]["method"], "path": path,
                "body": ac["request"].get("body"), "expect": {"status_lt": 400}}
         return [reg]
     if f.klass == "injection":                       # a real username still resolves
