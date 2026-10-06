@@ -1,0 +1,110 @@
+rules:
+# Generic Java / Spring security rules for AI Kavach. Nothing names a particular application; the engine
+# must work on code it has not seen. Static hits are CANDIDATES — a replayed HTTP exploit is what confirms
+# one. Semgrep runs these from the local file (no registry), so it works air-gapped. kavach_class names
+# match the HTTP oracle classes so the shared Finding flows into the same confirm/report path.
+
+- id: kavach-java-sql-injection
+  languages: [java]
+  severity: ERROR
+  message: A SQL string built by concatenation can reach a query (SQL injection).
+  metadata: {cwe: "CWE-89", owasp: "A03:2021", kavach_class: sql-injection, confidence: high}
+  patterns:
+    - pattern: $SQL + $X
+    - metavariable-regex:
+        metavariable: $SQL
+        regex: (?i).*(select\s.*\sfrom\s|insert\s+into\s|delete\s+from\s|update\s.*\sset\s|\swhere\s[\w.]+\s*=).*
+
+- id: kavach-java-command-injection
+  languages: [java]
+  severity: ERROR
+  message: A non-constant value reaches Runtime.exec / ProcessBuilder (command injection).
+  metadata: {cwe: "CWE-78", owasp: "A03:2021", kavach_class: command-injection, confidence: high}
+  patterns:
+    - pattern-either:
+        - pattern: $R.exec($X)
+        - pattern: new ProcessBuilder(...)
+    - pattern-not: $R.exec("...")
+    - pattern-not: new ProcessBuilder("...")
+
+- id: kavach-java-path-traversal
+  languages: [java]
+  severity: WARNING
+  message: A non-constant path reaches a file API (path traversal / LFI).
+  metadata: {cwe: "CWE-22", owasp: "A01:2021", kavach_class: path-traversal, confidence: medium}
+  patterns:
+    - pattern-either:
+        - pattern: new FileInputStream($X)
+        - pattern: new File($X)
+        - pattern: Files.readAllBytes($X)
+        - pattern: Files.readString($X)
+        - pattern: Files.lines($X)
+    - pattern-not: new FileInputStream("...")
+    - pattern-not: new File("...")
+
+- id: kavach-java-open-redirect
+  languages: [java]
+  severity: WARNING
+  message: A non-constant value reaches sendRedirect (open redirect).
+  metadata: {cwe: "CWE-601", owasp: "A01:2021", kavach_class: open-redirect, confidence: high}
+  patterns:
+    - pattern: $RESP.sendRedirect($X)
+    - pattern-not: $RESP.sendRedirect("...")
+
+- id: kavach-java-ssrf
+  languages: [java]
+  severity: WARNING
+  message: A non-constant URL is opened server-side (SSRF).
+  metadata: {cwe: "CWE-918", owasp: "A10:2021", kavach_class: ssrf, confidence: medium}
+  patterns:
+    - pattern-either:
+        - pattern: new URL($X).openConnection(...)
+        - pattern: new URL($X).openStream(...)
+    - pattern-not: new URL("...").openConnection(...)
+    - pattern-not: new URL("...").openStream(...)
+
+- id: kavach-java-xxe
+  languages: [java]
+  severity: WARNING
+  message: An XML parser is created without disabling external entities (XXE).
+  metadata: {cwe: "CWE-611", owasp: "A05:2021", kavach_class: xxe, confidence: low}
+  patterns:
+    - pattern-either:
+        - pattern: DocumentBuilderFactory.newInstance()
+        - pattern: SAXParserFactory.newInstance()
+        - pattern: XMLInputFactory.newInstance()
+
+- id: kavach-java-insecure-deserialization
+  languages: [java]
+  severity: ERROR
+  message: Java native deserialization of untrusted data can run code (insecure deserialization).
+  metadata: {cwe: "CWE-502", owasp: "A08:2021", kavach_class: insecure-deserialization, confidence: medium}
+  patterns:
+    - pattern-either:
+        - pattern: new ObjectInputStream(...)
+        - pattern: $O.readObject()
+
+- id: kavach-java-weak-crypto
+  languages: [java]
+  severity: WARNING
+  message: A weak hash or cipher is used (cryptographic failure).
+  metadata: {cwe: "CWE-327", owasp: "A02:2021", kavach_class: weak-crypto, confidence: medium}
+  patterns:
+    - pattern-either:
+        - pattern: MessageDigest.getInstance("MD5")
+        - pattern: MessageDigest.getInstance("MD2")
+        - pattern: MessageDigest.getInstance("SHA-1")
+        - pattern: MessageDigest.getInstance("SHA1")
+        - pattern: Cipher.getInstance("DES")
+        - pattern: Cipher.getInstance("=~/.*ECB.*/")
+
+- id: kavach-java-hardcoded-secret
+  languages: [java]
+  severity: WARNING
+  message: A secret, key, password or token is assigned a hard-coded string literal.
+  metadata: {cwe: "CWE-798", owasp: "A07:2021", kavach_class: hardcoded-secret, confidence: medium}
+  patterns:
+    - pattern: $TYPE $NAME = "...";
+    - metavariable-regex:
+        metavariable: $NAME
+        regex: (?i).*(secret|password|passwd|token|api_?key|private_?key|crypto_?key).*
