@@ -1,0 +1,39 @@
+{
+ "inline_tokens": [],
+ "payloads": [
+  "mutation Promote($id:ID!){\n  a: updateUser(id:$id, role: ADMIN){ id role }\n}"
+ ],
+ "sections": [
+  "Broken Function Level Authorization (BFLA)",
+  "Attack Surface",
+  "High-Value Actions",
+  "Reconnaissance",
+  "Surface Enumeration",
+  "Signals",
+  "Key Vulnerabilities",
+  "Verb Drift and Aliases",
+  "Edge vs Core Mismatch",
+  "Feature Flag Bypass",
+  "Batch Job Paths",
+  "Content-Type Paths",
+  "Advanced Techniques",
+  "GraphQL",
+  "gRPC",
+  "WebSocket",
+  "Multi-Tenant",
+  "Microservices",
+  "Bypass Techniques",
+  "Header Trust",
+  "Route Shadowing",
+  "Idempotency and Retries",
+  "Cache Key Confusion",
+  "Testing Methodology",
+  "Validation",
+  "False Positives",
+  "Impact",
+  "Pro Tips",
+  "Summary"
+ ],
+ "_class": "broken_function_level_authorization",
+ "_source": "strix/skills/vulnerabilities/broken_function_level_authorization.md (Apache-2.0, usestrix/strix)"
+}

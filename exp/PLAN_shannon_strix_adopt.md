@@ -98,3 +98,19 @@ the candidate tier separately) rather than implying full coverage — same hones
 3. P2 coverage ledger (exp) → promote.  4. P3 IDOR candidate detector + two-user confirm (exp) → promote.
 5. P4 exchange log.  6. P5 breadth mining.
 Each measured true/found/confirmed/patched + (new) ruled_out/not_applicable on the same benchmarks.
+
+---
+## Build results (2026-10-07, all in exp/, self-checks pass)
+- **P1** `scripts/finding_gate.py` — gate fields filled from the oracle; validate blocks promotion. ✓
+- **P2** `scripts/coverage_ledger.py` — evidenced ledger, 5 outcomes, evidence-required-for-3, dedupe. ✓
+- **P3** `scripts/idor_candidates.py` + `knowledge/idor_fields.json` — IDOR candidates: NodeGoat 2 (its exact
+  IDOR), VAmPI 4 (BOLA-by-username), VulnerableApp 42 (recall-first; two-user oracle gates precision). ✓
+- **P4** `scripts/exchange_log.py` — append-only numeric-id HTTP log; verify() rejects fabricated ids. ✓
+- **P5** `scripts/mine_skills.py` → `knowledge/techniques/*.json` — 29 technique files mined (ssti 136
+  tokens/10 payloads, nosql 80/19, sql 78, mass_assignment field names, prototype_pollution, rce…). Raw
+  vocab/payloads for future candidate detectors + cheap marker oracles (ssti ${7*7}->49, nosql $ne/$where,
+  mass-assignment isAdmin/role). ✓
+
+Promotion order to src/ (after review): P1 gate into the confirm/live/template paths; P2 coverage.json into
+`kavach --out`; P3 as a `scanners/idor.py` candidate source + two-user oracle in the confirm path; P4 wrap
+the oracle HTTP client; P5 drives new per-class candidate detectors.

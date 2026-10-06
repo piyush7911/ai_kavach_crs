@@ -1,0 +1,42 @@
+{
+ "inline_tokens": [
+  "rce",
+  "semantic_confusion",
+  "argv",
+  "--",
+  "/proc/<pid>/cmdline",
+  "@response-file",
+  "--config",
+  "-K",
+  "GetCommandLineA",
+  "main(int, char **)",
+  "GetEnvironmentVariableA",
+  "GetCurrentDirectoryA",
+  "CommandLineToArgvW",
+  "CommandLineToArgvA",
+  "-",
+  "/",
+  "\\"
+ ],
+ "payloads": [
+  "request value\n  -> application validation\n  -> argv builder or command-line string serializer\n  -> OS/process creation API\n  -> runtime argv construction\n  -> target option parser\n  -> response/config",
+  "intended: [\"tool\", USER_VALUE]\nsupplied: USER_VALUE = \"--output=/controlled/path\"\nactual:   tool parses an output option instead of an operand",
+  "[\"tool\", \"user --flag\"]       # one argv element; no split by execve\n[\"tool\", \"user\", \"--flag\"]  # extra argv element reached the target\n[\"tool\", \"@args.txt\"]        # one element, then reparsed by th",
+  "exec*  posix_spawn  subprocess  ProcessBuilder  Runtime.exec\nCreateProcess  ShellExecute  child_process  os/exec  Command"
+ ],
+ "sections": [
+  "Argument Injection",
+  "Model Every Parser Boundary",
+  "Primitive 1: Option and Subcommand Injection",
+  "Primitive 2: Argument-Boundary Breakout",
+  "Primitive 3: Response, Config, and Authentication Files",
+  "Windows Unicode-to-ANSI Best-Fit",
+  "Reconnaissance",
+  "Validation",
+  "False Positives",
+  "Remediation",
+  "Summary"
+ ],
+ "_class": "argument_injection",
+ "_source": "strix/skills/vulnerabilities/argument_injection.md (Apache-2.0, usestrix/strix)"
+}

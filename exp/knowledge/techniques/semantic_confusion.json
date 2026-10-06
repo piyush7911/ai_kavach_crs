@@ -1,0 +1,46 @@
+{
+ "inline_tokens": [
+  "browser_security",
+  "infrastructure_lifecycle",
+  "security_check(value_A)",
+  "sink(transform(value_A))",
+  "PATH",
+  "bin",
+  "npx_confusion",
+  "npx",
+  "npm exec",
+  "/",
+  "\\\\",
+  "//",
+  "hypothesis",
+  "hurl"
+ ],
+ "payloads": [
+  "raw bytes\n  -> transport parser\n  -> proxy / middleware representation\n  -> authorization or validation decision\n  -> rewrite / decode / normalization\n  -> internal redirect or dispatch\n  -> final sin"
+ ],
+ "sections": [
+  "Semantic Confusion",
+  "Authorization and Safety Boundary",
+  "Core Model",
+  "High-Value Confusion Classes",
+  "Parser Differentials",
+  "Normalization and Canonicalization Drift",
+  "Field and Type Overloading",
+  "Lifecycle and State Drift",
+  "Boundary Translation",
+  "Namespace and Resolution Fallback",
+  "Reconnaissance",
+  "Black-Box Mapping",
+  "Source-Aware Mapping",
+  "Differential Test Matrix",
+  "Repeatable Harnesses",
+  "Chaining Strategy",
+  "Testing Methodology",
+  "Validation",
+  "False Positives",
+  "Pro Tips",
+  "Summary"
+ ],
+ "_class": "semantic_confusion",
+ "_source": "strix/skills/vulnerabilities/semantic_confusion.md (Apache-2.0, usestrix/strix)"
+}
