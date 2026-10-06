@@ -1,0 +1,321 @@
+{
+ "base": "http://127.0.0.1:60740",
+ "requests": 323,
+ "seconds": 0.4,
+ "routes": 19,
+ "reachable": 19,
+ "findings": [
+  {
+   "route": "GET /research [app/routes/research.js::displayResearch]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET /research [app/routes/research.js::displayResearch]",
+   "class": "cookie-samesite",
+   "evidence": "cookie connect.sid lacks SameSite"
+  },
+  {
+   "route": "GET /learn [app/routes/index.js::<inline>]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET /learn [app/routes/index.js::<inline>]",
+   "class": "cookie-samesite",
+   "evidence": "cookie connect.sid lacks SameSite"
+  },
+  {
+   "route": "POST /memos [app/routes/memos.js::addMemos]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST /memos [app/routes/memos.js::addMemos]",
+   "class": "cookie-samesite",
+   "evidence": "cookie connect.sid lacks SameSite"
+  },
+  {
+   "route": "GET /memos [app/routes/memos.js::displayMemos]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET /memos [app/routes/memos.js::displayMemos]",
+   "class": "cookie-samesite",
+   "evidence": "cookie connect.sid lacks SameSite"
+  },
+  {
+   "route": "GET /allocations/:userId [app/routes/allocations.js::displayAllocations]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET /allocations/:userId [app/routes/allocations.js::displayAllocations]",
+   "class": "cookie-samesite",
+   "evidence": "cookie connect.sid lacks SameSite"
+  },
+  {
+   "route": "POST /benefits [app/data/benefits-dao.js::updateBenefits]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST /benefits [app/data/benefits-dao.js::updateBenefits]",
+   "class": "cookie-samesite",
+   "evidence": "cookie connect.sid lacks SameSite"
+  },
+  {
+   "route": "GET /benefits [app/routes/benefits.js::displayBenefits]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET /benefits [app/routes/benefits.js::displayBenefits]",
+   "class": "cookie-samesite",
+   "evidence": "cookie connect.sid lacks SameSite"
+  },
+  {
+   "route": "POST /contributions [app/routes/contributions.js::handleContributionsUpdate]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST /contributions [app/routes/contributions.js::handleContributionsUpdate]",
+   "class": "cookie-samesite",
+   "evidence": "cookie connect.sid lacks SameSite"
+  },
+  {
+   "route": "GET /contributions [app/routes/contributions.js::displayContributions]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET /contributions [app/routes/contributions.js::displayContributions]",
+   "class": "cookie-samesite",
+   "evidence": "cookie connect.sid lacks SameSite"
+  },
+  {
+   "route": "POST /profile [app/routes/profile.js::handleProfileUpdate]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST /profile [app/routes/profile.js::handleProfileUpdate]",
+   "class": "cookie-samesite",
+   "evidence": "cookie connect.sid lacks SameSite"
+  },
+  {
+   "route": "GET /profile [app/routes/profile.js::displayProfile]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET /profile [app/routes/profile.js::displayProfile]",
+   "class": "cookie-samesite",
+   "evidence": "cookie connect.sid lacks SameSite"
+  },
+  {
+   "route": "GET /dashboard [app/routes/session.js::displayWelcomePage]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET /dashboard [app/routes/session.js::displayWelcomePage]",
+   "class": "cookie-samesite",
+   "evidence": "cookie connect.sid lacks SameSite"
+  },
+  {
+   "route": "GET /logout [app/routes/session.js::displayLogoutPage]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST /signup [app/routes/session.js::handleSignup]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST /signup [app/routes/session.js::handleSignup]",
+   "class": "cookie-samesite",
+   "evidence": "cookie connect.sid lacks SameSite"
+  },
+  {
+   "route": "POST /signup [app/routes/session.js::handleSignup]",
+   "class": "csrf-missing",
+   "evidence": "anti-CSRF token field is present but rendered empty"
+  },
+  {
+   "route": "GET /signup [app/routes/session.js::displaySignupPage]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET /signup [app/routes/session.js::displaySignupPage]",
+   "class": "cookie-samesite",
+   "evidence": "cookie connect.sid lacks SameSite"
+  },
+  {
+   "route": "GET /signup [app/routes/session.js::displaySignupPage]",
+   "class": "csrf-missing",
+   "evidence": "anti-CSRF token field is present but rendered empty"
+  },
+  {
+   "route": "POST /login [app/routes/session.js::handleLoginRequest]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST /login [app/routes/session.js::handleLoginRequest]",
+   "class": "cookie-samesite",
+   "evidence": "cookie connect.sid lacks SameSite"
+  },
+  {
+   "route": "POST /login [app/routes/session.js::handleLoginRequest]",
+   "class": "csrf-missing",
+   "evidence": "anti-CSRF token field is present but rendered empty"
+  },
+  {
+   "route": "POST /login [app/routes/session.js::handleLoginRequest]",
+   "class": "no-rate-limit",
+   "evidence": "20 wrong-password attempts, statuses [200], no lockout / 429 / Retry-After"
+  },
+  {
+   "route": "GET /login [app/routes/session.js::displayLoginPage]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET /login [app/routes/session.js::displayLoginPage]",
+   "class": "cookie-samesite",
+   "evidence": "cookie connect.sid lacks SameSite"
+  },
+  {
+   "route": "GET /login [app/routes/session.js::displayLoginPage]",
+   "class": "csrf-missing",
+   "evidence": "anti-CSRF token field is present but rendered empty"
+  },
+  {
+   "route": "GET /login [app/routes/session.js::displayLoginPage]",
+   "class": "no-rate-limit",
+   "evidence": "20 wrong-password attempts, statuses [200], no lockout / 429 / Retry-After"
+  },
+  {
+   "route": "GET / [app/routes/session.js::displayWelcomePage]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET / [app/routes/session.js::displayWelcomePage]",
+   "class": "cookie-samesite",
+   "evidence": "cookie connect.sid lacks SameSite"
+  },
+  {
+   "route": "GET / [app/routes/tutorial.js::<inline>]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET / [app/routes/tutorial.js::<inline>]",
+   "class": "cookie-samesite",
+   "evidence": "cookie connect.sid lacks SameSite"
+  }
+ ],
+ "baselines": {
+  "GET /research [app/routes/research.js::displayResearch]": {
+   "status": 302,
+   "method": "GET",
+   "ctype": "text/plain; charset=utf-8"
+  },
+  "GET /learn [app/routes/index.js::<inline>]": {
+   "status": 302,
+   "method": "GET",
+   "ctype": "text/plain; charset=utf-8"
+  },
+  "POST /memos [app/routes/memos.js::addMemos]": {
+   "status": 302,
+   "method": "POST",
+   "ctype": "text/plain; charset=utf-8"
+  },
+  "GET /memos [app/routes/memos.js::displayMemos]": {
+   "status": 302,
+   "method": "GET",
+   "ctype": "text/plain; charset=utf-8"
+  },
+  "GET /allocations/:userId [app/routes/allocations.js::displayAllocations]": {
+   "status": 302,
+   "method": "GET",
+   "ctype": "text/plain; charset=utf-8"
+  },
+  "POST /benefits [app/data/benefits-dao.js::updateBenefits]": {
+   "status": 302,
+   "method": "POST",
+   "ctype": "text/plain; charset=utf-8"
+  },
+  "GET /benefits [app/routes/benefits.js::displayBenefits]": {
+   "status": 302,
+   "method": "GET",
+   "ctype": "text/plain; charset=utf-8"
+  },
+  "POST /contributions [app/routes/contributions.js::handleContributionsUpdate]": {
+   "status": 302,
+   "method": "POST",
+   "ctype": "text/plain; charset=utf-8"
+  },
+  "GET /contributions [app/routes/contributions.js::displayContributions]": {
+   "status": 302,
+   "method": "GET",
+   "ctype": "text/plain; charset=utf-8"
+  },
+  "POST /profile [app/routes/profile.js::handleProfileUpdate]": {
+   "status": 302,
+   "method": "POST",
+   "ctype": "text/plain; charset=utf-8"
+  },
+  "GET /profile [app/routes/profile.js::displayProfile]": {
+   "status": 302,
+   "method": "GET",
+   "ctype": "text/plain; charset=utf-8"
+  },
+  "GET /dashboard [app/routes/session.js::displayWelcomePage]": {
+   "status": 302,
+   "method": "GET",
+   "ctype": "text/plain; charset=utf-8"
+  },
+  "GET /logout [app/routes/session.js::displayLogoutPage]": {
+   "status": 302,
+   "method": "GET",
+   "ctype": "text/plain; charset=utf-8"
+  },
+  "POST /signup [app/routes/session.js::handleSignup]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "text/html; charset=utf-8"
+  },
+  "GET /signup [app/routes/session.js::displaySignupPage]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "text/html; charset=utf-8"
+  },
+  "POST /login [app/routes/session.js::handleLoginRequest]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "text/html; charset=utf-8"
+  },
+  "GET /login [app/routes/session.js::displayLoginPage]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "text/html; charset=utf-8"
+  },
+  "GET / [app/routes/session.js::displayWelcomePage]": {
+   "status": 302,
+   "method": "GET",
+   "ctype": "text/plain; charset=utf-8"
+  },
+  "GET / [app/routes/tutorial.js::<inline>]": {
+   "status": 302,
+   "method": "GET",
+   "ctype": "text/plain; charset=utf-8"
+  }
+ }
+}

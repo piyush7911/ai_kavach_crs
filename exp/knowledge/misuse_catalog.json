@@ -1,0 +1,259 @@
+{
+ "_about": "Step 3: API-misuse catalogue as DATA (crypto, JWT, cookies, headers, TLS, CSRF, debug). No application names. Call specs match on resolved method name (mfn) or name+receiver; 'arg'+'bad' check the argument after constant resolution (literal, static final field, enum-free); 'absent' = the same method must NOT contain a call matching it; 'tokens' = identifiers/field names/literals that name a weak primitive inside a method that also does hashing/crypto. Methods hit directly are tagged; their callers (depth 3) inherit the tag.",
+ "ctx_re": "(?is).*(digest|hash|crypt|cipher|mac|sign|jwt|token|password|random|secret|key).*",
+ "checks": [
+  {
+   "class": "weak-hash",
+   "cwe": "CWE-328",
+   "calls": [
+    {
+     "mfn": "java\\.security\\.MessageDigest\\.getInstance.*",
+     "arg": 0,
+     "bad": "(?i)^(MD2|MD4|MD5|SHA-?1|SHA-?0)$"
+    },
+    {
+     "mfn": "org\\.apache\\.commons\\.codec\\.digest\\.DigestUtils\\.(md2|md5|sha1|sha)(Hex|Digest|Base64)?\\b.*"
+    },
+    {
+     "mfn": "org\\.springframework\\.util\\.DigestUtils\\.md5.*"
+    },
+    {
+     "name": "md5|sha1|md2|md4",
+     "recv": "(?i)(hashlib|Digest|DigestUtils|crypto|Hashing)"
+    },
+    {
+     "name": "createHash|new|getInstance",
+     "recv": "(?i)(hashlib|crypto|MessageDigest)",
+     "arg": 0,
+     "bad": "(?i)^(md2|md4|md5|sha-?1)$"
+    }
+   ],
+   "tokens": "(?i)^(MD2|MD4|MD5|SHA_?1|SHA-1|LM_?HASH|NTLM)$"
+  },
+  {
+   "class": "weak-cipher",
+   "cwe": "CWE-327",
+   "calls": [
+    {
+     "mfn": "javax\\.crypto\\.Cipher\\.getInstance.*",
+     "arg": 0,
+     "bad": "(?i)((^|/)(DES|DESede|TripleDES|RC2|RC4|ARCFOUR|Blowfish)(/|$))|(/ECB(/|$))|(^AES$)"
+    },
+    {
+     "mfn": "javax\\.crypto\\.spec\\.SecretKeySpec\\.<init>.*",
+     "arg": 1,
+     "bad": "(?i)^(DES|DESede|RC2|RC4|Blowfish)$"
+    },
+    {
+     "name": "new",
+     "recv": "(?i)(AES|DES|DES3|ARC4|Blowfish|CAST)",
+     "code_bad": "(?i).*MODE_ECB.*"
+    },
+    {
+     "name": "new",
+     "recv": "(?i)(DES|DES3|ARC4|Blowfish)"
+    },
+    {
+     "name": "createCipher|createCipheriv|createDecipher|createDecipheriv",
+     "arg": 0,
+     "bad": "(?i)(des|rc4|ecb|blowfish)"
+    }
+   ],
+   "tokens": "(?i)^(AES/ECB/.*|DES|DESEDE|RC4|ARCFOUR)$"
+  },
+  {
+   "class": "weak-random",
+   "cwe": "CWE-338",
+   "calls": [
+    {
+     "mfn": "java\\.util\\.Random\\.<init>.*"
+    },
+    {
+     "mfn": "java\\.lang\\.Math\\.random.*"
+    },
+    {
+     "name": "random|randint|randrange|choice|getrandbits|sample|shuffle",
+     "recv": "^random$|\\brandom\\b"
+    },
+    {
+     "name": "random",
+     "recv": "Math"
+    }
+   ]
+  },
+  {
+   "class": "jwt-none",
+   "cwe": "CWE-347",
+   "calls": [
+    {
+     "name": "decode|verify|parse|parseClaimsJws|parse",
+     "code_bad": "(?is).*(algorithms?\\s*[=:]\\s*\\[?\\s*['\"]none['\"]|verify\\s*=\\s*False|verify_signature['\"]?\\s*:\\s*False).*"
+    },
+    {
+     "mfn": "(?s).*(Algorithm\\.none|PlainJWT\\.<init>).*"
+    }
+   ],
+   "tokens": "(?i)^(NONE)$",
+   "token_recv": "(JWSAlgorithm|SignatureAlgorithm|Algorithm|JwsAlgorithm)"
+  },
+  {
+   "class": "jwt-unverified",
+   "cwe": "CWE-347",
+   "calls": [
+    {
+     "name": "parse|decode|parseUnsecured|parseClaimsJwt|getUnverified|decodeJwt",
+     "recv": "(?i)(SignedJWT|JWTParser|JWT|jwt|jwtDecode|JwtParser|Jwts)",
+     "absent": "(?i)^(verify|verifyWith|require|parseClaimsJws|parseSignedClaims|parseSignedContent|build|verifySignature|isSignatureValid|decodeAndVerify|validate)$",
+     "langs": [
+      "java",
+      "js"
+     ]
+    }
+   ]
+  },
+  {
+   "class": "jwt-hardcoded-key",
+   "cwe": "CWE-798",
+   "calls": [
+    {
+     "mfn": "(?s).*(MACSigner|MACVerifier|SecretKeySpec|Keys\\.hmacShaKeyFor|Algorithm\\.HMAC\\w+)\\b.*",
+     "arg": 0,
+     "literal_arg": true
+    },
+    {
+     "name": "sign|encode|verify|decode",
+     "recv": "(?i)(jwt|jsonwebtoken|jws|Jwts)",
+     "arg": 1,
+     "literal_arg": true
+    }
+   ]
+  },
+  {
+   "class": "cookie-flags",
+   "cwe": "CWE-1004",
+   "calls": [
+    {
+     "mfn": "(?s)(javax|jakarta)\\.servlet\\.http\\.Cookie\\.<init>.*",
+     "absent": "(?i)^(setHttpOnly)$"
+    },
+    {
+     "mfn": "(?s)(javax|jakarta)\\.servlet\\.http\\.Cookie\\.<init>.*",
+     "absent": "(?i)^(setSecure)$"
+    },
+    {
+     "name": "set_cookie|cookie|setCookie",
+     "recv": "(?i)(res|response|resp|ctx|reply)",
+     "code_bad": "(?is)^(?!.*(httponly\\s*[=:]\\s*(true|True))).*$"
+    }
+   ]
+  },
+  {
+   "class": "header-misconfig",
+   "cwe": "CWE-1021",
+   "calls": [
+    {
+     "name": "setHeader|addHeader|add|set|put|header|append",
+     "arg": 0,
+     "bad": "(?i)^x-frame-options$",
+     "value_arg": 1,
+     "value_bad": "(?i)^(allow-?all|allow-from.*)$"
+    },
+    {
+     "name": "setHeader|addHeader|add|set|put|header|append",
+     "arg": 0,
+     "bad": "(?i)^access-control-allow-origin$",
+     "value_arg": 1,
+     "value_bad": "^\\*$|(?i)^null$"
+    },
+    {
+     "name": "setHeader|addHeader|add|set|put|header|append",
+     "arg": 0,
+     "bad": "(?i)^referrer-policy$",
+     "value_arg": 1,
+     "value_bad": "(?i)^(unsafe-url|no-referrer-when-downgrade|origin-when-cross-origin)$"
+    }
+   ]
+  },
+  {
+   "class": "csrf-disabled",
+   "cwe": "CWE-352",
+   "calls": [
+    {
+     "name": "disable",
+     "code_bad": "(?is).*csrf.*"
+    },
+    {
+     "name": "csrf_exempt|csrfExempt",
+     "code_bad": ".*"
+    },
+    {
+     "name": "ignoringAntMatchers|ignoringRequestMatchers",
+     "code_bad": "(?is).*csrf.*"
+    }
+   ]
+  },
+  {
+   "class": "tls-verify-off",
+   "cwe": "CWE-295",
+   "calls": [
+    {
+     "name": "get|post|put|delete|request|urlopen|Session",
+     "code_bad": "(?is).*verify\\s*=\\s*False.*"
+    },
+    {
+     "name": "setHostnameVerifier|setDefaultHostnameVerifier",
+     "code_bad": "(?is).*(ALLOW_ALL|NoopHostnameVerifier|TrustAll|\\(h,\\s*s\\)\\s*->\\s*true).*"
+    },
+    {
+     "name": ".*",
+     "code_bad": "(?is).*rejectUnauthorized\\s*:\\s*false.*"
+    }
+   ]
+  },
+  {
+   "class": "debug-enabled",
+   "cwe": "CWE-489",
+   "calls": [
+    {
+     "name": "run",
+     "code_bad": "(?is).*debug\\s*=\\s*True.*"
+    }
+   ]
+  },
+  {
+   "class": "hardcoded-secret",
+   "cwe": "CWE-798",
+   "assign": {
+    "target": "(?i).*(secret|passw(or)?d|api_?key|apikey|private_?key|auth_?token|signing_?key|jwt_?key).*",
+    "min_len": 4,
+    "skip_literal": "(?i)^(true|false|null|none|password|username|secret|changeme)$"
+   }
+  },
+  {
+   "class": "insecure-session",
+   "cwe": "CWE-1004",
+   "calls": [
+    {
+     "name": "session|cookieSession",
+     "recv": "(?i)session",
+     "code_bad": "(?is)^(?!.*cookie\\s*:\\s*\\{[^}]*httpOnly\\s*:\\s*true).*$",
+     "langs": [
+      "js"
+     ]
+    }
+   ]
+  },
+  {
+   "class": "csrf-missing",
+   "cwe": "CWE-352",
+   "app_absent": {
+    "present": "^(use|listen|createServer)$",
+    "present_recv": "(?i)^(app|server)$|express",
+    "absent": "(?i)^(csrf|csurf|lusca|csrfProtection|xsrf)$",
+    "langs": [
+     "js"
+    ]
+   }
+  }
+ ]
+}

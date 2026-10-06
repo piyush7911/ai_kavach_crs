@@ -1,0 +1,22 @@
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by scala.runtime.LazyVals$ (file:/Users/piyush/Desktop/cyber%20hackathon/ai_kavach_crs/exp/third_party/joern/joern-cli/lib/org.scala-lang.scala-library-3.8.3.jar)
+WARNING: Please consider reporting this to the maintainers of class scala.runtime.LazyVals$
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by scala.runtime.LazyVals$ (file:/Users/piyush/Desktop/cyber%20hackathon/ai_kavach_crs/exp/third_party/joern/joern-cli/lib/org.scala-lang.scala-library-3.8.3.jar)
+WARNING: Please consider reporting this to the maintainers of class scala.runtime.LazyVals$
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+executing /private/tmp/claude-501/jr/exp/scripts/joern_taint_data.sc with params=HashMap(fw -> /private/tmp/claude-501/jr/exp/knowledge/framework_checks.json, routes -> /private/tmp/claude-501/jr/exp/knowledge/routes_BenchmarkJava.json, outFile -> /private/tmp/claude-501/jr/exp/results/joern/BenchmarkJava.final4.tsv, bind -> true, second -> /private/tmp/claude-501/jr/exp/knowledge/second_order.json, knowledge -> /private/tmp/claude-501/jr/exp/knowledge/hybridpool_BenchmarkJava.json, cpgFile -> /private/tmp/claude-501/jr/exp/results/joern/cpg/BenchmarkJava.cpg, lang -> java)
+Creating project `BenchmarkJava.cpg` for CPG at `/private/tmp/claude-501/jr/exp/results/joern/cpg/BenchmarkJava.cpg`
+Project with name BenchmarkJava.cpg already exists - overwriting
+Creating working copy of CPG to be safe
+Loading base CPG from: /Users/piyush/Desktop/cyber hackathon/ai_kavach_crs/exp/results/joern/_ws/workspace/BenchmarkJava.cpg/cpg.bin.tmp
+WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::loadLibrary has been called by com.github.luben.zstd.util.Native$1 in an unnamed module (file:/Users/piyush/Desktop/cyber%20hackathon/ai_kavach_crs/exp/third_party/joern/joern-cli/lib/com.github.luben.zstd-jni-1.5.7-11.jar)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+Adding default overlays to base CPG
+The graph has been modified. You may want to use the `save` command to persist changes to disk.  All changes will also be saved collectively on exit
+The graph has been modified. You may want to use the `save` command to persist changes to disk.  All changes will also be saved collectively on exit
+closing/saving project `BenchmarkJava.cpg`

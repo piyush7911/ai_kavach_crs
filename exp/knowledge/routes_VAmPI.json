@@ -1,0 +1,183 @@
+{
+ "root": "benchmark_workspace/VAmPI",
+ "routes": [
+  {
+   "framework": "openapi",
+   "method": "GET",
+   "path": "/createdb",
+   "file": "api_views/main.py",
+   "function": "populate_db",
+   "params": [],
+   "param_annotations": [],
+   "middleware": [],
+   "auth": false,
+   "body": false
+  },
+  {
+   "framework": "openapi",
+   "method": "GET",
+   "path": "/",
+   "file": "api_views/main.py",
+   "function": "basic",
+   "params": [],
+   "param_annotations": [],
+   "middleware": [],
+   "auth": false,
+   "body": false
+  },
+  {
+   "framework": "openapi",
+   "method": "GET",
+   "path": "/users/v1",
+   "file": "api_views/users.py",
+   "function": "get_all_users",
+   "params": [],
+   "param_annotations": [],
+   "middleware": [],
+   "auth": false,
+   "body": false
+  },
+  {
+   "framework": "openapi",
+   "method": "GET",
+   "path": "/users/v1/_debug",
+   "file": "api_views/users.py",
+   "function": "debug",
+   "params": [],
+   "param_annotations": [],
+   "middleware": [],
+   "auth": false,
+   "body": false
+  },
+  {
+   "framework": "openapi",
+   "method": "POST",
+   "path": "/users/v1/register",
+   "file": "api_views/users.py",
+   "function": "register_user",
+   "params": [],
+   "param_annotations": [],
+   "middleware": [],
+   "auth": false,
+   "body": true
+  },
+  {
+   "framework": "openapi",
+   "method": "POST",
+   "path": "/users/v1/login",
+   "file": "api_views/users.py",
+   "function": "login_user",
+   "params": [],
+   "param_annotations": [],
+   "middleware": [],
+   "auth": false,
+   "body": true
+  },
+  {
+   "framework": "openapi",
+   "method": "GET",
+   "path": "/me",
+   "file": "api_views/users.py",
+   "function": "me",
+   "params": [],
+   "param_annotations": [],
+   "middleware": [],
+   "auth": true,
+   "body": false
+  },
+  {
+   "framework": "openapi",
+   "method": "GET",
+   "path": "/users/v1/{username}",
+   "file": "api_views/users.py",
+   "function": "get_by_username",
+   "params": [
+    "username"
+   ],
+   "param_annotations": [],
+   "middleware": [],
+   "auth": false,
+   "body": false
+  },
+  {
+   "framework": "openapi",
+   "method": "DELETE",
+   "path": "/users/v1/{username}",
+   "file": "api_views/users.py",
+   "function": "delete_user",
+   "params": [
+    "username"
+   ],
+   "param_annotations": [],
+   "middleware": [],
+   "auth": true,
+   "body": false
+  },
+  {
+   "framework": "openapi",
+   "method": "PUT",
+   "path": "/users/v1/{username}/email",
+   "file": "api_views/users.py",
+   "function": "update_email",
+   "params": [
+    "username"
+   ],
+   "param_annotations": [],
+   "middleware": [],
+   "auth": true,
+   "body": true
+  },
+  {
+   "framework": "openapi",
+   "method": "PUT",
+   "path": "/users/v1/{username}/password",
+   "file": "api_views/users.py",
+   "function": "update_password",
+   "params": [
+    "username"
+   ],
+   "param_annotations": [],
+   "middleware": [],
+   "auth": true,
+   "body": true
+  },
+  {
+   "framework": "openapi",
+   "method": "GET",
+   "path": "/books/v1",
+   "file": "api_views/books.py",
+   "function": "get_all_books",
+   "params": [],
+   "param_annotations": [],
+   "middleware": [],
+   "auth": false,
+   "body": false
+  },
+  {
+   "framework": "openapi",
+   "method": "POST",
+   "path": "/books/v1",
+   "file": "api_views/books.py",
+   "function": "add_new_book",
+   "params": [],
+   "param_annotations": [],
+   "middleware": [],
+   "auth": true,
+   "body": true
+  },
+  {
+   "framework": "openapi",
+   "method": "GET",
+   "path": "/books/v1/{book_title}",
+   "file": "api_views/books.py",
+   "function": "get_by_title",
+   "params": [
+    "book_title"
+   ],
+   "param_annotations": [],
+   "middleware": [],
+   "auth": true,
+   "body": false
+  }
+ ]
+}

@@ -1,0 +1,186 @@
+ * Serving Flask app 'config'
+ * Debug mode: off
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5001
+[33mPress CTRL+C to quit[0m
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /createdb HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /createdb?id=kvid3b23f&name=kvnameabf45&url=kvurlc707c&file=kvfileb12a1&fileName=kvfileNf1b02&q=kvqcb68a&search=kvsearc11fff&value=kvvalue769e2&input=kvinput2c9bc&username=kvusern8affa&user=kvuser174f4&password=kvpasswb7d44&email=kvemail961e5&content=kvconte5c78d&comment=kvcommefa835&data=kvdata24417&returnTo=kvretur691e0&redirect=kvredir0554d&next=kvnext9b226&target=kvtarge2be50&path=kvpathad6fe&page=kvpage39c90&key=kvkeya6e65&token=kvtokenf1a5b&level=kvlevel5f52b&message=kvmessa57e58&text=kvtext191c8&host=kvhost36d0d&address=kvaddre1f4a6&payload=kvpaylodb430&cmd=kvcmd0198e HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /createdb HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /createdb?id=kvid3b23f&name=kvnameabf45&url=kvurlc707c&file=kvfileb12a1&fileName=kvfileNf1b02&q=kvqcb68a&search=kvsearc11fff&value=kvvalue769e2&input=kvinput2c9bc&username=kvusern8affa&user=kvuser174f4&password=kvpasswb7d44&email=kvemail961e5&content=kvconte5c78d&comment=kvcommefa835&data=kvdata24417&returnTo=kvretur691e0&redirect=kvredir0554d&next=kvnext9b226&target=kvtarge2be50&path=kvpathad6fe&page=kvpage39c90&key=kvkeya6e65&token=kvtokenf1a5b&level=kvlevel5f52b&message=kvmessa57e58&text=kvtext191c8&host=kvhost36d0d&address=kvaddre1f4a6&payload=kvpaylodb430&cmd=kvcmd0198e HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /createdb?url=%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /createdb?url=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /createdb?returnTo=%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /createdb?returnTo=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /createdb?redirect=%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /createdb?redirect=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /createdb?next=%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /createdb?next=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /createdb?target=%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /createdb?target=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /?id=kvid7b9f7&name=kvnamed9a99&url=kvurl888fb&file=kvfile11777&fileName=kvfileNcf75a&q=kvqcf17c&search=kvsearc4b021&value=kvvalue5fa23&input=kvinputa985c&username=kvuserne0a47&user=kvusera0349&password=kvpassw9c716&email=kvemail7f2c9&content=kvconte2a87f&comment=kvcommeb2a92&data=kvdatad37b8&returnTo=kvreture8687&redirect=kvredir27363&next=kvnexta1ede&target=kvtargecc2a2&path=kvpath8f8f8&page=kvpagec47fd&key=kvkey91e12&token=kvtokena18e0&level=kvlevelc16e7&message=kvmessa0cdbb&text=kvtextf2434&host=kvhost07762&address=kvaddre8601e&payload=kvpaylo2167b&cmd=kvcmd5ea27 HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /?id=kvid7b9f7&name=kvnamed9a99&url=kvurl888fb&file=kvfile11777&fileName=kvfileNcf75a&q=kvqcf17c&search=kvsearc4b021&value=kvvalue5fa23&input=kvinputa985c&username=kvuserne0a47&user=kvusera0349&password=kvpassw9c716&email=kvemail7f2c9&content=kvconte2a87f&comment=kvcommeb2a92&data=kvdatad37b8&returnTo=kvreture8687&redirect=kvredir27363&next=kvnexta1ede&target=kvtargecc2a2&path=kvpath8f8f8&page=kvpagec47fd&key=kvkey91e12&token=kvtokena18e0&level=kvlevelc16e7&message=kvmessa0cdbb&text=kvtextf2434&host=kvhost07762&address=kvaddre8601e&payload=kvpaylo2167b&cmd=kvcmd5ea27 HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /?url=%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /?url=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /?returnTo=%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /?returnTo=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /?redirect=%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /?redirect=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /?next=%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /?next=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /?target=%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /?target=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /users/v1?id=kvidec773&name=kvname6e7de&url=kvurl5f2a7&file=kvfile554ce&fileName=kvfileN47be9&q=kvqc2cc5&search=kvsearc68e0c&value=kvvaluec4de7&input=kvinputb6c22&username=kvusernc8fc8&user=kvuser3f28c&password=kvpassw34cb8&email=kvemail9be16&content=kvconte18588&comment=kvcomme60fef&data=kvdata8a909&returnTo=kvreturf81db&redirect=kvredirf8a94&next=kvnextb13e5&target=kvtarge9a2dd&path=kvpath521db&page=kvpageb4efe&key=kvkeyc6338&token=kvtokenfb9c7&level=kvlevel7f9f2&message=kvmessaf2b25&text=kvtextffa10&host=kvhost19158&address=kvaddre54372&payload=kvpaylo2a77e&cmd=kvcmdefde6 HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /users/v1 HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /users/v1?id=kvidec773&name=kvname6e7de&url=kvurl5f2a7&file=kvfile554ce&fileName=kvfileN47be9&q=kvqc2cc5&search=kvsearc68e0c&value=kvvaluec4de7&input=kvinputb6c22&username=kvusernc8fc8&user=kvuser3f28c&password=kvpassw34cb8&email=kvemail9be16&content=kvconte18588&comment=kvcomme60fef&data=kvdata8a909&returnTo=kvreturf81db&redirect=kvredirf8a94&next=kvnextb13e5&target=kvtarge9a2dd&path=kvpath521db&page=kvpageb4efe&key=kvkeyc6338&token=kvtokenfb9c7&level=kvlevel7f9f2&message=kvmessaf2b25&text=kvtextffa10&host=kvhost19158&address=kvaddre54372&payload=kvpaylo2a77e&cmd=kvcmdefde6 HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /users/v1?url=%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /users/v1?url=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /users/v1?returnTo=%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /users/v1?returnTo=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /users/v1?redirect=%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /users/v1?redirect=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /users/v1?next=%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /users/v1?next=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /users/v1?target=%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /users/v1?target=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /users/v1/_debug?id=kvid77141&name=kvname74f1b&url=kvurl9489a&file=kvfileed625&fileName=kvfileN48e61&q=kvq4bbd1&search=kvsearc90153&value=kvvalueead1e&input=kvinput20387&username=kvusern7be0b&user=kvuser30b66&password=kvpasswe2b74&email=kvemaild24ed&content=kvconteef9ce&comment=kvcomme06a59&data=kvdata901f1&returnTo=kvretura5f18&redirect=kvredirdf35c&next=kvnextc36e9&target=kvtarge85c81&path=kvpathbf69e&page=kvpagef1696&key=kvkey4071d&token=kvtoken0a4f0&level=kvlevel15a42&message=kvmessa76b22&text=kvtext4b130&host=kvhost96071&address=kvaddrea8596&payload=kvpaylo95ad1&cmd=kvcmd08a1e HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /users/v1/_debug HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /users/v1/_debug?id=kvid77141&name=kvname74f1b&url=kvurl9489a&file=kvfileed625&fileName=kvfileN48e61&q=kvq4bbd1&search=kvsearc90153&value=kvvalueead1e&input=kvinput20387&username=kvusern7be0b&user=kvuser30b66&password=kvpasswe2b74&email=kvemaild24ed&content=kvconteef9ce&comment=kvcomme06a59&data=kvdata901f1&returnTo=kvretura5f18&redirect=kvredirdf35c&next=kvnextc36e9&target=kvtarge85c81&path=kvpathbf69e&page=kvpagef1696&key=kvkey4071d&token=kvtoken0a4f0&level=kvlevel15a42&message=kvmessa76b22&text=kvtext4b130&host=kvhost96071&address=kvaddrea8596&payload=kvpaylo95ad1&cmd=kvcmd08a1e HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /users/v1/_debug?url=%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /users/v1/_debug?url=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /users/v1/_debug?returnTo=%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /users/v1/_debug?returnTo=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /users/v1/_debug?redirect=%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /users/v1/_debug?redirect=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /users/v1/_debug?next=%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /users/v1/_debug?next=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /users/v1/_debug?target=%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /users/v1/_debug?target=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "POST /users/v1/register HTTP/1.1" 200 -
+http://127.0.0.1:5001/users/v1/register validation error: None is not of type 'object'
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /users/v1/register HTTP/1.1[0m" 400 -
+http://127.0.0.1:5001/users/v1/register?id=kvid708a2&name=kvnamee8b13&url=kvurl508fc&file=kvfile117ac&fileName=kvfileN70c25&q=kvq0e36b&search=kvsearc6c06a&value=kvvaluef5ca8&input=kvinputbcb8d&username=kvusernae612&user=kvuser9603d&password=kvpasswc3012&email=kvemail8cd0a&content=kvconte961bf&comment=kvcommea1ac9&data=kvdata6ba82&returnTo=kvretur5ad27&redirect=kvredir6cc6b&next=kvnext9f4e3&target=kvtarge5fa5c&path=kvpathdb7a8&page=kvpage47aa7&key=kvkey49554&token=kvtoken56b4f&level=kvlevelc38fc&message=kvmessa53fb4&text=kvtext23bc0&host=kvhostd6630&address=kvaddre6babc&payload=kvpaylo9ee55&cmd=kvcmd8077e validation error: None is not of type 'object'
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /users/v1/register?id=kvid708a2&name=kvnamee8b13&url=kvurl508fc&file=kvfile117ac&fileName=kvfileN70c25&q=kvq0e36b&search=kvsearc6c06a&value=kvvaluef5ca8&input=kvinputbcb8d&username=kvusernae612&user=kvuser9603d&password=kvpasswc3012&email=kvemail8cd0a&content=kvconte961bf&comment=kvcommea1ac9&data=kvdata6ba82&returnTo=kvretur5ad27&redirect=kvredir6cc6b&next=kvnext9f4e3&target=kvtarge5fa5c&path=kvpathdb7a8&page=kvpage47aa7&key=kvkey49554&token=kvtoken56b4f&level=kvlevelc38fc&message=kvmessa53fb4&text=kvtext23bc0&host=kvhostd6630&address=kvaddre6babc&payload=kvpaylo9ee55&cmd=kvcmd8077e HTTP/1.1[0m" 400 -
+http://127.0.0.1:5001/users/v1/register?url=%2F%2Fkvevil.example%2Fx validation error: None is not of type 'object'
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /users/v1/register?url=%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 400 -
+http://127.0.0.1:5001/users/v1/register?url=https%3A%2F%2Fkvevil.example%2Fx validation error: None is not of type 'object'
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /users/v1/register?url=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 400 -
+http://127.0.0.1:5001/users/v1/register?returnTo=%2F%2Fkvevil.example%2Fx validation error: None is not of type 'object'
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /users/v1/register?returnTo=%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 400 -
+http://127.0.0.1:5001/users/v1/register?returnTo=https%3A%2F%2Fkvevil.example%2Fx validation error: None is not of type 'object'
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /users/v1/register?returnTo=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 400 -
+http://127.0.0.1:5001/users/v1/register?redirect=%2F%2Fkvevil.example%2Fx validation error: None is not of type 'object'
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /users/v1/register?redirect=%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 400 -
+http://127.0.0.1:5001/users/v1/register?redirect=https%3A%2F%2Fkvevil.example%2Fx validation error: None is not of type 'object'
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /users/v1/register?redirect=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 400 -
+http://127.0.0.1:5001/users/v1/register?next=%2F%2Fkvevil.example%2Fx validation error: None is not of type 'object'
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /users/v1/register?next=%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 400 -
+http://127.0.0.1:5001/users/v1/register?next=https%3A%2F%2Fkvevil.example%2Fx validation error: None is not of type 'object'
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /users/v1/register?next=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 400 -
+http://127.0.0.1:5001/users/v1/register?target=%2F%2Fkvevil.example%2Fx validation error: None is not of type 'object'
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /users/v1/register?target=%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 400 -
+http://127.0.0.1:5001/users/v1/register?target=https%3A%2F%2Fkvevil.example%2Fx validation error: None is not of type 'object'
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /users/v1/register?target=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 400 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "POST /users/v1/login HTTP/1.1" 200 -
+http://127.0.0.1:5001/users/v1/login validation error: None is not of type 'object'
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /users/v1/login HTTP/1.1[0m" 400 -
+http://127.0.0.1:5001/users/v1/login?id=kvida3c4e&name=kvname3296d&url=kvurl04461&file=kvfilea2f7f&fileName=kvfileNba297&q=kvqc245d&search=kvsearc2497f&value=kvvalue4fead&input=kvinput38b09&username=kvusern2ad5e&user=kvuser7de2b&password=kvpassw0002f&email=kvemailbc190&content=kvconte01939&comment=kvcommee8599&data=kvdatac1ade&returnTo=kvreturbef72&redirect=kvredir24075&next=kvnextac5fa&target=kvtarge8dca4&path=kvpath9cb56&page=kvpage7058f&key=kvkey18146&token=kvtoken68704&level=kvlevel82c4a&message=kvmessa13362&text=kvtextbbd58&host=kvhost1c648&address=kvaddre8f511&payload=kvpaylo45a97&cmd=kvcmdf7c90 validation error: None is not of type 'object'
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /users/v1/login?id=kvida3c4e&name=kvname3296d&url=kvurl04461&file=kvfilea2f7f&fileName=kvfileNba297&q=kvqc245d&search=kvsearc2497f&value=kvvalue4fead&input=kvinput38b09&username=kvusern2ad5e&user=kvuser7de2b&password=kvpassw0002f&email=kvemailbc190&content=kvconte01939&comment=kvcommee8599&data=kvdatac1ade&returnTo=kvreturbef72&redirect=kvredir24075&next=kvnextac5fa&target=kvtarge8dca4&path=kvpath9cb56&page=kvpage7058f&key=kvkey18146&token=kvtoken68704&level=kvlevel82c4a&message=kvmessa13362&text=kvtextbbd58&host=kvhost1c648&address=kvaddre8f511&payload=kvpaylo45a97&cmd=kvcmdf7c90 HTTP/1.1[0m" 400 -
+http://127.0.0.1:5001/users/v1/login?url=%2F%2Fkvevil.example%2Fx validation error: None is not of type 'object'
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /users/v1/login?url=%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 400 -
+http://127.0.0.1:5001/users/v1/login?url=https%3A%2F%2Fkvevil.example%2Fx validation error: None is not of type 'object'
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /users/v1/login?url=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 400 -
+http://127.0.0.1:5001/users/v1/login?returnTo=%2F%2Fkvevil.example%2Fx validation error: None is not of type 'object'
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /users/v1/login?returnTo=%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 400 -
+http://127.0.0.1:5001/users/v1/login?returnTo=https%3A%2F%2Fkvevil.example%2Fx validation error: None is not of type 'object'
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /users/v1/login?returnTo=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 400 -
+http://127.0.0.1:5001/users/v1/login?redirect=%2F%2Fkvevil.example%2Fx validation error: None is not of type 'object'
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /users/v1/login?redirect=%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 400 -
+http://127.0.0.1:5001/users/v1/login?redirect=https%3A%2F%2Fkvevil.example%2Fx validation error: None is not of type 'object'
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /users/v1/login?redirect=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 400 -
+http://127.0.0.1:5001/users/v1/login?next=%2F%2Fkvevil.example%2Fx validation error: None is not of type 'object'
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /users/v1/login?next=%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 400 -
+http://127.0.0.1:5001/users/v1/login?next=https%3A%2F%2Fkvevil.example%2Fx validation error: None is not of type 'object'
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /users/v1/login?next=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 400 -
+http://127.0.0.1:5001/users/v1/login?target=%2F%2Fkvevil.example%2Fx validation error: None is not of type 'object'
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /users/v1/login?target=%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 400 -
+http://127.0.0.1:5001/users/v1/login?target=https%3A%2F%2Fkvevil.example%2Fx validation error: None is not of type 'object'
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /users/v1/login?target=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 400 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "POST /users/v1/login HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "POST /users/v1/login HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "POST /users/v1/login HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "POST /users/v1/login HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "POST /users/v1/login HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "POST /users/v1/login HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "POST /users/v1/login HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "POST /users/v1/login HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "POST /users/v1/login HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "POST /users/v1/login HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "POST /users/v1/login HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "POST /users/v1/login HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "POST /users/v1/login HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "POST /users/v1/login HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "POST /users/v1/login HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "POST /users/v1/login HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "POST /users/v1/login HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "POST /users/v1/login HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "POST /users/v1/login HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "POST /users/v1/login HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "POST /users/v1/login HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "POST /users/v1/login HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "POST /users/v1/login HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "POST /users/v1/login HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "POST /users/v1/login HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mGET /me?id=kvid0124a&name=kvname70122&url=kvurl09855&file=kvfiledef94&fileName=kvfileN26541&q=kvq77454&search=kvsearc0af22&value=kvvalued564e&input=kvinput8dba4&username=kvusern21bd6&user=kvuserb5c1d&password=kvpassw0b849&email=kvemail3bd0f&content=kvconte8edd8&comment=kvcomme0e59a&data=kvdataa71a1&returnTo=kvretur81a4c&redirect=kvredir13a3d&next=kvnext05f5a&target=kvtarge35abd&path=kvpath0dea9&page=kvpaged03a7&key=kvkeyfe0ea&token=kvtoken5380c&level=kvlevel7942c&message=kvmessab943a&text=kvtext9b399&host=kvhost6dedd&address=kvaddre59905&payload=kvpayloa9136&cmd=kvcmdf0c35 HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mGET /me HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mGET /me?id=kvid0124a&name=kvname70122&url=kvurl09855&file=kvfiledef94&fileName=kvfileN26541&q=kvq77454&search=kvsearc0af22&value=kvvalued564e&input=kvinput8dba4&username=kvusern21bd6&user=kvuserb5c1d&password=kvpassw0b849&email=kvemail3bd0f&content=kvconte8edd8&comment=kvcomme0e59a&data=kvdataa71a1&returnTo=kvretur81a4c&redirect=kvredir13a3d&next=kvnext05f5a&target=kvtarge35abd&path=kvpath0dea9&page=kvpaged03a7&key=kvkeyfe0ea&token=kvtoken5380c&level=kvlevel7942c&message=kvmessab943a&text=kvtext9b399&host=kvhost6dedd&address=kvaddre59905&payload=kvpayloa9136&cmd=kvcmdf0c35 HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mGET /me?url=%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mGET /me?url=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mGET /me?returnTo=%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mGET /me?returnTo=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mGET /me?redirect=%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mGET /me?redirect=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mGET /me?next=%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mGET /me?next=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mGET /me?target=%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mGET /me?target=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 401 -
+Function argument 'username' (non-sanitized: username) not defined in specification
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[33mGET /users/v1/1?username=kvusernb12b8 HTTP/1.1[0m" 404 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mDELETE /users/v1/1?username=kvusern42985 HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mDELETE /users/v1/1 HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mDELETE /users/v1/1?username=kvusern42985 HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPUT /users/v1/1/email HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPUT /users/v1/1/email HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPUT /users/v1/1/email?username=kvusernfc572 HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPUT /users/v1/1/password HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPUT /users/v1/1/password HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPUT /users/v1/1/password?username=kvusern4135c HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /books/v1?id=kvid17535&name=kvname43d54&url=kvurle1b83&file=kvfiled512e&fileName=kvfileNb26ae&q=kvq91b46&search=kvsearca8f55&value=kvvalue4056f&input=kvinputc7edc&username=kvusern65e3e&user=kvuserf845d&password=kvpassw80a1a&email=kvemailce6fa&content=kvconte910ea&comment=kvcommed0c87&data=kvdata4b2c7&returnTo=kvreture6517&redirect=kvredir8c40e&next=kvnexta5a85&target=kvtarge3bbfa&path=kvpath2a5fd&page=kvpageb59b2&key=kvkeyb6f9c&token=kvtokenfdb88&level=kvlevela97ff&message=kvmessaba08f&text=kvtext2f215&host=kvhost7914e&address=kvaddre44ea8&payload=kvpaylo97780&cmd=kvcmd2b0ac HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /books/v1 HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /books/v1?id=kvid17535&name=kvname43d54&url=kvurle1b83&file=kvfiled512e&fileName=kvfileNb26ae&q=kvq91b46&search=kvsearca8f55&value=kvvalue4056f&input=kvinputc7edc&username=kvusern65e3e&user=kvuserf845d&password=kvpassw80a1a&email=kvemailce6fa&content=kvconte910ea&comment=kvcommed0c87&data=kvdata4b2c7&returnTo=kvreture6517&redirect=kvredir8c40e&next=kvnexta5a85&target=kvtarge3bbfa&path=kvpath2a5fd&page=kvpageb59b2&key=kvkeyb6f9c&token=kvtokenfdb88&level=kvlevela97ff&message=kvmessaba08f&text=kvtext2f215&host=kvhost7914e&address=kvaddre44ea8&payload=kvpaylo97780&cmd=kvcmd2b0ac HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /books/v1?url=%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /books/v1?url=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /books/v1?returnTo=%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /books/v1?returnTo=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /books/v1?redirect=%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /books/v1?redirect=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /books/v1?next=%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /books/v1?next=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /books/v1?target=%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "GET /books/v1?target=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1" 200 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /books/v1 HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /books/v1 HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /books/v1?id=kvid58ea3&name=kvnamee507c&url=kvurle1c44&file=kvfilee55ad&fileName=kvfileN0d519&q=kvq645a7&search=kvsearccd8f3&value=kvvalue785c8&input=kvinput69af4&username=kvusern6449c&user=kvuserf1a6d&password=kvpassw2d402&email=kvemail14d71&content=kvconteebbaf&comment=kvcomme2c356&data=kvdatac2b71&returnTo=kvretur3304a&redirect=kvredir103cd&next=kvnextd243c&target=kvtarged8714&path=kvpath3bbfd&page=kvpaged7a0f&key=kvkey604d1&token=kvtoken51d0e&level=kvlevelafcb3&message=kvmessaf0389&text=kvtext26413&host=kvhost1a93e&address=kvaddre0533f&payload=kvpaylo946f5&cmd=kvcmdc0d96 HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /books/v1?url=%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /books/v1?url=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /books/v1?returnTo=%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /books/v1?returnTo=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /books/v1?redirect=%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /books/v1?redirect=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /books/v1?next=%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /books/v1?next=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /books/v1?target=%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mPOST /books/v1?target=https%3A%2F%2Fkvevil.example%2Fx HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mGET /books/v1/1?book_title=kvbook_fe5b3 HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mGET /books/v1/1 HTTP/1.1[0m" 401 -
+127.0.0.1 - - [06/Oct/2026 23:59:47] "[31m[1mGET /books/v1/1?book_title=kvbook_fe5b3 HTTP/1.1[0m" 401 -

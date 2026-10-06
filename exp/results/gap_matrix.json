@@ -1,0 +1,867 @@
+{
+ "NodeGoat": [
+  {
+   "id": "nosql",
+   "klass": "nosql-injection",
+   "file": "app/data/allocations-dao.js",
+   "kind": "dynamic",
+   "K": true,
+   "H": false,
+   "M": false,
+   "Y": false,
+   "P": false,
+   "L": true
+  },
+  {
+   "id": "eval",
+   "klass": "eval-injection",
+   "file": "app/routes/contributions.js",
+   "kind": "dynamic",
+   "K": true,
+   "H": true,
+   "M": true,
+   "Y": true,
+   "P": true,
+   "L": true
+  },
+  {
+   "id": "xss",
+   "klass": "xss",
+   "file": "app/routes/profile.js",
+   "kind": "dynamic",
+   "K": true,
+   "H": false,
+   "M": false,
+   "Y": false,
+   "P": false,
+   "L": true
+  },
+  {
+   "id": "ssrf",
+   "klass": "ssrf",
+   "file": "app/routes/research.js",
+   "kind": "dynamic",
+   "K": true,
+   "H": true,
+   "M": true,
+   "Y": true,
+   "P": true,
+   "L": true
+  },
+  {
+   "id": "open-redirect",
+   "klass": "open-redirect",
+   "file": "app/routes/index.js",
+   "kind": "dynamic",
+   "K": true,
+   "H": true,
+   "M": true,
+   "Y": true,
+   "P": true,
+   "L": true
+  },
+  {
+   "id": "idor-alloc",
+   "klass": "idor",
+   "file": "app/routes/allocations.js",
+   "kind": "dynamic",
+   "K": true,
+   "H": false,
+   "M": false,
+   "Y": false,
+   "P": false,
+   "L": true
+  },
+  {
+   "id": "idor-benefits",
+   "klass": "idor",
+   "file": "app/routes/benefits.js",
+   "kind": "dynamic",
+   "K": true,
+   "H": false,
+   "M": false,
+   "Y": false,
+   "P": false,
+   "L": true
+  },
+  {
+   "id": "hardcoded-secret",
+   "klass": "hardcoded-secret",
+   "file": "config/env/all.js",
+   "kind": "static",
+   "K": true,
+   "H": false,
+   "M": false,
+   "Y": false,
+   "P": false,
+   "L": false
+  },
+  {
+   "id": "private-key",
+   "klass": "private-key-in-repo",
+   "file": "artifacts/cert/server.key",
+   "kind": "static",
+   "K": true,
+   "H": false,
+   "M": false,
+   "Y": false,
+   "P": false,
+   "L": false
+  },
+  {
+   "id": "session-cookie",
+   "klass": "insecure-session-cookie",
+   "file": "server.js",
+   "kind": "static",
+   "K": true,
+   "H": false,
+   "M": false,
+   "Y": false,
+   "P": false,
+   "L": false
+  },
+  {
+   "id": "csrf",
+   "klass": "csrf-missing",
+   "file": "server.js",
+   "kind": "static",
+   "K": true,
+   "H": false,
+   "M": false,
+   "Y": false,
+   "P": false,
+   "L": false
+  },
+  {
+   "id": "redos",
+   "klass": "redos",
+   "file": "app/routes/profile.js",
+   "kind": "roe_excluded",
+   "K": true,
+   "H": false,
+   "M": false,
+   "Y": false,
+   "P": false,
+   "L": false
+  }
+ ],
+ "VAmPI": [
+  {
+   "id": "sqli",
+   "klass": "injection",
+   "file": "/users/v1/{username}",
+   "kind": "dynamic",
+   "K": false,
+   "H": true,
+   "M": false,
+   "Y": false,
+   "P": true,
+   "L": true
+  },
+  {
+   "id": "bola-password",
+   "klass": "broken-object-level-auth",
+   "file": "/users/v1/{username}/password",
+   "kind": "dynamic",
+   "K": false,
+   "H": false,
+   "M": false,
+   "Y": false,
+   "P": false,
+   "L": true
+  },
+  {
+   "id": "bola-email",
+   "klass": "broken-object-level-auth",
+   "file": "/users/v1/{username}/email",
+   "kind": "dynamic",
+   "K": false,
+   "H": false,
+   "M": false,
+   "Y": false,
+   "P": false,
+   "L": true
+  },
+  {
+   "id": "bola-books",
+   "klass": "broken-object-level-auth",
+   "file": "/books/v1/{book_title}",
+   "kind": "dynamic",
+   "K": false,
+   "H": false,
+   "M": false,
+   "Y": false,
+   "P": false,
+   "L": true
+  },
+  {
+   "id": "mass-assign",
+   "klass": "mass-assignment",
+   "file": "/users/v1/register",
+   "kind": "dynamic",
+   "K": false,
+   "H": false,
+   "M": false,
+   "Y": false,
+   "P": false,
+   "L": true
+  },
+  {
+   "id": "data-exposure",
+   "klass": "excessive-data-exposure",
+   "file": "/users/v1/_debug",
+   "kind": "dynamic",
+   "K": false,
+   "H": false,
+   "M": false,
+   "Y": false,
+   "P": false,
+   "L": true
+  },
+  {
+   "id": "enumeration",
+   "klass": "user-enumeration",
+   "file": "/users/v1/login",
+   "kind": "dynamic",
+   "K": false,
+   "H": false,
+   "M": false,
+   "Y": false,
+   "P": false,
+   "L": true
+  },
+  {
+   "id": "regexdos",
+   "klass": "redos",
+   "file": "/users/v1/{username}/email",
+   "kind": "roe_excluded",
+   "K": false,
+   "H": false,
+   "M": false,
+   "Y": false,
+   "P": false,
+   "L": false
+  },
+  {
+   "id": "rate-limit",
+   "klass": "rate-limiting",
+   "file": "*",
+   "kind": "roe_excluded",
+   "K": false,
+   "H": false,
+   "M": false,
+   "Y": false,
+   "P": false,
+   "L": true
+  },
+  {
+   "id": "weak-jwt",
+   "klass": "weak-jwt",
+   "file": "config.py",
+   "kind": "static",
+   "K": true,
+   "H": false,
+   "M": false,
+   "Y": false,
+   "P": false,
+   "L": false
+  }
+ ],
+ "VulnerableApp": {
+  "types": {
+   "WEAK_PASSWORD_HASHING": {
+    "levels": 5,
+    "K": 0,
+    "H": 0,
+    "M": 0,
+    "Y": 0,
+    "P": 0,
+    "any": 0
+   },
+   "USERNAME_ENUMERATION": {
+    "levels": 2,
+    "K": 0,
+    "H": 0,
+    "M": 0,
+    "Y": 0,
+    "P": 0,
+    "any": 0
+   },
+   "PLAINTEXT_PASSWORD_STORAGE": {
+    "levels": 2,
+    "K": 0,
+    "H": 0,
+    "M": 0,
+    "Y": 0,
+    "P": 0,
+    "any": 0
+   },
+   "ERROR_BASED_SQL_INJECTION": {
+    "levels": 5,
+    "K": 4,
+    "H": 5,
+    "M": 1,
+    "Y": 4,
+    "P": 4,
+    "any": 5
+   },
+   "WEB_CACHE_POISONING": {
+    "levels": 4,
+    "K": 0,
+    "H": 0,
+    "M": 0,
+    "Y": 0,
+    "P": 0,
+    "any": 0
+   },
+   "REFLECTED_XSS": {
+    "levels": 18,
+    "K": 0,
+    "H": 13,
+    "M": 0,
+    "Y": 0,
+    "P": 0,
+    "any": 13
+   },
+   "CLICKJACKING": {
+    "levels": 5,
+    "K": 0,
+    "H": 0,
+    "M": 0,
+    "Y": 0,
+    "P": 0,
+    "any": 0
+   },
+   "COMMAND_INJECTION": {
+    "levels": 5,
+    "K": 0,
+    "H": 5,
+    "M": 5,
+    "Y": 5,
+    "P": 5,
+    "any": 5
+   },
+   "USE_OF_BROKEN_CRYPTOGRAPHIC_ALGORITHM": {
+    "levels": 3,
+    "K": 0,
+    "H": 0,
+    "M": 0,
+    "Y": 0,
+    "P": 0,
+    "any": 0
+   },
+   "WEAK_CRYPTOGRAPHIC_HASH": {
+    "levels": 5,
+    "K": 0,
+    "H": 0,
+    "M": 0,
+    "Y": 0,
+    "P": 0,
+    "any": 0
+   },
+   "INSECURE_CRYPTOGRAPHIC_STORAGE": {
+    "levels": 2,
+    "K": 0,
+    "H": 0,
+    "M": 0,
+    "Y": 0,
+    "P": 0,
+    "any": 0
+   },
+   "INSECURE_DESERIALIZATION": {
+    "levels": 3,
+    "K": 0,
+    "H": 3,
+    "M": 0,
+    "Y": 0,
+    "P": 3,
+    "any": 3
+   },
+   "REMOTE_CODE_EXECUTION": {
+    "levels": 1,
+    "K": 0,
+    "H": 0,
+    "M": 0,
+    "Y": 0,
+    "P": 0,
+    "any": 0
+   },
+   "IMPROPER_AUTHORIZATION": {
+    "levels": 1,
+    "K": 0,
+    "H": 0,
+    "M": 0,
+    "Y": 0,
+    "P": 0,
+    "any": 0
+   },
+   "DENIAL_OF_SERVICE": {
+    "levels": 1,
+    "K": 0,
+    "H": 0,
+    "M": 0,
+    "Y": 0,
+    "P": 0,
+    "any": 0
+   },
+   "PATH_TRAVERSAL": {
+    "levels": 15,
+    "K": 0,
+    "H": 0,
+    "M": 0,
+    "Y": 6,
+    "P": 6,
+    "any": 6
+   },
+   "UNCONTROLLED_RESOURCE_CONSUMPTION": {
+    "levels": 1,
+    "K": 0,
+    "H": 0,
+    "M": 0,
+    "Y": 0,
+    "P": 0,
+    "any": 0
+   },
+   "PERSISTENT_XSS": {
+    "levels": 13,
+    "K": 0,
+    "H": 8,
+    "M": 0,
+    "Y": 0,
+    "P": 0,
+    "any": 8
+   },
+   "UNRESTRICTED_FILE_UPLOAD": {
+    "levels": 7,
+    "K": 0,
+    "H": 0,
+    "M": 0,
+    "Y": 0,
+    "P": 0,
+    "any": 0
+   },
+   "INSECURE_DIRECT_OBJECT_REFERENCE": {
+    "levels": 4,
+    "K": 0,
+    "H": 0,
+    "M": 0,
+    "Y": 0,
+    "P": 0,
+    "any": 0
+   },
+   "INSECURE_CONFIGURATION_JWT": {
+    "levels": 3,
+    "K": 0,
+    "H": 0,
+    "M": 0,
+    "Y": 0,
+    "P": 0,
+    "any": 0
+   },
+   "SERVER_SIDE_VULNERABLE_JWT": {
+    "levels": 6,
+    "K": 0,
+    "H": 0,
+    "M": 0,
+    "Y": 0,
+    "P": 0,
+    "any": 0
+   },
+   "HEADER_INJECTION": {
+    "levels": 1,
+    "K": 0,
+    "H": 0,
+    "M": 0,
+    "Y": 0,
+    "P": 0,
+    "any": 0
+   },
+   "CLIENT_SIDE_VULNERABLE_JWT": {
+    "levels": 10,
+    "K": 0,
+    "H": 0,
+    "M": 0,
+    "Y": 0,
+    "P": 0,
+    "any": 0
+   },
+   "LDAP_INJECTION": {
+    "levels": 4,
+    "K": 0,
+    "H": 4,
+    "M": 0,
+    "Y": 0,
+    "P": 4,
+    "any": 4
+   },
+   "OPEN_REDIRECT_3XX_STATUS_CODE": {
+    "levels": 9,
+    "K": 0,
+    "H": 0,
+    "M": 0,
+    "Y": 0,
+    "P": 0,
+    "any": 0
+   },
+   "NO_LOGIN_RATE_LIMITING": {
+    "levels": 6,
+    "K": 0,
+    "H": 0,
+    "M": 0,
+    "Y": 0,
+    "P": 0,
+    "any": 0
+   },
+   "REUSABLE_PASSWORD_RESET_TOKEN": {
+    "levels": 2,
+    "K": 0,
+    "H": 0,
+    "M": 0,
+    "Y": 0,
+    "P": 0,
+    "any": 0
+   },
+   "PASSWORD_RESET_TOKEN_WITHOUT_EXPIRY": {
+    "levels": 3,
+    "K": 0,
+    "H": 0,
+    "M": 0,
+    "Y": 0,
+    "P": 0,
+    "any": 0
+   },
+   "WEAK_RANDOM_NUMBER_GENERATION": {
+    "levels": 3,
+    "K": 0,
+    "H": 0,
+    "M": 0,
+    "Y": 0,
+    "P": 0,
+    "any": 0
+   },
+   "PREDICTABLE_PASSWORD_RESET_TOKEN": {
+    "levels": 2,
+    "K": 0,
+    "H": 0,
+    "M": 0,
+    "Y": 0,
+    "P": 0,
+    "any": 0
+   },
+   "PASSWORD_RESET_TOKEN_EXPOSED_VIA_REFERRER": {
+    "levels": 1,
+    "K": 0,
+    "H": 0,
+    "M": 0,
+    "Y": 0,
+    "P": 0,
+    "any": 0
+   },
+   "INSECURE_PASSWORD_RESET_LINK": {
+    "levels": 1,
+    "K": 0,
+    "H": 0,
+    "M": 0,
+    "Y": 0,
+    "P": 0,
+    "any": 0
+   },
+   "MISSING_LOGOUT_INVALIDATION": {
+    "levels": 1,
+    "K": 0,
+    "H": 0,
+    "M": 0,
+    "Y": 0,
+    "P": 0,
+    "any": 0
+   },
+   "OBSCURED_PREDICTABLE_SESSION_ID": {
+    "levels": 1,
+    "K": 0,
+    "H": 0,
+    "M": 0,
+    "Y": 0,
+    "P": 0,
+    "any": 0
+   },
+   "PREDICTABLE_SESSION_ID": {
+    "levels": 1,
+    "K": 0,
+    "H": 0,
+    "M": 0,
+    "Y": 0,
+    "P": 0,
+    "any": 0
+   },
+   "SESSION_FIXATION": {
+    "levels": 1,
+    "K": 0,
+    "H": 0,
+    "M": 0,
+    "Y": 0,
+    "P": 0,
+    "any": 0
+   },
+   "BLIND_SQL_INJECTION": {
+    "levels": 2,
+    "K": 2,
+    "H": 2,
+    "M": 0,
+    "Y": 2,
+    "P": 2,
+    "any": 2
+   },
+   "UNION_BASED_SQL_INJECTION": {
+    "levels": 2,
+    "K": 2,
+    "H": 2,
+    "M": 0,
+    "Y": 2,
+    "P": 2,
+    "any": 2
+   },
+   "SIMPLE_SSRF": {
+    "levels": 4,
+    "K": 0,
+    "H": 4,
+    "M": 4,
+    "Y": 4,
+    "P": 4,
+    "any": 4
+   },
+   "XXE": {
+    "levels": 3,
+    "K": 2,
+    "H": 2,
+    "M": 0,
+    "Y": 0,
+    "P": 0,
+    "any": 3
+   }
+  },
+  "missed_by_all": {
+   "WEAK_PASSWORD_HASHING": [
+    "AuthenticationVulnerability.level10LowIterationHashing",
+    "AuthenticationVulnerability.level8WeakPassword",
+    "AuthenticationVulnerability.level6Sha256NoSalt",
+    "AuthenticationVulnerability.level5Sha1",
+    "AuthenticationVulnerability.level4Md5"
+   ],
+   "USERNAME_ENUMERATION": [
+    "AuthenticationVulnerability.level7UsernameEnumeration",
+    "PasswordResetVulnerability.level4"
+   ],
+   "PLAINTEXT_PASSWORD_STORAGE": [
+    "AuthenticationVulnerability.level3Plaintext",
+    "AuthenticationVulnerability.level2Logging"
+   ],
+   "WEB_CACHE_POISONING": [
+    "CachePoisoningVulnerability.getVulnerablePayloadLevel4",
+    "CachePoisoningVulnerability.getVulnerablePayloadLevel3",
+    "CachePoisoningVulnerability.getVulnerablePayloadLevel2",
+    "CachePoisoningVulnerability.getVulnerablePayloadLevel1"
+   ],
+   "CLICKJACKING": [
+    "ClickjackingVulnerability.overlayAttackSameOrigin",
+    "ClickjackingVulnerability.overlayAttackNoProtection",
+    "ClickjackingVulnerability.xFrameOptionsSameOrigin",
+    "ClickjackingVulnerability.xFrameOptionsAllowAll",
+    "ClickjackingVulnerability.noFramingProtection"
+   ],
+   "USE_OF_BROKEN_CRYPTOGRAPHIC_ALGORITHM": [
+    "CryptographicFailuresVulnerability.getSecurePayloadLevel10",
+    "CryptographicFailuresVulnerability.getVulnerablePayloadLevel4",
+    "CryptographicFailuresVulnerability.getVulnerablePayloadLevel3"
+   ],
+   "WEAK_CRYPTOGRAPHIC_HASH": [
+    "CryptographicFailuresVulnerability.getSecurePayloadLevel6",
+    "CryptographicFailuresVulnerability.getSecurePayloadLevel5",
+    "CryptographicFailuresVulnerability.getVulnerablePayloadLevel7",
+    "CryptographicFailuresVulnerability.getVulnerablePayloadLevel6",
+    "CryptographicFailuresVulnerability.getVulnerablePayloadLevel5"
+   ],
+   "INSECURE_CRYPTOGRAPHIC_STORAGE": [
+    "CryptographicFailuresVulnerability.getVulnerablePayloadLevel2",
+    "CryptographicFailuresVulnerability.getVulnerablePayloadLevel1"
+   ],
+   "REMOTE_CODE_EXECUTION": [
+    "InsecureDeserializationVulnerability.getVulnerablePayloadLevel4"
+   ],
+   "IMPROPER_AUTHORIZATION": [
+    "InsecureDeserializationVulnerability.getVulnerablePayloadLevel2"
+   ],
+   "DENIAL_OF_SERVICE": [
+    "UnrestrictedFileUpload.getVulnerablePayloadLevel9"
+   ],
+   "PATH_TRAVERSAL": [
+    "UnrestrictedFileUpload.getVulnerablePayloadLevel9",
+    "UnrestrictedFileUpload.getVulnerablePayloadLevel8",
+    "UnrestrictedFileUpload.getVulnerablePayloadLevel1",
+    "PathTraversalVulnerability.getVulnerablePayloadLevel6",
+    "PathTraversalVulnerability.getVulnerablePayloadLevel5",
+    "PathTraversalVulnerability.getVulnerablePayloadLevel4",
+    "PathTraversalVulnerability.getVulnerablePayloadLevel3",
+    "PathTraversalVulnerability.getVulnerablePayloadLevel2",
+    "PathTraversalVulnerability.getVulnerablePayloadLevel1"
+   ],
+   "UNCONTROLLED_RESOURCE_CONSUMPTION": [
+    "UnrestrictedFileUpload.getVulnerablePayloadLevel9"
+   ],
+   "PERSISTENT_XSS": [
+    "UnrestrictedFileUpload.getVulnerablePayloadLevel7",
+    "UnrestrictedFileUpload.getVulnerablePayloadLevel6",
+    "UnrestrictedFileUpload.getVulnerablePayloadLevel5",
+    "UnrestrictedFileUpload.getVulnerablePayloadLevel4",
+    "UnrestrictedFileUpload.getVulnerablePayloadLevel3"
+   ],
+   "REFLECTED_XSS": [
+    "UnrestrictedFileUpload.getVulnerablePayloadLevel7",
+    "UnrestrictedFileUpload.getVulnerablePayloadLevel6",
+    "UnrestrictedFileUpload.getVulnerablePayloadLevel5",
+    "UnrestrictedFileUpload.getVulnerablePayloadLevel4",
+    "UnrestrictedFileUpload.getVulnerablePayloadLevel3"
+   ],
+   "UNRESTRICTED_FILE_UPLOAD": [
+    "UnrestrictedFileUpload.getVulnerablePayloadLevel7",
+    "UnrestrictedFileUpload.getVulnerablePayloadLevel6",
+    "UnrestrictedFileUpload.getVulnerablePayloadLevel5",
+    "UnrestrictedFileUpload.getVulnerablePayloadLevel4",
+    "UnrestrictedFileUpload.getVulnerablePayloadLevel3",
+    "UnrestrictedFileUpload.getVulnerablePayloadLevel2",
+    "UnrestrictedFileUpload.getVulnerablePayloadLevel1"
+   ],
+   "INSECURE_DIRECT_OBJECT_REFERENCE": [
+    "IDORVulnerability.level4",
+    "IDORVulnerability.level3",
+    "IDORVulnerability.level2",
+    "IDORVulnerability.level1"
+   ],
+   "INSECURE_CONFIGURATION_JWT": [
+    "JWTVulnerability.getVulnerablePayloadLevel16CookieBased",
+    "JWTVulnerability.getVulnerablePayloadLevel14CookieBased",
+    "JWTVulnerability.getVulnerablePayloadLevelUnsecure4CookieBased"
+   ],
+   "SERVER_SIDE_VULNERABLE_JWT": [
+    "JWTVulnerability.getVulnerablePayloadLevel15CookieBased",
+    "JWTVulnerability.getVulnerablePayloadLevelUnsecure10CookieBased",
+    "JWTVulnerability.getVulnerablePayloadLevelUnsecure9CookieBased",
+    "JWTVulnerability.getVulnerablePayloadLevelUnsecure8CookieBased",
+    "JWTVulnerability.getVulnerablePayloadLevelUnsecure6CookieBased",
+    "JWTVulnerability.getVulnerablePayloadLevelUnsecure5CookieBased"
+   ],
+   "HEADER_INJECTION": [
+    "JWTVulnerability.getHeaderInjectionVulnerability"
+   ],
+   "CLIENT_SIDE_VULNERABLE_JWT": [
+    "JWTVulnerability.getVulnerablePayloadLevelUnsecure10CookieBased",
+    "JWTVulnerability.getVulnerablePayloadLevelUnsecure9CookieBased",
+    "JWTVulnerability.getVulnerablePayloadLevelUnsecure8CookieBased",
+    "JWTVulnerability.getVulnerablePayloadLevelUnsecure7CookieBased",
+    "JWTVulnerability.getVulnerablePayloadLevelUnsecure6CookieBased",
+    "JWTVulnerability.getVulnerablePayloadLevelUnsecure5CookieBased",
+    "JWTVulnerability.getVulnerablePayloadLevelUnsecure4CookieBased",
+    "JWTVulnerability.getVulnerablePayloadLevelUnsecure3CookieBased",
+    "JWTVulnerability.getVulnerablePayloadLevelUnsecure2CookieBased",
+    "JWTVulnerability.getVulnerablePayloadLevelUnsecure"
+   ],
+   "OPEN_REDIRECT_3XX_STATUS_CODE": [
+    "Http3xxStatusCodeBasedInjection.getVulnerablePayloadLevel10",
+    "Http3xxStatusCodeBasedInjection.getVulnerablePayloadLevel9",
+    "Http3xxStatusCodeBasedInjection.getVulnerablePayloadLevel7",
+    "Http3xxStatusCodeBasedInjection.getVulnerablePayloadLevel6",
+    "Http3xxStatusCodeBasedInjection.getVulnerablePayloadLevel5",
+    "Http3xxStatusCodeBasedInjection.getVulnerablePayloadLevel4",
+    "Http3xxStatusCodeBasedInjection.getVulnerablePayloadLevel3",
+    "Http3xxStatusCodeBasedInjection.getVulnerablePayloadLevel2",
+    "Http3xxStatusCodeBasedInjection.getVulnerablePayloadLevel1"
+   ],
+   "NO_LOGIN_RATE_LIMITING": [
+    "OTPVulnerability.level4RequestOTP",
+    "OTPVulnerability.level3RequestOTP",
+    "OTPVulnerability.level2RequestOTP",
+    "OTPVulnerability.level1RequestOTP",
+    "PasswordResetVulnerability.level9",
+    "SessionManagementVulnerability.level5NoLoginRateLimiting"
+   ],
+   "REUSABLE_PASSWORD_RESET_TOKEN": [
+    "OTPVulnerability.level3RequestOTP",
+    "PasswordResetVulnerability.level3"
+   ],
+   "PASSWORD_RESET_TOKEN_WITHOUT_EXPIRY": [
+    "OTPVulnerability.level2RequestOTP",
+    "OTPVulnerability.level1RequestOTP",
+    "PasswordResetVulnerability.level2"
+   ],
+   "WEAK_RANDOM_NUMBER_GENERATION": [
+    "OTPVulnerability.level2RequestOTP",
+    "OTPVulnerability.level1RequestOTP",
+    "PasswordResetVulnerability.level6"
+   ],
+   "PREDICTABLE_PASSWORD_RESET_TOKEN": [
+    "PasswordResetVulnerability.level8",
+    "PasswordResetVulnerability.level1"
+   ],
+   "PASSWORD_RESET_TOKEN_EXPOSED_VIA_REFERRER": [
+    "PasswordResetVulnerability.level7"
+   ],
+   "INSECURE_PASSWORD_RESET_LINK": [
+    "PasswordResetVulnerability.level5"
+   ],
+   "MISSING_LOGOUT_INVALIDATION": [
+    "SessionManagementVulnerability.level4MissingLogoutInvalidation"
+   ],
+   "OBSCURED_PREDICTABLE_SESSION_ID": [
+    "SessionManagementVulnerability.level3ObscuredPredictableSessionId"
+   ],
+   "PREDICTABLE_SESSION_ID": [
+    "SessionManagementVulnerability.level2PredictableSessionId"
+   ],
+   "SESSION_FIXATION": [
+    "SessionManagementVulnerability.level1SessionFixation"
+   ]
+  },
+  "taint_family": {
+   "WEAK_PASSWORD_HASHING": null,
+   "USERNAME_ENUMERATION": null,
+   "PLAINTEXT_PASSWORD_STORAGE": null,
+   "ERROR_BASED_SQL_INJECTION": "sql-injection",
+   "WEB_CACHE_POISONING": null,
+   "REFLECTED_XSS": "xss",
+   "CLICKJACKING": null,
+   "COMMAND_INJECTION": "command-injection",
+   "USE_OF_BROKEN_CRYPTOGRAPHIC_ALGORITHM": null,
+   "WEAK_CRYPTOGRAPHIC_HASH": null,
+   "INSECURE_CRYPTOGRAPHIC_STORAGE": null,
+   "INSECURE_DESERIALIZATION": "deserialization",
+   "REMOTE_CODE_EXECUTION": "code-injection",
+   "IMPROPER_AUTHORIZATION": null,
+   "DENIAL_OF_SERVICE": null,
+   "PATH_TRAVERSAL": "path-traversal",
+   "UNCONTROLLED_RESOURCE_CONSUMPTION": null,
+   "PERSISTENT_XSS": "xss",
+   "UNRESTRICTED_FILE_UPLOAD": null,
+   "INSECURE_DIRECT_OBJECT_REFERENCE": null,
+   "INSECURE_CONFIGURATION_JWT": null,
+   "SERVER_SIDE_VULNERABLE_JWT": null,
+   "HEADER_INJECTION": null,
+   "CLIENT_SIDE_VULNERABLE_JWT": null,
+   "LDAP_INJECTION": "ldap-injection",
+   "OPEN_REDIRECT_3XX_STATUS_CODE": "open-redirect",
+   "NO_LOGIN_RATE_LIMITING": null,
+   "REUSABLE_PASSWORD_RESET_TOKEN": null,
+   "PASSWORD_RESET_TOKEN_WITHOUT_EXPIRY": null,
+   "WEAK_RANDOM_NUMBER_GENERATION": null,
+   "PREDICTABLE_PASSWORD_RESET_TOKEN": null,
+   "PASSWORD_RESET_TOKEN_EXPOSED_VIA_REFERRER": null,
+   "INSECURE_PASSWORD_RESET_LINK": null,
+   "MISSING_LOGOUT_INVALIDATION": null,
+   "OBSCURED_PREDICTABLE_SESSION_ID": null,
+   "PREDICTABLE_SESSION_ID": null,
+   "SESSION_FIXATION": null,
+   "BLIND_SQL_INJECTION": "sql-injection",
+   "UNION_BASED_SQL_INJECTION": "sql-injection",
+   "SIMPLE_SSRF": "ssrf",
+   "XXE": "xxe"
+  }
+ }
+}

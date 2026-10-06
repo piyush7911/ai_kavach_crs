@@ -115,3 +115,9 @@ rm -rf "/Users/piyush/Desktop/cyber hackathon/ai_kavach_crs/reports"
 # 4. Project directory (optional)
 # rm -rf "/Users/piyush/Desktop/cyber hackathon/ai_kavach_crs"
 ```
+
+## Added 2026-10-06 / 07 for the public-benchmark experiments (everything experiment-related lives in `exp/`)
+- conda env `ai_kavach` (pip): `tree-sitter-python`, `tree-sitter-java` (needed by the existing pyauto/javaauto code), `pyyaml` (needed by `src/pyauto/probes.py`). Remove: `pip uninstall tree-sitter-python tree-sitter-java pyyaml`.
+- Inside `exp/` only (git-ignored, delete the folder to remove): `exp/third_party/joern` (Joern 4.0.649, Apache-2.0), `exp/third_party/jdk17` (Temurin 17, used only to run VulnerableApp),
+  `exp/third_party/semgrep-rules` (community rules, Semgrep Rules License v1.0), `exp/live/venv_vampi` (Python venv for VAmPI), `exp/live/gradle_home` (Gradle cache).
+- Benchmark clones in `benchmark_workspace/public/` and `benchmark_workspace/VAmPI`.

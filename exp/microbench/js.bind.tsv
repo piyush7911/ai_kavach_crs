@@ -1,0 +1,13 @@
+META	route_entry_sources	0
+META	bound_callback_edges	3
+META	xss	sinks=10	sources=10	sanitizer_specs=0
+FLOW	xss	cases.js	14	j8_map_chain	cases.js	14	j8_map_chain
+FLOW	xss	cases.js	15	j9_closure_object_mutation	cases.js	15	j9_closure_object_mutation
+FLOW	xss	cases.js	16	j10_array_push_capture	cases.js	16	j10_array_push_capture
+FLOW	xss	cases.js	6	j1_direct	cases.js	6	j1_direct
+FLOW	xss	cases.js	10	<lambda>0	cases.js	4	findOne
+FLOW	xss	cases.js	13	<lambda>3	cases.js	13	j7_promise_then
+FLOW	xss	cases.js	7	j2_foreach_capture	cases.js	7	j2_foreach_capture
+FLOW	xss	cases.js	9	j4_sink_in_callback	cases.js	9	j4_sink_in_callback
+FLOW	xss	cases.js	8	j3_for_of	cases.js	8	j3_for_of
+FLOW	xss	cases.js	12	<lambda>2	cases.js	4	findOne

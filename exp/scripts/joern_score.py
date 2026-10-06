@@ -17,8 +17,8 @@ def nodegoat(fl):
     for l in labels:
         if l["id"] in taint:
             scope.append(l)
-            if any(f["cls"] in (taint[l["id"]], "code-injection" if l["id"] == "eval" else "") and l["route"] in (f["sfile"], f["rfile"]) for f in fl): found.append(l["id"])
-    matched = [f for f in fl if any(f["cls"] in (taint[l["id"]], "code-injection" if l["id"] == "eval" else "") and l["route"] in (f["sfile"], f["rfile"]) for l in scope)]
+            if any(f["cls"] in (taint[l["id"]], "code-injection" if l["id"] == "eval" else "") and l["route"] == f["sfile"] for f in fl): found.append(l["id"])
+    matched = [f for f in fl if any(f["cls"] in (taint[l["id"]], "code-injection" if l["id"] == "eval" else "") and l["route"] == f["sfile"] for l in scope)]
     return dict(true_total=len(labels), in_scope=[l["id"] for l in scope], found=found,
                 missed=[l["id"] for l in scope if l["id"] not in found], out_of_scope=[l["id"] for l in labels if l["id"] not in taint],
                 flows=len(fl), flows_unmatched=len(fl) - len(matched), unmatched=[(f["cls"], f["sfile"], f["sline"], f["smeth"]) for f in fl if f not in matched])
@@ -32,7 +32,7 @@ def vampi(fl):
 
 FAM = {"REFLECTED_XSS": "xss", "PERSISTENT_XSS": "xss", "XXE": "xxe", "LDAP_INJECTION": "ldap-injection", "ERROR_BASED_SQL_INJECTION": "sql-injection",
        "UNION_BASED_SQL_INJECTION": "sql-injection", "BLIND_SQL_INJECTION": "sql-injection", "COMMAND_INJECTION": "command-injection",
-       "SIMPLE_SSRF": "ssrf", "INSECURE_DESERIALIZATION": "deserialization", "REMOTE_CODE_EXECUTION": "code-injection"}
+       "SIMPLE_SSRF": "ssrf", "PATH_TRAVERSAL": "path-traversal", "OPEN_REDIRECT_3XX_STATUS_CODE": "open-redirect", "INSECURE_DESERIALIZATION": "deserialization", "REMOTE_CODE_EXECUTION": "code-injection"}
 def vulnerableapp(fl):
     labels = json.load(open("exp/labels/VulnerableApp.json"))["labels"]
     byfile = collections.defaultdict(set)

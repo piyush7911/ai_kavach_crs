@@ -1,0 +1,560 @@
+{
+ "VulnerableApp": {
+  "per_type": {
+   "WEAK_PASSWORD_HASHING": {
+    "levels": 5,
+    "K": 0,
+    "T0": 0,
+    "T": 0,
+    "M": 5,
+    "V": 0,
+    "union": 5,
+    "static_union": 5,
+    "prior_union": 0,
+    "all": 5
+   },
+   "USERNAME_ENUMERATION": {
+    "levels": 2,
+    "K": 0,
+    "T0": 0,
+    "T": 0,
+    "M": 0,
+    "V": 0,
+    "union": 0,
+    "static_union": 0,
+    "prior_union": 0,
+    "all": 0
+   },
+   "ERROR_BASED_SQL_INJECTION": {
+    "levels": 5,
+    "K": 4,
+    "T0": 4,
+    "T": 4,
+    "M": 0,
+    "V": 0,
+    "union": 4,
+    "static_union": 4,
+    "prior_union": 4,
+    "all": 4
+   },
+   "WEB_CACHE_POISONING": {
+    "levels": 4,
+    "K": 0,
+    "T0": 0,
+    "T": 0,
+    "M": 0,
+    "V": 0,
+    "union": 0,
+    "static_union": 0,
+    "prior_union": 0,
+    "all": 0
+   },
+   "REFLECTED_XSS": {
+    "levels": 18,
+    "K": 0,
+    "T0": 0,
+    "T": 10,
+    "M": 0,
+    "V": 3,
+    "union": 10,
+    "static_union": 10,
+    "prior_union": 0,
+    "all": 10
+   },
+   "CLICKJACKING": {
+    "levels": 5,
+    "K": 0,
+    "T0": 0,
+    "T": 0,
+    "M": 1,
+    "V": 3,
+    "union": 3,
+    "static_union": 1,
+    "prior_union": 0,
+    "all": 3
+   },
+   "COMMAND_INJECTION": {
+    "levels": 5,
+    "K": 0,
+    "T0": 5,
+    "T": 5,
+    "M": 0,
+    "V": 0,
+    "union": 5,
+    "static_union": 5,
+    "prior_union": 5,
+    "all": 5
+   },
+   "USE_OF_BROKEN_CRYPTOGRAPHIC_ALGORITHM": {
+    "levels": 3,
+    "K": 0,
+    "T0": 0,
+    "T": 0,
+    "M": 1,
+    "V": 0,
+    "union": 1,
+    "static_union": 1,
+    "prior_union": 0,
+    "all": 1
+   },
+   "WEAK_CRYPTOGRAPHIC_HASH": {
+    "levels": 5,
+    "K": 0,
+    "T0": 0,
+    "T": 0,
+    "M": 3,
+    "V": 0,
+    "union": 3,
+    "static_union": 3,
+    "prior_union": 0,
+    "all": 3
+   },
+   "INSECURE_CRYPTOGRAPHIC_STORAGE": {
+    "levels": 2,
+    "K": 0,
+    "T0": 0,
+    "T": 0,
+    "M": 0,
+    "V": 0,
+    "union": 0,
+    "static_union": 0,
+    "prior_union": 0,
+    "all": 0
+   },
+   "INSECURE_DESERIALIZATION": {
+    "levels": 3,
+    "K": 0,
+    "T0": 3,
+    "T": 3,
+    "M": 0,
+    "V": 0,
+    "union": 3,
+    "static_union": 3,
+    "prior_union": 3,
+    "all": 3
+   },
+   "REMOTE_CODE_EXECUTION": {
+    "levels": 1,
+    "K": 0,
+    "T0": 0,
+    "T": 0,
+    "M": 0,
+    "V": 0,
+    "union": 0,
+    "static_union": 0,
+    "prior_union": 0,
+    "all": 0
+   },
+   "PATH_TRAVERSAL": {
+    "levels": 15,
+    "K": 0,
+    "T0": 6,
+    "T": 6,
+    "M": 0,
+    "V": 0,
+    "union": 6,
+    "static_union": 6,
+    "prior_union": 6,
+    "all": 6
+   },
+   "PERSISTENT_XSS": {
+    "levels": 13,
+    "K": 0,
+    "T0": 0,
+    "T": 8,
+    "M": 0,
+    "V": 5,
+    "union": 8,
+    "static_union": 8,
+    "prior_union": 0,
+    "all": 8
+   },
+   "INSECURE_CONFIGURATION_JWT": {
+    "levels": 3,
+    "K": 0,
+    "T0": 0,
+    "T": 0,
+    "M": 0,
+    "V": 0,
+    "union": 0,
+    "static_union": 0,
+    "prior_union": 0,
+    "all": 0
+   },
+   "SERVER_SIDE_VULNERABLE_JWT": {
+    "levels": 6,
+    "K": 0,
+    "T0": 0,
+    "T": 0,
+    "M": 4,
+    "V": 0,
+    "union": 4,
+    "static_union": 4,
+    "prior_union": 0,
+    "all": 4
+   },
+   "HEADER_INJECTION": {
+    "levels": 1,
+    "K": 0,
+    "T0": 0,
+    "T": 0,
+    "M": 0,
+    "V": 0,
+    "union": 0,
+    "static_union": 0,
+    "prior_union": 0,
+    "all": 0
+   },
+   "CLIENT_SIDE_VULNERABLE_JWT": {
+    "levels": 10,
+    "K": 0,
+    "T0": 0,
+    "T": 0,
+    "M": 5,
+    "V": 1,
+    "union": 6,
+    "static_union": 5,
+    "prior_union": 0,
+    "all": 6
+   },
+   "LDAP_INJECTION": {
+    "levels": 4,
+    "K": 0,
+    "T0": 4,
+    "T": 4,
+    "M": 0,
+    "V": 0,
+    "union": 4,
+    "static_union": 4,
+    "prior_union": 4,
+    "all": 4
+   },
+   "OPEN_REDIRECT_3XX_STATUS_CODE": {
+    "levels": 9,
+    "K": 0,
+    "T0": 0,
+    "T": 2,
+    "M": 0,
+    "V": 0,
+    "union": 2,
+    "static_union": 2,
+    "prior_union": 0,
+    "all": 2
+   },
+   "NO_LOGIN_RATE_LIMITING": {
+    "levels": 6,
+    "K": 0,
+    "T0": 0,
+    "T": 0,
+    "M": 0,
+    "V": 1,
+    "union": 1,
+    "static_union": 0,
+    "prior_union": 0,
+    "all": 1
+   },
+   "WEAK_RANDOM_NUMBER_GENERATION": {
+    "levels": 3,
+    "K": 0,
+    "T0": 0,
+    "T": 0,
+    "M": 2,
+    "V": 0,
+    "union": 2,
+    "static_union": 2,
+    "prior_union": 0,
+    "all": 2
+   },
+   "PREDICTABLE_PASSWORD_RESET_TOKEN": {
+    "levels": 2,
+    "K": 0,
+    "T0": 0,
+    "T": 0,
+    "M": 0,
+    "V": 0,
+    "union": 0,
+    "static_union": 0,
+    "prior_union": 0,
+    "all": 0
+   },
+   "OBSCURED_PREDICTABLE_SESSION_ID": {
+    "levels": 1,
+    "K": 0,
+    "T0": 0,
+    "T": 0,
+    "M": 0,
+    "V": 0,
+    "union": 0,
+    "static_union": 0,
+    "prior_union": 0,
+    "all": 0
+   },
+   "PREDICTABLE_SESSION_ID": {
+    "levels": 1,
+    "K": 0,
+    "T0": 0,
+    "T": 0,
+    "M": 0,
+    "V": 0,
+    "union": 0,
+    "static_union": 0,
+    "prior_union": 0,
+    "all": 0
+   },
+   "BLIND_SQL_INJECTION": {
+    "levels": 2,
+    "K": 2,
+    "T0": 2,
+    "T": 2,
+    "M": 0,
+    "V": 0,
+    "union": 2,
+    "static_union": 2,
+    "prior_union": 2,
+    "all": 2
+   },
+   "UNION_BASED_SQL_INJECTION": {
+    "levels": 2,
+    "K": 2,
+    "T0": 2,
+    "T": 2,
+    "M": 0,
+    "V": 0,
+    "union": 2,
+    "static_union": 2,
+    "prior_union": 2,
+    "all": 2
+   },
+   "SIMPLE_SSRF": {
+    "levels": 4,
+    "K": 0,
+    "T0": 4,
+    "T": 4,
+    "M": 0,
+    "V": 0,
+    "union": 4,
+    "static_union": 4,
+    "prior_union": 4,
+    "all": 4
+   },
+   "XXE": {
+    "levels": 3,
+    "K": 2,
+    "T0": 0,
+    "T": 0,
+    "M": 0,
+    "V": 0,
+    "union": 0,
+    "static_union": 0,
+    "prior_union": 2,
+    "all": 2
+   }
+  },
+  "total": {
+   "levels": 143,
+   "K": 10,
+   "T0": 30,
+   "T": 50,
+   "M": 21,
+   "V": 13,
+   "union": 75,
+   "static_union": 71,
+   "prior_union": 32,
+   "all": 77
+  },
+  "secure": {
+   "secure_instances": 20,
+   "flag_union": 7,
+   "flag_static": 7,
+   "flag_prior": 9,
+   "flag_all": 11
+  },
+  "secure_by_detector": {
+   "K": 5,
+   "T0": 5,
+   "T": 7,
+   "M": 0,
+   "V": 0
+  }
+ },
+ "NodeGoat": [
+  {
+   "id": "nosql",
+   "kind": "dynamic",
+   "K": true,
+   "T": true,
+   "M": false,
+   "V": false
+  },
+  {
+   "id": "eval",
+   "kind": "dynamic",
+   "K": true,
+   "T": true,
+   "M": false,
+   "V": false
+  },
+  {
+   "id": "xss",
+   "kind": "dynamic",
+   "K": true,
+   "T": false,
+   "M": false,
+   "V": false
+  },
+  {
+   "id": "ssrf",
+   "kind": "dynamic",
+   "K": true,
+   "T": true,
+   "M": false,
+   "V": false
+  },
+  {
+   "id": "open-redirect",
+   "kind": "dynamic",
+   "K": true,
+   "T": true,
+   "M": false,
+   "V": false
+  },
+  {
+   "id": "idor-alloc",
+   "kind": "dynamic",
+   "K": true,
+   "T": false,
+   "M": false,
+   "V": false
+  },
+  {
+   "id": "idor-benefits",
+   "kind": "dynamic",
+   "K": true,
+   "T": false,
+   "M": false,
+   "V": false
+  },
+  {
+   "id": "hardcoded-secret",
+   "kind": "static",
+   "K": true,
+   "T": false,
+   "M": true,
+   "V": false
+  },
+  {
+   "id": "private-key",
+   "kind": "static",
+   "K": true,
+   "T": false,
+   "M": false,
+   "V": false
+  },
+  {
+   "id": "session-cookie",
+   "kind": "static",
+   "K": true,
+   "T": false,
+   "M": true,
+   "V": false
+  },
+  {
+   "id": "csrf",
+   "kind": "static",
+   "K": true,
+   "T": false,
+   "M": true,
+   "V": true
+  },
+  {
+   "id": "redos",
+   "kind": "roe_excluded",
+   "K": true,
+   "T": false,
+   "M": false,
+   "V": false
+  }
+ ],
+ "VAmPI": [
+  {
+   "id": "sqli",
+   "kind": "dynamic",
+   "K": false,
+   "T": true,
+   "M": false,
+   "V": false
+  },
+  {
+   "id": "bola-password",
+   "kind": "dynamic",
+   "K": false,
+   "T": false,
+   "M": false,
+   "V": false
+  },
+  {
+   "id": "bola-email",
+   "kind": "dynamic",
+   "K": false,
+   "T": false,
+   "M": false,
+   "V": false
+  },
+  {
+   "id": "bola-books",
+   "kind": "dynamic",
+   "K": false,
+   "T": false,
+   "M": false,
+   "V": false
+  },
+  {
+   "id": "mass-assign",
+   "kind": "dynamic",
+   "K": false,
+   "T": false,
+   "M": false,
+   "V": false
+  },
+  {
+   "id": "data-exposure",
+   "kind": "dynamic",
+   "K": false,
+   "T": false,
+   "M": false,
+   "V": true
+  },
+  {
+   "id": "enumeration",
+   "kind": "dynamic",
+   "K": false,
+   "T": false,
+   "M": false,
+   "V": true
+  },
+  {
+   "id": "regexdos",
+   "kind": "roe_excluded",
+   "K": false,
+   "T": false,
+   "M": false,
+   "V": false
+  },
+  {
+   "id": "rate-limit",
+   "kind": "roe_excluded",
+   "K": false,
+   "T": false,
+   "M": false,
+   "V": true
+  },
+  {
+   "id": "weak-jwt",
+   "kind": "static",
+   "K": false,
+   "T": false,
+   "M": true,
+   "V": true
+  }
+ ]
+}

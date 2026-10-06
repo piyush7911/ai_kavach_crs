@@ -1,0 +1,51 @@
+{
+ "_about": "Step 4: data-store write/read APIs as DATA. A tainted value written under a key becomes a source at reads under the same key. key = owner type of the method (resolved APIs), else the receiver variable name, else the table name found in an SQL literal.",
+ "classes": [
+  "xss",
+  "sql-injection",
+  "ssrf",
+  "open-redirect",
+  "path-traversal",
+  "command-injection"
+ ],
+ "stores": [
+  {
+   "fw": "spring-data/jpa",
+   "langs": [
+    "java"
+   ],
+   "write_mfn": "(?s).*(Repository|EntityManager)\\.(save|saveAll|saveAndFlush|insert|persist|merge)\\b.*",
+   "read_mfn": "(?s).*(Repository|EntityManager)\\.(find\\w*|get\\w*|read\\w*|query\\w*|select\\w*|exists\\w*|count\\w*|createQuery|createNativeQuery)\\b.*",
+   "key": "owner"
+  },
+  {
+   "fw": "jdbc",
+   "langs": [
+    "java"
+   ],
+   "write_mfn": "(?s).*(JdbcTemplate|NamedParameterJdbcTemplate|java\\.sql\\.\\w*Statement)\\.(update|batchUpdate|execute|executeUpdate|executeBatch)\\b.*",
+   "read_mfn": "(?s).*(JdbcTemplate|NamedParameterJdbcTemplate|java\\.sql\\.\\w*Statement)\\.(query\\w*|executeQuery)\\b.*",
+   "key": "sql_table"
+  },
+  {
+   "fw": "mongo/js",
+   "langs": [
+    "js"
+   ],
+   "write_name": "insert|insertOne|insertMany|update|updateOne|updateMany|replaceOne|save|findOneAndUpdate|findAndModify|create|bulkWrite",
+   "read_name": "find|findOne|findById|aggregate|toArray|get",
+   "key": "receiver"
+  },
+  {
+   "fw": "sqlalchemy/django/py",
+   "langs": [
+    "py"
+   ],
+   "write_name": "add|add_all|create|save|update|bulk_create|execute|insert",
+   "write_recv": "(?i).*(session|objects|cursor|db|model|query).*",
+   "read_name": "get|first|all|filter|filter_by|one|fetchone|fetchall|execute|query",
+   "read_recv": "(?i).*(session|objects|cursor|db|model|query).*",
+   "key": "receiver"
+  }
+ ]
+}

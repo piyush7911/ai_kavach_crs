@@ -1,0 +1,3 @@
+HIT	debug-enabled	app.py	17	<module>	vuln_app.run(host = '0.0.0.0', port = 5000, debug = True)
+HIT	hardcoded-secret	api_views/users.py	197	update_password	tmp7['Password'] = <literal>
+HIT	hardcoded-secret	config.py	13	<module>	vuln_app.app.config['SECRET_KEY'] = <literal>

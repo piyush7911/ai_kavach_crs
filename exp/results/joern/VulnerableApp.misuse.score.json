@@ -1,0 +1,74 @@
+{
+ "in_scope_vulnerable": 40,
+ "found": 17,
+ "secure_in_scope": 1,
+ "secure_flagged": 0,
+ "by_class": {
+  "weak-hash": {
+   "tp": 8,
+   "fn": 2
+  },
+  "header-misconfig": {
+   "fn": 4,
+   "tp": 1
+  },
+  "weak-cipher": {
+   "tn": 1,
+   "tp": 1,
+   "fn": 4
+  },
+  "jwt": {
+   "fn": 8,
+   "tp": 5
+  },
+  "weak-random": {
+   "tp": 2,
+   "fn": 5
+  }
+ },
+ "found_ids": [
+  "AuthenticationVulnerability.level10LowIterationHashing",
+  "AuthenticationVulnerability.level8WeakPassword",
+  "AuthenticationVulnerability.level6Sha256NoSalt",
+  "AuthenticationVulnerability.level5Sha1",
+  "AuthenticationVulnerability.level4Md5",
+  "ClickjackingVulnerability.xFrameOptionsAllowAll",
+  "CryptographicFailuresVulnerability.getSecurePayloadLevel10",
+  "CryptographicFailuresVulnerability.getVulnerablePayloadLevel7",
+  "CryptographicFailuresVulnerability.getVulnerablePayloadLevel6",
+  "CryptographicFailuresVulnerability.getVulnerablePayloadLevel5",
+  "JWTVulnerability.getVulnerablePayloadLevelUnsecure10CookieBased",
+  "JWTVulnerability.getVulnerablePayloadLevelUnsecure9CookieBased",
+  "JWTVulnerability.getVulnerablePayloadLevelUnsecure8CookieBased",
+  "JWTVulnerability.getVulnerablePayloadLevelUnsecure7CookieBased",
+  "JWTVulnerability.getVulnerablePayloadLevelUnsecure6CookieBased",
+  "OTPVulnerability.level2RequestOTP",
+  "OTPVulnerability.level1RequestOTP"
+ ],
+ "missed_ids": [
+  "ClickjackingVulnerability.overlayAttackSameOrigin",
+  "ClickjackingVulnerability.overlayAttackNoProtection",
+  "ClickjackingVulnerability.xFrameOptionsSameOrigin",
+  "ClickjackingVulnerability.noFramingProtection",
+  "CryptographicFailuresVulnerability.getSecurePayloadLevel6",
+  "CryptographicFailuresVulnerability.getSecurePayloadLevel5",
+  "CryptographicFailuresVulnerability.getVulnerablePayloadLevel4",
+  "CryptographicFailuresVulnerability.getVulnerablePayloadLevel3",
+  "CryptographicFailuresVulnerability.getVulnerablePayloadLevel2",
+  "CryptographicFailuresVulnerability.getVulnerablePayloadLevel1",
+  "JWTVulnerability.getVulnerablePayloadLevel16CookieBased",
+  "JWTVulnerability.getVulnerablePayloadLevel15CookieBased",
+  "JWTVulnerability.getVulnerablePayloadLevel14CookieBased",
+  "JWTVulnerability.getVulnerablePayloadLevelUnsecure5CookieBased",
+  "JWTVulnerability.getVulnerablePayloadLevelUnsecure4CookieBased",
+  "JWTVulnerability.getVulnerablePayloadLevelUnsecure3CookieBased",
+  "JWTVulnerability.getVulnerablePayloadLevelUnsecure2CookieBased",
+  "JWTVulnerability.getVulnerablePayloadLevelUnsecure",
+  "PasswordResetVulnerability.level8",
+  "PasswordResetVulnerability.level6",
+  "PasswordResetVulnerability.level1",
+  "SessionManagementVulnerability.level3ObscuredPredictableSessionId",
+  "SessionManagementVulnerability.level2PredictableSessionId"
+ ],
+ "flagged_secure_ids": []
+}

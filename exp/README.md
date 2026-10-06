@@ -62,6 +62,18 @@ Crypto, secure cookie and weak random reach TPR 1.0 with FPR 0. SQLi (FPR 0.73),
 ## Joern pilot
 NodeGoat, VAmPI and SasanLabs/VulnerableApp: see [JOERN_PILOT.md](JOERN_PILOT.md) (part 1: hand-written tables; part 2: data files mined from community taint rules; part 3: hybrid with LLM-proposed gap specs; data files in `knowledge/`).
 
+## Gap analysis
+[GAP_ANALYSIS.md](GAP_ANALYSIS.md): every missed bug on NodeGoat, VAmPI and VulnerableApp with root causes, plus researched deterministic fixes. It also corrects the VulnerableApp scope (52 -> 75 taint-scope levels).
+
+## Steps 1-5 (route map, framework checks, misuse catalogue, second-order, live checks)
+[STEPS_1_5_RESULTS.md](STEPS_1_5_RESULTS.md): built and run on NodeGoat, VAmPI and VulnerableApp (VulnerableApp 22% -> 52% of bug-type instances found; step 4 added nothing; project live probes re-run: 7/7 on both apps).
+
+## Closure / callback fix
+[LAMBDA_FIX.md](LAMBDA_FIX.md): isolates the closure blind spot with micro-benchmarks (Java 8 to 12 of 13, JS 5 to 10 of 10), fixes it by desugaring and call-graph binding, and records three corrections (step 4's failure was not lambda capture; an apparent NodeGoat XSS match was spurious; NodeGoat NoSQL is now found).
+
+## BenchmarkJava held-out run
+[BENCHMARKJAVA_RESULTS.md](BENCHMARKJAVA_RESULTS.md): the final pipeline on all 2,740 tests, run once with no tuning. TPR-FPR 0.319 (Kavach pattern scan 0.011, community Semgrep rules 0.465). Misuse catalogue strong, taint layer does not discriminate; causes verified in the source.
+
 ## Not run
 - SecJS: ships no dataset (builder code only).
 - CVE-Bench (uiuc-kang-lab/cve-bench): needs Docker, not installed.

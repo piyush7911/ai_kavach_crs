@@ -1,0 +1,80 @@
+{
+ "_about": "Step 2: framework knowledge as DATA (no application names). Each check adds sinks for a class. kinds: return_value (a handler's returned body is a sink), status_ctor (response object built with a 3xx status), header_write (value written to a named response header), config_gated_sink (a call is a sink only when a config call enables the unsafe setting).",
+ "checks": [
+  {
+   "fw": "spring",
+   "kind": "return_value",
+   "class": "xss",
+   "handler_annotation": ".*Mapping",
+   "return_type": "(ResponseEntity<String>|\\bString\\b|ModelAndView|Mono<String>)",
+   "why": "a controller that returns a raw string body writes it to the response; with an HTML content type that is reflected output"
+  },
+  {
+   "fw": "spring",
+   "kind": "status_ctor",
+   "class": "open-redirect",
+   "type": "org\\.springframework\\.http\\.ResponseEntity",
+   "status": "(FOUND|SEE_OTHER|MOVED_PERMANENTLY|MOVED_TEMPORARILY|TEMPORARY_REDIRECT|PERMANENT_REDIRECT)",
+   "why": "a response entity built with a 3xx status turns its headers (Location) into a redirect"
+  },
+  {
+   "fw": "spring",
+   "kind": "header_write",
+   "class": "open-redirect",
+   "header": "(?i)^location$",
+   "apis": "add|set|put|append|addHeader|setHeader|header|setLocation|location",
+   "why": "writing a value to the Location response header"
+  },
+  {
+   "fw": "servlet",
+   "kind": "header_write",
+   "class": "open-redirect",
+   "header": "(?i)^location$",
+   "apis": "setHeader|addHeader|setLocation",
+   "why": "HttpServletResponse Location header"
+  },
+  {
+   "fw": "express",
+   "kind": "header_write",
+   "class": "open-redirect",
+   "header": "(?i)^location$",
+   "apis": "set|header|setHeader|append|location",
+   "why": "Express response Location header"
+  },
+  {
+   "fw": "express",
+   "kind": "config_gated_sink",
+   "class": "xss",
+   "gate_call": "setDefaults|configure|set|enable",
+   "gate_code": "autoescape\\s*:\\s*false",
+   "sink_name": "render|renderFile|renderString",
+   "sink_recv": "res|response|swig|app",
+   "why": "template output escaping disabled globally: every render call is an HTML sink"
+  },
+  {
+   "fw": "flask",
+   "kind": "config_gated_sink",
+   "class": "xss",
+   "gate_call": "Environment|Markup|Template",
+   "gate_code": "autoescape\\s*=\\s*False",
+   "sink_name": "render|render_template_string|render_template",
+   "sink_recv": ".*",
+   "why": "Jinja autoescape disabled"
+  },
+  {
+   "fw": "any",
+   "kind": "html_string_build",
+   "class": "xss",
+   "names": "append|concat|format|<operator>.addition|<operator>.formatString|replace",
+   "html": "(?s).*<[a-zA-Z/!][^>]*>?.*",
+   "why": "a string built from an HTML literal and a non-literal value is output markup; if the value is attacker-controlled (directly or via storage) it is XSS"
+  },
+  {
+   "fw": "mongodb",
+   "kind": "property_sink",
+   "class": "nosql-injection",
+   "property": "\\$where|\\$function|\\$accumulator",
+   "why": "MongoDB operators that execute a JavaScript string: a value assigned to them is a code/NoSQL injection sink (object literals are lowered to `obj.$where = value`)"
+  }
+ ]
+}

@@ -1,0 +1,3503 @@
+{
+ "root": "benchmark_workspace/public/VulnerableApp/src/main/java",
+ "routes": [
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "/scanner/benchmark",
+   "file": "org/sasanlabs/benchmark/controller/BenchmarkController.java",
+   "function": "benchmark",
+   "params": [
+    "input"
+   ],
+   "param_annotations": [
+    "RequestBody"
+   ],
+   "middleware": [],
+   "line": 38,
+   "end_line": 68
+  },
+  {
+   "framework": "spring",
+   "method": "GET",
+   "path": "",
+   "file": "org/sasanlabs/controller/VulnerableAppRestController.java",
+   "function": "allEndPoints",
+   "params": [],
+   "param_annotations": [],
+   "middleware": [],
+   "line": 59,
+   "end_line": 66
+  },
+  {
+   "framework": "spring",
+   "method": "GET",
+   "path": "",
+   "file": "org/sasanlabs/controller/VulnerableAppRestController.java",
+   "function": "getVulnerabilityDefinitions",
+   "params": [],
+   "param_annotations": [],
+   "middleware": [],
+   "line": 74,
+   "end_line": 79
+  },
+  {
+   "framework": "spring",
+   "method": "GET",
+   "path": "",
+   "file": "org/sasanlabs/controller/VulnerableAppRestController.java",
+   "function": "allEndPointsJsonResponse",
+   "params": [],
+   "param_annotations": [],
+   "middleware": [],
+   "line": 92,
+   "end_line": 97
+  },
+  {
+   "framework": "spring",
+   "method": "GET",
+   "path": "",
+   "file": "org/sasanlabs/controller/VulnerableAppRestController.java",
+   "function": "getScannerRelatedInformation",
+   "params": [
+    "request"
+   ],
+   "param_annotations": [],
+   "middleware": [],
+   "line": 111,
+   "end_line": 122
+  },
+  {
+   "framework": "spring",
+   "method": "GET",
+   "path": "",
+   "file": "org/sasanlabs/controller/VulnerableAppRestController.java",
+   "function": "getDastScannerRelatedInformation",
+   "params": [
+    "request"
+   ],
+   "param_annotations": [],
+   "middleware": [],
+   "line": 133,
+   "end_line": 139
+  },
+  {
+   "framework": "spring",
+   "method": "GET",
+   "path": "",
+   "file": "org/sasanlabs/controller/VulnerableAppRestController.java",
+   "function": "getSastScannerRelatedInformation",
+   "params": [],
+   "param_annotations": [],
+   "middleware": [],
+   "line": 149,
+   "end_line": 153
+  },
+  {
+   "framework": "spring",
+   "method": "GET",
+   "path": "",
+   "file": "org/sasanlabs/controller/VulnerableAppRestController.java",
+   "function": "getScannerRelatedMetaInformation",
+   "params": [],
+   "param_annotations": [],
+   "middleware": [],
+   "line": 185,
+   "end_line": 191
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "/sitemap.xml",
+   "file": "org/sasanlabs/controller/VulnerableAppRestController.java",
+   "function": "sitemapForPassiveScanners",
+   "params": [
+    "request"
+   ],
+   "param_annotations": [],
+   "middleware": [],
+   "line": 202,
+   "end_line": 246
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "/email//test",
+   "file": "org/sasanlabs/controller/EmailTestController.java",
+   "function": "sendTestEmail",
+   "params": [
+    "to",
+    "subject",
+    "body",
+    "html"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 28,
+   "end_line": 48
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "JWTVulnerability/LEVEL_1",
+   "file": "org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java",
+   "function": "getVulnerablePayloadLevelUnsecure",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 96,
+   "end_line": 135
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "JWTVulnerability/LEVEL_2",
+   "file": "org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java",
+   "function": "getVulnerablePayloadLevelUnsecure2CookieBased",
+   "params": [
+    "requestEntity",
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 137,
+   "end_line": 197
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "JWTVulnerability/LEVEL_3",
+   "file": "org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java",
+   "function": "getVulnerablePayloadLevelUnsecure3CookieBased",
+   "params": [
+    "requestEntity",
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 199,
+   "end_line": 258
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "JWTVulnerability/LEVEL_4",
+   "file": "org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java",
+   "function": "getVulnerablePayloadLevelUnsecure4CookieBased",
+   "params": [
+    "requestEntity",
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 260,
+   "end_line": 333
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "JWTVulnerability/LEVEL_5",
+   "file": "org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java",
+   "function": "getVulnerablePayloadLevelUnsecure5CookieBased",
+   "params": [
+    "requestEntity",
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 335,
+   "end_line": 408
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "JWTVulnerability/LEVEL_6",
+   "file": "org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java",
+   "function": "getVulnerablePayloadLevelUnsecure6CookieBased",
+   "params": [
+    "requestEntity",
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 410,
+   "end_line": 484
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "JWTVulnerability/LEVEL_7",
+   "file": "org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java",
+   "function": "getVulnerablePayloadLevelUnsecure7CookieBased",
+   "params": [
+    "requestEntity",
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 491,
+   "end_line": 543
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "JWTVulnerability/LEVEL_8",
+   "file": "org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java",
+   "function": "getVulnerablePayloadLevelUnsecure8CookieBased",
+   "params": [
+    "requestEntity",
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 545,
+   "end_line": 616
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "JWTVulnerability/LEVEL_9",
+   "file": "org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java",
+   "function": "getVulnerablePayloadLevelUnsecure9CookieBased",
+   "params": [
+    "requestEntity",
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 618,
+   "end_line": 687
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "JWTVulnerability/LEVEL_10",
+   "file": "org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java",
+   "function": "getVulnerablePayloadLevelUnsecure10CookieBased",
+   "params": [
+    "requestEntity",
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 689,
+   "end_line": 762
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "JWTVulnerability/LEVEL_13",
+   "file": "org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java",
+   "function": "getHeaderInjectionVulnerability",
+   "params": [
+    "requestEntity",
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 827,
+   "end_line": 889
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "JWTVulnerability/LEVEL_14",
+   "file": "org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java",
+   "function": "getVulnerablePayloadLevel14CookieBased",
+   "params": [
+    "requestEntity",
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 892,
+   "end_line": 963
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "JWTVulnerability/LEVEL_15",
+   "file": "org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java",
+   "function": "getVulnerablePayloadLevel15CookieBased",
+   "params": [
+    "requestEntity",
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 966,
+   "end_line": 1037
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "JWTVulnerability/LEVEL_16",
+   "file": "org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java",
+   "function": "getVulnerablePayloadLevel16CookieBased",
+   "params": [
+    "requestEntity",
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 1041,
+   "end_line": 1118
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "CommandInjection/LEVEL_1",
+   "file": "org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
+   "function": "getVulnerablePayloadLevel1",
+   "params": [
+    "ipAddress"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 65,
+   "end_line": 88
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "CommandInjection/LEVEL_2",
+   "file": "org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
+   "function": "getVulnerablePayloadLevel2",
+   "params": [
+    "ipAddress",
+    "requestEntity"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 90,
+   "end_line": 121
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "CommandInjection/LEVEL_3",
+   "file": "org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
+   "function": "getVulnerablePayloadLevel3",
+   "params": [
+    "ipAddress",
+    "requestEntity"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 124,
+   "end_line": 157
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "CommandInjection/LEVEL_4",
+   "file": "org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
+   "function": "getVulnerablePayloadLevel4",
+   "params": [
+    "ipAddress",
+    "requestEntity"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 161,
+   "end_line": 194
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "CommandInjection/LEVEL_5",
+   "file": "org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
+   "function": "getVulnerablePayloadLevel5",
+   "params": [
+    "ipAddress",
+    "requestEntity"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 197,
+   "end_line": 230
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "CommandInjection/LEVEL_6",
+   "file": "org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
+   "function": "getVulnerablePayloadLevel6",
+   "params": [
+    "ipAddress"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 232,
+   "end_line": 249
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "SSRFVulnerability/LEVEL_1",
+   "file": "org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.java",
+   "function": "getVulnerablePayloadLevel1",
+   "params": [
+    "url"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 92,
+   "end_line": 114
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "SSRFVulnerability/LEVEL_2",
+   "file": "org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.java",
+   "function": "getVulnerablePayloadLevel2",
+   "params": [
+    "url"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 116,
+   "end_line": 140
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "SSRFVulnerability/LEVEL_3",
+   "file": "org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.java",
+   "function": "getVulnerablePayloadLevel3",
+   "params": [
+    "url"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 142,
+   "end_line": 168
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "SSRFVulnerability/LEVEL_4",
+   "file": "org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.java",
+   "function": "getVulnerablePayloadLevel4",
+   "params": [
+    "url"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 170,
+   "end_line": 196
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "SSRFVulnerability/LEVEL_5",
+   "file": "org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.java",
+   "function": "getVulnerablePayloadLevel5",
+   "params": [
+    "url"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 198,
+   "end_line": 212
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "",
+   "file": "org/sasanlabs/service/vulnerability/fileupload/PreflightController.java",
+   "function": "fetchFile",
+   "params": [
+    "fileName"
+   ],
+   "param_annotations": [
+    "PathVariable"
+   ],
+   "middleware": [],
+   "line": 43,
+   "end_line": 64
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "UnrestrictedFileUpload/LEVEL_1",
+   "file": "org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
+   "function": "getVulnerablePayloadLevel1",
+   "params": [
+    "file"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 181,
+   "end_line": 234
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "UnrestrictedFileUpload/LEVEL_2",
+   "file": "org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
+   "function": "getVulnerablePayloadLevel2",
+   "params": [
+    "file"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 237,
+   "end_line": 276
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "UnrestrictedFileUpload/LEVEL_3",
+   "file": "org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
+   "function": "getVulnerablePayloadLevel3",
+   "params": [
+    "file"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 279,
+   "end_line": 325
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "UnrestrictedFileUpload/LEVEL_4",
+   "file": "org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
+   "function": "getVulnerablePayloadLevel4",
+   "params": [
+    "file"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 327,
+   "end_line": 373
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "UnrestrictedFileUpload/LEVEL_5",
+   "file": "org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
+   "function": "getVulnerablePayloadLevel5",
+   "params": [
+    "file"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 375,
+   "end_line": 425
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "UnrestrictedFileUpload/LEVEL_6",
+   "file": "org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
+   "function": "getVulnerablePayloadLevel6",
+   "params": [
+    "file"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 428,
+   "end_line": 476
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "UnrestrictedFileUpload/LEVEL_7",
+   "file": "org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
+   "function": "getVulnerablePayloadLevel7",
+   "params": [
+    "file"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 479,
+   "end_line": 533
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "UnrestrictedFileUpload/LEVEL_8",
+   "file": "org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
+   "function": "getVulnerablePayloadLevel8",
+   "params": [
+    "file"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 535,
+   "end_line": 558
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "UnrestrictedFileUpload/LEVEL_9",
+   "file": "org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
+   "function": "getVulnerablePayloadLevel9",
+   "params": [
+    "file"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 560,
+   "end_line": 594
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "UnrestrictedFileUpload/LEVEL_10",
+   "file": "org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
+   "function": "getVulnerablePayloadLevel10",
+   "params": [
+    "file"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 598,
+   "end_line": 623
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "UnrestrictedFileUpload/LEVEL_11",
+   "file": "org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
+   "function": "getVulnerablePayloadLevel11",
+   "params": [
+    "file"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 633,
+   "end_line": 652
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "UnrestrictedFileUpload/LEVEL_12",
+   "file": "org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
+   "function": "getVulnerablePayloadLevel12",
+   "params": [
+    "file"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 660,
+   "end_line": 679
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "RemoteFileInclusion/LEVEL_1",
+   "file": "org/sasanlabs/service/vulnerability/rfi/UrlParamBasedRFI.java",
+   "function": "getVulnerablePayloadLevelUnsecure",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 36,
+   "end_line": 54
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "RemoteFileInclusion/LEVEL_2",
+   "file": "org/sasanlabs/service/vulnerability/rfi/UrlParamBasedRFI.java",
+   "function": "getVulnerablePayloadLevelUnsecureLevel2",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 56,
+   "end_line": 74
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "XXEVulnerability/LEVEL_1",
+   "file": "org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
+   "function": "getVulnerablePayloadLevel1",
+   "params": [
+    "request"
+   ],
+   "param_annotations": [],
+   "middleware": [],
+   "line": 90,
+   "end_line": 125
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "XXEVulnerability/LEVEL_2",
+   "file": "org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
+   "function": "getVulnerablePayloadLevel2",
+   "params": [
+    "request"
+   ],
+   "param_annotations": [],
+   "middleware": [],
+   "line": 192,
+   "end_line": 222
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "XXEVulnerability/LEVEL_3",
+   "file": "org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
+   "function": "getVulnerablePayloadLevel3",
+   "params": [
+    "request"
+   ],
+   "param_annotations": [],
+   "middleware": [],
+   "line": 226,
+   "end_line": 259
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "XXEVulnerability/LEVEL_4",
+   "file": "org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
+   "function": "getVulnerablePayloadLevel4",
+   "params": [
+    "request"
+   ],
+   "param_annotations": [],
+   "middleware": [],
+   "line": 263,
+   "end_line": 298
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "XXEVulnerability/LEVEL_5",
+   "file": "org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
+   "function": "getVulnerablePayloadLevel5",
+   "params": [
+    "request"
+   ],
+   "param_annotations": [],
+   "middleware": [],
+   "line": 301,
+   "end_line": 338
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "XXEVulnerability/LEVEL_6",
+   "file": "org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
+   "function": "getVulnerablePayloadLevel6",
+   "params": [
+    "request"
+   ],
+   "param_annotations": [],
+   "middleware": [],
+   "line": 340,
+   "end_line": 376
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "XXEVulnerability/LEVEL_7",
+   "file": "org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
+   "function": "getVulnerablePayloadLevel7",
+   "params": [
+    "request"
+   ],
+   "param_annotations": [],
+   "middleware": [],
+   "line": 378,
+   "end_line": 405
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "OTPVulnerability/LEVEL_1",
+   "file": "org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java",
+   "function": "level1RequestOTP",
+   "params": [
+    "email"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 30,
+   "end_line": 56
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "OTPVulnerability/LEVEL_1",
+   "file": "org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java",
+   "function": "level1ValidateOTP",
+   "params": [
+    "email",
+    "otp"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 58,
+   "end_line": 64
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "OTPVulnerability/LEVEL_2",
+   "file": "org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java",
+   "function": "level2RequestOTP",
+   "params": [
+    "email"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 67,
+   "end_line": 93
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "OTPVulnerability/LEVEL_2",
+   "file": "org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java",
+   "function": "level2ValidateOTP",
+   "params": [
+    "email",
+    "otp"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 95,
+   "end_line": 101
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "OTPVulnerability/LEVEL_3",
+   "file": "org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java",
+   "function": "level3RequestOTP",
+   "params": [
+    "email"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 104,
+   "end_line": 129
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "OTPVulnerability/LEVEL_3",
+   "file": "org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java",
+   "function": "level3ValidateOTP",
+   "params": [
+    "email",
+    "otp"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 131,
+   "end_line": 137
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "OTPVulnerability/LEVEL_4",
+   "file": "org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java",
+   "function": "level4RequestOTP",
+   "params": [
+    "email"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 140,
+   "end_line": 162
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "OTPVulnerability/LEVEL_4",
+   "file": "org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java",
+   "function": "level4ValidateOTP",
+   "params": [
+    "email",
+    "otp"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 164,
+   "end_line": 170
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "OTPVulnerability/LEVEL_5",
+   "file": "org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java",
+   "function": "level5RequestOTP",
+   "params": [
+    "email"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 173,
+   "end_line": 182
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "OTPVulnerability/LEVEL_5",
+   "file": "org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java",
+   "function": "level5ValidateOTP",
+   "params": [
+    "email",
+    "otp"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 184,
+   "end_line": 190
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "ClickjackingVulnerability/LEVEL_1",
+   "file": "org/sasanlabs/service/vulnerability/clickjacking/ClickjackingVulnerability.java",
+   "function": "noFramingProtection",
+   "params": [],
+   "param_annotations": [],
+   "middleware": [],
+   "line": 46,
+   "end_line": 66
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "ClickjackingVulnerability/LEVEL_2",
+   "file": "org/sasanlabs/service/vulnerability/clickjacking/ClickjackingVulnerability.java",
+   "function": "xFrameOptionsAllowAll",
+   "params": [],
+   "param_annotations": [],
+   "middleware": [],
+   "line": 72,
+   "end_line": 96
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "ClickjackingVulnerability/LEVEL_3",
+   "file": "org/sasanlabs/service/vulnerability/clickjacking/ClickjackingVulnerability.java",
+   "function": "xFrameOptionsSameOrigin",
+   "params": [],
+   "param_annotations": [],
+   "middleware": [],
+   "line": 102,
+   "end_line": 126
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "ClickjackingVulnerability/LEVEL_4",
+   "file": "org/sasanlabs/service/vulnerability/clickjacking/ClickjackingVulnerability.java",
+   "function": "xFrameOptionsDeny",
+   "params": [],
+   "param_annotations": [],
+   "middleware": [],
+   "line": 132,
+   "end_line": 142
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "ClickjackingVulnerability/LEVEL_5",
+   "file": "org/sasanlabs/service/vulnerability/clickjacking/ClickjackingVulnerability.java",
+   "function": "cspFrameAncestorsNone",
+   "params": [],
+   "param_annotations": [],
+   "middleware": [],
+   "line": 148,
+   "end_line": 158
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "ClickjackingVulnerability/LEVEL_6",
+   "file": "org/sasanlabs/service/vulnerability/clickjacking/ClickjackingVulnerability.java",
+   "function": "overlayAttackNoProtection",
+   "params": [],
+   "param_annotations": [],
+   "middleware": [],
+   "line": 165,
+   "end_line": 185
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "ClickjackingVulnerability/LEVEL_7",
+   "file": "org/sasanlabs/service/vulnerability/clickjacking/ClickjackingVulnerability.java",
+   "function": "overlayAttackSameOrigin",
+   "params": [],
+   "param_annotations": [],
+   "middleware": [],
+   "line": 192,
+   "end_line": 216
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "PersistentXSSInHTMLTagVulnerability/LEVEL_1",
+   "file": "org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java",
+   "function": "getVulnerablePayloadLevel1",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 95,
+   "end_line": 116
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "PersistentXSSInHTMLTagVulnerability/LEVEL_2",
+   "file": "org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java",
+   "function": "getVulnerablePayloadLevel2",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 118,
+   "end_line": 143
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "PersistentXSSInHTMLTagVulnerability/LEVEL_3",
+   "file": "org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java",
+   "function": "getVulnerablePayloadLevel3",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 146,
+   "end_line": 174
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "PersistentXSSInHTMLTagVulnerability/LEVEL_4",
+   "file": "org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java",
+   "function": "getVulnerablePayloadLevel4",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 177,
+   "end_line": 207
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "PersistentXSSInHTMLTagVulnerability/LEVEL_5",
+   "file": "org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java",
+   "function": "getVulnerablePayloadLevel5",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 209,
+   "end_line": 240
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "PersistentXSSInHTMLTagVulnerability/LEVEL_6",
+   "file": "org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java",
+   "function": "getVulnerablePayloadLevel6",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 242,
+   "end_line": 275
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "PersistentXSSInHTMLTagVulnerability/LEVEL_7",
+   "file": "org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java",
+   "function": "getVulnerablePayloadLevel7",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 278,
+   "end_line": 300
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "PersistentXSSInHTMLTagVulnerability/LEVEL_8",
+   "file": "org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java",
+   "function": "getSecurePayloadLevel8",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 303,
+   "end_line": 328
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "PersistentXSSInHTMLTagVulnerability/LEVEL_9",
+   "file": "org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java",
+   "function": "getSecurePayloadLevel9",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 331,
+   "end_line": 351
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "XSSInImgTagAttribute/LEVEL_1",
+   "file": "org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java",
+   "function": "getVulnerablePayloadLevel1",
+   "params": [
+    "imageLocation"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 47,
+   "end_line": 69
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "XSSInImgTagAttribute/LEVEL_2",
+   "file": "org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java",
+   "function": "getVulnerablePayloadLevel2",
+   "params": [
+    "imageLocation"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 73,
+   "end_line": 95
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "XSSInImgTagAttribute/LEVEL_3",
+   "file": "org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java",
+   "function": "getVulnerablePayloadLevel3",
+   "params": [
+    "imageLocation"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 99,
+   "end_line": 124
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "XSSInImgTagAttribute/LEVEL_4",
+   "file": "org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java",
+   "function": "getVulnerablePayloadLevel4",
+   "params": [
+    "imageLocation"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 129,
+   "end_line": 158
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "XSSInImgTagAttribute/LEVEL_5",
+   "file": "org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java",
+   "function": "getVulnerablePayloadLevel5",
+   "params": [
+    "imageLocation"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 162,
+   "end_line": 200
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "XSSInImgTagAttribute/LEVEL_6",
+   "file": "org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java",
+   "function": "getVulnerablePayloadLevel6",
+   "params": [
+    "imageLocation"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 204,
+   "end_line": 236
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "XSSInImgTagAttribute/LEVEL_7",
+   "file": "org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java",
+   "function": "getVulnerablePayloadLevelSecure",
+   "params": [
+    "imageLocation"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 241,
+   "end_line": 263
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "XSSWithHtmlTagInjection/LEVEL_1",
+   "file": "org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
+   "function": "getVulnerablePayloadLevel1",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 33,
+   "end_line": 55
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "XSSWithHtmlTagInjection/LEVEL_2",
+   "file": "org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
+   "function": "getVulnerablePayloadLevel2",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 61,
+   "end_line": 87
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "XSSWithHtmlTagInjection/LEVEL_3",
+   "file": "org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
+   "function": "getVulnerablePayloadLevel3",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 93,
+   "end_line": 121
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "XSSWithHtmlTagInjection/LEVEL_4",
+   "file": "org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
+   "function": "getSecurePayloadLevel4",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 124,
+   "end_line": 151
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "XSSWithHtmlTagInjection/LEVEL_5",
+   "file": "org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
+   "function": "getSecurePayloadLevel5",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 154,
+   "end_line": 181
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "Http3xxStatusCodeBasedInjection/LEVEL_1",
+   "file": "org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java",
+   "function": "getVulnerablePayloadLevel1",
+   "params": [
+    "urlToRedirect"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 89,
+   "end_line": 109
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "Http3xxStatusCodeBasedInjection/LEVEL_2",
+   "file": "org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java",
+   "function": "getVulnerablePayloadLevel2",
+   "params": [
+    "requestEntity",
+    "urlToRedirect"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 115,
+   "end_line": 144
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "Http3xxStatusCodeBasedInjection/LEVEL_3",
+   "file": "org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java",
+   "function": "getVulnerablePayloadLevel3",
+   "params": [
+    "requestEntity",
+    "urlToRedirect"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 149,
+   "end_line": 179
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "Http3xxStatusCodeBasedInjection/LEVEL_4",
+   "file": "org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java",
+   "function": "getVulnerablePayloadLevel4",
+   "params": [
+    "requestEntity",
+    "urlToRedirect"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 182,
+   "end_line": 213
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "Http3xxStatusCodeBasedInjection/LEVEL_5",
+   "file": "org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java",
+   "function": "getVulnerablePayloadLevel5",
+   "params": [
+    "requestEntity",
+    "urlToRedirect"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 219,
+   "end_line": 251
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "Http3xxStatusCodeBasedInjection/LEVEL_6",
+   "file": "org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java",
+   "function": "getVulnerablePayloadLevel6",
+   "params": [
+    "requestEntity",
+    "urlToRedirect"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 255,
+   "end_line": 283
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "Http3xxStatusCodeBasedInjection/LEVEL_7",
+   "file": "org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java",
+   "function": "getVulnerablePayloadLevel7",
+   "params": [
+    "requestEntity",
+    "urlToRedirect"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 285,
+   "end_line": 321
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "Http3xxStatusCodeBasedInjection/LEVEL_8",
+   "file": "org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java",
+   "function": "getVulnerablePayloadLevel8",
+   "params": [
+    "requestEntity",
+    "urlToRedirect"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 324,
+   "end_line": 331
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "Http3xxStatusCodeBasedInjection/LEVEL_9",
+   "file": "org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java",
+   "function": "getVulnerablePayloadLevel9",
+   "params": [
+    "urlToRedirect"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 335,
+   "end_line": 355
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "Http3xxStatusCodeBasedInjection/LEVEL_10",
+   "file": "org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java",
+   "function": "getVulnerablePayloadLevel10",
+   "params": [
+    "urlToRedirect"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 360,
+   "end_line": 380
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "Http3xxStatusCodeBasedInjection/LEVEL_11",
+   "file": "org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java",
+   "function": "getVulnerablePayloadLevel11",
+   "params": [
+    "urlToRedirect"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 382,
+   "end_line": 400
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "Http3xxStatusCodeBasedInjection/LEVEL_12",
+   "file": "org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java",
+   "function": "getVulnerablePayloadLevel12",
+   "params": [
+    "destinationKey"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 402,
+   "end_line": 420
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "IDORVulnerability/LEVEL_1",
+   "file": "org/sasanlabs/service/vulnerability/idor/IDORLoginController.java",
+   "function": "level1Login",
+   "params": [
+    "username",
+    "password",
+    "request",
+    "response"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 39,
+   "end_line": 52
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "IDORVulnerability/LEVEL_2",
+   "file": "org/sasanlabs/service/vulnerability/idor/IDORLoginController.java",
+   "function": "level2Login",
+   "params": [
+    "username",
+    "password",
+    "request",
+    "response"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 54,
+   "end_line": 68
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "IDORVulnerability/LEVEL_3",
+   "file": "org/sasanlabs/service/vulnerability/idor/IDORLoginController.java",
+   "function": "level3Login",
+   "params": [
+    "username",
+    "password",
+    "request",
+    "response"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 70,
+   "end_line": 84
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "IDORVulnerability/LEVEL_4",
+   "file": "org/sasanlabs/service/vulnerability/idor/IDORLoginController.java",
+   "function": "level4Login",
+   "params": [
+    "username",
+    "password",
+    "request",
+    "response"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 86,
+   "end_line": 100
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "IDORVulnerability/LEVEL_5",
+   "file": "org/sasanlabs/service/vulnerability/idor/IDORLoginController.java",
+   "function": "level5Login",
+   "params": [
+    "username",
+    "password",
+    "request",
+    "response"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 102,
+   "end_line": 115
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "IDORVulnerability/LEVEL_1",
+   "file": "org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java",
+   "function": "level1",
+   "params": [
+    "cookieToken",
+    "id"
+   ],
+   "param_annotations": [
+    "CookieValue",
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 58,
+   "end_line": 95
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "IDORVulnerability/LEVEL_2",
+   "file": "org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java",
+   "function": "level2",
+   "params": [
+    "cookieToken",
+    "loggedInUser"
+   ],
+   "param_annotations": [
+    "CookieValue"
+   ],
+   "middleware": [],
+   "line": 97,
+   "end_line": 131
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "IDORVulnerability/LEVEL_3",
+   "file": "org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java",
+   "function": "level3",
+   "params": [
+    "cookieToken",
+    "cookieRole",
+    "id"
+   ],
+   "param_annotations": [
+    "CookieValue",
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 133,
+   "end_line": 180
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "IDORVulnerability/LEVEL_4",
+   "file": "org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java",
+   "function": "level4",
+   "params": [
+    "cookieToken",
+    "cookieRole",
+    "id"
+   ],
+   "param_annotations": [
+    "CookieValue",
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 182,
+   "end_line": 229
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "IDORVulnerability/LEVEL_5",
+   "file": "org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java",
+   "function": "level5",
+   "params": [
+    "cookieToken",
+    "id"
+   ],
+   "param_annotations": [
+    "CookieValue",
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 231,
+   "end_line": 276
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "LDAPInjectionVulnerability/LEVEL_1",
+   "file": "org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java",
+   "function": "level1",
+   "params": [
+    "username"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 103,
+   "end_line": 139
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "LDAPInjectionVulnerability/LEVEL_2",
+   "file": "org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java",
+   "function": "level2",
+   "params": [
+    "username"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 142,
+   "end_line": 178
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "LDAPInjectionVulnerability/LEVEL_3",
+   "file": "org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java",
+   "function": "level3",
+   "params": [
+    "username",
+    "password"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 181,
+   "end_line": 244
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "LDAPInjectionVulnerability/LEVEL_4",
+   "file": "org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java",
+   "function": "level4",
+   "params": [
+    "username"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 247,
+   "end_line": 286
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "LDAPInjectionVulnerability/LEVEL_5",
+   "file": "org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java",
+   "function": "level5",
+   "params": [
+    "username",
+    "password"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 289,
+   "end_line": 334
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "LDAPInjectionVulnerability/LEVEL_6",
+   "file": "org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java",
+   "function": "level6",
+   "params": [
+    "username",
+    "password"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 337,
+   "end_line": 374
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "UnionBasedSQLInjectionVulnerability/LEVEL_1",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
+   "function": "getCarInformationLevel1",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 59,
+   "end_line": 86
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "UnionBasedSQLInjectionVulnerability/LEVEL_2",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
+   "function": "getCarInformationLevel2",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 88,
+   "end_line": 116
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "UnionBasedSQLInjectionVulnerability/LEVEL_3",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
+   "function": "getCarInformationLevel3",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 118,
+   "end_line": 131
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "UnionBasedSQLInjectionVulnerability/LEVEL_4",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
+   "function": "getCarInformationLevel4",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 133,
+   "end_line": 145
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "UnionBasedSQLInjectionVulnerability/LEVEL_5",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
+   "function": "getCarInformationLevel5",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 147,
+   "end_line": 161
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "UnionBasedSQLInjectionVulnerability/LEVEL_6",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
+   "function": "getCarInformationLevel6",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 163,
+   "end_line": 176
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "UnionBasedSQLInjectionVulnerability/LEVEL_7",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
+   "function": "getCarInformationLevel7",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 178,
+   "end_line": 194
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "UnionBasedSQLInjectionVulnerability/LEVEL_8",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
+   "function": "getCarInformationLevel8",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 196,
+   "end_line": 208
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "UnionBasedSQLInjectionVulnerability/LEVEL_9",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
+   "function": "getCarInformationLevel9",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 210,
+   "end_line": 222
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "BlindSQLInjectionVulnerability/LEVEL_1",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java",
+   "function": "getCarInformationLevel1",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 47,
+   "end_line": 101
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "BlindSQLInjectionVulnerability/LEVEL_2",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java",
+   "function": "getCarInformationLevel2",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 103,
+   "end_line": 143
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "BlindSQLInjectionVulnerability/LEVEL_3",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java",
+   "function": "getCarInformationLevel3",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 145,
+   "end_line": 166
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "BlindSQLInjectionVulnerability/LEVEL_4",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java",
+   "function": "getCarInformationLevel4",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 169,
+   "end_line": 193
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "BlindSQLInjectionVulnerability/LEVEL_5",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java",
+   "function": "getCarInformationLevel5",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 196,
+   "end_line": 212
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "ErrorBasedSQLInjectionVulnerability/LEVEL_1",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+   "function": "doesCarInformationExistsLevel1",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 54,
+   "end_line": 111
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "ErrorBasedSQLInjectionVulnerability/LEVEL_2",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+   "function": "doesCarInformationExistsLevel2",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 113,
+   "end_line": 171
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "ErrorBasedSQLInjectionVulnerability/LEVEL_3",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+   "function": "doesCarInformationExistsLevel3",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 174,
+   "end_line": 236
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "ErrorBasedSQLInjectionVulnerability/LEVEL_4",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+   "function": "doesCarInformationExistsLevel4",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 240,
+   "end_line": 303
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "ErrorBasedSQLInjectionVulnerability/LEVEL_5",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+   "function": "doesCarInformationExistsLevel5",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 305,
+   "end_line": 353
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "SessionManagementVulnerability/LEVEL_1",
+   "file": "org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java",
+   "function": "level1SessionFixation",
+   "params": [
+    "loginRequestBody",
+    "action",
+    "sessionId"
+   ],
+   "param_annotations": [
+    "CookieValue",
+    "RequestBody",
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 36,
+   "end_line": 74
+  },
+  {
+   "framework": "spring",
+   "method": "GET",
+   "path": "SessionManagementVulnerability/LEVEL_1",
+   "file": "org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java",
+   "function": "level1Profile",
+   "params": [
+    "sessionId"
+   ],
+   "param_annotations": [
+    "CookieValue"
+   ],
+   "middleware": [],
+   "line": 76,
+   "end_line": 81
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "SessionManagementVulnerability/LEVEL_2",
+   "file": "org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java",
+   "function": "level2PredictableSessionId",
+   "params": [
+    "loginRequestBody",
+    "action",
+    "sessionId"
+   ],
+   "param_annotations": [
+    "CookieValue",
+    "RequestBody",
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 85,
+   "end_line": 122
+  },
+  {
+   "framework": "spring",
+   "method": "GET",
+   "path": "SessionManagementVulnerability/LEVEL_2",
+   "file": "org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java",
+   "function": "level2Profile",
+   "params": [
+    "sessionId"
+   ],
+   "param_annotations": [
+    "CookieValue"
+   ],
+   "middleware": [],
+   "line": 124,
+   "end_line": 129
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "SessionManagementVulnerability/LEVEL_3",
+   "file": "org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java",
+   "function": "level3ObscuredPredictableSessionId",
+   "params": [
+    "loginRequestBody",
+    "action",
+    "sessionId"
+   ],
+   "param_annotations": [
+    "CookieValue",
+    "RequestBody",
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 133,
+   "end_line": 171
+  },
+  {
+   "framework": "spring",
+   "method": "GET",
+   "path": "SessionManagementVulnerability/LEVEL_3",
+   "file": "org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java",
+   "function": "level3Profile",
+   "params": [
+    "sessionId"
+   ],
+   "param_annotations": [
+    "CookieValue"
+   ],
+   "middleware": [],
+   "line": 173,
+   "end_line": 178
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "SessionManagementVulnerability/LEVEL_4",
+   "file": "org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java",
+   "function": "level4MissingLogoutInvalidation",
+   "params": [
+    "loginRequestBody",
+    "action",
+    "sessionId"
+   ],
+   "param_annotations": [
+    "CookieValue",
+    "RequestBody",
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 182,
+   "end_line": 219
+  },
+  {
+   "framework": "spring",
+   "method": "GET",
+   "path": "SessionManagementVulnerability/LEVEL_4",
+   "file": "org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java",
+   "function": "level4Profile",
+   "params": [
+    "sessionId"
+   ],
+   "param_annotations": [
+    "CookieValue"
+   ],
+   "middleware": [],
+   "line": 221,
+   "end_line": 226
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "SessionManagementVulnerability/LEVEL_5",
+   "file": "org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java",
+   "function": "level5NoLoginRateLimiting",
+   "params": [
+    "loginRequestBody",
+    "action",
+    "sessionId"
+   ],
+   "param_annotations": [
+    "CookieValue",
+    "RequestBody",
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 230,
+   "end_line": 267
+  },
+  {
+   "framework": "spring",
+   "method": "GET",
+   "path": "SessionManagementVulnerability/LEVEL_5",
+   "file": "org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java",
+   "function": "level5Profile",
+   "params": [
+    "sessionId"
+   ],
+   "param_annotations": [
+    "CookieValue"
+   ],
+   "middleware": [],
+   "line": 269,
+   "end_line": 274
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "SessionManagementVulnerability/LEVEL_6",
+   "file": "org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java",
+   "function": "level6SecureSessionManagement",
+   "params": [
+    "loginRequestBody",
+    "action",
+    "sessionId"
+   ],
+   "param_annotations": [
+    "CookieValue",
+    "RequestBody",
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 276,
+   "end_line": 299
+  },
+  {
+   "framework": "spring",
+   "method": "GET",
+   "path": "PasswordResetVulnerability/LEVEL_1",
+   "file": "org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java",
+   "function": "level1",
+   "params": [
+    "request"
+   ],
+   "param_annotations": [
+    "RequestBody"
+   ],
+   "middleware": [],
+   "line": 38,
+   "end_line": 72
+  },
+  {
+   "framework": "spring",
+   "method": "GET",
+   "path": "PasswordResetVulnerability/LEVEL_2",
+   "file": "org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java",
+   "function": "level2",
+   "params": [
+    "request"
+   ],
+   "param_annotations": [
+    "RequestBody"
+   ],
+   "middleware": [],
+   "line": 74,
+   "end_line": 114
+  },
+  {
+   "framework": "spring",
+   "method": "GET",
+   "path": "PasswordResetVulnerability/LEVEL_3",
+   "file": "org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java",
+   "function": "level3",
+   "params": [
+    "request"
+   ],
+   "param_annotations": [
+    "RequestBody"
+   ],
+   "middleware": [],
+   "line": 116,
+   "end_line": 150
+  },
+  {
+   "framework": "spring",
+   "method": "GET",
+   "path": "PasswordResetVulnerability/LEVEL_4",
+   "file": "org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java",
+   "function": "level4",
+   "params": [
+    "request"
+   ],
+   "param_annotations": [
+    "RequestBody"
+   ],
+   "middleware": [],
+   "line": 152,
+   "end_line": 180
+  },
+  {
+   "framework": "spring",
+   "method": "GET",
+   "path": "PasswordResetVulnerability/LEVEL_5",
+   "file": "org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java",
+   "function": "level5",
+   "params": [
+    "request"
+   ],
+   "param_annotations": [
+    "RequestBody"
+   ],
+   "middleware": [],
+   "line": 182,
+   "end_line": 204
+  },
+  {
+   "framework": "spring",
+   "method": "GET",
+   "path": "PasswordResetVulnerability/LEVEL_6",
+   "file": "org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java",
+   "function": "level6",
+   "params": [
+    "request"
+   ],
+   "param_annotations": [
+    "RequestBody"
+   ],
+   "middleware": [],
+   "line": 206,
+   "end_line": 228
+  },
+  {
+   "framework": "spring",
+   "method": "GET",
+   "path": "PasswordResetVulnerability/LEVEL_7",
+   "file": "org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java",
+   "function": "level7",
+   "params": [
+    "request"
+   ],
+   "param_annotations": [
+    "RequestBody"
+   ],
+   "middleware": [],
+   "line": 230,
+   "end_line": 252
+  },
+  {
+   "framework": "spring",
+   "method": "GET",
+   "path": "PasswordResetVulnerability/LEVEL_8",
+   "file": "org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java",
+   "function": "level8",
+   "params": [
+    "request"
+   ],
+   "param_annotations": [
+    "RequestBody"
+   ],
+   "middleware": [],
+   "line": 254,
+   "end_line": 276
+  },
+  {
+   "framework": "spring",
+   "method": "GET",
+   "path": "PasswordResetVulnerability/LEVEL_9",
+   "file": "org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java",
+   "function": "level9",
+   "params": [
+    "request"
+   ],
+   "param_annotations": [
+    "RequestBody"
+   ],
+   "middleware": [],
+   "line": 278,
+   "end_line": 295
+  },
+  {
+   "framework": "spring",
+   "method": "GET",
+   "path": "PasswordResetVulnerability/LEVEL_10",
+   "file": "org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java",
+   "function": "level10Secure",
+   "params": [
+    "request"
+   ],
+   "param_annotations": [
+    "RequestBody"
+   ],
+   "middleware": [],
+   "line": 297,
+   "end_line": 305
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "PasswordResetVulnerability/LEVEL_{level}",
+   "file": "org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java",
+   "function": "levelAction",
+   "params": [
+    "level",
+    "request"
+   ],
+   "param_annotations": [
+    "PathVariable",
+    "RequestBody"
+   ],
+   "middleware": [],
+   "line": 307,
+   "end_line": 316
+  },
+  {
+   "framework": "spring",
+   "method": "GET",
+   "path": "PasswordResetVulnerability/Level{level}",
+   "file": "org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java",
+   "function": "levelPageAlias",
+   "params": [
+    "level",
+    "token"
+   ],
+   "param_annotations": [
+    "PathVariable",
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 318,
+   "end_line": 335
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "PathTraversal/LEVEL_1",
+   "file": "org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+   "function": "getVulnerablePayloadLevel1",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 88,
+   "end_line": 118
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "PathTraversal/LEVEL_2",
+   "file": "org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+   "function": "getVulnerablePayloadLevel2",
+   "params": [
+    "requestEntity",
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 120,
+   "end_line": 142
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "PathTraversal/LEVEL_3",
+   "file": "org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+   "function": "getVulnerablePayloadLevel3",
+   "params": [
+    "requestEntity",
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 144,
+   "end_line": 166
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "PathTraversal/LEVEL_4",
+   "file": "org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+   "function": "getVulnerablePayloadLevel4",
+   "params": [
+    "requestEntity",
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 168,
+   "end_line": 194
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "PathTraversal/LEVEL_5",
+   "file": "org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+   "function": "getVulnerablePayloadLevel5",
+   "params": [
+    "requestEntity",
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 196,
+   "end_line": 222
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "PathTraversal/LEVEL_6",
+   "file": "org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+   "function": "getVulnerablePayloadLevel6",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 224,
+   "end_line": 246
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "PathTraversal/LEVEL_7",
+   "file": "org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+   "function": "getVulnerablePayloadLevel7",
+   "params": [
+    "requestEntity",
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 250,
+   "end_line": 295
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "PathTraversal/LEVEL_8",
+   "file": "org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+   "function": "getVulnerablePayloadLevel8",
+   "params": [
+    "requestEntity",
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 297,
+   "end_line": 334
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "PathTraversal/LEVEL_9",
+   "file": "org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+   "function": "getVulnerablePayloadLevel9",
+   "params": [
+    "requestEntity",
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 336,
+   "end_line": 373
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "PathTraversal/LEVEL_10",
+   "file": "org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+   "function": "getVulnerablePayloadLevel10",
+   "params": [
+    "requestEntity",
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 375,
+   "end_line": 413
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "PathTraversal/LEVEL_11",
+   "file": "org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+   "function": "getVulnerablePayloadLevel11",
+   "params": [
+    "requestEntity",
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 415,
+   "end_line": 453
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "PathTraversal/LEVEL_12",
+   "file": "org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+   "function": "getVulnerablePayloadLevel12",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 455,
+   "end_line": 493
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "PathTraversal/LEVEL_13",
+   "file": "org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+   "function": "getVulnerablePayloadLevel13",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 495,
+   "end_line": 514
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "PathTraversal/LEVEL_14",
+   "file": "org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+   "function": "getVulnerablePayloadLevel14",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 522,
+   "end_line": 554
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "PathTraversal/LEVEL_15",
+   "file": "org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+   "function": "getVulnerablePayloadLevel15",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 561,
+   "end_line": 581
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "CryptographicFailures/LEVEL_1",
+   "file": "org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java",
+   "function": "getVulnerablePayloadLevel1",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 48,
+   "end_line": 97
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "CryptographicFailures/LEVEL_2",
+   "file": "org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java",
+   "function": "getVulnerablePayloadLevel2",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 100,
+   "end_line": 154
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "CryptographicFailures/LEVEL_3",
+   "file": "org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java",
+   "function": "getVulnerablePayloadLevel3",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 157,
+   "end_line": 210
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "CryptographicFailures/LEVEL_4",
+   "file": "org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java",
+   "function": "getVulnerablePayloadLevel4",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 213,
+   "end_line": 265
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "CryptographicFailures/LEVEL_5",
+   "file": "org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java",
+   "function": "getVulnerablePayloadLevel5",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 268,
+   "end_line": 321
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "CryptographicFailures/LEVEL_6",
+   "file": "org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java",
+   "function": "getVulnerablePayloadLevel6",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 324,
+   "end_line": 378
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "CryptographicFailures/LEVEL_7",
+   "file": "org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java",
+   "function": "getVulnerablePayloadLevel7",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 381,
+   "end_line": 433
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "CryptographicFailures/LEVEL_8",
+   "file": "org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java",
+   "function": "getSecurePayloadLevel5",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 436,
+   "end_line": 491
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "CryptographicFailures/LEVEL_9",
+   "file": "org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java",
+   "function": "getSecurePayloadLevel6",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 494,
+   "end_line": 549
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "CryptographicFailures/LEVEL_10",
+   "file": "org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java",
+   "function": "getSecurePayloadLevel10",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 552,
+   "end_line": 611
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "CryptographicFailures/LEVEL_11",
+   "file": "org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java",
+   "function": "getSecurePayloadLevel11",
+   "params": [
+    "queryParams"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 614,
+   "end_line": 670
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "AuthenticationVulnerability/LEVEL_1",
+   "file": "org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java",
+   "function": "level1SQLi",
+   "params": [
+    "username",
+    "password"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 40,
+   "end_line": 73
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "AuthenticationVulnerability/LEVEL_2",
+   "file": "org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java",
+   "function": "level2Logging",
+   "params": [
+    "username",
+    "password"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 76,
+   "end_line": 109
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "AuthenticationVulnerability/LEVEL_3",
+   "file": "org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java",
+   "function": "level3Plaintext",
+   "params": [
+    "username",
+    "password"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 112,
+   "end_line": 147
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "AuthenticationVulnerability/LEVEL_4",
+   "file": "org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java",
+   "function": "level4Md5",
+   "params": [
+    "username",
+    "password"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 150,
+   "end_line": 185
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "AuthenticationVulnerability/LEVEL_5",
+   "file": "org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java",
+   "function": "level5Sha1",
+   "params": [
+    "username",
+    "password"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 188,
+   "end_line": 223
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "AuthenticationVulnerability/LEVEL_6",
+   "file": "org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java",
+   "function": "level6Sha256NoSalt",
+   "params": [
+    "username",
+    "password"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 227,
+   "end_line": 262
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "AuthenticationVulnerability/LEVEL_7",
+   "file": "org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java",
+   "function": "level7UsernameEnumeration",
+   "params": [
+    "username",
+    "password"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 265,
+   "end_line": 298
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "AuthenticationVulnerability/LEVEL_8",
+   "file": "org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java",
+   "function": "level8WeakPassword",
+   "params": [
+    "username",
+    "password"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 302,
+   "end_line": 337
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "AuthenticationVulnerability/LEVEL_9",
+   "file": "org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java",
+   "function": "level9Secure",
+   "params": [
+    "username",
+    "password"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 340,
+   "end_line": 360
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "AuthenticationVulnerability/LEVEL_10",
+   "file": "org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java",
+   "function": "level10LowIterationHashing",
+   "params": [
+    "username",
+    "password"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 364,
+   "end_line": 404
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "CachePoisoning/LEVEL_1",
+   "file": "org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java",
+   "function": "getVulnerablePayloadLevel1",
+   "params": [
+    "banner",
+    "browserCache",
+    "request"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 68,
+   "end_line": 110
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "CachePoisoning/LEVEL_2",
+   "file": "org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java",
+   "function": "getVulnerablePayloadLevel2",
+   "params": [
+    "banner",
+    "browserCache",
+    "request"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 112,
+   "end_line": 154
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "CachePoisoning/LEVEL_3",
+   "file": "org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java",
+   "function": "getVulnerablePayloadLevel3",
+   "params": [
+    "banner",
+    "browserCache",
+    "request"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 156,
+   "end_line": 201
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "CachePoisoning/LEVEL_4",
+   "file": "org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java",
+   "function": "getVulnerablePayloadLevel4",
+   "params": [
+    "browserCache",
+    "request"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 203,
+   "end_line": 230
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "CachePoisoning/LEVEL_5",
+   "file": "org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java",
+   "function": "getSecurePayloadLevel5",
+   "params": [
+    "banner",
+    "request"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 232,
+   "end_line": 259
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "CachePoisoning//clearCache",
+   "file": "org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java",
+   "function": "clearCache",
+   "params": [
+    "level",
+    "request"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 477,
+   "end_line": 497
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "InsecureDeserialization/LEVEL_1",
+   "file": "org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationCookieController.java",
+   "function": "saveLevel1",
+   "params": [
+    "theme",
+    "notificationsEnabled",
+    "request",
+    "response"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 32,
+   "end_line": 56
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "InsecureDeserialization/LEVEL_2",
+   "file": "org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationCookieController.java",
+   "function": "startSessionLevel2",
+   "params": [
+    "existingSession",
+    "request",
+    "response"
+   ],
+   "param_annotations": [
+    "CookieValue"
+   ],
+   "middleware": [],
+   "line": 58,
+   "end_line": 83
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "InsecureDeserialization/LEVEL_3",
+   "file": "org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationCookieController.java",
+   "function": "startSessionLevel3",
+   "params": [
+    "existingSession",
+    "request",
+    "response"
+   ],
+   "param_annotations": [
+    "CookieValue"
+   ],
+   "middleware": [],
+   "line": 85,
+   "end_line": 110
+  },
+  {
+   "framework": "spring",
+   "method": "POST",
+   "path": "InsecureDeserialization/LEVEL_4",
+   "file": "org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationCookieController.java",
+   "function": "saveLevel4",
+   "params": [
+    "section",
+    "request",
+    "response"
+   ],
+   "param_annotations": [
+    "RequestParam"
+   ],
+   "middleware": [],
+   "line": 112,
+   "end_line": 128
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "InsecureDeserialization/LEVEL_1",
+   "file": "org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationVulnerability.java",
+   "function": "getVulnerablePayloadLevel1",
+   "params": [
+    "preferencesCookie"
+   ],
+   "param_annotations": [
+    "CookieValue"
+   ],
+   "middleware": [],
+   "line": 58,
+   "end_line": 99
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "InsecureDeserialization/LEVEL_2",
+   "file": "org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationVulnerability.java",
+   "function": "getVulnerablePayloadLevel2",
+   "params": [
+    "sessionCookie"
+   ],
+   "param_annotations": [
+    "CookieValue"
+   ],
+   "middleware": [],
+   "line": 102,
+   "end_line": 134
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "InsecureDeserialization/LEVEL_3",
+   "file": "org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationVulnerability.java",
+   "function": "getSecurePayloadLevel3",
+   "params": [
+    "sessionCookie"
+   ],
+   "param_annotations": [
+    "CookieValue"
+   ],
+   "middleware": [],
+   "line": 137,
+   "end_line": 157
+  },
+  {
+   "framework": "spring",
+   "method": "ANY",
+   "path": "InsecureDeserialization/LEVEL_4",
+   "file": "org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationVulnerability.java",
+   "function": "getVulnerablePayloadLevel4",
+   "params": [
+    "activityCookie"
+   ],
+   "param_annotations": [
+    "CookieValue"
+   ],
+   "middleware": [],
+   "line": 160,
+   "end_line": 201
+  }
+ ]
+}

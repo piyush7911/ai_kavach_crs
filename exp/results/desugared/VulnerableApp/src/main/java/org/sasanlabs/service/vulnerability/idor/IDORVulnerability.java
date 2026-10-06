@@ -1,0 +1,326 @@
+package org.sasanlabs.service.vulnerability.idor;
+
+import java.util.Base64;
+import java.util.List;
+import org.sasanlabs.internal.utility.LevelConstants;
+import org.sasanlabs.internal.utility.Variant;
+import org.sasanlabs.internal.utility.annotations.AttackVector;
+import org.sasanlabs.internal.utility.annotations.ChallengeCard;
+import org.sasanlabs.internal.utility.annotations.VulnerableAppRequestMapping;
+import org.sasanlabs.internal.utility.annotations.VulnerableAppRestController;
+import org.sasanlabs.service.vulnerability.bean.GenericVulnerabilityResponseBean;
+import org.sasanlabs.vulnerability.types.VulnerabilityType;
+import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.RequestParam;
+
+@Profile("public")
+@VulnerableAppRestController(descriptionLabel = "IDOR_VULNERABILITY", value = "IDORVulnerability")
+public class IDORVulnerability {
+
+    private static final String USER_NOT_FOUND = "User not found";
+    private static final String INVALID_TOKEN = "Invalid token";
+    private static final String PROVIDE_LOGIN_OR_TOKEN = "Provide login or token";
+    private static final String ACCESS_DENIED_INSUFFICIENT =
+            "Access Denied - Insufficient privileges";
+    private static final String ACCESS_DENIED_RBAC = "Access Denied - Proper RBAC enforced";
+    private static final String PLEASE_LOGIN_FIRST = "Please login first";
+    private static final String PLEASE_LOGIN_FIRST_WITH_PERIOD = "Please login first.";
+    private static final String INVALID_USER = "Invalid user";
+    private static final String ROLE_ADMIN = "ADMIN";
+    private static final String COOKIE_USER_ID_LEVEL_2 = "userId_level2";
+    private static final String COOKIE_ROLE_LEVEL_3 = "role_level3";
+    private static final String COOKIE_ROLE_LEVEL_4 = "role_level4";
+
+    private static final String COOKIE_TOKEN_LEVEL_1 = "token_level1";
+    private static final String COOKIE_TOKEN_LEVEL_2 = "token_level2";
+    private static final String COOKIE_TOKEN_LEVEL_3 = "token_level3";
+    private static final String COOKIE_TOKEN_LEVEL_4 = "token_level4";
+    private static final String COOKIE_TOKEN_LEVEL_5 = "token_level5";
+
+    private static final String SQL_PROFILE_BY_ID =
+            "SELECT id, username, salary, role FROM idor_users WHERE id=?";
+    private static final String SQL_ALL_PROFILES =
+            "SELECT id, username, salary, role FROM idor_users";
+    private static final String SQL_ROLE_BY_ID = "SELECT role FROM idor_users WHERE id=?";
+
+    private final JdbcTemplate jdbcTemplate;
+    private final IDORLoginService idorLoginService;
+
+    public IDORVulnerability(JdbcTemplate jdbcTemplate, IDORLoginService idorLoginService) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.idorLoginService = idorLoginService;
+    }
+
+    @ChallengeCard(
+            challengeText = "IDOR_VULNERABILITY_LEVEL_1_CHALLENGE",
+            hints = {
+                @ChallengeCard.Hint(text = "IDOR_VULNERABILITY_LEVEL_1_HINT_1", order = 1),
+                @ChallengeCard.Hint(text = "IDOR_VULNERABILITY_LEVEL_1_HINT_2", order = 2)
+            },
+            payload =
+                    @ChallengeCard.Payload(
+                            description = "IDOR_VULNERABILITY_LEVEL_1_PAYLOAD_DESCRIPTION",
+                            value = "IDOR_PAYLOAD_LEVEL_1"))
+    @AttackVector(
+            vulnerabilityExposed = VulnerabilityType.INSECURE_DIRECT_OBJECT_REFERENCE,
+            description = "IDOR_LEVEL_1_NO_AUTHORIZATION",
+            payload = "IDOR_PAYLOAD_LEVEL_1")
+    @VulnerableAppRequestMapping(value = LevelConstants.LEVEL_1, htmlTemplate = "LEVEL_1/IDOR")
+    public ResponseEntity<GenericVulnerabilityResponseBean<Object>> level1(
+            @CookieValue(value = COOKIE_TOKEN_LEVEL_1, required = false) String cookieToken,
+            @RequestParam(required = false) Integer id) {
+
+        String actualToken = cookieToken;
+        try {
+            if (actualToken != null) {
+                idorLoginService.decodeToken(actualToken);
+                if (id != null) {
+                    User profile = fetchUserById(id);
+                    if (profile == null) {
+                        return response(USER_NOT_FOUND, false);
+                    }
+                    return response(profile, true);
+                }
+                return response(USER_NOT_FOUND, false);
+            }
+
+            return response(PROVIDE_LOGIN_OR_TOKEN, false);
+        } catch (Exception exception) {
+            return response(INVALID_TOKEN, false);
+        }
+    }
+
+    @ChallengeCard(
+            challengeText = "IDOR_VULNERABILITY_LEVEL_2_CHALLENGE",
+            hints = {
+                @ChallengeCard.Hint(text = "IDOR_VULNERABILITY_LEVEL_2_HINT_1", order = 1),
+                @ChallengeCard.Hint(text = "IDOR_VULNERABILITY_LEVEL_2_HINT_2", order = 2)
+            },
+            payload =
+                    @ChallengeCard.Payload(
+                            description = "IDOR_VULNERABILITY_LEVEL_2_PAYLOAD_DESCRIPTION",
+                            value = "IDOR_PAYLOAD_LEVEL_2"))
+    @AttackVector(
+            vulnerabilityExposed = VulnerabilityType.INSECURE_DIRECT_OBJECT_REFERENCE,
+            description = "IDOR_LEVEL_2_COOKIE_TAMPERING",
+            payload = "IDOR_PAYLOAD_LEVEL_2")
+    @VulnerableAppRequestMapping(value = LevelConstants.LEVEL_2, htmlTemplate = "LEVEL_2/IDOR")
+    public ResponseEntity<GenericVulnerabilityResponseBean<Object>> level2(
+            @CookieValue(value = COOKIE_TOKEN_LEVEL_2, required = false) String cookieToken,
+            @CookieValue(value = COOKIE_USER_ID_LEVEL_2, required = false) Integer loggedInUser) {
+
+        String actualToken = cookieToken;
+        try {
+            if (actualToken != null && loggedInUser != null) {
+                idorLoginService.decodeToken(actualToken);
+                User profile = fetchUserById(loggedInUser);
+                if (profile == null) {
+                    return response(USER_NOT_FOUND, false);
+                }
+                return response(profile, true);
+            }
+
+            return response(PLEASE_LOGIN_FIRST_WITH_PERIOD, false);
+        } catch (Exception exception) {
+            return response(INVALID_TOKEN, false);
+        }
+    }
+
+    @ChallengeCard(
+            challengeText = "IDOR_VULNERABILITY_LEVEL_3_CHALLENGE",
+            hints = {
+                @ChallengeCard.Hint(text = "IDOR_VULNERABILITY_LEVEL_3_HINT_1", order = 1),
+                @ChallengeCard.Hint(text = "IDOR_VULNERABILITY_LEVEL_3_HINT_2", order = 2)
+            },
+            payload =
+                    @ChallengeCard.Payload(
+                            description = "IDOR_VULNERABILITY_LEVEL_3_PAYLOAD_DESCRIPTION",
+                            value = "IDOR_PAYLOAD_LEVEL_3"))
+    @AttackVector(
+            vulnerabilityExposed = VulnerabilityType.INSECURE_DIRECT_OBJECT_REFERENCE,
+            description = "IDOR_LEVEL_3_JWT_TAMPERING",
+            payload = "IDOR_PAYLOAD_LEVEL_3")
+    @VulnerableAppRequestMapping(value = LevelConstants.LEVEL_3, htmlTemplate = "LEVEL_3/IDOR")
+    public ResponseEntity<GenericVulnerabilityResponseBean<Object>> level3(
+            @CookieValue(value = COOKIE_TOKEN_LEVEL_3, required = false) String cookieToken,
+            @CookieValue(value = COOKIE_ROLE_LEVEL_3, required = false) String cookieRole,
+            @RequestParam(required = false) Integer id) {
+
+        String actualToken = cookieToken;
+        try {
+            if (actualToken != null) {
+                User decodedUser = idorLoginService.decodeToken(actualToken);
+                int tokenUserId = decodedUser.getUserId();
+                String role = cookieRole != null ? cookieRole : decodedUser.getRole();
+
+                if (id == null) {
+                    id = tokenUserId;
+                }
+
+                if (ROLE_ADMIN.equalsIgnoreCase(role) || tokenUserId == id) {
+                    User profile = fetchUserById(id);
+                    if (profile == null) {
+                        return response(USER_NOT_FOUND, false);
+                    }
+                    profile.setRole(role);
+                    return response(profile, true);
+                }
+
+                return response(ACCESS_DENIED_INSUFFICIENT, false);
+            }
+
+            return response(PROVIDE_LOGIN_OR_TOKEN, false);
+        } catch (Exception exception) {
+            return response(INVALID_TOKEN, false);
+        }
+    }
+
+    @ChallengeCard(
+            challengeText = "IDOR_VULNERABILITY_LEVEL_4_CHALLENGE",
+            hints = {
+                @ChallengeCard.Hint(text = "IDOR_VULNERABILITY_LEVEL_4_HINT_1", order = 1),
+                @ChallengeCard.Hint(text = "IDOR_VULNERABILITY_LEVEL_4_HINT_2", order = 2)
+            },
+            payload =
+                    @ChallengeCard.Payload(
+                            description = "IDOR_VULNERABILITY_LEVEL_4_PAYLOAD_DESCRIPTION",
+                            value = "IDOR_PAYLOAD_LEVEL_4"))
+    @AttackVector(
+            vulnerabilityExposed = VulnerabilityType.INSECURE_DIRECT_OBJECT_REFERENCE,
+            description = "IDOR_LEVEL_4_BROKEN_RBAC",
+            payload = "IDOR_PAYLOAD_LEVEL_4")
+    @VulnerableAppRequestMapping(value = LevelConstants.LEVEL_4, htmlTemplate = "LEVEL_4/IDOR")
+    public ResponseEntity<GenericVulnerabilityResponseBean<Object>> level4(
+            @CookieValue(value = COOKIE_TOKEN_LEVEL_4, required = false) String cookieToken,
+            @CookieValue(value = COOKIE_ROLE_LEVEL_4, required = false) String cookieRole,
+            @RequestParam(required = false) Integer id) {
+
+        String actualToken = cookieToken;
+        try {
+            if (actualToken != null) {
+                User decodedUser = idorLoginService.decodeToken(actualToken);
+                int tokenUserId = decodedUser.getUserId();
+                String role = cookieRole != null ? decodeBase64(cookieRole) : decodedUser.getRole();
+
+                if (id == null) {
+                    id = tokenUserId;
+                }
+
+                if (ROLE_ADMIN.equalsIgnoreCase(role) || tokenUserId == id) {
+                    User profile = fetchUserById(id);
+                    if (profile == null) {
+                        return response(USER_NOT_FOUND, false);
+                    }
+                    profile.setRole(role);
+                    return response(profile, true);
+                }
+
+                return response(ACCESS_DENIED_INSUFFICIENT, false);
+            }
+
+            return response(PROVIDE_LOGIN_OR_TOKEN, false);
+        } catch (Exception exception) {
+            return response(INVALID_TOKEN, false);
+        }
+    }
+
+    @AttackVector(
+            vulnerabilityExposed = VulnerabilityType.INSECURE_DIRECT_OBJECT_REFERENCE,
+            description = "IDOR_LEVEL_5_SECURE_RBAC")
+    @VulnerableAppRequestMapping(
+            value = LevelConstants.LEVEL_5,
+            htmlTemplate = "LEVEL_4/IDOR",
+            variant = Variant.SECURE)
+    public ResponseEntity<GenericVulnerabilityResponseBean<Object>> level5(
+            @CookieValue(value = COOKIE_TOKEN_LEVEL_5, required = false) String cookieToken,
+            @RequestParam(required = false) Integer id) {
+
+        String actualToken = cookieToken;
+        try {
+            if (actualToken != null && id != null) {
+                User decodedUser = idorLoginService.decodeToken(actualToken);
+                int tokenUserId = decodedUser.getUserId();
+
+                List<String> roles =
+                        jdbcTemplate.query(
+                                SQL_ROLE_BY_ID,
+                                new Object[] {tokenUserId},
+                                (rs, rowNum) -> rs.getString("role"));
+
+                if (roles.isEmpty()) {
+                    return response(INVALID_USER, false, HttpStatus.NOT_FOUND);
+                }
+
+                String actualRole = roles.get(0);
+
+                if (ROLE_ADMIN.equalsIgnoreCase(actualRole) || tokenUserId == id) {
+                    User profile = fetchUserById(id);
+                    if (profile == null) {
+                        return response(USER_NOT_FOUND, false, HttpStatus.NOT_FOUND);
+                    }
+                    profile.setRole(actualRole);
+                    return response(profile, true, HttpStatus.OK);
+                }
+
+                return response(ACCESS_DENIED_RBAC, false, HttpStatus.FORBIDDEN);
+            }
+
+            return response(PROVIDE_LOGIN_OR_TOKEN, false, HttpStatus.UNAUTHORIZED);
+        } catch (Exception exception) {
+            return response(INVALID_TOKEN, false, HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    private User fetchUserById(int id) {
+        List<User> users =
+                jdbcTemplate.query(
+                        SQL_PROFILE_BY_ID,
+                        new Object[] {id},
+                        (rs, rowNum) ->
+                                new User(
+                                        rs.getInt("id"),
+                                        rs.getString("username"),
+                                        rs.getInt("salary"),
+                                        rs.getString("role")));
+
+        if (users.isEmpty()) {
+            return null;
+        }
+        return users.get(0);
+    }
+
+    private List<User> fetchAllUsers() {
+        return jdbcTemplate.query(
+                SQL_ALL_PROFILES,
+                (rs, rowNum) ->
+                        new User(
+                                rs.getInt("id"),
+                                rs.getString("username"),
+                                rs.getInt("salary"),
+                                rs.getString("role")));
+    }
+
+    private String decodeBase64(String encodedId) {
+        try {
+            return new String(Base64.getUrlDecoder().decode(encodedId));
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
+
+    private ResponseEntity<GenericVulnerabilityResponseBean<Object>> response(
+            Object content, boolean isValid) {
+        return new ResponseEntity<>(
+                new GenericVulnerabilityResponseBean<>(content, isValid), HttpStatus.OK);
+    }
+
+    private ResponseEntity<GenericVulnerabilityResponseBean<Object>> response(
+            Object content, boolean isValid, HttpStatus status) {
+        return new ResponseEntity<>(
+                new GenericVulnerabilityResponseBean<>(content, isValid), status);
+    }
+}

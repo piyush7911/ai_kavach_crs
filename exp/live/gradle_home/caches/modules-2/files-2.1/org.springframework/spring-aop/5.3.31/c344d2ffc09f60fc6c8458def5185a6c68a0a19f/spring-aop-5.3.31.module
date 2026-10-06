@@ -1,0 +1,92 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "org.springframework",
+    "module": "spring-aop",
+    "version": "5.3.31",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.5.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "org.springframework",
+          "module": "spring-beans",
+          "version": {
+            "requires": "5.3.31"
+          }
+        },
+        {
+          "group": "org.springframework",
+          "module": "spring-core",
+          "version": {
+            "requires": "5.3.31"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "spring-aop-5.3.31.jar",
+          "url": "spring-aop-5.3.31.jar",
+          "size": 384535,
+          "sha512": "3438d98062fc45169fb64e09be5881d2c9092b16d7b7cf6e33fd2b5e64df7399f1b33379f30c2e3fb188bbd52e6828799b8e4c5f34b991219caa2e3c9145e6d7",
+          "sha256": "3f0c666f317abaa845fc3a24fba219b1f469716bf309cccd755eecb8fee20430",
+          "sha1": "3be929dbdb5f4516919ad09a3d3720d779bb65d9",
+          "md5": "48143a3242d23f66736e34cf1b5ad632"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "org.springframework",
+          "module": "spring-beans",
+          "version": {
+            "requires": "5.3.31"
+          }
+        },
+        {
+          "group": "org.springframework",
+          "module": "spring-core",
+          "version": {
+            "requires": "5.3.31"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "spring-aop-5.3.31.jar",
+          "url": "spring-aop-5.3.31.jar",
+          "size": 384535,
+          "sha512": "3438d98062fc45169fb64e09be5881d2c9092b16d7b7cf6e33fd2b5e64df7399f1b33379f30c2e3fb188bbd52e6828799b8e4c5f34b991219caa2e3c9145e6d7",
+          "sha256": "3f0c666f317abaa845fc3a24fba219b1f469716bf309cccd755eecb8fee20430",
+          "sha1": "3be929dbdb5f4516919ad09a3d3720d779bb65d9",
+          "md5": "48143a3242d23f66736e34cf1b5ad632"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,170 @@
+{
+ "WEAK_PASSWORD_HASHING": {
+  "levels": 5,
+  "hit_level_range": 0,
+  "hit_same_file": 0,
+  "rules": {}
+ },
+ "USERNAME_ENUMERATION": {
+  "levels": 2,
+  "hit_level_range": 0,
+  "hit_same_file": 0,
+  "rules": {}
+ },
+ "PLAINTEXT_PASSWORD_STORAGE": {
+  "levels": 2,
+  "hit_level_range": 0,
+  "hit_same_file": 0,
+  "rules": {}
+ },
+ "WEB_CACHE_POISONING": {
+  "levels": 4,
+  "hit_level_range": 0,
+  "hit_same_file": 0,
+  "rules": {}
+ },
+ "CLICKJACKING": {
+  "levels": 5,
+  "hit_level_range": 0,
+  "hit_same_file": 0,
+  "rules": {}
+ },
+ "USE_OF_BROKEN_CRYPTOGRAPHIC_ALGORITHM": {
+  "levels": 3,
+  "hit_level_range": 0,
+  "hit_same_file": 0,
+  "rules": {}
+ },
+ "WEAK_CRYPTOGRAPHIC_HASH": {
+  "levels": 5,
+  "hit_level_range": 0,
+  "hit_same_file": 0,
+  "rules": {}
+ },
+ "INSECURE_CRYPTOGRAPHIC_STORAGE": {
+  "levels": 2,
+  "hit_level_range": 0,
+  "hit_same_file": 0,
+  "rules": {}
+ },
+ "IMPROPER_AUTHORIZATION": {
+  "levels": 1,
+  "hit_level_range": 0,
+  "hit_same_file": 0,
+  "rules": {}
+ },
+ "DENIAL_OF_SERVICE": {
+  "levels": 1,
+  "hit_level_range": 0,
+  "hit_same_file": 0,
+  "rules": {}
+ },
+ "UNCONTROLLED_RESOURCE_CONSUMPTION": {
+  "levels": 1,
+  "hit_level_range": 0,
+  "hit_same_file": 0,
+  "rules": {}
+ },
+ "UNRESTRICTED_FILE_UPLOAD": {
+  "levels": 7,
+  "hit_level_range": 0,
+  "hit_same_file": 0,
+  "rules": {}
+ },
+ "INSECURE_DIRECT_OBJECT_REFERENCE": {
+  "levels": 4,
+  "hit_level_range": 0,
+  "hit_same_file": 0,
+  "rules": {}
+ },
+ "INSECURE_CONFIGURATION_JWT": {
+  "levels": 3,
+  "hit_level_range": 0,
+  "hit_same_file": 0,
+  "rules": {}
+ },
+ "SERVER_SIDE_VULNERABLE_JWT": {
+  "levels": 6,
+  "hit_level_range": 0,
+  "hit_same_file": 0,
+  "rules": {}
+ },
+ "HEADER_INJECTION": {
+  "levels": 1,
+  "hit_level_range": 0,
+  "hit_same_file": 0,
+  "rules": {}
+ },
+ "CLIENT_SIDE_VULNERABLE_JWT": {
+  "levels": 10,
+  "hit_level_range": 0,
+  "hit_same_file": 0,
+  "rules": {}
+ },
+ "NO_LOGIN_RATE_LIMITING": {
+  "levels": 6,
+  "hit_level_range": 0,
+  "hit_same_file": 0,
+  "rules": {}
+ },
+ "REUSABLE_PASSWORD_RESET_TOKEN": {
+  "levels": 2,
+  "hit_level_range": 0,
+  "hit_same_file": 0,
+  "rules": {}
+ },
+ "PASSWORD_RESET_TOKEN_WITHOUT_EXPIRY": {
+  "levels": 3,
+  "hit_level_range": 0,
+  "hit_same_file": 0,
+  "rules": {}
+ },
+ "WEAK_RANDOM_NUMBER_GENERATION": {
+  "levels": 3,
+  "hit_level_range": 0,
+  "hit_same_file": 0,
+  "rules": {}
+ },
+ "PREDICTABLE_PASSWORD_RESET_TOKEN": {
+  "levels": 2,
+  "hit_level_range": 0,
+  "hit_same_file": 0,
+  "rules": {}
+ },
+ "PASSWORD_RESET_TOKEN_EXPOSED_VIA_REFERRER": {
+  "levels": 1,
+  "hit_level_range": 0,
+  "hit_same_file": 0,
+  "rules": {}
+ },
+ "INSECURE_PASSWORD_RESET_LINK": {
+  "levels": 1,
+  "hit_level_range": 0,
+  "hit_same_file": 0,
+  "rules": {}
+ },
+ "MISSING_LOGOUT_INVALIDATION": {
+  "levels": 1,
+  "hit_level_range": 0,
+  "hit_same_file": 0,
+  "rules": {}
+ },
+ "OBSCURED_PREDICTABLE_SESSION_ID": {
+  "levels": 1,
+  "hit_level_range": 0,
+  "hit_same_file": 0,
+  "rules": {}
+ },
+ "PREDICTABLE_SESSION_ID": {
+  "levels": 1,
+  "hit_level_range": 0,
+  "hit_same_file": 0,
+  "rules": {}
+ },
+ "SESSION_FIXATION": {
+  "levels": 1,
+  "hit_level_range": 0,
+  "hit_same_file": 0,
+  "rules": {}
+ }
+}

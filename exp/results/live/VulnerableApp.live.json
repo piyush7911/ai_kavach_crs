@@ -1,0 +1,2221 @@
+{
+ "base": "http://127.0.0.1:9090",
+ "requests": 2862,
+ "seconds": 2.7,
+ "routes": 215,
+ "reachable": 196,
+ "findings": [
+  {
+   "route": "POST /scanner/benchmark [org/sasanlabs/benchmark/controller/BenchmarkController.java::benchmark]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET  [org/sasanlabs/controller/VulnerableAppRestController.java::allEndPoints]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET  [org/sasanlabs/controller/VulnerableAppRestController.java::getVulnerabilityDefinitions]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET  [org/sasanlabs/controller/VulnerableAppRestController.java::allEndPointsJsonResponse]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET  [org/sasanlabs/controller/VulnerableAppRestController.java::getScannerRelatedInformation]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET  [org/sasanlabs/controller/VulnerableAppRestController.java::getDastScannerRelatedInformation]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET  [org/sasanlabs/controller/VulnerableAppRestController.java::getSastScannerRelatedInformation]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET  [org/sasanlabs/controller/VulnerableAppRestController.java::getScannerRelatedMetaInformation]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY /sitemap.xml [org/sasanlabs/controller/VulnerableAppRestController.java::sitemapForPassiveScanners]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY JWTVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java::getVulnerablePayloadLevelUnsecure]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY JWTVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java::getVulnerablePayloadLevelUnsecure]",
+   "class": "jwt-no-expiry",
+   "evidence": "token has no exp claim"
+  },
+  {
+   "route": "ANY JWTVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java::getVulnerablePayloadLevelUnsecure2CookieBased]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY JWTVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java::getVulnerablePayloadLevelUnsecure3CookieBased]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY JWTVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java::getVulnerablePayloadLevelUnsecure4CookieBased]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY JWTVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java::getVulnerablePayloadLevelUnsecure5CookieBased]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY JWTVulnerability/LEVEL_6 [org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java::getVulnerablePayloadLevelUnsecure6CookieBased]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY JWTVulnerability/LEVEL_7 [org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java::getVulnerablePayloadLevelUnsecure7CookieBased]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY JWTVulnerability/LEVEL_8 [org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java::getVulnerablePayloadLevelUnsecure8CookieBased]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY JWTVulnerability/LEVEL_9 [org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java::getVulnerablePayloadLevelUnsecure9CookieBased]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY JWTVulnerability/LEVEL_10 [org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java::getVulnerablePayloadLevelUnsecure10CookieBased]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY JWTVulnerability/LEVEL_13 [org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java::getHeaderInjectionVulnerability]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY JWTVulnerability/LEVEL_14 [org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java::getVulnerablePayloadLevel14CookieBased]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY JWTVulnerability/LEVEL_15 [org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java::getVulnerablePayloadLevel15CookieBased]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY JWTVulnerability/LEVEL_16 [org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java::getVulnerablePayloadLevel16CookieBased]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY CommandInjection/LEVEL_1 [org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java::getVulnerablePayloadLevel1]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY CommandInjection/LEVEL_2 [org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java::getVulnerablePayloadLevel2]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY CommandInjection/LEVEL_3 [org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java::getVulnerablePayloadLevel3]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY CommandInjection/LEVEL_4 [org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java::getVulnerablePayloadLevel4]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY CommandInjection/LEVEL_5 [org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java::getVulnerablePayloadLevel5]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY CommandInjection/LEVEL_6 [org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java::getVulnerablePayloadLevel6]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY SSRFVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.java::getVulnerablePayloadLevel1]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY SSRFVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.java::getVulnerablePayloadLevel2]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY SSRFVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.java::getVulnerablePayloadLevel3]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY SSRFVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.java::getVulnerablePayloadLevel4]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY SSRFVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.java::getVulnerablePayloadLevel5]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY  [org/sasanlabs/service/vulnerability/fileupload/PreflightController.java::fetchFile]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY RemoteFileInclusion/LEVEL_1 [org/sasanlabs/service/vulnerability/rfi/UrlParamBasedRFI.java::getVulnerablePayloadLevelUnsecure]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY RemoteFileInclusion/LEVEL_2 [org/sasanlabs/service/vulnerability/rfi/UrlParamBasedRFI.java::getVulnerablePayloadLevelUnsecureLevel2]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST XXEVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java::getVulnerablePayloadLevel1]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST XXEVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java::getVulnerablePayloadLevel2]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST XXEVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java::getVulnerablePayloadLevel3]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST XXEVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java::getVulnerablePayloadLevel4]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST XXEVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java::getVulnerablePayloadLevel5]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST XXEVulnerability/LEVEL_6 [org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java::getVulnerablePayloadLevel6]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST XXEVulnerability/LEVEL_7 [org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java::getVulnerablePayloadLevel7]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST OTPVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java::level1RequestOTP]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST OTPVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java::level1ValidateOTP]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST OTPVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java::level2RequestOTP]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST OTPVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java::level2ValidateOTP]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST OTPVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java::level3RequestOTP]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST OTPVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java::level3ValidateOTP]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST OTPVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java::level4RequestOTP]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST OTPVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java::level4ValidateOTP]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST OTPVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java::level5RequestOTP]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST OTPVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java::level5ValidateOTP]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY ClickjackingVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/clickjacking/ClickjackingVulnerability.java::noFramingProtection]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY ClickjackingVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/clickjacking/ClickjackingVulnerability.java::xFrameOptionsAllowAll]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=ALLOWALL; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY ClickjackingVulnerability/LEVEL_6 [org/sasanlabs/service/vulnerability/clickjacking/ClickjackingVulnerability.java::overlayAttackNoProtection]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY PersistentXSSInHTMLTagVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java::getVulnerablePayloadLevel1]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY PersistentXSSInHTMLTagVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java::getVulnerablePayloadLevel1]",
+   "class": "xss-reflected",
+   "evidence": "param comment reflected unencoded: \"><kv8c827>"
+  },
+  {
+   "route": "ANY PersistentXSSInHTMLTagVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java::getVulnerablePayloadLevel2]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY PersistentXSSInHTMLTagVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java::getVulnerablePayloadLevel2]",
+   "class": "xss-reflected",
+   "evidence": "param comment reflected unencoded: \"><kv1dbd4>"
+  },
+  {
+   "route": "ANY PersistentXSSInHTMLTagVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java::getVulnerablePayloadLevel3]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY PersistentXSSInHTMLTagVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java::getVulnerablePayloadLevel3]",
+   "class": "xss-reflected",
+   "evidence": "param comment reflected unencoded: \"><kve5e74>"
+  },
+  {
+   "route": "ANY PersistentXSSInHTMLTagVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java::getVulnerablePayloadLevel4]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY PersistentXSSInHTMLTagVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java::getVulnerablePayloadLevel4]",
+   "class": "xss-reflected",
+   "evidence": "param comment reflected unencoded: \"><kv32c3f>"
+  },
+  {
+   "route": "ANY PersistentXSSInHTMLTagVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java::getVulnerablePayloadLevel5]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY PersistentXSSInHTMLTagVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java::getVulnerablePayloadLevel5]",
+   "class": "xss-reflected",
+   "evidence": "param comment reflected unencoded: \"><kv0f7b2>"
+  },
+  {
+   "route": "ANY PersistentXSSInHTMLTagVulnerability/LEVEL_6 [org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java::getVulnerablePayloadLevel6]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY PersistentXSSInHTMLTagVulnerability/LEVEL_7 [org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java::getVulnerablePayloadLevel7]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY PersistentXSSInHTMLTagVulnerability/LEVEL_8 [org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java::getSecurePayloadLevel8]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY PersistentXSSInHTMLTagVulnerability/LEVEL_9 [org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java::getSecurePayloadLevel9]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY XSSInImgTagAttribute/LEVEL_1 [org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java::getVulnerablePayloadLevel1]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY XSSInImgTagAttribute/LEVEL_2 [org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java::getVulnerablePayloadLevel2]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY XSSInImgTagAttribute/LEVEL_3 [org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java::getVulnerablePayloadLevel3]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY XSSInImgTagAttribute/LEVEL_4 [org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java::getVulnerablePayloadLevel4]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY XSSInImgTagAttribute/LEVEL_5 [org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java::getVulnerablePayloadLevel5]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY XSSInImgTagAttribute/LEVEL_6 [org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java::getVulnerablePayloadLevel6]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY XSSInImgTagAttribute/LEVEL_7 [org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java::getVulnerablePayloadLevelSecure]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY XSSWithHtmlTagInjection/LEVEL_1 [org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java::getVulnerablePayloadLevel1]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY XSSWithHtmlTagInjection/LEVEL_1 [org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java::getVulnerablePayloadLevel1]",
+   "class": "xss-reflected",
+   "evidence": "param id reflected unencoded: \"><kv1d43a>"
+  },
+  {
+   "route": "ANY XSSWithHtmlTagInjection/LEVEL_2 [org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java::getVulnerablePayloadLevel2]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY XSSWithHtmlTagInjection/LEVEL_2 [org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java::getVulnerablePayloadLevel2]",
+   "class": "xss-reflected",
+   "evidence": "param id reflected unencoded: \"><kv1806f>"
+  },
+  {
+   "route": "ANY XSSWithHtmlTagInjection/LEVEL_3 [org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java::getVulnerablePayloadLevel3]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY XSSWithHtmlTagInjection/LEVEL_3 [org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java::getVulnerablePayloadLevel3]",
+   "class": "xss-reflected",
+   "evidence": "param id reflected unencoded: \"><kv2ab89>"
+  },
+  {
+   "route": "ANY XSSWithHtmlTagInjection/LEVEL_4 [org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java::getSecurePayloadLevel4]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY XSSWithHtmlTagInjection/LEVEL_5 [org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java::getSecurePayloadLevel5]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY Http3xxStatusCodeBasedInjection/LEVEL_1 [org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java::getVulnerablePayloadLevel1]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY Http3xxStatusCodeBasedInjection/LEVEL_2 [org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java::getVulnerablePayloadLevel2]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY Http3xxStatusCodeBasedInjection/LEVEL_3 [org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java::getVulnerablePayloadLevel3]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY Http3xxStatusCodeBasedInjection/LEVEL_4 [org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java::getVulnerablePayloadLevel4]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY Http3xxStatusCodeBasedInjection/LEVEL_5 [org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java::getVulnerablePayloadLevel5]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY Http3xxStatusCodeBasedInjection/LEVEL_6 [org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java::getVulnerablePayloadLevel6]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY Http3xxStatusCodeBasedInjection/LEVEL_7 [org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java::getVulnerablePayloadLevel7]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY Http3xxStatusCodeBasedInjection/LEVEL_8 [org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java::getVulnerablePayloadLevel8]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY Http3xxStatusCodeBasedInjection/LEVEL_9 [org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java::getVulnerablePayloadLevel9]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY Http3xxStatusCodeBasedInjection/LEVEL_10 [org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java::getVulnerablePayloadLevel10]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY Http3xxStatusCodeBasedInjection/LEVEL_11 [org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java::getVulnerablePayloadLevel11]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY Http3xxStatusCodeBasedInjection/LEVEL_12 [org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java::getVulnerablePayloadLevel12]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST IDORVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/idor/IDORLoginController.java::level1Login]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST IDORVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/idor/IDORLoginController.java::level1Login]",
+   "class": "no-rate-limit",
+   "evidence": "20 wrong-password attempts, statuses [200], no lockout / 429 / Retry-After"
+  },
+  {
+   "route": "POST IDORVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/idor/IDORLoginController.java::level2Login]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST IDORVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/idor/IDORLoginController.java::level2Login]",
+   "class": "no-rate-limit",
+   "evidence": "20 wrong-password attempts, statuses [200], no lockout / 429 / Retry-After"
+  },
+  {
+   "route": "POST IDORVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/idor/IDORLoginController.java::level3Login]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST IDORVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/idor/IDORLoginController.java::level3Login]",
+   "class": "no-rate-limit",
+   "evidence": "20 wrong-password attempts, statuses [200], no lockout / 429 / Retry-After"
+  },
+  {
+   "route": "POST IDORVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/idor/IDORLoginController.java::level4Login]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST IDORVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/idor/IDORLoginController.java::level4Login]",
+   "class": "no-rate-limit",
+   "evidence": "20 wrong-password attempts, statuses [200], no lockout / 429 / Retry-After"
+  },
+  {
+   "route": "POST IDORVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/idor/IDORLoginController.java::level5Login]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST IDORVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/idor/IDORLoginController.java::level5Login]",
+   "class": "no-rate-limit",
+   "evidence": "20 wrong-password attempts, statuses [200], no lockout / 429 / Retry-After"
+  },
+  {
+   "route": "ANY IDORVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java::level1]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY IDORVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java::level2]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY IDORVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java::level3]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY IDORVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java::level4]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY IDORVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java::level5]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY LDAPInjectionVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java::level1]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY LDAPInjectionVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java::level2]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY LDAPInjectionVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java::level3]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY LDAPInjectionVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java::level3]",
+   "class": "user-enumeration",
+   "evidence": "'admin' answers 200 '{\"content\":\"LDAP Filter: (&(uid=admin)(uid=*))\\nNo users fou' vs unknown user 200 '{\"content\":\"LDAP Filter: (&(uid=kvca660724)(uid=*))\\nNo user'"
+  },
+  {
+   "route": "ANY LDAPInjectionVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java::level3]",
+   "class": "no-rate-limit",
+   "evidence": "20 wrong-password attempts, statuses [200], no lockout / 429 / Retry-After"
+  },
+  {
+   "route": "ANY LDAPInjectionVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java::level4]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY LDAPInjectionVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java::level4]",
+   "class": "xss-reflected",
+   "evidence": "param username reflected unencoded: \"><kv60d9d>"
+  },
+  {
+   "route": "ANY LDAPInjectionVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java::level5]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY LDAPInjectionVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java::level5]",
+   "class": "no-rate-limit",
+   "evidence": "20 wrong-password attempts, statuses [200], no lockout / 429 / Retry-After"
+  },
+  {
+   "route": "ANY LDAPInjectionVulnerability/LEVEL_6 [org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java::level6]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY LDAPInjectionVulnerability/LEVEL_6 [org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java::level6]",
+   "class": "no-rate-limit",
+   "evidence": "20 wrong-password attempts, statuses [200], no lockout / 429 / Retry-After"
+  },
+  {
+   "route": "ANY UnionBasedSQLInjectionVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java::getCarInformationLevel1]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY UnionBasedSQLInjectionVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java::getCarInformationLevel2]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY UnionBasedSQLInjectionVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java::getCarInformationLevel3]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY UnionBasedSQLInjectionVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java::getCarInformationLevel4]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY UnionBasedSQLInjectionVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java::getCarInformationLevel5]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY UnionBasedSQLInjectionVulnerability/LEVEL_6 [org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java::getCarInformationLevel6]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY UnionBasedSQLInjectionVulnerability/LEVEL_7 [org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java::getCarInformationLevel7]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY UnionBasedSQLInjectionVulnerability/LEVEL_8 [org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java::getCarInformationLevel8]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY UnionBasedSQLInjectionVulnerability/LEVEL_9 [org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java::getCarInformationLevel9]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY BlindSQLInjectionVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java::getCarInformationLevel1]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY BlindSQLInjectionVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java::getCarInformationLevel2]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY BlindSQLInjectionVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java::getCarInformationLevel3]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY BlindSQLInjectionVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java::getCarInformationLevel4]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY BlindSQLInjectionVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java::getCarInformationLevel5]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY ErrorBasedSQLInjectionVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java::doesCarInformationExistsLevel1]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY ErrorBasedSQLInjectionVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java::doesCarInformationExistsLevel1]",
+   "class": "xss-reflected",
+   "evidence": "param id reflected unencoded: \"><kvdd88a>"
+  },
+  {
+   "route": "ANY ErrorBasedSQLInjectionVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java::doesCarInformationExistsLevel2]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY ErrorBasedSQLInjectionVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java::doesCarInformationExistsLevel2]",
+   "class": "xss-reflected",
+   "evidence": "param id reflected unencoded: \"><kvd3de8>"
+  },
+  {
+   "route": "ANY ErrorBasedSQLInjectionVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java::doesCarInformationExistsLevel3]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY ErrorBasedSQLInjectionVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java::doesCarInformationExistsLevel3]",
+   "class": "xss-reflected",
+   "evidence": "param id reflected unencoded: \"><kvceffc>"
+  },
+  {
+   "route": "ANY ErrorBasedSQLInjectionVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java::doesCarInformationExistsLevel4]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY ErrorBasedSQLInjectionVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java::doesCarInformationExistsLevel4]",
+   "class": "xss-reflected",
+   "evidence": "param id reflected unencoded: \"><kv24df5>"
+  },
+  {
+   "route": "ANY ErrorBasedSQLInjectionVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java::doesCarInformationExistsLevel5]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST SessionManagementVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java::level1SessionFixation]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST SessionManagementVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java::level1SessionFixation]",
+   "class": "no-rate-limit",
+   "evidence": "20 wrong-password attempts, statuses [200], no lockout / 429 / Retry-After"
+  },
+  {
+   "route": "POST SessionManagementVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java::level2PredictableSessionId]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST SessionManagementVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java::level2PredictableSessionId]",
+   "class": "no-rate-limit",
+   "evidence": "20 wrong-password attempts, statuses [200], no lockout / 429 / Retry-After"
+  },
+  {
+   "route": "POST SessionManagementVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java::level3ObscuredPredictableSessionId]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST SessionManagementVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java::level3ObscuredPredictableSessionId]",
+   "class": "no-rate-limit",
+   "evidence": "20 wrong-password attempts, statuses [200], no lockout / 429 / Retry-After"
+  },
+  {
+   "route": "POST SessionManagementVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java::level4MissingLogoutInvalidation]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST SessionManagementVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java::level4MissingLogoutInvalidation]",
+   "class": "no-rate-limit",
+   "evidence": "20 wrong-password attempts, statuses [200], no lockout / 429 / Retry-After"
+  },
+  {
+   "route": "POST SessionManagementVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java::level5NoLoginRateLimiting]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST SessionManagementVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java::level5NoLoginRateLimiting]",
+   "class": "no-rate-limit",
+   "evidence": "20 wrong-password attempts, statuses [200], no lockout / 429 / Retry-After"
+  },
+  {
+   "route": "POST SessionManagementVulnerability/LEVEL_6 [org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java::level6SecureSessionManagement]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST SessionManagementVulnerability/LEVEL_6 [org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java::level6SecureSessionManagement]",
+   "class": "no-rate-limit",
+   "evidence": "20 wrong-password attempts, statuses [200], no lockout / 429 / Retry-After"
+  },
+  {
+   "route": "GET PasswordResetVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java::level1]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET PasswordResetVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java::level2]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET PasswordResetVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java::level3]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET PasswordResetVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java::level4]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET PasswordResetVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java::level5]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET PasswordResetVulnerability/LEVEL_6 [org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java::level6]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET PasswordResetVulnerability/LEVEL_7 [org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java::level7]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET PasswordResetVulnerability/LEVEL_8 [org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java::level8]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET PasswordResetVulnerability/LEVEL_9 [org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java::level9]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET PasswordResetVulnerability/LEVEL_10 [org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java::level10Secure]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST PasswordResetVulnerability/LEVEL_{level} [org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java::levelAction]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET PasswordResetVulnerability/Level{level} [org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java::levelPageAlias]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY PathTraversal/LEVEL_1 [org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java::getVulnerablePayloadLevel1]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY PathTraversal/LEVEL_2 [org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java::getVulnerablePayloadLevel2]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY PathTraversal/LEVEL_3 [org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java::getVulnerablePayloadLevel3]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY PathTraversal/LEVEL_4 [org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java::getVulnerablePayloadLevel4]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY PathTraversal/LEVEL_5 [org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java::getVulnerablePayloadLevel5]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY PathTraversal/LEVEL_6 [org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java::getVulnerablePayloadLevel6]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY PathTraversal/LEVEL_7 [org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java::getVulnerablePayloadLevel7]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY PathTraversal/LEVEL_8 [org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java::getVulnerablePayloadLevel8]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY PathTraversal/LEVEL_9 [org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java::getVulnerablePayloadLevel9]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY PathTraversal/LEVEL_10 [org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java::getVulnerablePayloadLevel10]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY PathTraversal/LEVEL_11 [org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java::getVulnerablePayloadLevel11]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY PathTraversal/LEVEL_12 [org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java::getVulnerablePayloadLevel12]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY PathTraversal/LEVEL_13 [org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java::getVulnerablePayloadLevel13]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY PathTraversal/LEVEL_14 [org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java::getVulnerablePayloadLevel14]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY PathTraversal/LEVEL_15 [org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java::getVulnerablePayloadLevel15]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY CryptographicFailures/LEVEL_1 [org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java::getVulnerablePayloadLevel1]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY CryptographicFailures/LEVEL_2 [org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java::getVulnerablePayloadLevel2]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY CryptographicFailures/LEVEL_3 [org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java::getVulnerablePayloadLevel3]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY CryptographicFailures/LEVEL_4 [org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java::getVulnerablePayloadLevel4]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY CryptographicFailures/LEVEL_5 [org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java::getVulnerablePayloadLevel5]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY CryptographicFailures/LEVEL_6 [org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java::getVulnerablePayloadLevel6]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY CryptographicFailures/LEVEL_7 [org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java::getVulnerablePayloadLevel7]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY CryptographicFailures/LEVEL_8 [org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java::getSecurePayloadLevel5]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY CryptographicFailures/LEVEL_9 [org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java::getSecurePayloadLevel6]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY CryptographicFailures/LEVEL_10 [org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java::getSecurePayloadLevel10]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY CryptographicFailures/LEVEL_11 [org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java::getSecurePayloadLevel11]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY AuthenticationVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java::level1SQLi]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY AuthenticationVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java::level1SQLi]",
+   "class": "no-rate-limit",
+   "evidence": "20 wrong-password attempts, statuses [200], no lockout / 429 / Retry-After"
+  },
+  {
+   "route": "ANY AuthenticationVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java::level2Logging]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY AuthenticationVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java::level2Logging]",
+   "class": "no-rate-limit",
+   "evidence": "20 wrong-password attempts, statuses [200], no lockout / 429 / Retry-After"
+  },
+  {
+   "route": "ANY AuthenticationVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java::level3Plaintext]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY AuthenticationVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java::level3Plaintext]",
+   "class": "no-rate-limit",
+   "evidence": "20 wrong-password attempts, statuses [200], no lockout / 429 / Retry-After"
+  },
+  {
+   "route": "ANY AuthenticationVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java::level4Md5]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY AuthenticationVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java::level4Md5]",
+   "class": "no-rate-limit",
+   "evidence": "20 wrong-password attempts, statuses [200], no lockout / 429 / Retry-After"
+  },
+  {
+   "route": "ANY AuthenticationVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java::level5Sha1]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY AuthenticationVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java::level5Sha1]",
+   "class": "no-rate-limit",
+   "evidence": "20 wrong-password attempts, statuses [200], no lockout / 429 / Retry-After"
+  },
+  {
+   "route": "ANY AuthenticationVulnerability/LEVEL_6 [org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java::level6Sha256NoSalt]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY AuthenticationVulnerability/LEVEL_6 [org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java::level6Sha256NoSalt]",
+   "class": "no-rate-limit",
+   "evidence": "20 wrong-password attempts, statuses [200], no lockout / 429 / Retry-After"
+  },
+  {
+   "route": "ANY AuthenticationVulnerability/LEVEL_7 [org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java::level7UsernameEnumeration]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY AuthenticationVulnerability/LEVEL_7 [org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java::level7UsernameEnumeration]",
+   "class": "no-rate-limit",
+   "evidence": "20 wrong-password attempts, statuses [200], no lockout / 429 / Retry-After"
+  },
+  {
+   "route": "POST AuthenticationVulnerability/LEVEL_8 [org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java::level8WeakPassword]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST AuthenticationVulnerability/LEVEL_8 [org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java::level8WeakPassword]",
+   "class": "no-rate-limit",
+   "evidence": "20 wrong-password attempts, statuses [200], no lockout / 429 / Retry-After"
+  },
+  {
+   "route": "POST AuthenticationVulnerability/LEVEL_9 [org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java::level9Secure]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST AuthenticationVulnerability/LEVEL_9 [org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java::level9Secure]",
+   "class": "no-rate-limit",
+   "evidence": "20 wrong-password attempts, statuses [200], no lockout / 429 / Retry-After"
+  },
+  {
+   "route": "POST AuthenticationVulnerability/LEVEL_10 [org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java::level10LowIterationHashing]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST AuthenticationVulnerability/LEVEL_10 [org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java::level10LowIterationHashing]",
+   "class": "no-rate-limit",
+   "evidence": "20 wrong-password attempts, statuses [200], no lockout / 429 / Retry-After"
+  },
+  {
+   "route": "ANY CachePoisoning/LEVEL_1 [org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java::getVulnerablePayloadLevel1]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY CachePoisoning/LEVEL_2 [org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java::getVulnerablePayloadLevel2]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY CachePoisoning/LEVEL_3 [org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java::getVulnerablePayloadLevel3]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY CachePoisoning/LEVEL_4 [org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java::getVulnerablePayloadLevel4]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY CachePoisoning/LEVEL_5 [org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java::getSecurePayloadLevel5]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST InsecureDeserialization/LEVEL_1 [org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationCookieController.java::saveLevel1]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST InsecureDeserialization/LEVEL_2 [org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationCookieController.java::startSessionLevel2]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST InsecureDeserialization/LEVEL_2 [org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationCookieController.java::startSessionLevel2]",
+   "class": "cookie-samesite",
+   "evidence": "cookie session_level2 lacks SameSite"
+  },
+  {
+   "route": "POST InsecureDeserialization/LEVEL_2 [org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationCookieController.java::startSessionLevel2]",
+   "class": "predictable-session-id",
+   "evidence": "cookie session_level2: repeats; samples ['eyJ1c2VybmFtZSI6IkFkYW0iLCJyb2xlIjoiVVNFUiIsIm5vdGlmaWNhdGlvbnNFbmFibGVkIjpmYWxzZX0=', 'eyJ1c2VybmFtZSI6IkFkYW0iLCJyb2xlIjoiVVNFUiIsIm5vdGlmaWNhdGlvbnNFbmFibGVkIjpmYWxzZX0=', 'eyJ1c2VybmFtZSI6IkFkYW0iLCJyb2xlIjoiVVNFUiIsIm5vdGlmaWNhdGlvbnNFbmFibGVkIjpmYWxzZX0=']"
+  },
+  {
+   "route": "POST InsecureDeserialization/LEVEL_2 [org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationCookieController.java::startSessionLevel2]",
+   "class": "no-rate-limit",
+   "evidence": "20 wrong-password attempts, statuses [200], no lockout / 429 / Retry-After"
+  },
+  {
+   "route": "POST InsecureDeserialization/LEVEL_3 [org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationCookieController.java::startSessionLevel3]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST InsecureDeserialization/LEVEL_3 [org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationCookieController.java::startSessionLevel3]",
+   "class": "cookie-samesite",
+   "evidence": "cookie session_level3 lacks SameSite"
+  },
+  {
+   "route": "POST InsecureDeserialization/LEVEL_3 [org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationCookieController.java::startSessionLevel3]",
+   "class": "predictable-session-id",
+   "evidence": "cookie session_level3: repeats; samples ['eyJ1c2VybmFtZSI6IkFkYW0iLCJyb2xlIjoiVVNFUiIsIm5vdGlmaWNhdGlvbnNFbmFibGVkIjpmYWxzZX0=.5tEEIIu0xncP0RTfN4jqgdp6AE2LLYDN+ORrnribVx8=', 'eyJ1c2VybmFtZSI6IkFkYW0iLCJyb2xlIjoiVVNFUiIsIm5vdGlmaWNhdGlvbnNFbmFibGVkIjpmYWxzZX0=.5tEEIIu0xncP0RTfN4jqgdp6AE2LLYDN+ORrnribVx8=', 'eyJ1c2VybmFtZSI6IkFkYW0iLCJyb2xlIjoiVVNFUiIsIm5vdGlmaWNhdGlvbnNFbmFibGVkIjpmYWxzZX0=.5tEEIIu0xncP0RTfN4jqgdp6AE2LLYDN+ORrnribVx8=']"
+  },
+  {
+   "route": "POST InsecureDeserialization/LEVEL_3 [org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationCookieController.java::startSessionLevel3]",
+   "class": "no-rate-limit",
+   "evidence": "20 wrong-password attempts, statuses [200], no lockout / 429 / Retry-After"
+  },
+  {
+   "route": "POST InsecureDeserialization/LEVEL_4 [org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationCookieController.java::saveLevel4]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST InsecureDeserialization/LEVEL_4 [org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationCookieController.java::saveLevel4]",
+   "class": "cookie-samesite",
+   "evidence": "cookie activity_level4 lacks SameSite"
+  },
+  {
+   "route": "POST InsecureDeserialization/LEVEL_4 [org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationCookieController.java::saveLevel4]",
+   "class": "xss-reflected",
+   "evidence": "param section reflected unencoded: \"><kva3e9c>"
+  },
+  {
+   "route": "ANY InsecureDeserialization/LEVEL_1 [org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationVulnerability.java::getVulnerablePayloadLevel1]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY InsecureDeserialization/LEVEL_2 [org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationVulnerability.java::getVulnerablePayloadLevel2]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY InsecureDeserialization/LEVEL_3 [org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationVulnerability.java::getSecurePayloadLevel3]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "ANY InsecureDeserialization/LEVEL_4 [org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationVulnerability.java::getVulnerablePayloadLevel4]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  }
+ ],
+ "baselines": {
+  "POST /scanner/benchmark [org/sasanlabs/benchmark/controller/BenchmarkController.java::benchmark]": {
+   "status": 400,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "GET  [org/sasanlabs/controller/VulnerableAppRestController.java::allEndPoints]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "text/html;charset=UTF-8"
+  },
+  "GET  [org/sasanlabs/controller/VulnerableAppRestController.java::getVulnerabilityDefinitions]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "text/html;charset=UTF-8"
+  },
+  "GET  [org/sasanlabs/controller/VulnerableAppRestController.java::allEndPointsJsonResponse]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "text/html;charset=UTF-8"
+  },
+  "GET  [org/sasanlabs/controller/VulnerableAppRestController.java::getScannerRelatedInformation]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "text/html;charset=UTF-8"
+  },
+  "GET  [org/sasanlabs/controller/VulnerableAppRestController.java::getDastScannerRelatedInformation]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "text/html;charset=UTF-8"
+  },
+  "GET  [org/sasanlabs/controller/VulnerableAppRestController.java::getSastScannerRelatedInformation]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "text/html;charset=UTF-8"
+  },
+  "GET  [org/sasanlabs/controller/VulnerableAppRestController.java::getScannerRelatedMetaInformation]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "text/html;charset=UTF-8"
+  },
+  "ANY /sitemap.xml [org/sasanlabs/controller/VulnerableAppRestController.java::sitemapForPassiveScanners]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "POST /email//test [org/sasanlabs/controller/EmailTestController.java::sendTestEmail]": {
+   "status": 404,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "ANY JWTVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java::getVulnerablePayloadLevelUnsecure]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY JWTVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java::getVulnerablePayloadLevelUnsecure2CookieBased]": {
+   "status": 500,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY JWTVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java::getVulnerablePayloadLevelUnsecure3CookieBased]": {
+   "status": 500,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY JWTVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java::getVulnerablePayloadLevelUnsecure4CookieBased]": {
+   "status": 500,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY JWTVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java::getVulnerablePayloadLevelUnsecure5CookieBased]": {
+   "status": 500,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY JWTVulnerability/LEVEL_6 [org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java::getVulnerablePayloadLevelUnsecure6CookieBased]": {
+   "status": 500,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY JWTVulnerability/LEVEL_7 [org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java::getVulnerablePayloadLevelUnsecure7CookieBased]": {
+   "status": 500,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY JWTVulnerability/LEVEL_8 [org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java::getVulnerablePayloadLevelUnsecure8CookieBased]": {
+   "status": 500,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY JWTVulnerability/LEVEL_9 [org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java::getVulnerablePayloadLevelUnsecure9CookieBased]": {
+   "status": 500,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY JWTVulnerability/LEVEL_10 [org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java::getVulnerablePayloadLevelUnsecure10CookieBased]": {
+   "status": 500,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY JWTVulnerability/LEVEL_13 [org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java::getHeaderInjectionVulnerability]": {
+   "status": 500,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY JWTVulnerability/LEVEL_14 [org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java::getVulnerablePayloadLevel14CookieBased]": {
+   "status": 500,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY JWTVulnerability/LEVEL_15 [org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java::getVulnerablePayloadLevel15CookieBased]": {
+   "status": 500,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY JWTVulnerability/LEVEL_16 [org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java::getVulnerablePayloadLevel16CookieBased]": {
+   "status": 500,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY CommandInjection/LEVEL_1 [org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java::getVulnerablePayloadLevel1]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY CommandInjection/LEVEL_2 [org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java::getVulnerablePayloadLevel2]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY CommandInjection/LEVEL_3 [org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java::getVulnerablePayloadLevel3]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY CommandInjection/LEVEL_4 [org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java::getVulnerablePayloadLevel4]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY CommandInjection/LEVEL_5 [org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java::getVulnerablePayloadLevel5]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY CommandInjection/LEVEL_6 [org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java::getVulnerablePayloadLevel6]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY SSRFVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.java::getVulnerablePayloadLevel1]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY SSRFVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.java::getVulnerablePayloadLevel2]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY SSRFVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.java::getVulnerablePayloadLevel3]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY SSRFVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.java::getVulnerablePayloadLevel4]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY SSRFVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.java::getVulnerablePayloadLevel5]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY  [org/sasanlabs/service/vulnerability/fileupload/PreflightController.java::fetchFile]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "text/html;charset=UTF-8"
+  },
+  "ANY RemoteFileInclusion/LEVEL_1 [org/sasanlabs/service/vulnerability/rfi/UrlParamBasedRFI.java::getVulnerablePayloadLevelUnsecure]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY RemoteFileInclusion/LEVEL_2 [org/sasanlabs/service/vulnerability/rfi/UrlParamBasedRFI.java::getVulnerablePayloadLevelUnsecureLevel2]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "POST XXEVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java::getVulnerablePayloadLevel1]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "POST XXEVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java::getVulnerablePayloadLevel2]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "POST XXEVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java::getVulnerablePayloadLevel3]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "POST XXEVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java::getVulnerablePayloadLevel4]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "POST XXEVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java::getVulnerablePayloadLevel5]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "POST XXEVulnerability/LEVEL_6 [org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java::getVulnerablePayloadLevel6]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "POST XXEVulnerability/LEVEL_7 [org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java::getVulnerablePayloadLevel7]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "POST OTPVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java::level1RequestOTP]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "POST OTPVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java::level1ValidateOTP]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "POST OTPVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java::level2RequestOTP]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "POST OTPVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java::level2ValidateOTP]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "POST OTPVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java::level3RequestOTP]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "POST OTPVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java::level3ValidateOTP]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "POST OTPVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java::level4RequestOTP]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "POST OTPVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java::level4ValidateOTP]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "POST OTPVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java::level5RequestOTP]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "POST OTPVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java::level5ValidateOTP]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "ANY ClickjackingVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/clickjacking/ClickjackingVulnerability.java::noFramingProtection]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY ClickjackingVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/clickjacking/ClickjackingVulnerability.java::xFrameOptionsAllowAll]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY ClickjackingVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/clickjacking/ClickjackingVulnerability.java::xFrameOptionsSameOrigin]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY ClickjackingVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/clickjacking/ClickjackingVulnerability.java::xFrameOptionsDeny]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY ClickjackingVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/clickjacking/ClickjackingVulnerability.java::cspFrameAncestorsNone]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY ClickjackingVulnerability/LEVEL_6 [org/sasanlabs/service/vulnerability/clickjacking/ClickjackingVulnerability.java::overlayAttackNoProtection]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY ClickjackingVulnerability/LEVEL_7 [org/sasanlabs/service/vulnerability/clickjacking/ClickjackingVulnerability.java::overlayAttackSameOrigin]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY PersistentXSSInHTMLTagVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java::getVulnerablePayloadLevel1]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY PersistentXSSInHTMLTagVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java::getVulnerablePayloadLevel2]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY PersistentXSSInHTMLTagVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java::getVulnerablePayloadLevel3]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY PersistentXSSInHTMLTagVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java::getVulnerablePayloadLevel4]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY PersistentXSSInHTMLTagVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java::getVulnerablePayloadLevel5]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY PersistentXSSInHTMLTagVulnerability/LEVEL_6 [org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java::getVulnerablePayloadLevel6]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY PersistentXSSInHTMLTagVulnerability/LEVEL_7 [org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java::getVulnerablePayloadLevel7]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY PersistentXSSInHTMLTagVulnerability/LEVEL_8 [org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java::getSecurePayloadLevel8]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY PersistentXSSInHTMLTagVulnerability/LEVEL_9 [org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java::getSecurePayloadLevel9]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY XSSInImgTagAttribute/LEVEL_1 [org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java::getVulnerablePayloadLevel1]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY XSSInImgTagAttribute/LEVEL_2 [org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java::getVulnerablePayloadLevel2]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY XSSInImgTagAttribute/LEVEL_3 [org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java::getVulnerablePayloadLevel3]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY XSSInImgTagAttribute/LEVEL_4 [org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java::getVulnerablePayloadLevel4]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY XSSInImgTagAttribute/LEVEL_5 [org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java::getVulnerablePayloadLevel5]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY XSSInImgTagAttribute/LEVEL_6 [org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java::getVulnerablePayloadLevel6]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY XSSInImgTagAttribute/LEVEL_7 [org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java::getVulnerablePayloadLevelSecure]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY XSSWithHtmlTagInjection/LEVEL_1 [org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java::getVulnerablePayloadLevel1]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY XSSWithHtmlTagInjection/LEVEL_2 [org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java::getVulnerablePayloadLevel2]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY XSSWithHtmlTagInjection/LEVEL_3 [org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java::getVulnerablePayloadLevel3]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY XSSWithHtmlTagInjection/LEVEL_4 [org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java::getSecurePayloadLevel4]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY XSSWithHtmlTagInjection/LEVEL_5 [org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java::getSecurePayloadLevel5]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY Http3xxStatusCodeBasedInjection/LEVEL_1 [org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java::getVulnerablePayloadLevel1]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY Http3xxStatusCodeBasedInjection/LEVEL_2 [org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java::getVulnerablePayloadLevel2]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY Http3xxStatusCodeBasedInjection/LEVEL_3 [org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java::getVulnerablePayloadLevel3]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY Http3xxStatusCodeBasedInjection/LEVEL_4 [org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java::getVulnerablePayloadLevel4]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY Http3xxStatusCodeBasedInjection/LEVEL_5 [org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java::getVulnerablePayloadLevel5]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY Http3xxStatusCodeBasedInjection/LEVEL_6 [org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java::getVulnerablePayloadLevel6]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY Http3xxStatusCodeBasedInjection/LEVEL_7 [org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java::getVulnerablePayloadLevel7]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY Http3xxStatusCodeBasedInjection/LEVEL_8 [org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java::getVulnerablePayloadLevel8]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY Http3xxStatusCodeBasedInjection/LEVEL_9 [org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java::getVulnerablePayloadLevel9]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY Http3xxStatusCodeBasedInjection/LEVEL_10 [org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java::getVulnerablePayloadLevel10]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY Http3xxStatusCodeBasedInjection/LEVEL_11 [org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java::getVulnerablePayloadLevel11]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY Http3xxStatusCodeBasedInjection/LEVEL_12 [org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java::getVulnerablePayloadLevel12]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "POST IDORVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/idor/IDORLoginController.java::level1Login]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "POST IDORVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/idor/IDORLoginController.java::level2Login]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "POST IDORVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/idor/IDORLoginController.java::level3Login]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "POST IDORVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/idor/IDORLoginController.java::level4Login]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "POST IDORVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/idor/IDORLoginController.java::level5Login]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "ANY IDORVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java::level1]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY IDORVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java::level2]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY IDORVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java::level3]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY IDORVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java::level4]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY IDORVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java::level5]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY LDAPInjectionVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java::level1]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY LDAPInjectionVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java::level2]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY LDAPInjectionVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java::level3]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY LDAPInjectionVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java::level4]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY LDAPInjectionVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java::level5]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY LDAPInjectionVulnerability/LEVEL_6 [org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java::level6]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY UnionBasedSQLInjectionVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java::getCarInformationLevel1]": {
+   "status": 500,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY UnionBasedSQLInjectionVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java::getCarInformationLevel2]": {
+   "status": 500,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY UnionBasedSQLInjectionVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java::getCarInformationLevel3]": {
+   "status": 500,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY UnionBasedSQLInjectionVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java::getCarInformationLevel4]": {
+   "status": 500,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY UnionBasedSQLInjectionVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java::getCarInformationLevel5]": {
+   "status": 500,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY UnionBasedSQLInjectionVulnerability/LEVEL_6 [org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java::getCarInformationLevel6]": {
+   "status": 500,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY UnionBasedSQLInjectionVulnerability/LEVEL_7 [org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java::getCarInformationLevel7]": {
+   "status": 500,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY UnionBasedSQLInjectionVulnerability/LEVEL_8 [org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java::getCarInformationLevel8]": {
+   "status": 500,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY UnionBasedSQLInjectionVulnerability/LEVEL_9 [org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java::getCarInformationLevel9]": {
+   "status": 500,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY BlindSQLInjectionVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java::getCarInformationLevel1]": {
+   "status": 500,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY BlindSQLInjectionVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java::getCarInformationLevel2]": {
+   "status": 500,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY BlindSQLInjectionVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java::getCarInformationLevel3]": {
+   "status": 500,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY BlindSQLInjectionVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java::getCarInformationLevel4]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY BlindSQLInjectionVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java::getCarInformationLevel5]": {
+   "status": 500,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY ErrorBasedSQLInjectionVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java::doesCarInformationExistsLevel1]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY ErrorBasedSQLInjectionVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java::doesCarInformationExistsLevel2]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY ErrorBasedSQLInjectionVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java::doesCarInformationExistsLevel3]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY ErrorBasedSQLInjectionVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java::doesCarInformationExistsLevel4]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "ANY ErrorBasedSQLInjectionVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java::doesCarInformationExistsLevel5]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "text/plain;charset=UTF-8"
+  },
+  "POST SessionManagementVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java::level1SessionFixation]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "GET SessionManagementVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java::level1Profile]": {
+   "status": 405,
+   "method": "GET",
+   "ctype": ""
+  },
+  "POST SessionManagementVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java::level2PredictableSessionId]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "GET SessionManagementVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java::level2Profile]": {
+   "status": 405,
+   "method": "GET",
+   "ctype": ""
+  },
+  "POST SessionManagementVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java::level3ObscuredPredictableSessionId]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "GET SessionManagementVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java::level3Profile]": {
+   "status": 405,
+   "method": "GET",
+   "ctype": ""
+  },
+  "POST SessionManagementVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java::level4MissingLogoutInvalidation]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "GET SessionManagementVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java::level4Profile]": {
+   "status": 405,
+   "method": "GET",
+   "ctype": ""
+  },
+  "POST SessionManagementVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java::level5NoLoginRateLimiting]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "GET SessionManagementVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java::level5Profile]": {
+   "status": 405,
+   "method": "GET",
+   "ctype": ""
+  },
+  "POST SessionManagementVulnerability/LEVEL_6 [org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java::level6SecureSessionManagement]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "GET PasswordResetVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java::level1]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "GET PasswordResetVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java::level2]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "GET PasswordResetVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java::level3]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "GET PasswordResetVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java::level4]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "GET PasswordResetVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java::level5]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "GET PasswordResetVulnerability/LEVEL_6 [org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java::level6]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "GET PasswordResetVulnerability/LEVEL_7 [org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java::level7]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "GET PasswordResetVulnerability/LEVEL_8 [org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java::level8]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "GET PasswordResetVulnerability/LEVEL_9 [org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java::level9]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "GET PasswordResetVulnerability/LEVEL_10 [org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java::level10Secure]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "POST PasswordResetVulnerability/LEVEL_{level} [org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java::levelAction]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "GET PasswordResetVulnerability/Level{level} [org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java::levelPageAlias]": {
+   "status": 302,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY PathTraversal/LEVEL_1 [org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java::getVulnerablePayloadLevel1]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY PathTraversal/LEVEL_2 [org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java::getVulnerablePayloadLevel2]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY PathTraversal/LEVEL_3 [org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java::getVulnerablePayloadLevel3]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY PathTraversal/LEVEL_4 [org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java::getVulnerablePayloadLevel4]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY PathTraversal/LEVEL_5 [org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java::getVulnerablePayloadLevel5]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY PathTraversal/LEVEL_6 [org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java::getVulnerablePayloadLevel6]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY PathTraversal/LEVEL_7 [org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java::getVulnerablePayloadLevel7]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY PathTraversal/LEVEL_8 [org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java::getVulnerablePayloadLevel8]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY PathTraversal/LEVEL_9 [org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java::getVulnerablePayloadLevel9]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY PathTraversal/LEVEL_10 [org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java::getVulnerablePayloadLevel10]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY PathTraversal/LEVEL_11 [org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java::getVulnerablePayloadLevel11]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY PathTraversal/LEVEL_12 [org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java::getVulnerablePayloadLevel12]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY PathTraversal/LEVEL_13 [org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java::getVulnerablePayloadLevel13]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY PathTraversal/LEVEL_14 [org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java::getVulnerablePayloadLevel14]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY PathTraversal/LEVEL_15 [org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java::getVulnerablePayloadLevel15]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY CryptographicFailures/LEVEL_1 [org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java::getVulnerablePayloadLevel1]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY CryptographicFailures/LEVEL_2 [org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java::getVulnerablePayloadLevel2]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY CryptographicFailures/LEVEL_3 [org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java::getVulnerablePayloadLevel3]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY CryptographicFailures/LEVEL_4 [org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java::getVulnerablePayloadLevel4]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY CryptographicFailures/LEVEL_5 [org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java::getVulnerablePayloadLevel5]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY CryptographicFailures/LEVEL_6 [org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java::getVulnerablePayloadLevel6]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY CryptographicFailures/LEVEL_7 [org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java::getVulnerablePayloadLevel7]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY CryptographicFailures/LEVEL_8 [org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java::getSecurePayloadLevel5]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY CryptographicFailures/LEVEL_9 [org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java::getSecurePayloadLevel6]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY CryptographicFailures/LEVEL_10 [org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java::getSecurePayloadLevel10]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY CryptographicFailures/LEVEL_11 [org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java::getSecurePayloadLevel11]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY AuthenticationVulnerability/LEVEL_1 [org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java::level1SQLi]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY AuthenticationVulnerability/LEVEL_2 [org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java::level2Logging]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY AuthenticationVulnerability/LEVEL_3 [org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java::level3Plaintext]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY AuthenticationVulnerability/LEVEL_4 [org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java::level4Md5]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY AuthenticationVulnerability/LEVEL_5 [org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java::level5Sha1]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY AuthenticationVulnerability/LEVEL_6 [org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java::level6Sha256NoSalt]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY AuthenticationVulnerability/LEVEL_7 [org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java::level7UsernameEnumeration]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "POST AuthenticationVulnerability/LEVEL_8 [org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java::level8WeakPassword]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "POST AuthenticationVulnerability/LEVEL_9 [org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java::level9Secure]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "POST AuthenticationVulnerability/LEVEL_10 [org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java::level10LowIterationHashing]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "ANY CachePoisoning/LEVEL_1 [org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java::getVulnerablePayloadLevel1]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY CachePoisoning/LEVEL_2 [org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java::getVulnerablePayloadLevel2]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY CachePoisoning/LEVEL_3 [org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java::getVulnerablePayloadLevel3]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY CachePoisoning/LEVEL_4 [org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java::getVulnerablePayloadLevel4]": {
+   "status": 400,
+   "method": "GET",
+   "ctype": ""
+  },
+  "ANY CachePoisoning/LEVEL_5 [org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java::getSecurePayloadLevel5]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "POST CachePoisoning//clearCache [org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java::clearCache]": {
+   "status": 404,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "POST InsecureDeserialization/LEVEL_1 [org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationCookieController.java::saveLevel1]": {
+   "status": 400,
+   "method": "POST",
+   "ctype": ""
+  },
+  "POST InsecureDeserialization/LEVEL_2 [org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationCookieController.java::startSessionLevel2]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "POST InsecureDeserialization/LEVEL_3 [org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationCookieController.java::startSessionLevel3]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "POST InsecureDeserialization/LEVEL_4 [org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationCookieController.java::saveLevel4]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "ANY InsecureDeserialization/LEVEL_1 [org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationVulnerability.java::getVulnerablePayloadLevel1]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY InsecureDeserialization/LEVEL_2 [org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationVulnerability.java::getVulnerablePayloadLevel2]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY InsecureDeserialization/LEVEL_3 [org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationVulnerability.java::getSecurePayloadLevel3]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "ANY InsecureDeserialization/LEVEL_4 [org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationVulnerability.java::getVulnerablePayloadLevel4]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  }
+ }
+}

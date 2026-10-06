@@ -1,0 +1,10 @@
+META	route_entry_sources	0
+META	xss	sinks=13	sources=13	sanitizer_specs=0
+FLOW	xss	LambdaCases.java	10	c1_direct	LambdaCases.java	10	c1_direct
+FLOW	xss	LambdaCases.java	29	<lambda>3	LambdaCases.java	29	c6_sink_inside_lambda
+FLOW	xss	LambdaCases.java	37	c11_list_add_loop_read	LambdaCases.java	37	c11_list_add_loop_read
+FLOW	xss	LambdaCases.java	11	c2_builder_no_lambda	LambdaCases.java	11	c2_builder_no_lambda
+FLOW	xss	LambdaCases.java	28	c5_stream_map_collect	LambdaCases.java	28	c5_stream_map_collect
+FLOW	xss	LambdaCases.java	30	c7_function_apply	LambdaCases.java	30	c7_function_apply
+FLOW	xss	LambdaCases.java	35	c9_param_function_passed	LambdaCases.java	35	c9_param_function_passed
+FLOW	xss	LambdaCases.java	26	c4_enhanced_for	LambdaCases.java	24	c4_enhanced_for

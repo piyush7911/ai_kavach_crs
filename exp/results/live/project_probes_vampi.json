@@ -1,0 +1,18 @@
+{
+  "target": "vampi",
+  "runs": 1,
+  "in_scope_labels": 7,
+  "out_of_scope": {
+    "roe_excluded": 2,
+    "static": 1
+  },
+  "recall": 1.0,
+  "precision": 1.0,
+  "f1": 1.0,
+  "severity_weighted_recall": 1.0,
+  "stability_jaccard": 1.0,
+  "median_seconds": 16.5,
+  "bugs_per_run": 7,
+  "seconds_per_bug": 2.4,
+  "model_cost_usd": 0.0
+}

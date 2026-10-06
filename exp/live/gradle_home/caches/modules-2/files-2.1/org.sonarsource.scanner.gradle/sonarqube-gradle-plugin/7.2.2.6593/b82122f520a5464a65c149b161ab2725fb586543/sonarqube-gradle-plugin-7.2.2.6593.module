@@ -1,0 +1,109 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "org.sonarsource.scanner.gradle",
+    "module": "sonarqube-gradle-plugin",
+    "version": "7.2.2.6593",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.14.3"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "sonarqube-gradle-plugin-7.2.2.6593.jar",
+          "url": "sonarqube-gradle-plugin-7.2.2.6593.jar",
+          "size": 90595,
+          "sha512": "9509783de66c6855bcd1e8aaaa2b6b3db594b51c46afd9fd3dd3a80e6943a156aced2c569a94b0b2fa43fa5323c4e270adf8f79432e80079c6041cb5e5704b3a",
+          "sha256": "6e4dbbb53c3613447c5ce47e1dd7e6df8a5d06e4e5ce96906083b667913363c2",
+          "sha1": "cdad400f4c664221f7850a73c913de5127175cd5",
+          "md5": "84158047023ae65deec3936569afb901"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "org.sonarsource.scanner.lib",
+          "module": "sonar-scanner-java-library",
+          "version": {
+            "requires": "4.0.1.1587"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "sonarqube-gradle-plugin-7.2.2.6593.jar",
+          "url": "sonarqube-gradle-plugin-7.2.2.6593.jar",
+          "size": 90595,
+          "sha512": "9509783de66c6855bcd1e8aaaa2b6b3db594b51c46afd9fd3dd3a80e6943a156aced2c569a94b0b2fa43fa5323c4e270adf8f79432e80079c6041cb5e5704b3a",
+          "sha256": "6e4dbbb53c3613447c5ce47e1dd7e6df8a5d06e4e5ce96906083b667913363c2",
+          "sha1": "cdad400f4c664221f7850a73c913de5127175cd5",
+          "md5": "84158047023ae65deec3936569afb901"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "sonarqube-gradle-plugin-7.2.2.6593-javadoc.jar",
+          "url": "sonarqube-gradle-plugin-7.2.2.6593-javadoc.jar",
+          "size": 156712,
+          "sha512": "a611100df6c26fa941827a6193817aaa2ab9b1f8740428c0d861abc0e6577d1cec5f9bf162d710605dbfcbf83852e2b9f887dd3c31de956e75b191cd59b0d57a",
+          "sha256": "802cb5d4adb02079c3340c7e94a20626e242960f4e3c554af9949e7ad184f16a",
+          "sha1": "ae5b1497a6567bd608e8a6f29bb626bcd4101a65",
+          "md5": "3756b4bdddf2ff2e0806e1b7eecc7604"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "sonarqube-gradle-plugin-7.2.2.6593-sources.jar",
+          "url": "sonarqube-gradle-plugin-7.2.2.6593-sources.jar",
+          "size": 57342,
+          "sha512": "22ce823a990af89d644a2e02faddd01e541f9a541463217cb89dc0e30b037282acea9ea65a867b9531da697fe3ebe42639a684a95f9813ef0546637b6afba44c",
+          "sha256": "b882ee76e1e80f74581b0d65077d985d54b6642f6c2d5e72258fac6c13e172bc",
+          "sha1": "2d5412c3457e69d2f259f93feb4668d4239019ed",
+          "md5": "02d3bc993d7d873c1923731b8c8c8bef"
+        }
+      ]
+    }
+  ]
+}

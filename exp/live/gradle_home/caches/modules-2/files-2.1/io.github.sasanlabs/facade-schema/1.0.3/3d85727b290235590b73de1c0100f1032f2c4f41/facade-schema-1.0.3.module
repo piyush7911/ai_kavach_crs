@@ -1,0 +1,89 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.sasanlabs",
+    "module": "facade-schema",
+    "version": "1.0.3",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.7"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "facade-schema-1.0.3.jar",
+          "url": "facade-schema-1.0.3.jar",
+          "size": 10909,
+          "sha512": "de15190d529a91cbb796c0dd8f9f9e5d7d111506538e00a8fec80da42f328f392d55f901b66c2afe0e537f07a923bb091b279a7eb92d639dfc4716296900caa7",
+          "sha256": "0c3a31e57be7ae31f503e137274c78d20bd6b138655aced10f3b82ab065eba23",
+          "sha1": "539edbd6f5cafac019682834823091d615f12ef0",
+          "md5": "c0e7dd5d75b24c9e9fdc5f8328465d75"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "com.fasterxml.jackson.core",
+          "module": "jackson-annotations",
+          "version": {
+            "requires": "2.12.4"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "facade-schema-1.0.3.jar",
+          "url": "facade-schema-1.0.3.jar",
+          "size": 10909,
+          "sha512": "de15190d529a91cbb796c0dd8f9f9e5d7d111506538e00a8fec80da42f328f392d55f901b66c2afe0e537f07a923bb091b279a7eb92d639dfc4716296900caa7",
+          "sha256": "0c3a31e57be7ae31f503e137274c78d20bd6b138655aced10f3b82ab065eba23",
+          "sha1": "539edbd6f5cafac019682834823091d615f12ef0",
+          "md5": "c0e7dd5d75b24c9e9fdc5f8328465d75"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "facade-schema-1.0.3-sources.jar",
+          "url": "facade-schema-1.0.3-sources.jar",
+          "size": 7169,
+          "sha512": "ade166e4e9ab41345835477df5a327316510c574e891aa49aeb16e1aabee5eaa3f81d018849c5d9a4f5f241ee3f2c8400d0b4f03d616770e27246ec1304515a6",
+          "sha256": "03d1b918c1c4baaddd5491065834aad285cfb08328587be4b667279d5018f893",
+          "sha1": "de96b98a68cf5709b3af290e619fe2213b9694aa",
+          "md5": "e173af1d44eacae7e68cd00378576780"
+        }
+      ]
+    }
+  ]
+}

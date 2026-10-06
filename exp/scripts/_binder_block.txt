@@ -1,0 +1,28 @@
+  var boundEdges = 0
+  if (bind == "true") {
+    val diff = io.shiftleft.codepropertygraph.generated.Cpg.newDiffGraphBuilder
+    def parentOf(m: Method): Option[Method] = { val i = m.fullName.lastIndexOf(':'); if (i <= 0) None else cpg.method.fullNameExact(m.fullName.substring(0, i)).headOption }
+    def aliases(m: Method): Set[String] = {
+      val base: Set[String] = if (!m.name.startsWith("<")) Set(m.name) else Set.empty
+      val viaRef: Set[String] = cpg.methodRef.filter(_.referencedMethod == m).flatMap { r => r.astParent match {
+        case a: Call if a.name == "<operator>.assignment" => a.argument.l.headOption.map(_.code.split("[.\\s\\]\\[\"']").filter(_.nonEmpty).lastOption.getOrElse("")).toList
+        case _ => Nil } }.l.toSet
+      base ++ viaRef
+    }
+    val callsByName: Map[String, List[Call]] = cpg.call.filterNot(_.name.startsWith("<")).l.groupBy(_.name)
+    def lambdasPassed(m: Method, idx: Int, depth: Int): List[Method] =
+      aliases(m).toList.flatMap(a => callsByName.getOrElse(a, Nil)).flatMap { site =>
+        site.argument.l.find(_.argumentIndex == idx).toList.flatMap {
+          case r: MethodRef => List(r.referencedMethod)
+          case id: Identifier if depth > 0 =>
+            var cur: Option[Method] = Some(site.method); var found: Option[(Method, Int)] = None
+            while (cur.isDefined && found.isEmpty) { found = cur.get.parameter.l.find(_.name == id.name).map(p => (cur.get, p.index)); cur = if (found.isEmpty) parentOf(cur.get) else None }
+            found.toList.flatMap { case (pm, k) => lambdasPassed(pm, k, depth - 1) }
+          case _ => Nil } }
+    cpg.call.filterNot(_.name.startsWith("<")).l.foreach { c =>
+      var cur: Option[Method] = Some(c.method); var found: Option[(Method, Int)] = None
+      while (cur.isDefined && found.isEmpty) { found = cur.get.parameter.l.find(pp => pp.name == c.name && pp.index > 0).map(p => (cur.get, p.index)); cur = if (found.isEmpty) parentOf(cur.get) else None }
+      found.foreach { case (pm, k) => lambdasPassed(pm, k, 3).distinct.foreach { t => diff.addEdge(c, t, io.shiftleft.codepropertygraph.generated.EdgeTypes.CALL); boundEdges += 1 } }
+    }
+    flatgraph.DiffGraphApplier.applyDiff(cpg.graph, diff)
+  }

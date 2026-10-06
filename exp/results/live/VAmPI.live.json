@@ -1,0 +1,166 @@
+{
+ "base": "http://127.0.0.1:5001",
+ "requests": 156,
+ "seconds": 0.2,
+ "routes": 14,
+ "reachable": 13,
+ "findings": [
+  {
+   "route": "GET /createdb [api_views/main.py::populate_db]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET / [api_views/main.py::basic]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET /users/v1 [api_views/users.py::get_all_users]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET /users/v1/_debug [api_views/users.py::debug]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET /users/v1/_debug [api_views/users.py::debug]",
+   "class": "sensitive-data-exposure",
+   "evidence": "response contains \"password\":\"pass1\""
+  },
+  {
+   "route": "POST /users/v1/register [api_views/users.py::register_user]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST /users/v1/login [api_views/users.py::login_user]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST /users/v1/login [api_views/users.py::login_user]",
+   "class": "jwt-weak-secret",
+   "evidence": "HS256 signature verifies with guessable secret 'random'"
+  },
+  {
+   "route": "POST /users/v1/login [api_views/users.py::login_user]",
+   "class": "user-enumeration",
+   "evidence": "'admin' answers 200 '{ \"status\": \"fail\", \"message\": \"Password is not correct for ' vs unknown user 200 '{ \"status\": \"fail\", \"message\": \"Username does not exist\"}'"
+  },
+  {
+   "route": "POST /users/v1/login [api_views/users.py::login_user]",
+   "class": "no-rate-limit",
+   "evidence": "20 wrong-password attempts, statuses [200], no lockout / 429 / Retry-After"
+  },
+  {
+   "route": "GET /me [api_views/users.py::me]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "DELETE /users/v1/{username} [api_views/users.py::delete_user]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "PUT /users/v1/{username}/email [api_views/users.py::update_email]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "PUT /users/v1/{username}/password [api_views/users.py::update_password]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET /books/v1 [api_views/books.py::get_all_books]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "POST /books/v1 [api_views/books.py::add_new_book]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  },
+  {
+   "route": "GET /books/v1/{book_title} [api_views/books.py::get_by_title]",
+   "class": "clickjacking",
+   "evidence": "X-Frame-Options=absent; CSP frame-ancestors=absent"
+  }
+ ],
+ "baselines": {
+  "GET /createdb [api_views/main.py::populate_db]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "GET / [api_views/main.py::basic]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "GET /users/v1 [api_views/users.py::get_all_users]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "GET /users/v1/_debug [api_views/users.py::debug]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "POST /users/v1/register [api_views/users.py::register_user]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "POST /users/v1/login [api_views/users.py::login_user]": {
+   "status": 200,
+   "method": "POST",
+   "ctype": "application/json"
+  },
+  "GET /me [api_views/users.py::me]": {
+   "status": 401,
+   "method": "GET",
+   "ctype": "application/problem+json"
+  },
+  "GET /users/v1/{username} [api_views/users.py::get_by_username]": {
+   "status": 404,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "DELETE /users/v1/{username} [api_views/users.py::delete_user]": {
+   "status": 401,
+   "method": "DELETE",
+   "ctype": "application/problem+json"
+  },
+  "PUT /users/v1/{username}/email [api_views/users.py::update_email]": {
+   "status": 401,
+   "method": "PUT",
+   "ctype": "application/problem+json"
+  },
+  "PUT /users/v1/{username}/password [api_views/users.py::update_password]": {
+   "status": 401,
+   "method": "PUT",
+   "ctype": "application/problem+json"
+  },
+  "GET /books/v1 [api_views/books.py::get_all_books]": {
+   "status": 200,
+   "method": "GET",
+   "ctype": "application/json"
+  },
+  "POST /books/v1 [api_views/books.py::add_new_book]": {
+   "status": 401,
+   "method": "POST",
+   "ctype": "application/problem+json"
+  },
+  "GET /books/v1/{book_title} [api_views/books.py::get_by_title]": {
+   "status": 401,
+   "method": "GET",
+   "ctype": "application/problem+json"
+  }
+ }
+}

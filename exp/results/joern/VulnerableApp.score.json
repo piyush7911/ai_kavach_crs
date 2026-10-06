@@ -1,16 +1,16 @@
 {
  "true_total": 135,
- "in_scope_vulnerable": 52,
+ "in_scope_vulnerable": 75,
  "found": 46,
- "missed_n": 6,
- "secure_in_scope": 32,
- "secure_flagged": 19,
- "tpr": 0.885,
- "fpr": 0.594,
- "youden": 0.291,
+ "missed_n": 29,
+ "secure_in_scope": 38,
+ "secure_flagged": 22,
+ "tpr": 0.613,
+ "fpr": 0.579,
+ "youden": 0.034,
  "out_of_scope": {
-  "vuln": 83,
-  "secure": 13
+  "vuln": 60,
+  "secure": 7
  },
  "by_class": {
   "sql-injection": {
@@ -20,8 +20,8 @@
   },
   "xss": {
    "fp": 8,
-   "tp": 19,
-   "tn": 3,
+   "tp": 18,
+   "tn": 1,
    "fn": 5
   },
   "command-injection": {
@@ -35,9 +35,19 @@
    "fp": 1,
    "tp": 2
   },
+  "path-traversal": {
+   "fp": 3,
+   "fn": 14,
+   "tp": 1,
+   "tn": 2
+  },
   "ldap-injection": {
    "fp": 2,
    "tp": 4
+  },
+  "open-redirect": {
+   "tn": 3,
+   "fn": 9
   },
   "ssrf": {
    "fp": 1,
@@ -98,19 +108,45 @@
   "XXEVulnerability.getVulnerablePayloadLevel1"
  ],
  "missed_ids": [
+  "UnrestrictedFileUpload.getVulnerablePayloadLevel9",
+  "UnrestrictedFileUpload.getVulnerablePayloadLevel8",
   "UnrestrictedFileUpload.getVulnerablePayloadLevel7",
   "UnrestrictedFileUpload.getVulnerablePayloadLevel6",
   "UnrestrictedFileUpload.getVulnerablePayloadLevel5",
   "UnrestrictedFileUpload.getVulnerablePayloadLevel4",
   "UnrestrictedFileUpload.getVulnerablePayloadLevel3",
+  "Http3xxStatusCodeBasedInjection.getVulnerablePayloadLevel10",
+  "Http3xxStatusCodeBasedInjection.getVulnerablePayloadLevel9",
+  "Http3xxStatusCodeBasedInjection.getVulnerablePayloadLevel7",
+  "Http3xxStatusCodeBasedInjection.getVulnerablePayloadLevel6",
+  "Http3xxStatusCodeBasedInjection.getVulnerablePayloadLevel5",
+  "Http3xxStatusCodeBasedInjection.getVulnerablePayloadLevel4",
+  "Http3xxStatusCodeBasedInjection.getVulnerablePayloadLevel3",
+  "Http3xxStatusCodeBasedInjection.getVulnerablePayloadLevel2",
+  "Http3xxStatusCodeBasedInjection.getVulnerablePayloadLevel1",
+  "PathTraversalVulnerability.getVulnerablePayloadLevel12",
+  "PathTraversalVulnerability.getVulnerablePayloadLevel11",
+  "PathTraversalVulnerability.getVulnerablePayloadLevel10",
+  "PathTraversalVulnerability.getVulnerablePayloadLevel9",
+  "PathTraversalVulnerability.getVulnerablePayloadLevel8",
+  "PathTraversalVulnerability.getVulnerablePayloadLevel7",
+  "PathTraversalVulnerability.getVulnerablePayloadLevel6",
+  "PathTraversalVulnerability.getVulnerablePayloadLevel5",
+  "PathTraversalVulnerability.getVulnerablePayloadLevel4",
+  "PathTraversalVulnerability.getVulnerablePayloadLevel3",
+  "PathTraversalVulnerability.getVulnerablePayloadLevel2",
+  "PathTraversalVulnerability.getVulnerablePayloadLevel1",
   "XXEVulnerability.getVulnerablePayloadLevel6"
  ],
  "flagged_secure_ids": [
   "CachePoisoningVulnerability.getSecurePayloadLevel5",
   "CommandInjection.getVulnerablePayloadLevel6",
   "InsecureDeserializationVulnerability.getSecurePayloadLevel3",
+  "UnrestrictedFileUpload.getVulnerablePayloadLevel12",
+  "UnrestrictedFileUpload.getVulnerablePayloadLevel11",
   "LDAPInjectionVulnerability.level6",
   "LDAPInjectionVulnerability.level4",
+  "PathTraversalVulnerability.getVulnerablePayloadLevel14",
   "BlindSQLInjectionVulnerability.getCarInformationLevel4",
   "UnionBasedSQLInjectionVulnerability.getCarInformationLevel3",
   "SSRFVulnerability.getVulnerablePayloadLevel5",

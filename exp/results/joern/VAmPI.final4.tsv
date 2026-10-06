@@ -1,0 +1,56 @@
+META	route_entry_sources	5
+META	bound_callback_edges	0
+META	ldap-injection	sinks=0	sources=64	sanitizer_specs=0
+META	command-injection	sinks=14	sources=64	sanitizer_specs=3
+FLOW	command-injection	app.py	12	<module>	app.py	12	<module>
+FLOW	command-injection	app.py	9	<module>	app.py	9	<module>
+META	deserialization	sinks=0	sources=64	sanitizer_specs=0
+META	open-redirect	sinks=0	sources=64	sanitizer_specs=0
+META	ssrf	sinks=0	sources=64	sanitizer_specs=0
+META	path-traversal	sinks=0	sources=64	sanitizer_specs=0
+META	ssti	sinks=0	sources=64	sanitizer_specs=0
+META	xss	sinks=8	sources=64	sanitizer_specs=4
+FLOW	xss	api_views/users.py	163	update_email	api_views/users.py	133	update_email
+FLOW	xss	models/user_model.py	73	get_user	api_views/users.py	45	get_by_username
+FLOW	xss	api_views/users.py	163	update_email	api_views/users.py	163	update_email
+META	xpath-injection	sinks=0	sources=64	sanitizer_specs=0
+META	nosql-injection	sinks=0	sources=64	sanitizer_specs=0
+META	sql-injection	sinks=24	sources=64	sanitizer_specs=0
+FLOW	sql-injection	api_views/users.py	173	update_email	api_views/users.py	138	update_email
+FLOW	sql-injection	api_views/users.py	100	login_user	api_views/users.py	86	login_user
+FLOW	sql-injection	api_views/users.py	42	me	api_views/users.py	34	me
+FLOW	sql-injection	models/user_model.py	73	get_user	api_views/users.py	45	get_by_username
+FLOW	sql-injection	api_views/users.py	157	update_email	api_views/users.py	133	update_email
+FLOW	sql-injection	api_views/users.py	42	me	api_views/users.py	29	me
+FLOW	sql-injection	api_views/books.py	70	get_by_title	api_views/books.py	46	get_by_title
+FLOW	sql-injection	api_views/users.py	157	update_email	api_views/users.py	148	update_email
+FLOW	sql-injection	api_views/users.py	157	update_email	api_views/users.py	138	update_email
+FLOW	sql-injection	api_views/users.py	59	register_user	api_views/users.py	53	register_user
+FLOW	sql-injection	api_views/users.py	157	update_email	api_views/users.py	150	update_email
+FLOW	sql-injection	api_views/users.py	173	update_email	api_views/users.py	164	update_email
+FLOW	sql-injection	api_views/books.py	70	get_by_title	api_views/books.py	45	get_by_title
+FLOW	sql-injection	api_views/users.py	100	login_user	api_views/users.py	93	login_user
+FLOW	sql-injection	api_views/users.py	173	update_email	api_views/users.py	133	update_email
+FLOW	sql-injection	api_views/users.py	100	login_user	api_views/users.py	92	login_user
+FLOW	sql-injection	api_views/users.py	173	update_email	api_views/users.py	166	update_email
+FLOW	sql-injection	api_views/users.py	135	update_email	api_views/users.py	133	update_email
+FLOW	sql-injection	api_views/books.py	58	get_by_title	api_views/books.py	45	get_by_title
+FLOW	sql-injection	api_views/books.py	20	add_new_book	api_views/books.py	18	add_new_book
+FLOW	sql-injection	api_views/users.py	90	login_user	api_views/users.py	86	login_user
+META	xxe	sinks=0	sources=64	sanitizer_specs=0
+META	code-injection	sinks=1	sources=64	sanitizer_specs=0
+META	second_order	writes=4	reads=32	tainted_keys=tmp2|tmp0
+FLOW	sql-injection	api_views/users.py	157	update_email	api_views/users.py	68	register_user	second-order:tmp2
+FLOW	sql-injection	api_views/users.py	157	update_email	api_views/users.py	53	register_user	second-order:tmp2
+FLOW	sql-injection	api_views/users.py	157	update_email	api_views/users.py	65	register_user	second-order:tmp2
+FLOW	sql-injection	api_views/books.py	58	get_by_title	api_views/users.py	68	register_user	second-order:tmp2
+FLOW	sql-injection	api_views/books.py	58	get_by_title	api_views/users.py	53	register_user	second-order:tmp2
+FLOW	sql-injection	api_views/books.py	58	get_by_title	api_views/users.py	65	register_user	second-order:tmp2
+FLOW	sql-injection	api_views/users.py	173	update_email	api_views/users.py	68	register_user	second-order:tmp2
+FLOW	sql-injection	api_views/users.py	173	update_email	api_views/users.py	53	register_user	second-order:tmp2
+FLOW	sql-injection	api_views/users.py	173	update_email	api_views/users.py	65	register_user	second-order:tmp2
+FLOW	sql-injection	api_views/users.py	42	me	api_views/users.py	68	register_user	second-order:tmp2
+FLOW	sql-injection	api_views/users.py	42	me	api_views/users.py	53	register_user	second-order:tmp2
+FLOW	sql-injection	api_views/users.py	42	me	api_views/users.py	65	register_user	second-order:tmp2
+FLOW	sql-injection	api_views/users.py	100	login_user	api_views/users.py	45	get_by_username	second-order:tmp0
+FLOW	sql-injection	api_views/users.py	100	login_user	models/user_model.py	85	register_user	second-order:tmp0

@@ -1,0 +1,1018 @@
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00046.java	50	doPost	MD5
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00070.java	74	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00071.java	74	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00073.java	88	doPost	MD5
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00141.java	64	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00141.java	66	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00223.java	74	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00223.java	76	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00266.java	66	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00266.java	68	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00267.java	62	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00267.java	64	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00268.java	61	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00269.java	61	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00272.java	75	doPost	MD5
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00346.java	53	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00346.java	55	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00371.java	54	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00372.java	54	doPost	MD5
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00462.java	68	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00462.java	70	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00464.java	56	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00465.java	56	doPost	MD5
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00531.java	73	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00531.java	75	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00532.java	83	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00533.java	73	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00534.java	82	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00536.java	68	doPost	MD5
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00537.java	63	doPost	MD5
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00631.java	57	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00631.java	59	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00634.java	61	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00635.java	51	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00636.java	51	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00637.java	56	doPost	MD5
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00703.java	66	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00703.java	68	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00704.java	59	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00704.java	61	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00705.java	57	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00708.java	53	doPost	MD5
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00789.java	80	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00790.java	73	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00794.java	76	doPost	MD5
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00868.java	75	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00868.java	77	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00869.java	74	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00869.java	76	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00870.java	50	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00871.java	55	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00872.java	51	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00961.java	69	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00963.java	69	doPost	MD5
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01038.java	54	doPost	MD5
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01123.java	64	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01165.java	56	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01166.java	56	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01167.java	56	doPost	MD5
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01244.java	54	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01244.java	56	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01246.java	49	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01247.java	49	doPost	MD5
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01333.java	53	doPost	MD5
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01334.java	53	doPost	MD5
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01411.java	63	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01503.java	56	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01503.java	58	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01504.java	51	doPost	MD5
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01577.java	51	doPost	MD5
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01649.java	73	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01650.java	73	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01651.java	73	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01653.java	73	doPost	MD5
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01757.java	55	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01757.java	57	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01761.java	50	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01844.java	74	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01844.java	76	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01845.java	74	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01845.java	76	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01846.java	74	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01846.java	76	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01911.java	59	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01911.java	61	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02042.java	56	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02118.java	54	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02118.java	56	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02211.java	53	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02212.java	53	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02213.java	53	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02217.java	53	doPost	MD5
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02307.java	68	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02307.java	70	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02308.java	63	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02311.java	63	doPost	MD5
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02385.java	56	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02385.java	58	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02386.java	51	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02387.java	51	doPost	MD5
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02388.java	51	doPost	MD5
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02474.java	51	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02475.java	51	doPost	MD5
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02476.java	51	doPost	MD5
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02573.java	73	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02574.java	73	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02575.java	73	doPost	MD5
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02670.java	55	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02670.java	57	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02671.java	55	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02671.java	57	doPost	SHA1
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02674.java	50	doPost	MD5
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02675.java	50	doPost	MD5
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00046.java	50	doPost	literal "MD5"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00070.java	74	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00071.java	74	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00073.java	88	doPost	literal "MD5"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00141.java	64	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00141.java	66	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00223.java	74	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00223.java	76	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00266.java	66	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00266.java	68	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00267.java	62	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00267.java	64	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00268.java	61	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00269.java	61	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00272.java	75	doPost	literal "MD5"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00346.java	53	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00346.java	55	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00371.java	54	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00372.java	54	doPost	literal "MD5"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00462.java	68	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00462.java	70	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00464.java	56	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00465.java	56	doPost	literal "MD5"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00531.java	73	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00531.java	75	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00532.java	83	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00533.java	73	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00534.java	82	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00536.java	68	doPost	literal "MD5"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00537.java	63	doPost	literal "MD5"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00631.java	57	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00631.java	59	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00634.java	61	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00635.java	51	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00636.java	51	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00637.java	56	doPost	literal "MD5"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00703.java	66	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00703.java	68	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00704.java	59	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00704.java	61	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00705.java	57	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00708.java	53	doPost	literal "MD5"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00789.java	80	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00790.java	73	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00794.java	76	doPost	literal "MD5"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00868.java	75	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00868.java	77	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00869.java	74	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00869.java	76	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00870.java	50	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00871.java	55	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00872.java	51	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00961.java	69	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00963.java	69	doPost	literal "MD5"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01038.java	54	doPost	literal "MD5"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01123.java	64	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01165.java	56	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01166.java	56	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01167.java	56	doPost	literal "MD5"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01244.java	54	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01244.java	56	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01246.java	49	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01247.java	49	doPost	literal "MD5"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01333.java	53	doPost	literal "MD5"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01334.java	53	doPost	literal "MD5"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01411.java	63	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01503.java	56	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01503.java	58	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01504.java	51	doPost	literal "MD5"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01577.java	51	doPost	literal "MD5"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01649.java	73	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01650.java	73	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01651.java	73	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01653.java	73	doPost	literal "MD5"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01757.java	55	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01757.java	57	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01761.java	50	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01844.java	74	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01844.java	76	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01845.java	74	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01845.java	76	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01846.java	74	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01846.java	76	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01911.java	59	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01911.java	61	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02042.java	56	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02118.java	54	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02118.java	56	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02211.java	53	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02212.java	53	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02213.java	53	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02217.java	53	doPost	literal "MD5"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02307.java	68	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02307.java	70	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02308.java	63	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02311.java	63	doPost	literal "MD5"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02385.java	56	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02385.java	58	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02386.java	51	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02387.java	51	doPost	literal "MD5"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02388.java	51	doPost	literal "MD5"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02474.java	51	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02475.java	51	doPost	literal "MD5"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02476.java	51	doPost	literal "MD5"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02573.java	73	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02574.java	73	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02575.java	73	doPost	literal "MD5"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02670.java	55	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02670.java	57	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02671.java	55	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02671.java	57	doPost	literal "SHA1"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02674.java	50	doPost	literal "MD5"
+HIT	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02675.java	50	doPost	literal "MD5"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00005.java	66	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00019.java	54	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00020.java	61	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00035.java	69	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00050.java	62	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00053.java	89	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00055.java	82	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00056.java	92	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00057.java	87	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00059.java	83	doPost	literal "AES/ECB/PKCS5Padding"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00119.java	89	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00120.java	73	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00123.java	67	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00124.java	72	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00125.java	67	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00127.java	77	doPost	literal "AES/ECB/PKCS5Padding"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00128.java	72	doPost	literal "AES/ECB/PKCS5Padding"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00129.java	67	doPost	literal "AES/ECB/PKCS5Padding"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00130.java	86	doPost	literal "AES/ECB/PKCS5Padding"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00208.java	82	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00210.java	80	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00213.java	87	doPost	literal "AES/ECB/PKCS5Padding"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00214.java	77	doPost	literal "AES/ECB/PKCS5Padding"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00254.java	78	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00256.java	79	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00257.java	70	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00258.java	69	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00354.java	63	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00355.java	76	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00356.java	61	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00357.java	62	doPost	literal "AES/ECB/PKCS5Padding"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00358.java	63	doPost	literal "AES/ECB/PKCS5Padding"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00445.java	86	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00446.java	71	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00448.java	65	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00449.java	63	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00450.java	86	doPost	literal "AES/ECB/PKCS5Padding"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00451.java	71	doPost	literal "AES/ECB/PKCS5Padding"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00521.java	83	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00522.java	81	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00524.java	96	doPost	literal "AES/ECB/PKCS5Padding"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00608.java	76	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00609.java	68	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00610.java	87	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00611.java	71	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00614.java	74	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00615.java	70	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00616.java	58	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00617.java	59	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00618.java	69	doPost	literal "AES/ECB/PKCS5Padding"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00684.java	66	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00685.java	70	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00688.java	71	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00691.java	74	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00692.java	64	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00693.java	67	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00779.java	86	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00781.java	86	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00853.java	66	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00855.java	73	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00856.java	83	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00857.java	82	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00859.java	62	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00945.java	76	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00946.java	76	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01015.java	69	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01016.java	67	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01017.java	67	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01018.java	67	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01020.java	61	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01021.java	67	doPost	literal "AES/ECB/PKCS5Padding"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01022.java	67	doPost	literal "AES/ECB/PKCS5Padding"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01099.java	79	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01102.java	77	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01103.java	77	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01105.java	71	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01106.java	71	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01107.java	71	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01108.java	77	doPost	literal "AES/ECB/PKCS5Padding"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01148.java	69	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01149.java	69	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01150.java	69	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01153.java	69	doPost	literal "AES/ECB/PKCS5Padding"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01228.java	62	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01229.java	62	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01230.java	56	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01317.java	68	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01318.java	68	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01320.java	66	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01322.java	66	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01323.java	66	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01325.java	60	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01398.java	76	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01401.java	76	doPost	literal "AES/ECB/PKCS5Padding"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01480.java	66	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01483.java	64	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01484.java	64	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01486.java	64	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01489.java	58	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01565.java	64	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01566.java	58	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01567.java	64	doPost	literal "AES/ECB/PKCS5Padding"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01634.java	88	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01637.java	86	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01638.java	86	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01639.java	86	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01641.java	80	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01740.java	57	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01741.java	57	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01742.java	57	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01822.java	84	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01823.java	84	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01829.java	76	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01830.java	76	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01895.java	67	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01897.java	67	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01898.java	67	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01900.java	61	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01901.java	67	doPost	literal "AES/ECB/PKCS5Padding"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01978.java	77	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01980.java	71	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01981.java	71	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01982.java	77	doPost	literal "AES/ECB/PKCS5Padding"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02017.java	71	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02018.java	71	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02019.java	71	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02020.java	69	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02022.java	63	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02023.java	63	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02024.java	69	doPost	literal "AES/ECB/PKCS5Padding"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02101.java	62	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02103.java	62	doPost	literal "AES/ECB/PKCS5Padding"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02192.java	66	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02193.java	66	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02194.java	66	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02195.java	66	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02290.java	76	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02291.java	76	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02292.java	76	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02293.java	76	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02294.java	76	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02295.java	76	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02296.java	76	doPost	literal "AES/ECB/PKCS5Padding"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02297.java	76	doPost	literal "AES/ECB/PKCS5Padding"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02298.java	76	doPost	literal "AES/ECB/PKCS5Padding"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02373.java	64	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02374.java	64	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02375.java	58	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02458.java	66	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02548.java	86	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02549.java	86	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02550.java	86	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02552.java	86	doPost	literal "AES/ECB/PKCS5Padding"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02658.java	65	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02660.java	63	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02661.java	63	doPost	literal "DES"
+HIT	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02663.java	57	doPost	literal "DES"
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00023.java	47	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00078.java	75	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00079.java	73	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00080.java	68	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00081.java	68	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00082.java	69	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00083.java	73	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00084.java	70	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00085.java	73	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00086.java	73	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00160.java	61	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00161.java	59	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00162.java	53	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00163.java	54	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00164.java	58	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00165.java	56	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00166.java	53	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00167.java	60	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00168.java	58	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00230.java	67	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00231.java	68	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00232.java	69	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00233.java	65	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00234.java	69	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00235.java	65	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00236.java	68	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00237.java	82	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00238.java	70	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00239.java	83	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00240.java	65	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00296.java	60	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00297.java	57	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00298.java	60	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00299.java	60	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00347.java	47	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00397.java	50	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00398.java	54	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00399.java	69	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00400.java	67	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00401.java	55	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00402.java	52	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00482.java	53	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00483.java	58	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00484.java	57	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00485.java	54	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00486.java	52	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00487.java	57	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00488.java	62	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00489.java	57	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00490.java	62	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00560.java	67	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00561.java	72	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00562.java	81	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00563.java	62	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00564.java	63	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00652.java	53	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00653.java	55	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00654.java	60	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00733.java	51	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00734.java	69	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00735.java	60	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00817.java	92	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00818.java	75	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00819.java	77	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00898.java	57	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00899.java	68	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00900.java	68	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00901.java	68	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00902.java	54	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00971.java	68	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00972.java	68	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00973.java	68	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00974.java	68	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00975.java	68	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00976.java	68	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01058.java	54	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01059.java	53	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01060.java	53	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01127.java	63	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01128.java	63	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01129.java	63	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01130.java	63	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01131.java	63	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01132.java	63	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01133.java	63	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01183.java	55	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01184.java	55	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01271.java	48	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01272.java	48	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01273.java	48	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01274.java	48	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01275.java	48	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01276.java	48	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01277.java	48	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01278.java	48	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01279.java	48	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01354.java	52	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01355.java	52	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01356.java	52	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01357.java	52	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01358.java	52	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01431.java	62	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01432.java	62	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01433.java	62	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01434.java	62	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01435.java	62	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01518.java	50	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01519.java	50	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01520.java	50	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01602.java	50	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01603.java	50	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01675.java	73	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01676.java	72	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01677.java	72	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01678.java	72	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01679.java	72	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01680.java	72	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01681.java	72	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01781.java	49	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01782.java	49	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01783.java	49	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01784.java	49	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01785.java	49	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01786.java	49	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01787.java	49	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01788.java	49	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01853.java	69	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01854.java	68	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01855.java	68	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01856.java	68	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01857.java	68	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01858.java	68	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01859.java	68	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01860.java	68	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01930.java	53	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01931.java	53	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01932.java	53	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01933.java	53	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01934.java	53	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01999.java	64	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02000.java	64	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02001.java	63	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02002.java	63	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02003.java	63	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02004.java	63	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02060.java	55	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02061.java	55	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02062.java	55	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02063.java	55	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02138.java	49	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02139.java	48	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02140.java	48	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02141.java	48	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02245.java	52	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02246.java	52	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02337.java	62	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02338.java	62	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02415.java	51	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02416.java	50	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02417.java	50	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02418.java	50	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02419.java	50	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02420.java	50	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02421.java	50	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02422.java	50	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02423.java	50	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02424.java	50	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02425.java	50	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02426.java	50	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02497.java	50	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02498.java	50	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02499.java	50	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02500.java	50	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02501.java	50	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02502.java	50	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02503.java	50	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02504.java	50	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02505.java	50	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02506.java	50	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02602.java	73	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02603.java	73	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02604.java	72	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02605.java	72	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02606.java	72	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02700.java	50	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02701.java	50	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02702.java	49	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02703.java	49	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02704.java	49	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02705.java	49	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02706.java	49	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02707.java	49	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02708.java	49	doPost	new java.util.Random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00066.java	73	doPost	java.lang.Math.random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00067.java	89	doPost	java.lang.Math.random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00068.java	73	doPost	java.lang.Math.random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00140.java	63	doPost	java.lang.Math.random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00368.java	48	doPost	java.lang.Math.random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00369.java	51	doPost	java.lang.Math.random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00461.java	52	doPost	java.lang.Math.random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00702.java	57	doPost	java.lang.Math.random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00960.java	68	doPost	java.lang.Math.random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01119.java	63	doPost	java.lang.Math.random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01162.java	55	doPost	java.lang.Math.random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01163.java	55	doPost	java.lang.Math.random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01502.java	50	doPost	java.lang.Math.random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01575.java	50	doPost	java.lang.Math.random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01648.java	72	doPost	java.lang.Math.random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01842.java	68	doPost	java.lang.Math.random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01843.java	68	doPost	java.lang.Math.random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01910.java	53	doPost	java.lang.Math.random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01992.java	63	doPost	java.lang.Math.random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02038.java	55	doPost	java.lang.Math.random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02039.java	55	doPost	java.lang.Math.random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02040.java	55	doPost	java.lang.Math.random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02117.java	48	doPost	java.lang.Math.random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02209.java	52	doPost	java.lang.Math.random()
+HIT	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02473.java	50	doPost	java.lang.Math.random()
+HIT	hardcoded-secret	<empty>	25	<clinit>	SonarReport.SONAR_PASSWORD = <literal>
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00046.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00141.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00223.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00266.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00267.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00268.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00269.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00272.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00346.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00371.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00372.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00462.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00464.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00465.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00531.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00532.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00533.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00534.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00536.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00537.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00631.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00634.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00635.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00636.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00637.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00703.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00704.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00705.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00708.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00789.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00790.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00794.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00868.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00869.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00870.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00871.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00872.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01038.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01123.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01165.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01166.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01167.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01244.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01246.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01247.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01333.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01334.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01411.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01503.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01504.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01577.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01649.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01650.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01651.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01653.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01757.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01761.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01911.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02042.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02118.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02211.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02212.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02213.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02217.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02307.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02308.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02311.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02385.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02386.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02387.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02388.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02474.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02475.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02476.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02573.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02574.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02575.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02670.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02671.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02674.java	35	doGet	doPost
+VIA	weak-hash	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02675.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00005.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00019.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00020.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00035.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00050.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00119.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00120.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00123.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00124.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00125.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00127.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00128.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00129.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00130.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00208.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00210.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00213.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00214.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00254.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00256.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00257.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00258.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00354.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00355.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00356.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00357.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00358.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00445.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00446.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00448.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00449.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00450.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00451.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00521.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00522.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00524.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00608.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00609.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00610.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00611.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00614.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00615.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00616.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00617.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00618.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00684.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00685.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00688.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00691.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00692.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00693.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00779.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00781.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00853.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00855.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00856.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00857.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00859.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01015.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01016.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01017.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01018.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01020.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01021.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01022.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01099.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01102.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01103.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01105.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01106.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01107.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01108.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01148.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01149.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01150.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01153.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01228.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01229.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01230.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01317.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01318.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01320.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01322.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01323.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01325.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01398.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01401.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01480.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01483.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01484.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01486.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01489.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01565.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01566.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01567.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01634.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01637.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01638.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01639.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01641.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01740.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01741.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01742.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01895.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01897.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01898.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01900.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01901.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01978.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01980.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01981.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01982.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02017.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02018.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02019.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02020.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02022.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02023.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02024.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02101.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02103.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02192.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02193.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02194.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02195.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02290.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02291.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02292.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02293.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02294.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02295.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02296.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02297.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02298.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02373.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02374.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02375.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02458.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02548.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02549.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02550.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02552.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02658.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02660.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02661.java	35	doGet	doPost
+VIA	weak-cipher	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02663.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00023.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00160.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00161.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00162.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00163.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00164.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00165.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00166.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00167.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00168.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00230.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00231.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00232.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00233.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00234.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00235.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00236.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00237.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00238.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00239.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00240.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00296.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00297.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00298.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00299.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00347.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00397.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00398.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00399.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00400.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00401.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00402.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00482.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00483.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00484.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00485.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00486.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00487.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00488.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00489.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00490.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00560.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00561.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00562.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00563.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00564.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00652.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00653.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00654.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00733.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00734.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00735.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00817.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00818.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00819.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00898.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00899.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00900.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00901.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00902.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01058.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01059.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01060.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01127.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01128.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01129.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01130.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01131.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01132.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01133.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01183.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01184.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01271.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01272.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01273.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01274.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01275.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01276.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01277.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01278.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01279.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01354.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01355.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01356.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01357.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01358.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01431.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01432.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01433.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01434.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01435.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01518.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01519.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01520.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01602.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01603.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01675.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01676.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01677.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01678.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01679.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01680.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01681.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01781.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01782.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01783.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01784.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01785.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01786.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01787.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01788.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01930.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01931.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01932.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01933.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01934.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01999.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02000.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02001.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02002.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02003.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02004.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02060.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02061.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02062.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02063.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02138.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02139.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02140.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02141.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02245.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02246.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02337.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02338.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02415.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02416.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02417.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02418.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02419.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02420.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02421.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02422.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02423.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02424.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02425.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02426.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02497.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02498.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02499.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02500.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02501.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02502.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02503.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02504.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02505.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02506.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02602.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02603.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02604.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02605.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02606.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02700.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02701.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02702.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02703.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02704.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02705.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02706.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02707.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02708.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00140.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00368.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00369.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00461.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00702.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01119.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01162.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01163.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01502.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01575.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01648.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01910.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01992.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02038.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02039.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02040.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02117.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02209.java	35	doGet	doPost
+VIA	weak-random	src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02473.java	35	doGet	doPost

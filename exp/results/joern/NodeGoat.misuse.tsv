@@ -1,0 +1,18 @@
+HIT	weak-random	app/data/user-dao.js	51	<lambda>3	Math.random()
+HIT	weak-random	app/data/user-dao.js	52	<lambda>3	Math.random()
+HIT	weak-random	app/data/user-dao.js	53	<lambda>3	Math.random()
+HIT	weak-random	app/routes/session.js	16	prepareUserData	Math.random()
+HIT	weak-random	app/routes/session.js	17	prepareUserData	Math.random()
+HIT	weak-random	artifacts/db-reset.js	113	<lambda>10	Math.random()
+HIT	weak-random	artifacts/db-reset.js	114	<lambda>10	Math.random()
+HIT	hardcoded-secret	app/routes/session.js	61	<lambda>7	invalidPasswordErrorMessage = <literal>
+HIT	hardcoded-secret	artifacts/db-reset.js	18	:program	_tmp_3.password = <literal>
+HIT	hardcoded-secret	artifacts/db-reset.js	27	:program	_tmp_4.password = <literal>
+HIT	hardcoded-secret	artifacts/db-reset.js	35	:program	_tmp_5.password = <literal>
+HIT	hardcoded-secret	config/env/all.js	8	:program	_tmp_0.cookieSecret = <literal>
+HIT	hardcoded-secret	config/env/development.js	6	:program	_tmp_0.zapApiKey = <literal>
+HIT	insecure-session	server.js	78	<lambda>0	session({
+        // genid: (req) => {
+        //    return genuuid() 
+HIT	csrf-missing	server.js	72	<lambda>0	no (?i)^(csrf|csurf|lusca|csrfProtection|xsrf)$ middleware anywhere
+VIA	weak-random	app/routes/session.js	225	<lambda>14	prepareUserData

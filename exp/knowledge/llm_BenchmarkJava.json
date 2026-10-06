@@ -1,0 +1,661 @@
+{
+ "_about": "LLM-proposed specs (nvidia.nemotron-nano-3-30b); classified_by=llm; candidate-level, validated against the candidate list",
+ "model": "nvidia.nemotron-nano-3-30b",
+ "candidates": 264,
+ "stats": {
+  "batches_failed": 0,
+  "malformed": 0,
+  "invalid": 2,
+  "accepted": 50,
+  "none": 213
+ },
+ "sources": {
+  "*": [
+   {
+    "kind": "call",
+    "name": "getParameter",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "javax.servlet.http.HttpServletRequest.getParameter"
+   },
+   {
+    "kind": "call",
+    "name": "getResourceAsStream",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "<unresolvedNamespace>.getResourceAsStream"
+   },
+   {
+    "kind": "call",
+    "name": "getInputStream",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "javax.servlet.http.HttpServletRequest.getInputStream"
+   }
+  ]
+ },
+ "sinks": {
+  "xss": [
+   {
+    "kind": "call",
+    "name": "println",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "<unresolvedNamespace>.println"
+   },
+   {
+    "kind": "call",
+    "name": "printf",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "<unresolvedNamespace>.printf"
+   },
+   {
+    "kind": "call",
+    "name": "write",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "java.io.PrintWriter.write",
+    "mfn": "java\\.io\\.PrintWriter\\.write.*"
+   },
+   {
+    "kind": "call",
+    "name": "format",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "<unresolvedNamespace>.format"
+   },
+   {
+    "kind": "call",
+    "name": "writeValueAsString",
+    "recv": "objectMapper",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "<unresolvedNamespace>.writeValueAsString"
+   },
+   {
+    "kind": "call",
+    "name": "getInputStream",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "java.net.HttpURLConnection.getInputStream",
+    "mfn": "java\\.net\\.HttpURLConnection\\.getInputStream.*"
+   }
+  ],
+  "sql-injection": [
+   {
+    "kind": "call",
+    "name": "encodeForHTML",
+    "recv": "ESAPI",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "<unresolvedNamespace>.encodeForHTML"
+   },
+   {
+    "kind": "call",
+    "name": "executeQuery",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "java.sql.CallableStatement.executeQuery",
+    "mfn": "java\\.sql\\.CallableStatement\\.executeQuery.*"
+   },
+   {
+    "kind": "call",
+    "name": "batchUpdate",
+    "recv": "JDBCtemplate",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "<unresolvedNamespace>.batchUpdate"
+   },
+   {
+    "kind": "call",
+    "name": "queryForObject",
+    "recv": "JDBCtemplate",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "<unresolvedNamespace>.queryForObject"
+   },
+   {
+    "kind": "call",
+    "name": "executeUpdate",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "java.sql.Statement.executeUpdate",
+    "mfn": "java\\.sql\\.Statement\\.executeUpdate.*"
+   },
+   {
+    "kind": "call",
+    "name": "execute",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "java.sql.Statement.execute",
+    "mfn": "java\\.sql\\.Statement\\.execute.*"
+   },
+   {
+    "kind": "call",
+    "name": "queryForList",
+    "recv": "JDBCtemplate",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "<unresolvedNamespace>.queryForList"
+   },
+   {
+    "kind": "call",
+    "name": "execute",
+    "recv": "JDBCtemplate",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "<unresolvedNamespace>.execute"
+   },
+   {
+    "kind": "call",
+    "name": "getString",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "<unresolvedNamespace>.java.sql.ResultSet.getString"
+   },
+   {
+    "kind": "call",
+    "name": "query",
+    "recv": "JDBCtemplate",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "<unresolvedNamespace>.query"
+   },
+   {
+    "kind": "call",
+    "name": "queryForMap",
+    "recv": "JDBCtemplate",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "<unresolvedNamespace>.queryForMap"
+   },
+   {
+    "kind": "call",
+    "name": "getString",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "<unresolvedNamespace>.getString"
+   },
+   {
+    "kind": "call",
+    "name": "queryForRowSet",
+    "recv": "JDBCtemplate",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "<unresolvedNamespace>.queryForRowSet"
+   },
+   {
+    "kind": "call",
+    "name": "executeQuery",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "java.sql.Statement.executeQuery",
+    "mfn": "java\\.sql\\.Statement\\.executeQuery.*"
+   },
+   {
+    "kind": "call",
+    "name": "getString",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "java.sql.ResultSet.getString",
+    "mfn": "java\\.sql\\.ResultSet\\.getString.*"
+   },
+   {
+    "kind": "call",
+    "name": "close",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "java.sql.Connection.close",
+    "mfn": "java\\.sql\\.Connection\\.close.*"
+   },
+   {
+    "kind": "call",
+    "name": "readValue",
+    "recv": "objectMapper",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "com.fasterxml.jackson.databind.ObjectMapper.readValue"
+   },
+   {
+    "kind": "call",
+    "name": "commit",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "java.sql.Connection.commit",
+    "mfn": "java\\.sql\\.Connection\\.commit.*"
+   },
+   {
+    "kind": "call",
+    "name": "getResultSet",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "java.sql.Statement.getResultSet",
+    "mfn": "java\\.sql\\.Statement\\.getResultSet.*"
+   },
+   {
+    "kind": "call",
+    "name": "createStatement",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "java.sql.Connection.createStatement",
+    "mfn": "java\\.sql\\.Connection\\.createStatement.*"
+   },
+   {
+    "kind": "call",
+    "name": "getConnection",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "java.sql.DriverManager.getConnection",
+    "mfn": "java\\.sql\\.DriverManager\\.getConnection.*"
+   },
+   {
+    "kind": "call",
+    "name": "createQuery",
+    "recv": "classicSession",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "<unresolvedNamespace>.org.hibernate.classic.Session.createQuery"
+   },
+   {
+    "kind": "call",
+    "name": "getConnection",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "javax.sql.DataSource.getConnection",
+    "mfn": "javax\\.sql\\.DataSource\\.getConnection.*"
+   }
+  ],
+  "command-injection": [
+   {
+    "kind": "call",
+    "name": "exec",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "java.lang.Runtime.exec",
+    "mfn": "java\\.lang\\.Runtime\\.exec.*"
+   },
+   {
+    "kind": "call",
+    "name": "command",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "java.lang.ProcessBuilder.command",
+    "mfn": "java\\.lang\\.ProcessBuilder\\.command.*"
+   },
+   {
+    "kind": "call",
+    "name": "getInputStream",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "java.lang.Process.getInputStream",
+    "mfn": "java\\.lang\\.Process\\.getInputStream.*"
+   },
+   {
+    "kind": "call",
+    "name": "getErrorStream",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "java.lang.Process.getErrorStream",
+    "mfn": "java\\.lang\\.Process\\.getErrorStream.*"
+   },
+   {
+    "kind": "call",
+    "name": "stop",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "org.apache.directory.server.ldap.LdapServer.stop"
+   }
+  ],
+  "xxe": [
+   {
+    "kind": "call",
+    "name": "parse",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "javax.xml.parsers.DocumentBuilder.parse",
+    "mfn": "javax\\.xml\\.parsers\\.DocumentBuilder\\.parse.*"
+   }
+  ],
+  "xpath-injection": [
+   {
+    "kind": "call",
+    "name": "evaluate",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "javax.xml.xpath.XPathExpression.evaluate",
+    "mfn": "javax\\.xml\\.xpath\\.XPathExpression\\.evaluate.*"
+   },
+   {
+    "kind": "call",
+    "name": "evaluate",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "javax.xml.xpath.XPath.evaluate",
+    "mfn": "javax\\.xml\\.xpath\\.XPath\\.evaluate.*"
+   }
+  ],
+  "path-traversal": [
+   {
+    "kind": "call",
+    "name": "getAbsolutePath",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "java.io.File.getAbsolutePath",
+    "mfn": "java\\.io\\.File\\.getAbsolutePath.*"
+   },
+   {
+    "kind": "call",
+    "name": "addPartition",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "org.apache.directory.server.core.api.DirectoryService.addPartition"
+   }
+  ],
+  "ldap-injection": [
+   {
+    "kind": "call",
+    "name": "start",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "org.apache.directory.server.ldap.LdapServer.start"
+   },
+   {
+    "kind": "call",
+    "name": "lookup",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "javax.naming.InitialContext.lookup",
+    "mfn": "javax\\.naming\\.InitialContext\\.lookup.*"
+   },
+   {
+    "kind": "call",
+    "name": "add",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "org.apache.directory.api.ldap.model.entry.Entry.add"
+   },
+   {
+    "kind": "call",
+    "name": "getOidByName",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "<unresolvedNamespace>.getOidByName"
+   },
+   {
+    "kind": "call",
+    "name": "encodeForLDAP",
+    "recv": "ESAPI_Encoder",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "org.owasp.esapi.Encoder.encodeForLDAP"
+   }
+  ],
+  "code-injection": [
+   {
+    "kind": "call",
+    "name": "newInstance",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "java.lang.reflect.Constructor.newInstance",
+    "mfn": "java\\.lang\\.reflect\\.Constructor\\.newInstance.*"
+   }
+  ]
+ },
+ "sanitizers": {
+  "xss": [
+   {
+    "kind": "call",
+    "name": "escapeHtml",
+    "recv": "StringEscapeUtils",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "<unresolvedNamespace>.escapeHtml"
+   },
+   {
+    "kind": "call",
+    "name": "encoder",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "org.owasp.esapi.ESAPI.encoder"
+   }
+  ]
+ }
+}

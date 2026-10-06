@@ -174,3 +174,8 @@ ldap 4/0, 2/0; deserialization 2/0, 1/0; code 1/0; xxe 0/3, 0/4; xss 0/24, 0/11.
   Java app) is the clean test, and the LLM specs should be generated there from scratch.
 - One LLM, one run, temperature 0; not repeated, so run-to-run variation is unmeasured.
 - Joern gets the LLM's verdict only through the data file; the LLM never decides whether a flow is a bug, and nothing here was exploit-confirmed. "Fixed" is 0.
+
+---
+**Correction (added after parts 1-3):** the VulnerableApp scorer originally omitted PATH_TRAVERSAL and OPEN_REDIRECT, so "in scope = 52" was too small. With them the scope is 75 vulnerable and 38 secure levels,
+and the corrected results are: K 10/75, H 46/75 (FPR 58%), M 10/75 (FPR 8%), hybrid 23/75 (FPR 13%), hybrid pooled 30/75 (FPR 21%). The ranking in parts 1-3 stands; the absolute recall figures there
+(88.5%, 33%, 46%) are overstated. See `GAP_ANALYSIS.md`.

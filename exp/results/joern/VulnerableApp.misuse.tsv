@@ -1,0 +1,87 @@
+HIT	weak-hash	src/main/java/org/sasanlabs/service/vulnerability/authentication/AuthLoginService.java	109	authenticateInternal	literal "MD5"
+HIT	weak-hash	src/main/java/org/sasanlabs/service/vulnerability/authentication/AuthLoginService.java	112	authenticateInternal	literal "SHA-1"
+HIT	weak-hash	src/main/java/org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java	183	level4Md5	literal "MD5"
+HIT	weak-hash	src/main/java/org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java	221	level5Sha1	literal "SHA-1"
+HIT	weak-hash	src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java	66	seed	literal "MD4"
+HIT	weak-hash	src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java	69	seed	literal "MD5"
+HIT	weak-hash	src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java	73	seed	literal "SHA-1"
+HIT	weak-hash	src/main/java/org/sasanlabs/service/vulnerability/authentication/AuthLoginService.java	108	authenticateInternal	token MD5
+HIT	weak-hash	src/main/java/org/sasanlabs/service/vulnerability/authentication/AuthLoginService.java	111	authenticateInternal	token SHA1
+HIT	weak-hash	src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java	44	md4Hex	token HashAlgorithm.MD4
+HIT	weak-hash	src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java	48	md5Hex	token HashAlgorithm.MD5
+HIT	weak-hash	src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java	52	sha1Hex	token HashAlgorithm.SHA1
+HIT	weak-cipher	src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java	151	lmDesEncrypt	DES
+HIT	weak-cipher	src/main/java/org/sasanlabs/internal/utility/EncryptionUtils.java	88	encrypt	literal "AES/ECB/PKCS5Padding"
+HIT	weak-cipher	src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java	151	lmDesEncrypt	literal "DES"
+HIT	weak-cipher	src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java	150	lmDesEncrypt	token des
+HIT	weak-cipher	src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java	151	lmDesEncrypt	token des
+HIT	weak-cipher	src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java	152	lmDesEncrypt	token des
+HIT	weak-random	<empty>	57	<clinit>	new Random(new Date().getTime())
+HIT	weak-random	src/main/java/org/sasanlabs/service/vulnerability/otp/OTPService.java	118	requestOTPLevel1	new Random()
+HIT	weak-random	src/main/java/org/sasanlabs/service/vulnerability/otp/OTPService.java	149	requestOTPLevel2	new Random(seed)
+HIT	weak-random	src/main/java/org/sasanlabs/service/vulnerability/passwordReset/PasswordResetService.java	56	<init>	new Random()
+HIT	jwt-unverified	src/main/java/org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java	100	customHMACNoneAlgorithmVulnerableValidator	Base64.getUrlDecoder().decode(jwtParts[0].getBytes(StandardCharsets.UT
+HIT	jwt-unverified	src/main/java/org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java	147	confusionAlgorithmVulnerableValidator	Base64.getUrlDecoder().decode(jwtParts[0].getBytes(StandardCharsets.UT
+HIT	jwt-unverified	src/main/java/org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java	218	customHMACEmptyTokenVulnerableValidator	Base64.getUrlDecoder().decode(jwtParts[0].getBytes(StandardCharsets.UT
+HIT	jwt-unverified	src/main/java/org/sasanlabs/service/vulnerability/jwt/impl/LibBasedJWTGenerator.java	101	getJWTToken_RS256	parse(Base64URL.from(jwtParts[0]))
+HIT	cookie-flags	src/main/java/org/sasanlabs/service/vulnerability/idor/IDORLoginController.java	132	setUserIdCookie	new Cookie(COOKIE_USER_ID_LEVEL_2, String.valueOf(userId))
+HIT	cookie-flags	src/main/java/org/sasanlabs/service/vulnerability/idor/IDORLoginController.java	141	setRoleCookie	new Cookie(COOKIE_ROLE_LEVEL_3, role)
+HIT	cookie-flags	src/main/java/org/sasanlabs/service/vulnerability/idor/IDORLoginController.java	157	setEncodedRoleCookie	new Cookie(cookieName, encodedRole)
+HIT	cookie-flags	src/main/java/org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationCookieController.java	47	saveLevel1	setCookie(InsecureDeserializationVulnerability.PREFERENCES_COOKIE_LEVE
+HIT	cookie-flags	src/main/java/org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationCookieController.java	74	startSessionLevel2	setCookie(InsecureDeserializationVulnerability.SESSION_COOKIE_LEVEL_2,
+HIT	cookie-flags	src/main/java/org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationCookieController.java	101	startSessionLevel3	setCookie(InsecureDeserializationVulnerability.SESSION_COOKIE_LEVEL_3,
+HIT	cookie-flags	src/main/java/org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationCookieController.java	119	saveLevel4	setCookie(InsecureDeserializationVulnerability.ACTIVITY_COOKIE_LEVEL_4
+HIT	header-misconfig	src/main/java/org/sasanlabs/service/vulnerability/clickjacking/ClickjackingVulnerability.java	92	xFrameOptionsAllowAll	X-Frame-Options=ALLOWALL
+HIT	header-misconfig	src/main/java/org/sasanlabs/configuration/PasswordResetReferrerPolicyFilter.java	29	doFilterInternal	Referrer-Policy=unsafe-url
+HIT	hardcoded-secret	<empty>	21	<clinit>	PasswordResetReferrerPolicyFilter.RESET_ = <literal>
+HIT	hardcoded-secret	<empty>	23	<clinit>	EmailServiceImpl.RESET_PASSWORD_PATH = <literal>
+HIT	hardcoded-secret	src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java	84	seed	level10Secret = <literal>
+HIT	hardcoded-secret	<empty>	65	<clinit>	JWTUtils.BEGIN_PRIVATE_KEY_TOKEN = <literal>
+HIT	hardcoded-secret	<empty>	67	<clinit>	JWTUtils.END_PRIVATE_KEY_TOKEN = <literal>
+HIT	hardcoded-secret	<empty>	41	<clinit>	JWTAlgorithmKMS.KEY_STORE_PASSWORD = <literal>
+HIT	hardcoded-secret	<empty>	11	<clinit>	PasswordResetSeeder.PASSWORD_CHARSET = <literal>
+HIT	hardcoded-secret	<empty>	39	<clinit>	PasswordResetService.GENERIC_EMAIL_MESSA = <literal>
+HIT	hardcoded-secret	<empty>	41	<clinit>	PasswordResetService.INVALID_TOKEN_MESSA = <literal>
+HIT	hardcoded-secret	<empty>	42	<clinit>	PasswordResetService.RATE_LIMITED_MESSAG = <literal>
+VIA	weak-hash	src/main/java/org/sasanlabs/service/vulnerability/authentication/AuthLoginService.java	78	authenticate	authenticateInternal
+VIA	weak-hash	src/main/java/org/sasanlabs/service/vulnerability/authentication/AuthLoginService.java	83	authenticateWithEnumeration	authenticateInternal
+VIA	weak-hash	src/main/java/org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java	139	level3Plaintext	authenticateInternal
+VIA	weak-hash	src/main/java/org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java	177	level4Md5	authenticateInternal
+VIA	weak-hash	src/main/java/org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java	215	level5Sha1	authenticateInternal
+VIA	weak-hash	src/main/java/org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java	254	level6Sha256NoSalt	authenticateInternal
+VIA	weak-hash	src/main/java/org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java	332	level8WeakPassword	authenticateInternal
+VIA	weak-hash	src/main/java/org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java	355	level9Secure	authenticateInternal
+VIA	weak-hash	src/main/java/org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java	396	level10LowIterationHashing	authenticateInternal
+VIA	weak-hash	src/main/java/org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java	293	level7UsernameEnumeration	authenticateInternal
+VIA	weak-hash	src/main/java/org/sasanlabs/configuration/DatabaseSeeder.java	33	seedAllModules	seed
+VIA	weak-hash	src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java	303	getVulnerablePayloadLevel5	md4Hex
+VIA	weak-hash	src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java	66	seed	md4Hex
+VIA	weak-hash	src/main/java/org/sasanlabs/configuration/DatabaseSeeder.java	33	seedAllModules	md4Hex
+VIA	weak-hash	src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java	359	getVulnerablePayloadLevel6	md5Hex
+VIA	weak-hash	src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java	69	seed	md5Hex
+VIA	weak-hash	src/main/java/org/sasanlabs/configuration/DatabaseSeeder.java	33	seedAllModules	md5Hex
+VIA	weak-hash	src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java	415	getVulnerablePayloadLevel7	sha1Hex
+VIA	weak-hash	src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java	73	seed	sha1Hex
+VIA	weak-hash	src/main/java/org/sasanlabs/configuration/DatabaseSeeder.java	33	seedAllModules	sha1Hex
+VIA	weak-cipher	src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java	127	lmHash	lmDesEncrypt
+VIA	weak-cipher	src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java	470	getSecurePayloadLevel5	lmDesEncrypt
+VIA	weak-cipher	src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java	76	seed	lmDesEncrypt
+VIA	weak-cipher	src/main/java/org/sasanlabs/configuration/DatabaseSeeder.java	33	seedAllModules	lmDesEncrypt
+VIA	weak-cipher	src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java	590	getSecurePayloadLevel10	encrypt
+VIA	weak-cipher	src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java	86	seed	encrypt
+VIA	weak-cipher	src/main/java/org/sasanlabs/configuration/DatabaseSeeder.java	33	seedAllModules	encrypt
+VIA	weak-random	src/main/java/org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java	54	level1RequestOTP	requestOTPLevel1
+VIA	weak-random	src/main/java/org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java	91	level2RequestOTP	requestOTPLevel2
+VIA	jwt-unverified	src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java	456	getVulnerablePayloadLevelUnsecure6CookieBased	customHMACNoneAlgorithmVulnerableValidator
+VIA	jwt-unverified	src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java	519	getVulnerablePayloadLevelUnsecure7CookieBased	customHMACNoneAlgorithmVulnerableValidator
+VIA	jwt-unverified	src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java	589	getVulnerablePayloadLevelUnsecure8CookieBased	confusionAlgorithmVulnerableValidator
+VIA	jwt-unverified	src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java	734	getVulnerablePayloadLevelUnsecure10CookieBased	customHMACEmptyTokenVulnerableValidator
+VIA	jwt-unverified	src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java	607	getVulnerablePayloadLevelUnsecure8CookieBased	getJWTToken_RS256
+VIA	jwt-unverified	src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java	817	getVulnerablePayloadLevelUnsecure11CookieBased	getJWTToken_RS256
+VIA	jwt-unverified	src/main/java/org/sasanlabs/service/vulnerability/jwt/impl/LibBasedJWTGenerator.java	127	getJWTTokenWithJWKHeader_RS256	getJWTToken_RS256
+VIA	jwt-unverified	src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java	679	getVulnerablePayloadLevelUnsecure9CookieBased	getJWTToken_RS256
+VIA	jwt-unverified	src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java	881	getHeaderInjectionVulnerability	getJWTToken_RS256
+VIA	cookie-flags	src/main/java/org/sasanlabs/service/vulnerability/idor/IDORLoginController.java	66	level2Login	setUserIdCookie
+VIA	cookie-flags	src/main/java/org/sasanlabs/service/vulnerability/idor/IDORLoginController.java	82	level3Login	setRoleCookie
+VIA	cookie-flags	src/main/java/org/sasanlabs/service/vulnerability/idor/IDORLoginController.java	98	level4Login	setEncodedRoleCookie
+VIA	hardcoded-secret	src/main/java/org/sasanlabs/configuration/DatabaseSeeder.java	33	seedAllModules	seed

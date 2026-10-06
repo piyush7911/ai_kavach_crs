@@ -1,0 +1,3 @@
+{"sources":{"xss":[{"kind":"call","name":"taintSource","recv":null,"type":null,"ctor":false,"arg":null}]},
+ "sinks":{"xss":[{"kind":"call","name":"sink","recv":null,"type":null,"ctor":false,"arg":0}]},
+ "sanitizers":{"xss":[]}}
