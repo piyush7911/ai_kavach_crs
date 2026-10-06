@@ -61,6 +61,21 @@ SECURITY_PROFILE = {
     "user-enumeration": ("InfoDisclosure", "EASY", "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"),
     "mass-assignment": ("ElevationOfPrivilege", "MEDIUM", "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N"),
     "insecure-deserialization": ("ElevationOfPrivilege", "EASY", "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"),
+    # live/HTTP deterministic classes (language-agnostic PROVE stage) — facts or replayed exploits, FP-safe
+    "clickjacking": ("Tampering", "MEDIUM", "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"),
+    "cookie-flags": ("InfoDisclosure", "MEDIUM", "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:N/A:N"),
+    "cookie-samesite": ("Spoofing", "LOW", "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:L/A:N"),
+    "cors-misconfig": ("InfoDisclosure", "MEDIUM", "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:N/A:N"),
+    "host-header-reflection": ("Spoofing", "MEDIUM", "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N"),
+    "header-injection": ("Tampering", "MEDIUM", "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:N"),
+    "no-rate-limit": ("DenialOfService", "EASY", "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"),
+    "predictable-session-id": ("Spoofing", "MEDIUM", "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"),
+    "jwt-none-alg": ("Spoofing", "EASY", "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"),
+    "jwt-weak-secret": ("Spoofing", "EASY", "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"),
+    "jwt-no-expiry": ("Spoofing", "MEDIUM", "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N"),
+    "csrf-missing": ("Tampering", "MEDIUM", "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:N"),
+    "sensitive-data-exposure": ("InfoDisclosure", "EASY", "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"),
+    "xss-reflected": ("Tampering", "MEDIUM", "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N"),
 }
 
 

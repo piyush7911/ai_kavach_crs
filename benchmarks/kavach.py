@@ -145,6 +145,10 @@ def main(argv=None) -> int:
                          "community corpus for breadth, else our taint rules)")
     ap.add_argument("--opengrep-rules", default="", help="rules file/dir for --opengrep (override the default)")
     ap.add_argument("--joern", help="a Joern taint TSV (cross-file flows) to ingest as candidates")
+    ap.add_argument("--live", action="store_true",
+                    help="run the language-agnostic live HTTP PROVE oracles (headers/cookies/CORS/JWT/"
+                         "rate-limit/enumeration/reflected-XSS/redirect); needs --url")
+    ap.add_argument("--routes", help="a route-map JSON (route_map.py output) to drive --live + confirm")
     ap.add_argument("--nuclei", help="a Nuclei JSONL report to ingest + confirm")
     ap.add_argument("--llm-surface", action="store_true",
                     help="plan 010 Slice A: let the LLM read HTML/JS and propose routes+params (needs "
@@ -181,6 +185,22 @@ def main(argv=None) -> int:
         if cov["attack_gap"]:
             print("[coverage] attack-gap > 0 → NOT 'clean'; this is where the LLM fallback (plan 010) will engage")
         findings += d
+
+    if args.live and args.url:                         # language-agnostic HTTP PROVE oracles (FP-safe facts/replays)
+        import json as _json
+        from src.pyauto.live_probes import live_confirm
+        pu = urlparse(args.url.rstrip("/"))
+        origin, ctx_path = f"{pu.scheme}://{pu.netloc}", pu.path.rstrip("/")
+        if args.routes:                                # a framework route map (any language) drives the oracles best
+            rmap = _json.load(open(args.routes)).get("routes", [])
+        else:                                          # else fall back to what dynamic discovery found
+            rmap = [{"method": r.method, "path": r.path, "file": "", "function": "", "param_annotations": [],
+                     "params": list(r.query_fields) + list(r.path_params) + list(r.body_fields),
+                     "body": bool(r.body_fields)} for r in routes]
+        lf = live_confirm(origin, rmap, ctx=ctx_path)
+        from collections import Counter as _C
+        print(f"[live] {len(lf)} CONFIRMED via language-agnostic HTTP oracles {dict(_C(f.klass for f in lf))}")
+        findings += lf
 
     # confirmable scanners: ingest their alerts, then re-test each with our oracle (real -> confirmed)
     from benchmarks.scanners.nuclei import findings_from_nuclei
