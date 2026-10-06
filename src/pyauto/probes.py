@@ -614,6 +614,33 @@ def probe(routes: list[Route], ctx: ProbeCtx) -> list[Finding]:
     return found
 
 
+def _is_exercised(r: Route) -> bool:
+    """Does at least one oracle family send a request to this route? (A route with no carrier and no
+    collection-read shape is 'examined but not exercised' — surface we saw but could not attack.)"""
+    has_carrier = bool(r.path_params or r.query_fields or r.body_fields)
+    is_collection_read = r.method == "GET" and not r.path_params        # data-exposure target
+    import re as _re
+    is_login = r.method == "POST" and "password" in r.body_fields and bool(_re.search(r"log[_-]?in|signin|auth", r.path, _re.I))
+    return has_carrier or is_collection_read or is_login
+
+
+def coverage(routes: list[Route], findings: list = None) -> dict:
+    """Honest coverage of a dynamic run: how much surface we SAW vs actually EXERCISED (sent a request to)
+    vs CONFIRMED. 'Zero findings is never safe' — a big unexercised gap means the surface out-ran our
+    probes (the signal that should trigger the LLM fallback), not that the app is clean."""
+    findings = findings or []
+    examined = len(routes)
+    exercised = [r for r in routes if _is_exercised(r)]
+    confirmed_routes = {f.evidence.get("route") for f in findings if getattr(f, "status", "") == "confirmed"}
+    return {
+        "routes_examined": examined,
+        "routes_exercised": len(exercised),
+        "routes_unexercised": examined - len(exercised),   # surface seen but not attacked = the gap
+        "routes_confirmed_a_bug": len(confirmed_routes),
+        "coverage_pct": round(100 * len(exercised) / examined, 1) if examined else 0.0,
+    }
+
+
 def _log_exclusions(routes: list[Route]) -> None:
     """Audit line: how many (route, class) pairs the pre-probe policy skips, so no live request is spent
     on them. Satisfies the RoE's 'keep a record of what was and was not probed'."""

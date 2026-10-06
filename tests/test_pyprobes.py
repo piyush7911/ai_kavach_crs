@@ -225,3 +225,19 @@ def test_confirm_candidates_promotes_only_when_oracle_fires(monkeypatch):
     P.confirm_candidates([real, fp], _Recorder())
     assert real.status == "confirmed" and real.exploit == {"differential": {}}
     assert fp.status == "candidate" and fp.exploit is None
+
+
+def test_coverage_examined_vs_exercised():
+    from src.pyauto.probes import coverage, Route
+    routes = [
+        Route("GET", "/users"),                               # collection read -> exercised
+        Route("GET", "/u/{id}", path_params=["id"]),          # carrier -> exercised
+        Route("POST", "/login", body_fields=["username", "password"]),  # login-shape -> exercised
+        Route("GET", "/static/logo.png"),                     # bare GET -> data-exposure sends -> exercised
+        Route("POST", "/webhook"),                            # no fields, not login -> NOT exercised
+    ]
+    cov = coverage(routes, [])
+    assert cov["routes_examined"] == 5
+    assert cov["routes_exercised"] == 4                       # the lone POST /webhook is the only gap
+    assert cov["routes_unexercised"] == 1
+    assert cov["coverage_pct"] == 80.0

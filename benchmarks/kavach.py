@@ -48,7 +48,7 @@ def _static(stack: str, target: Path) -> list[Finding]:
     return []
 
 
-def _dynamic(url: str, zap_report: str | None = None, nuclei_report: str | None = None) -> list[Finding]:
+def _dynamic(url: str, zap_report: str | None = None, nuclei_report: str | None = None) -> tuple:
     from src.pyauto.probes import (ProbeCtx, enrich_routes, mine_params, probe,
                                    routes_from_crawl, routes_from_sitemap, Route)
     pu = urlparse(url.rstrip("/"))
@@ -74,7 +74,9 @@ def _dynamic(url: str, zap_report: str | None = None, nuclei_report: str | None 
     ctx = ProbeCtx(origin, auth={}, reseed=None)
     mine_params(origin, routes, ctx)                   # routes that already have params (from ZAP) are skipped
     enrich_routes(routes, ctx)
-    return probe(routes, ctx)
+    from src.pyauto.probes import coverage
+    found = probe(routes, ctx)
+    return found, coverage(routes, found)
 
 
 def main(argv=None) -> int:
@@ -98,10 +100,15 @@ def main(argv=None) -> int:
             s = _static(stack, target)
             print(f"[static] {len(s)} candidate(s)")
             findings += s
+    cov = None
     if args.url:
         print(f"[dynamic] discovering + confirming on {args.url} ...")
-        d = _dynamic(args.url, zap_report=args.zap, nuclei_report=args.nuclei)
+        d, cov = _dynamic(args.url, zap_report=args.zap, nuclei_report=args.nuclei)
         print(f"[dynamic] {len(d)} CONFIRMED")
+        print(f"[coverage] examined {cov['routes_examined']} routes, exercised {cov['routes_exercised']} "
+              f"({cov['coverage_pct']}%), {cov['routes_unexercised']} unexercised (surface seen, not attacked)")
+        if cov["routes_unexercised"]:
+            print("[coverage] gap present → not 'clean'; this is where the LLM fallback (plan 010) will engage")
         findings += d
 
     # confirmable scanners: ingest their alerts, then re-test each with our oracle (real -> confirmed)
@@ -132,7 +139,7 @@ def main(argv=None) -> int:
         print(f"  [{f.status:9}] {f.klass:24} {f.source:7} {where}")
     if args.out:
         from src.jsauto.findings import dump
-        dump(findings, args.out)
+        dump(findings, args.out, {"coverage": cov} if cov else None)
         print(f"wrote {args.out}")
     return 0
 
