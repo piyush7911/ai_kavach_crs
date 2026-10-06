@@ -95,6 +95,12 @@ def main(argv=None) -> int:
         from benchmarks.scanners.zap import findings_from_zap
         z = findings_from_zap(args.zap)
         print(f"[zap] {len(z)} candidate(s) ingested")
+        if args.url:                                   # re-test ZAP's alerts with our own oracle
+            from src.pyauto.probes import ProbeCtx, confirm_candidates
+            pu = urlparse(args.url.rstrip("/"))
+            confirm_candidates(z, ProbeCtx(f"{pu.scheme}://{pu.netloc}", auth={}, reseed=None))
+            print(f"[zap] {sum(1 for f in z if f.status == 'confirmed')} confirmed by our oracle, "
+                  f"{sum(1 for f in z if f.status != 'confirmed')} left candidate")
         findings += z
 
     confirmed = [f for f in findings if f.status == "confirmed"]

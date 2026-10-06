@@ -203,3 +203,25 @@ def test_marker_family_confirms_and_pinpoints_carrier(monkeypatch):
                                 "CWE-601", "A1:2021", follow_redirects=False))
     assert len(found) == 1 and found[0].klass == "open-redirect"
     assert "redir" in found[0].message
+
+
+def test_confirm_candidates_promotes_only_when_oracle_fires(monkeypatch):
+    """An external-scanner candidate is promoted to confirmed ONLY if our oracle fires on its route+param;
+    otherwise it stays a candidate (false-positive filtering)."""
+    import src.pyauto.probes as P
+    from src.jsauto.findings import Finding
+
+    def fake_injection(routes, ctx):
+        # only 'fires' for the route whose param is 'id'
+        r = routes[0]
+        if "id" in r.query_fields:
+            yield P._finding("injection", r, "CWE-89", "A3", "x", {"differential": {}}, "true≠false", "critical")
+
+    monkeypatch.setitem(P._CLASS_FAMILY, "sql-injection", fake_injection)
+    real = Finding(id="Z1", source="zap", klass="sql-injection", file="(runtime)", status="candidate",
+                   evidence={"route": "GET /u", "param": "id"})
+    fp = Finding(id="Z2", source="zap", klass="sql-injection", file="(runtime)", status="candidate",
+                 evidence={"route": "GET /safe", "param": "name"})
+    P.confirm_candidates([real, fp], _Recorder())
+    assert real.status == "confirmed" and real.exploit == {"differential": {}}
+    assert fp.status == "candidate" and fp.exploit is None

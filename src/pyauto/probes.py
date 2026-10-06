@@ -562,6 +562,42 @@ def _reflected_xss(routes, ctx):
 _FAMILIES = [_data_exposure, _injection, _bola, _bola_setup, _enumeration, _mass_assignment,
              _open_redirect, _ssrf, _command_injection, _path_traversal, _reflected_xss]
 
+# which oracle family confirms a given class — used to re-test an EXTERNAL scanner's alert (ZAP/Nuclei)
+# on its own route+param, turning its "maybe" into our proven/dropped.
+_CLASS_FAMILY = {
+    "sql-injection": _injection, "nosql-injection": _injection, "injection": _injection,
+    "xss": _reflected_xss, "command-injection": _command_injection, "path-traversal": _path_traversal,
+    "ssrf": _ssrf, "open-redirect": _open_redirect,
+}
+
+
+def confirm_candidates(findings: list[Finding], ctx: ProbeCtx) -> list[Finding]:
+    """Re-test each CANDIDATE finding (e.g. from a ZAP/Nuclei report) with our own oracle on the exact
+    route + parameter it names: build a one-route probe for the matching family and, if it fires, promote
+    the candidate to `confirmed` with the replayable exploit attached. This is how an external scanner's
+    breadth becomes our proof — its false positives simply never confirm. Findings without a usable
+    route/param, or a class we have no oracle for, are left as candidates."""
+    for f in findings:
+        if f.status == "confirmed":
+            continue
+        family = _CLASS_FAMILY.get(f.klass)
+        ev = f.evidence or {}
+        route_str, param = ev.get("route", ""), ev.get("param")
+        if not family or not route_str:
+            continue
+        method, _, path = route_str.partition(" ")
+        method = method or "GET"
+        carrier = {"query_fields": [param]} if param and method == "GET" else (
+            {"body_fields": [param]} if param else {})
+        r = Route(method, path or "/", **carrier)
+        for hit in family([r], ctx):                 # the family yields a confirmed Finding if it fires
+            f.status = "confirmed"
+            f.exploit, f.reason = hit.exploit, hit.reason
+            f.stride, f.cvss = hit.stride, hit.cvss
+            f.reachability, f.exploitability, f.poc = hit.reachability, hit.exploitability, hit.poc
+            break
+    return findings
+
 
 def probe(routes: list[Route], ctx: ProbeCtx) -> list[Finding]:
     """Run every oracle family over the routes; return the confirmed findings (each with a replay)."""
