@@ -72,10 +72,11 @@ def main(argv=None) -> int:
     ap.add_argument("--target", help="source tree (stack auto-detected)")
     ap.add_argument("--url", help="running app base URL for dynamic discovery + confirmation")
     ap.add_argument("--zap", help="an OWASP ZAP JSON report to ingest as candidates")
+    ap.add_argument("--trivy", help="a Trivy JSON report (deps/CVEs/IaC/secrets) to ingest as candidates")
     ap.add_argument("--out", default="", help="write the merged findings JSON here")
     args = ap.parse_args(argv)
-    if not (args.target or args.url or args.zap):
-        ap.error("give at least one of --target / --url / --zap")
+    if not (args.target or args.url or args.zap or args.trivy):
+        ap.error("give at least one of --target / --url / --zap / --trivy")
 
     findings: list[Finding] = []
     if args.target:
@@ -102,6 +103,11 @@ def main(argv=None) -> int:
             print(f"[zap] {sum(1 for f in z if f.status == 'confirmed')} confirmed by our oracle, "
                   f"{sum(1 for f in z if f.status != 'confirmed')} left candidate")
         findings += z
+    if args.trivy:
+        from benchmarks.scanners.trivy import findings_from_trivy
+        t = findings_from_trivy(args.trivy)
+        print(f"[trivy] {len(t)} candidate(s) ingested (deps/CVEs/IaC/secrets — source-level, not HTTP-confirmable)")
+        findings += t
 
     confirmed = [f for f in findings if f.status == "confirmed"]
     print(f"\n== {len(findings)} findings: {len(confirmed)} confirmed, {len(findings) - len(confirmed)} candidate ==")
