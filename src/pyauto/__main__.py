@@ -1,7 +1,7 @@
 """python -m src.pyauto --target DIR [--out findings.json]
 
 Python static detection: generic Kavach Python rules, offline, each hit mapped to its enclosing
-function. Emits the shared Finding shape, so `benchmarks.nodegoat.runner score` reads it unchanged.
+function. Emits the shared Finding shape, so the shared runner score step reads it unchanged.
 """
 import argparse
 import sys

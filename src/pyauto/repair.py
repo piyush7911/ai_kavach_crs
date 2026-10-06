@@ -15,7 +15,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Callable
 
-from benchmarks.nodegoat.exploit import run_exploit
+from benchmarks.oracles import run_exploit
 from src.pyauto.patch import find_function_span, parse_errors, replace_function
 from src.pyauto.runner import PyAppServer
 
@@ -123,7 +123,7 @@ def _gate(tree, target_file, patched, pov, run_cmd, env, seed_path, health_path,
 
 def _flow_ok(base_url, flow):
     import re
-    from benchmarks.nodegoat.exploit import Session
+    from benchmarks.oracles import Session
     s = Session(base_url, follow_redirects=bool(flow.get("follow_redirects")), auth=flow.get("auth"))
     if not s.login(flow.get("login_as", "none")):
         return False, "login failed"

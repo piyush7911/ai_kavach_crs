@@ -81,3 +81,4 @@ reports/js_fix/*/combined/
 reports/js_fix/*/trace.jsonl
 reports/js_fix/*/start_ts
 reports/js_fix/*/classified_calls.json
+benchmark_workspace/
