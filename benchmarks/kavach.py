@@ -130,7 +130,9 @@ def main(argv=None) -> int:
     ap.add_argument("--zap", help="an OWASP ZAP JSON report to ingest as candidates")
     ap.add_argument("--trivy", help="a Trivy JSON report (deps/CVEs/IaC/secrets) to ingest as candidates")
     ap.add_argument("--opengrep", action="store_true",
-                    help="run Opengrep taint rules over --target as a candidate source (LGPL, low-FP)")
+                    help="run Opengrep over --target as a candidate source (defaults to the vendored "
+                         "community corpus for breadth, else our taint rules)")
+    ap.add_argument("--opengrep-rules", default="", help="rules file/dir for --opengrep (override the default)")
     ap.add_argument("--nuclei", help="a Nuclei JSONL report to ingest + confirm")
     ap.add_argument("--llm-surface", action="store_true",
                     help="plan 010 Slice A: let the LLM read HTML/JS and propose routes+params (needs "
@@ -192,10 +194,11 @@ def main(argv=None) -> int:
         if not args.target:
             print("[opengrep] needs --target (a source tree) — skipping")
         else:
+            from pathlib import Path as _P
             from benchmarks.scanners.opengrep import findings_from_opengrep
-            og = findings_from_opengrep(args.target)
-            print(f"[opengrep] {len(og)} taint candidate(s) (low-FP; confirming over HTTP needs source→route "
-                  f"correlation — reported as candidates)")
+            og = findings_from_opengrep(args.target, rules=_P(args.opengrep_rules) if args.opengrep_rules else None)
+            print(f"[opengrep] {len(og)} candidate(s) (confirming over HTTP needs source→route correlation — "
+                  f"reported as candidates)")
             findings += og
 
     confirmed = [f for f in findings if f.status == "confirmed"]

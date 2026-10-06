@@ -19,7 +19,29 @@ from src.jsauto.findings import Finding
 
 ROOT = Path(__file__).resolve().parents[2]
 TAINT_RULES = ROOT / "config" / "semgrep" / "kavach_taint.yaml"
+CORPUS = ROOT / "exp" / "third_party" / "opengrep-rules"   # vendored community rules (~890, Commons Clause)
 _PARAM = re.compile(r"""\.get\(\s*['"]([^'"]+)['"]|getParameter\(\s*['"]([^'"]+)['"]|\[\s*['"]([^'"]+)['"]\s*\]""")
+
+# map a community rule's id/CWE to one of OUR oracle classes (so breadth hits join the confirm/report path);
+# unrecognised rules keep their own id as the class (still a useful candidate).
+_CWE_CLASS = {"89": "sql-injection", "943": "nosql-injection", "78": "command-injection",
+              "77": "command-injection", "79": "xss", "22": "path-traversal", "918": "ssrf",
+              "601": "open-redirect", "611": "xxe", "502": "insecure-deserialization"}
+_ID_HINTS = [("sqli", "sql-injection"), ("sql", "sql-injection"), ("xss", "xss"), ("html-string", "xss"),
+             ("ssrf", "ssrf"), ("url-host", "ssrf"), ("path", "path-traversal"), ("traversal", "path-traversal"),
+             ("command", "command-injection"), ("redirect", "open-redirect"), ("xxe", "xxe"),
+             ("doctype", "xxe"), ("deserial", "insecure-deserialization")]
+
+
+def _normalize_class(check_id: str, cwe: str) -> str:
+    num = str(cwe).upper().replace("CWE-", "").strip()
+    if num in _CWE_CLASS:
+        return _CWE_CLASS[num]
+    low = check_id.lower()
+    for kw, cls in _ID_HINTS:
+        if kw in low:
+            return cls
+    return check_id.split(".")[-1]
 
 
 def _binary() -> str | None:
@@ -35,20 +57,43 @@ def _source_param(res: dict) -> str:
     return next((g for g in m.groups() if g), "") if m else ""
 
 
-def findings_from_opengrep(target: str | Path, rules: Path = TAINT_RULES, binary: str = None) -> list[Finding]:
-    """Run the taint ruleset over a source tree; return candidate Findings (status='candidate')."""
+_LANG_DIR = {".py": "python", ".java": "java", ".js": "javascript", ".jsx": "javascript",
+             ".ts": "typescript", ".tsx": "typescript", ".php": "php", ".go": "go", ".rb": "ruby"}
+
+
+def _rule_configs(rules: Path, target: Path) -> list[str]:
+    """For the community corpus (a dir of per-language rule folders), pick only the language folders the
+    target actually uses — the whole corpus has rules that fail to parse and abort the run. Otherwise use
+    the given rules path as-is."""
+    if rules.is_dir() and any((rules / d).is_dir() for d in set(_LANG_DIR.values())):
+        exts = {p.suffix for p in target.rglob("*") if p.suffix in _LANG_DIR} if target.is_dir() else {target.suffix}
+        subs = sorted({str(rules / _LANG_DIR[e]) for e in exts if (rules / _LANG_DIR[e]).is_dir()})
+        return subs or [str(rules)]
+    return [str(rules)]
+
+
+def findings_from_opengrep(target: str | Path, rules: Path = None, binary: str = None) -> list[Finding]:
+    """Run a rule set over a source tree with Opengrep; return candidate Findings. Defaults to the big
+    vendored community corpus (more rules = more classes detected) when present, else our clean-license
+    taint rules. Hits are candidates — our oracle/triage decides precision."""
+    rules = rules or (CORPUS if CORPUS.exists() else TAINT_RULES)
     binary = binary or _binary()
     if not binary:
         return []
     target = Path(target)
-    cmd = [binary, "scan", "--quiet", "--json", "--config", str(rules), str(target)]
+    configs = _rule_configs(Path(rules), target)        # language-matched subdirs for the corpus
+    cmd = [binary, "scan", "--quiet", "--json"]
+    for c in configs:
+        cmd += ["--config", c]
+    cmd.append(str(target))
     try:
-        r = subprocess.run(cmd, capture_output=True, text=True, timeout=1200)
+        r = subprocess.run(cmd, capture_output=True, text=True, timeout=1800)
     except (OSError, subprocess.TimeoutExpired):
         return []
-    if r.returncode not in (0, 1):
+    try:                                                # opengrep may exit non-zero on partial rule errors
+        data = json.loads(r.stdout or "{}")             # but still emit valid results — trust the JSON
+    except ValueError:
         return []
-    data = json.loads(r.stdout or "{}")
     out = []
     for i, res in enumerate(data.get("results", []), 1):
         meta = res.get("extra", {}).get("metadata", {})
@@ -56,7 +101,7 @@ def findings_from_opengrep(target: str | Path, rules: Path = TAINT_RULES, binary
         rel = path.relative_to(target) if target in path.parents or path == target else path
         out.append(Finding(
             id=f"OG-{i:03d}", source="opengrep", status="candidate", confidence="medium",
-            klass=meta.get("kavach_class", res["check_id"].split(".")[-1]),
+            klass=meta.get("kavach_class") or _normalize_class(res["check_id"], meta.get("cwe", "")),
             file=str(rel).replace("\\", "/"), line=res["start"]["line"], end_line=res["end"]["line"],
             rule=res["check_id"].split(".")[-1], cwe=meta.get("cwe", ""),
             message=res.get("extra", {}).get("message", ""),
