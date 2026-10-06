@@ -17,7 +17,6 @@ Fixing is per-backend and heavier (JS/Py rerun instantly, Java rebuilds), so it 
 from __future__ import annotations
 
 import argparse
-import json
 import sys
 from pathlib import Path
 from urllib.parse import urlparse
@@ -49,20 +48,26 @@ def _static(stack: str, target: Path) -> list[Finding]:
     return []
 
 
-def _dynamic(url: str) -> list[Finding]:
+def _dynamic(url: str, zap_report: str | None = None) -> list[Finding]:
     from src.pyauto.probes import (ProbeCtx, enrich_routes, mine_params, probe,
                                    routes_from_crawl, routes_from_sitemap, Route)
     pu = urlparse(url.rstrip("/"))
     origin = f"{pu.scheme}://{pu.netloc}"
     ctx_path = pu.path.rstrip("/")
+    sources = (routes_from_crawl(origin, seeds=((ctx_path + "/") or "/",))
+               + routes_from_sitemap(f"{origin}{ctx_path}/sitemap.xml")
+               + routes_from_sitemap(f"{origin}/sitemap.xml"))
+    if zap_report:                                     # ZAP's spider reaches routes/params we miss
+        from benchmarks.scanners.zap import routes_from_zap
+        zr = routes_from_zap(zap_report)
+        print(f"[dynamic] +{len(zr)} routes from ZAP's crawl")
+        sources += zr
     merged: dict = {}
-    for r in (routes_from_crawl(origin, seeds=((ctx_path + "/") or "/",))
-              + routes_from_sitemap(f"{origin}{ctx_path}/sitemap.xml")
-              + routes_from_sitemap(f"{origin}/sitemap.xml")):
+    for r in sources:
         merged.setdefault((r.method, r.path), set()).update(r.query_fields)
     routes = [Route(m, p, query_fields=sorted(ps)) for (m, p), ps in sorted(merged.items())]
     ctx = ProbeCtx(origin, auth={}, reseed=None)
-    mine_params(origin, routes, ctx)
+    mine_params(origin, routes, ctx)                   # routes that already have params (from ZAP) are skipped
     enrich_routes(routes, ctx)
     return probe(routes, ctx)
 
@@ -89,7 +94,7 @@ def main(argv=None) -> int:
             findings += s
     if args.url:
         print(f"[dynamic] discovering + confirming on {args.url} ...")
-        d = _dynamic(args.url)
+        d = _dynamic(args.url, zap_report=args.zap)
         print(f"[dynamic] {len(d)} CONFIRMED")
         findings += d
     if args.zap:

@@ -61,6 +61,29 @@ def _alerts(report: dict) -> list:
 _RISK = {"3": "critical", "2": "high", "1": "medium", "0": "low"}
 
 
+def routes_from_zap(report_path: str | Path):
+    """Use a ZAP report as a ROUTE SOURCE (not just alerts): every alert instance records a URL + method +
+    the parameter ZAP exercised. ZAP's spider reaches endpoints/params our link-crawl + wordlist miner
+    miss (a SPA, auth-walled or JS-built pages), and it hands us the param NAMES directly — so these routes
+    go straight into our probe with carriers already known, no mining needed. Returns `Route`s."""
+    from urllib.parse import parse_qs, urlparse
+    from src.pyauto.probes import Route
+    report = json.loads(Path(report_path).read_text())
+    routes: dict = {}                                   # (method, path) -> set(param names)
+    for _name, _cwe, _risk, instances in _alerts(report):
+        for inst in instances or []:
+            uri = inst.get("uri") or inst.get("url") or ""
+            if not uri:
+                continue
+            p = urlparse(uri)
+            path = p.path or "/"
+            params = set(parse_qs(p.query, keep_blank_values=True).keys())
+            if inst.get("param"):
+                params.add(inst["param"])
+            routes.setdefault((inst.get("method", "GET").upper(), path), set()).update(params)
+    return [Route(m, pth, query_fields=sorted(ps)) for (m, pth), ps in sorted(routes.items())]
+
+
 def findings_from_zap(report_path: str | Path) -> list[Finding]:
     """Parse a ZAP JSON report into candidate Findings (status='candidate'; our oracle confirms them)."""
     report = json.loads(Path(report_path).read_text())

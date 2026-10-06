@@ -27,3 +27,20 @@ def test_zap_name_fallback_when_no_cwe(tmp_path):
     p.write_text(json.dumps(rpt))
     fs = findings_from_zap(p)
     assert len(fs) == 1 and fs[0].klass == "xss" and fs[0].evidence["param"] == "q"
+
+
+def test_routes_from_zap_as_route_source(tmp_path):
+    """ZAP instances become Routes (method, path, params) — a discovery source that hands us param names."""
+    import json
+    from benchmarks.scanners.zap import routes_from_zap
+    rpt = {"site": [{"alerts": [
+        {"alert": "SQL Injection", "cweid": "89", "instances": [
+            {"uri": "http://x/api/user?id=1", "method": "GET", "param": "id"}]},
+        {"alert": "X", "cweid": "0", "instances": [
+            {"uri": "http://x/api/search?q=a&lang=en", "method": "GET"}]},
+    ]}]}
+    p = tmp_path / "z.json"
+    p.write_text(json.dumps(rpt))
+    routes = {(r.method, r.path): r.query_fields for r in routes_from_zap(p)}
+    assert routes[("GET", "/api/user")] == ["id"]
+    assert set(routes[("GET", "/api/search")]) == {"q", "lang"}
