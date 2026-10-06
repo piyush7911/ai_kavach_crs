@@ -1,0 +1,81 @@
+rules:
+# Our own taint rules (clean license), run by Opengrep (LGPL-2.1) which restores inter-procedural taint.
+# Taint mode flags a sink ONLY when attacker input actually reaches it — so a safe constant query/exec is
+# not flagged, unlike a plain-pattern rule. These are CANDIDATE generators; a replayed exploit confirms.
+# kavach_class matches our oracle classes so taint hits can be confirmed + reported on one path.
+
+# ---------- Python (Flask / generic) ----------
+- id: kavach-taint-py-sqli
+  languages: [python]
+  severity: ERROR
+  mode: taint
+  message: Request input reaches a SQL execute (taint).
+  metadata: {cwe: "CWE-89", kavach_class: sql-injection}
+  pattern-sources:
+    - pattern: flask.request.$ANY.get(...)
+    - pattern: request.$ANY.get(...)
+    - pattern: request.$ANY[...]
+  pattern-sinks:
+    - pattern: $C.execute(...)
+    - pattern: $C.executemany(...)
+
+- id: kavach-taint-py-command-injection
+  languages: [python]
+  severity: ERROR
+  mode: taint
+  message: Request input reaches a shell/command execution (taint).
+  metadata: {cwe: "CWE-78", kavach_class: command-injection}
+  pattern-sources:
+    - pattern: flask.request.$ANY.get(...)
+    - pattern: request.$ANY.get(...)
+  pattern-sinks:
+    - pattern: subprocess.$F(...)
+    - pattern: os.system(...)
+    - pattern: os.popen(...)
+
+- id: kavach-taint-py-path-traversal
+  languages: [python]
+  severity: WARNING
+  mode: taint
+  message: Request input reaches a file open (taint).
+  metadata: {cwe: "CWE-22", kavach_class: path-traversal}
+  pattern-sources:
+    - pattern: flask.request.$ANY.get(...)
+    - pattern: request.$ANY.get(...)
+  pattern-sinks:
+    - pattern: open(...)
+
+# ---------- Java (Spring / generic) ----------
+- id: kavach-taint-java-sqli
+  languages: [java]
+  severity: ERROR
+  mode: taint
+  message: Request input reaches a SQL statement (taint).
+  metadata: {cwe: "CWE-89", kavach_class: sql-injection}
+  pattern-sources:
+    - pattern: (HttpServletRequest $R).getParameter(...)
+    - pattern: "@RequestParam $T $P"
+    - patterns:
+        - pattern: $M.get($K)
+        - pattern-inside: "ResponseEntity<String> $F(@RequestParam Map<String,String> $M) {...}"
+  pattern-sinks:
+    - pattern: $S.executeQuery(...)
+    - pattern: $S.execute(...)
+    - pattern: $S.executeUpdate(...)
+    - pattern: $J.query(...)
+
+- id: kavach-taint-java-command-injection
+  languages: [java]
+  severity: ERROR
+  mode: taint
+  message: Request input reaches process execution (taint).
+  metadata: {cwe: "CWE-78", kavach_class: command-injection}
+  pattern-sources:
+    - pattern: (HttpServletRequest $R).getParameter(...)
+    - pattern: "@RequestParam $T $P"
+    - patterns:
+        - pattern: $M.get($K)
+        - pattern-inside: "$RET $F(@RequestParam Map<String,String> $M) {...}"
+  pattern-sinks:
+    - pattern: $RT.exec(...)
+    - pattern: new ProcessBuilder(...)
