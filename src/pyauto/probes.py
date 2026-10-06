@@ -40,6 +40,7 @@ class Route:
     body_fields: list = field(default_factory=list)
     query_fields: list = field(default_factory=list)
     auth_required: bool = False
+    operation_id: str = ""          # e.g. "api_views.users.update_password" — the route's handler
 
 
 @dataclass
@@ -76,8 +77,19 @@ def routes_from_openapi(spec_path: str) -> list[Route]:
             except (KeyError, TypeError):
                 pass
             out.append(Route(method.upper(), path, path_params, body_fields, query_fields,
-                             bool(op.get("security"))))
+                             bool(op.get("security")), op.get("operationId", "")))
     return out
+
+
+def route_to_source(operation_id: str) -> Optional[dict]:
+    """Map a route's OpenAPI operationId to its handler location so a dynamically-found bug can be
+    repaired: `api_views.users.update_password` -> {file: 'api_views/users.py', function: 'update_password'}.
+    This is the bridge from HTTP-level discovery to a code-level fix; without a spec, a framework's own
+    url_map gives the same (module, function)."""
+    if not operation_id or "." not in operation_id:
+        return None
+    *module, func = operation_id.split(".")
+    return {"file": "/".join(module) + ".py", "function": func}
 
 
 def _benign(name: str) -> str:
@@ -96,7 +108,9 @@ def _body(fields: list, override: dict | None = None) -> dict:
 def _finding(klass: str, route: Route, cwe: str, owasp: str, message: str,
              exploit: dict, detail: str, severity: str = "high") -> Finding:
     fid = f"probe:{klass}:{route.method}:{route.path}"
-    return Finding(id=fid, source="probe", klass=klass, file="(runtime)", rule="dynamic-probe",
+    src = route_to_source(route.operation_id) or {}
+    return Finding(id=fid, source="probe", klass=klass, file=src.get("file", "(runtime)"),
+                   function=src.get("function", ""), rule="dynamic-probe",
                    cwe=cwe, owasp=owasp, severity=severity, confidence="high",
                    message=message, status="confirmed", reason=detail,
                    evidence={"route": f"{route.method} {route.path}"}, exploit=exploit)
@@ -184,7 +198,6 @@ def _bola_setup(routes, ctx):
     if len(users) < 2:
         return
     owner, other = users[0], users[1]
-    from benchmarks.oracles import Session
     creators = {r.path: r for r in routes
                 if r.method == "POST" and not r.path_params and r.body_fields}
     for r in routes:
@@ -193,23 +206,18 @@ def _bola_setup(routes, ctx):
             continue
         create = creators[base]
         id_field = r.path_params[-1]
+        if id_field not in create.body_fields:    # need a deterministic id to make the exploit replayable
+            continue                              # (an id minted by the server would differ each run)
         id_val = f"kavach-probe-{id_field}"
-        body = _body(create.body_fields, {id_field: id_val})
-        ctx._seed()
-        s = Session(ctx.base_url, auth={**ctx.auth, "body_json": True})
-        if not s.login(owner):
-            continue
-        resp = s.request("POST", create.path, body=body)
-        if id_field not in create.body_fields:                 # id not chosen by us -> read it back
-            m = re.search(rf'"{id_field}"\s*:\s*"?([^",}}]+)', resp.body) or re.search(r'"id"\s*:\s*"?([^",}]+)', resp.body)
-            if not m:
-                continue
-            id_val = m.group(1)
+        setup = [{"method": "POST", "path": create.path, "body": _body(create.body_fields, {id_field: id_val})}]
         req = {"method": r.method, "path": _fill_path(r.path, {id_field: id_val})}
         if r.body_fields:
             req["body"] = _body(r.body_fields)
-        ex = {"access_control": {"request": req, "authorized": owner, "unauthorized": other},
-              "auth": ctx.auth}
+        # self-contained exploit: the create runs (as the owner) at replay time, so the repair gate can
+        # reseed and still reproduce — this is the multi-step PoV support the gate needs.
+        ex = {"access_control": {"setup": setup, "setup_as": owner, "request": req,
+                                 "authorized": owner, "unauthorized": other}, "auth": ctx.auth}
+        ctx._seed()
         hit, detail = run_exploit(ctx.base_url, ex)
         if hit:
             yield _finding("broken-object-level-auth", r, "CWE-639", "API1:2023",

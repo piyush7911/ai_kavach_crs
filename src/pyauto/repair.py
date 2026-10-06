@@ -131,6 +131,8 @@ def _flow_ok(base_url, flow):
     exp = flow.get("expect", {})
     if "status" in exp and r.status != exp["status"]:
         return False, f"status {r.status} != {exp['status']}"
+    if "status_lt" in exp and r.status >= exp["status_lt"]:   # "served, not denied/broken" (owner path)
+        return False, f"status {r.status} not < {exp['status_lt']}"
     if "body_regex" in exp and not re.search(exp["body_regex"], r.body, re.S | re.I):
         return False, f"body_regex /{exp['body_regex']}/ not found"
     return True, f"status={r.status}"
