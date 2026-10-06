@@ -364,6 +364,14 @@ def main(argv=None) -> int:
         print(f"[smuggle] {len(sm)} request-smuggling timing candidate(s)")
         findings += sm
 
+    if args.url:                                       # GraphQL surface (only emits if an endpoint exists)
+        import json as _j
+        from benchmarks.scanners.graphql import findings_from_graphql
+        gq = findings_from_graphql(args.url.rstrip("/"), _j.load(open(args.auth)) if args.auth else None)
+        if gq:
+            print(f"[graphql] {len(gq)} GraphQL BOLA candidate(s) from introspection")
+            findings += gq
+
     # Correlate code-location candidates (static / Opengrep / Joern / scanner) to routes, then confirm via oracle.
     if routes:
         from src.pyauto.correlate import correlate
