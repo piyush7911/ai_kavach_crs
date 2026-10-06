@@ -160,3 +160,24 @@ def test_probe_policy_allow():
     # enumeration: login-shaped credential POST
     assert P.allow("user-enumeration", Route("POST", "/users/v1/login", body_fields=["username", "password"]))[0] is True
     assert P.allow("user-enumeration", Route("POST", "/users/v1/register", body_fields=["username", "password"]))[0] is False
+
+
+def test_routes_from_crawl_extracts_paths_and_params(monkeypatch):
+    """Crawler route source: read links/forms over HTTP, collect each path + its query param names.
+    Works with no framework and no spec (the hardest discovery case)."""
+    import io
+    import src.pyauto.probes as P
+    html = ('<a href="?id=2">x</a> <a href="/login?username=&amp;password=">l</a> '
+            '<a href="/users.json?callback=process">j</a> <a href="https://owasp.org/x">ext</a> '
+            '<form action="/?comment=">c</form>')
+
+    import urllib.request
+
+    def fake_urlopen(url, timeout=0):
+        return io.BytesIO(html.encode())
+    monkeypatch.setattr(urllib.request, "urlopen", fake_urlopen)
+    routes = {(r.method, r.path): r.query_fields for r in P.routes_from_crawl("http://x")}
+    assert ("GET", "/") in routes and set(routes[("GET", "/")]) >= {"id", "comment"}
+    assert routes[("GET", "/login")] == ["password", "username"]
+    assert routes[("GET", "/users.json")] == ["callback"]
+    assert ("GET", "/x") not in routes          # off-site owasp.org link dropped

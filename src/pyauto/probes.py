@@ -29,8 +29,16 @@ from src.pyauto import probe_policy
 _SENSITIVE = re.compile(r'"(password|passwd|pwd|token|secret|ssn|api[_-]?key|credit[_-]?card)"', re.I)
 _BENIGN = {"email": "probe@kavach.test", "password": "ProbePass1!", "book_title": "probebook",
            "secret": "x", "username": "probeuser"}
-_TAUTOLOGY = "' OR '1'='1"      # boolean-injection carriers: a row-returning condition ...
-_CONTRADICTION = "' OR '1'='2"  # ... and one that returns none; responses differ iff input reaches a query
+# Boolean-injection payload styles: (always-true, always-false). The oracle confirms if the two answers
+# differ. Different quoting contexts need different payloads, so we try each style: string/quoted (input
+# sits inside '...') and numeric (input sits bare after `=`). One style alone misses the other context.
+_INJECTION_STYLES = [
+    ("' OR '1'='1", "' OR '1'='2"),   # string context:  WHERE x = '<input>'
+    ("1 OR 1=1", "1 OR 1=2"),         # numeric context: WHERE x = <input>
+    # both pairs differ ONLY in a trailing digit, which `_norm` strips — so if the endpoint merely
+    # reflects the payload the two responses still normalise equal (no false positive); a real query
+    # returns different rows (all vs one), which survives normalisation.
+]
 
 
 @dataclass
@@ -153,6 +161,44 @@ def enrich_routes(routes: list[Route], ctx: "ProbeCtx") -> list[Route]:
     return routes
 
 
+def routes_from_crawl(base_url: str, seeds: tuple = ("/",), max_pages: int = 25) -> list[Route]:
+    """Discover routes with NEITHER a spec NOR a framework to introspect — the hardest case (e.g. a raw
+    HTTP handler). Fetch pages over HTTP, read the links/forms, and collect each path plus the query/form
+    field names it uses. Works on any app that links its own endpoints; purely HTTP, so it needs nothing
+    installed and no source. (This is the third route source, after OpenAPI and a live url_map.)"""
+    import html as _html
+    import urllib.parse
+    import urllib.request
+    link = re.compile(r'(?:href|action)\s*=\s*["\']([^"\']+)["\']', re.I)
+    base = base_url.rstrip("/")
+    host = urllib.parse.urlparse(base).netloc
+    seen: set = set()
+    queue = list(seeds)
+    routes: dict = {}                                   # (method, path) -> set(param names)
+    while queue and len(seen) < max_pages:
+        page = queue.pop(0)
+        if page in seen:
+            continue
+        seen.add(page)
+        try:
+            body = urllib.request.urlopen(base + page, timeout=5).read().decode("utf-8", "replace")
+        except (urllib.error.URLError, OSError, ValueError):
+            continue
+        for raw in link.findall(body):
+            u = _html.unescape(raw)
+            if u.startswith(("mailto:", "javascript:", "#")):
+                continue
+            parsed = urllib.parse.urlparse(u)
+            if parsed.netloc and parsed.netloc != host:    # off-site link
+                continue
+            path = parsed.path or "/"
+            params = list(urllib.parse.parse_qs(parsed.query, keep_blank_values=True).keys())
+            routes.setdefault(("GET", path), set()).update(params)
+            if not parsed.query and path not in seen:       # crawl plain pages a little further
+                queue.append(path)
+    return [Route(m, p, query_fields=sorted(ps)) for (m, p), ps in sorted(routes.items())]
+
+
 def route_to_source(operation_id: str) -> Optional[dict]:
     """Map a route's OpenAPI operationId to its handler location so a dynamically-found bug can be
     repaired: `api_views.users.update_password` -> {file: 'api_views/users.py', function: 'update_password'}.
@@ -219,13 +265,18 @@ def _injection(routes, ctx):
                 req["body"] = {f: val for f in r.body_fields}
             return req
 
-        ex = {"differential": {"true_request": build(_TAUTOLOGY), "false_request": build(_CONTRADICTION)},
-              "auth": ctx.auth, "login_as": "user" if r.auth_required else "none"}
-        hit, detail = run_exploit(ctx.base_url, ex)
-        if hit:
-            yield _finding("injection", r, "CWE-89", "API8:2023",
-                           f"input to {r.method} {r.path} reaches query logic (boolean-differential)",
-                           ex, detail, severity="critical")
+        # Try each payload STYLE: a string/quoted context ('...' OR '1'='1) and a numeric context
+        # (1 OR 1=1). The same bug lives behind different quoting, so a single style misses half of them
+        # (e.g. a numeric `WHERE id=<input>` is untouched by a quote-based payload). Confirm on first hit.
+        for true_val, false_val in _INJECTION_STYLES:
+            ex = {"differential": {"true_request": build(true_val), "false_request": build(false_val)},
+                  "auth": ctx.auth, "login_as": "user" if r.auth_required else "none"}
+            hit, detail = run_exploit(ctx.base_url, ex)
+            if hit:
+                yield _finding("injection", r, "CWE-89", "API8:2023",
+                               f"input to {r.method} {r.path} reaches query logic (boolean-differential)",
+                               ex, detail, severity="critical")
+                break
 
 
 def _bola(routes, ctx):
