@@ -318,3 +318,11 @@ def test_ssti_marker_self_validating(monkeypatch):
     assert "7*191" in val or "7%2A191" in val
     assert sent[0]["success_if"]["body_regex"] == r"\b1337\b"
     assert len(found) == 1                                    # one confirmation per route despite many payloads
+
+
+def test_data_exposure_requires_a_value_not_an_html_field():
+    from src.pyauto.probes import _SENSITIVE
+    assert not _SENSITIVE.search('<input name="password" class="x">')   # HTML form field: not a leak
+    assert not _SENSITIVE.search('"password">Password</label>')          # HTML label
+    assert _SENSITIVE.search('{"password":"hunter2"}')                   # real JSON data exposure
+    assert _SENSITIVE.search('"api_key": "AKIA..."')
