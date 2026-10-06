@@ -333,9 +333,14 @@ def main(argv=None) -> int:
         else:
             from pathlib import Path as _P
             from benchmarks.scanners.opengrep import findings_from_opengrep
-            og = findings_from_opengrep(args.target, rules=_P(args.opengrep_rules) if args.opengrep_rules else None)
-            print(f"[opengrep] {len(og)} candidate(s) (confirming over HTTP needs source→route correlation — "
-                  f"reported as candidates)")
+            from src.autonomy import scan_cache
+            rules_x = args.opengrep_rules or "default"
+            og = scan_cache.load(args.target, "opengrep", rules_x)      # reuse if tree unchanged (sprint re-runs)
+            cached = og is not None
+            if not cached:
+                og = findings_from_opengrep(args.target, rules=_P(args.opengrep_rules) if args.opengrep_rules else None)
+                scan_cache.save(args.target, "opengrep", og, rules_x)
+            print(f"[opengrep] {len(og)} candidate(s){' (cache hit — tree unchanged)' if cached else ''}")
             findings += og
 
     if args.joern:

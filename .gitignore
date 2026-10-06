@@ -85,3 +85,4 @@ benchmark_workspace/
 exp/third_party/
 exp/results/ossf/*.pre.findings.json
 exp/live/gradle_home/
+.kavach_cache/
