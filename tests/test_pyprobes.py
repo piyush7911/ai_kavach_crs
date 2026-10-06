@@ -242,3 +242,15 @@ def test_coverage_examined_vs_exercised():
     assert cov["routes_attacked"] == 2                        # payload sent only to /u/{id} and /login
     assert cov["attack_gap"] == 3                             # /users, /static, /webhook: no param to inject
     assert cov["attack_coverage_pct"] == 40.0
+
+
+def test_xxe_family_builds_oob_xml_body(monkeypatch):
+    from src.pyauto.probes import _xxe, Route
+    import src.pyauto.probes as P
+    sent = {}
+    monkeypatch.setattr(P, "run_exploit", lambda base, ex: (sent.update(ex), (True, "oob callback received"))[1])
+    found = list(_xxe([Route("GET", "/parse")], _Recorder()))
+    assert sent["method"] == "POST" and sent["oob"] is True
+    assert "ENTITY" in sent["body"] and sent["headers"]["Content-Type"] == "application/xml"
+    assert sent["success_if"] == {"oob_marker": "{OOB_MARKER}"}
+    assert found and found[0].klass == "xxe"

