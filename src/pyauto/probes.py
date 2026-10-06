@@ -604,8 +604,27 @@ def _deserialization(routes, ctx):
                               {"oob_marker": "{OOB_MARKER}"}, "CWE-502", "A08:2021", oob=True, severity="critical")
 
 
+# Server-side template injection: send an arithmetic expression in the template's own syntax; if the engine
+# evaluates it, the RESULT (1337 = 7*191, a distinctive value absent from the payload) appears in the
+# response. Marker-based and self-validating — a mere echo of the payload shows "7*191", never "1337", so no
+# false positive. Engine-agnostic: one of these carriers matches Jinja2/Twig/Nunjucks, Freemarker/JSP-EL/
+# Spring, Ruby/Thymeleaf, ERB/EJS, Razor. 7*191 is picked so the result is unlikely to occur by chance.
+_SSTI_PAYLOADS = ["{{7*191}}", "${7*191}", "#{7*191}", "<%= 7*191 %>", "${{7*191}}", "@(7*191)"]
+
+
+def _ssti(routes, ctx):
+    seen = set()
+    for payload in _SSTI_PAYLOADS:
+        for hit in _marker_family(routes, ctx, "ssti", payload, {"body_regex": r"\b1337\b"},
+                                  "CWE-1336", "A03:2021", severity="critical"):
+            key = hit.evidence.get("route")
+            if key not in seen:                          # one confirmation per route is enough
+                seen.add(key)
+                yield hit
+
+
 _FAMILIES = [_data_exposure, _injection, _bola, _bola_setup, _enumeration, _mass_assignment,
-             _open_redirect, _ssrf, _command_injection, _path_traversal, _reflected_xss]
+             _open_redirect, _ssrf, _command_injection, _path_traversal, _reflected_xss, _ssti]
 
 # which oracle family confirms a given class — used to re-test an EXTERNAL scanner's alert (ZAP/Nuclei)
 # on its own route+param, turning its "maybe" into our proven/dropped.
@@ -613,7 +632,7 @@ _CLASS_FAMILY = {
     "sql-injection": _injection, "nosql-injection": _injection, "injection": _injection,
     "xss": _reflected_xss, "command-injection": _command_injection, "path-traversal": _path_traversal,
     "ssrf": _ssrf, "open-redirect": _open_redirect, "xxe": _xxe,
-    "insecure-deserialization": _deserialization,
+    "insecure-deserialization": _deserialization, "ssti": _ssti,
 }
 
 

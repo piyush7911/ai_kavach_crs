@@ -304,3 +304,17 @@ def test_propose_oob_payload_requires_token():
     assert bad is None                                  # no {OOB_URL} -> rejected
     skip = propose_oob_payload(r, "sql-injection", "", "", lambda p: "' OR 1=1--")
     assert skip is None                                 # not an OOB class
+
+
+def test_ssti_marker_self_validating(monkeypatch):
+    from src.pyauto.probes import _ssti, Route
+    import src.pyauto.probes as P
+    sent = []
+    monkeypatch.setattr(P, "run_exploit", lambda base, ex: (sent.append(ex), (True, "1337 in body"))[1])
+    found = list(_ssti([Route("GET", "/t", query_fields=["name"])], _Recorder()))
+    assert found and found[0].klass == "ssti"
+    # payload carries 7*191 (not 1337); the success marker is the RESULT 1337, so an echo can't satisfy it
+    val = sent[0]["path"]
+    assert "7*191" in val or "7%2A191" in val
+    assert sent[0]["success_if"]["body_regex"] == r"\b1337\b"
+    assert len(found) == 1                                    # one confirmation per route despite many payloads
