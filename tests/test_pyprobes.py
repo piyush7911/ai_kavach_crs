@@ -3,8 +3,8 @@
 Route parsing from an OpenAPI spec and exploit construction (path/body filling, family targeting) are
 deterministic and worth a guard; the live confirmation is benchmarks/pyprobe_vampi.py against a running
 VAmPI, which cannot run in CI."""
-from src.pyauto.probes import (Route, _bola, _data_exposure, _injection, _fill_path,
-                               routes_from_openapi)
+from src.pyauto.probes import (Route, _bola, _bola_setup, _collection_of, _data_exposure,
+                               _injection, _fill_path, routes_from_openapi)
 
 
 def test_openapi_parse():
@@ -74,4 +74,41 @@ def test_bola_targets_owner_vs_other(monkeypatch):
     ac = sent[0]["access_control"]
     assert ac["request"]["path"] == "/users/v1/name1/password"   # owner's name substituted
     assert ac["authorized"] == "user" and ac["unauthorized"] == "user2"
+    assert found[0].klass == "broken-object-level-auth"
+
+
+def test_collection_of():
+    assert _collection_of("/books/v1/{book_title}") == "/books/v1"
+    assert _collection_of("/books/v1") == "/books/v1"
+
+
+def test_bola_setup_creates_then_reads_as_non_owner(monkeypatch):
+    """The by-id read pairs with the collection POST; the object is created as the owner first, then
+    the metamorphic request targets that created id."""
+    routes = [Route("POST", "/books/v1", body_fields=["book_title", "secret"], auth_required=True),
+              Route("GET", "/books/v1/{book_title}", path_params=["book_title"], auth_required=True)]
+    import src.pyauto.probes as P
+    created = []
+
+    class _FakeSession:
+        def __init__(self, base_url, auth=None):
+            pass
+
+        def login(self, role):
+            return True
+
+        def request(self, method, path, body=None, headers=None):
+            created.append((method, path, body))
+            return type("R", (), {"body": "{}", "status": 200})()
+
+    monkeypatch.setattr(P, "Session", _FakeSession, raising=False)
+    import benchmarks.oracles as O
+    monkeypatch.setattr(O, "Session", _FakeSession)
+    sent = []
+    monkeypatch.setattr(P, "run_exploit", lambda base, ex: (sent.append(ex), (True, "ok"))[1])
+    found = list(_bola_setup(routes, _Recorder()))
+    # a book was POSTed as the owner, with the id value we then read back
+    assert created and created[0][0] == "POST" and created[0][1] == "/books/v1"
+    ac = sent[0]["access_control"]
+    assert ac["request"]["path"] == "/books/v1/kavach-probe-book_title"
     assert found[0].klass == "broken-object-level-auth"

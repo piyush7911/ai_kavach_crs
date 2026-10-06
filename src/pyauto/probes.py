@@ -169,6 +169,55 @@ def _bola(routes, ctx):
     ctx._seed()
 
 
+def _collection_of(path: str) -> str:
+    """The collection a by-id route hangs off: /books/v1/{book_title} -> /books/v1."""
+    return re.sub(r"/\{[^}]+\}$", "", path)
+
+
+def _bola_setup(routes, ctx):
+    """BOLA on resources that must EXIST first (books, orders, ...). The empty app has nothing to read,
+    so `_bola` (which only reuses a username as the id) misses them. Here: as the owner, CREATE the
+    object via the collection's POST, learn its id, then run the metamorphic read as a NON-owner. Served
+    ⇒ BOLA. Generic: a by-id route `P/{id}` pairs with `POST P`; the id is the body field we posted with
+    the same name, else an id in the create response."""
+    users = [role for role, cred in ctx.roles.items() if role != "admin"]
+    if len(users) < 2:
+        return
+    owner, other = users[0], users[1]
+    from benchmarks.oracles import Session
+    creators = {r.path: r for r in routes
+                if r.method == "POST" and not r.path_params and r.body_fields}
+    for r in routes:
+        base = _collection_of(r.path)
+        if not (r.path_params and r.auth_required and base in creators and base != r.path):
+            continue
+        create = creators[base]
+        id_field = r.path_params[-1]
+        id_val = f"kavach-probe-{id_field}"
+        body = _body(create.body_fields, {id_field: id_val})
+        ctx._seed()
+        s = Session(ctx.base_url, auth={**ctx.auth, "body_json": True})
+        if not s.login(owner):
+            continue
+        resp = s.request("POST", create.path, body=body)
+        if id_field not in create.body_fields:                 # id not chosen by us -> read it back
+            m = re.search(rf'"{id_field}"\s*:\s*"?([^",}}]+)', resp.body) or re.search(r'"id"\s*:\s*"?([^",}]+)', resp.body)
+            if not m:
+                continue
+            id_val = m.group(1)
+        req = {"method": r.method, "path": _fill_path(r.path, {id_field: id_val})}
+        if r.body_fields:
+            req["body"] = _body(r.body_fields)
+        ex = {"access_control": {"request": req, "authorized": owner, "unauthorized": other},
+              "auth": ctx.auth}
+        hit, detail = run_exploit(ctx.base_url, ex)
+        if hit:
+            yield _finding("broken-object-level-auth", r, "CWE-639", "API1:2023",
+                           f"a non-owner can {r.method} {r.path} after another user created it",
+                           ex, detail, severity="critical")
+    ctx._seed()
+
+
 def _enumeration(routes, ctx):
     """User enumeration: a login route answers a known user + wrong password differently from an unknown
     user. Different ⇒ the error message distinguishes valid accounts. Identified by route shape."""
@@ -236,7 +285,7 @@ def _mass_assignment(routes, ctx):
                        ex, "self-registered admin-flag user performed a privileged DELETE; a plain user could not")
 
 
-_FAMILIES = [_data_exposure, _injection, _bola, _enumeration, _mass_assignment]
+_FAMILIES = [_data_exposure, _injection, _bola, _bola_setup, _enumeration, _mass_assignment]
 
 
 def probe(routes: list[Route], ctx: ProbeCtx) -> list[Finding]:
