@@ -27,21 +27,23 @@ a live NodeGoat instance** and keep only what reproduces.
 
 | metric | value | what it means |
 |---|---|---|
-| recall | **0.714** | confirmed 5 of 7 in-scope bugs (nosql, eval, xss, ssrf, open-redirect) |
-| precision | **1.0** | the 5 are all replayed exploits — no false positives |
-| F1 | **0.833** | — |
-| severity-weighted recall | **0.765** | the misses are the two IDORs (high), the hits include both criticals |
+| recall | **0.857** | confirmed 6 of 7 in-scope bugs (nosql, eval, xss, ssrf, open-redirect, allocations-IDOR) |
+| precision | **1.0** | all 6 are replayed exploits — no false positives |
+| F1 | **0.923** | — |
+| severity-weighted recall | **0.882** | the one miss is the benefits write-IDOR (high); both criticals hit |
 | stability (Jaccard, 3 runs) | **1.0** | identical every run |
-| median run time | **~6.5 s** | includes booting + seeding a fresh Node+Mongo instance |
-| seconds / bug | **~1.3 s** | — |
+| median run time | **~6.6 s** | includes booting + seeding a fresh Node+Mongo instance |
+| seconds / bug | **~1.1 s** | — |
 | out of scope | 4 static-only (secrets, private key, cookie flags, CSRF), 1 RoE (ReDoS) | detected statically / not live-probed |
 
 Raw: `reports/bench_nodegoat.json`.
 
-**The 0.714 is deliberately honest.** The two misses are IDOR (`allocations.js`, `benefits.js`): our
-JS probe detects them but does not yet auto-build the two-user exploit the IDOR oracle needs (the oracle
-exists; the exploit generator for it doesn't — the same shape of gap we closed for VAmPI's books-BOLA
-with a resource-setup probe). A benchmark that reported 1.0 everywhere would not be measuring anything.
+**The one remaining miss is honest.** We now auto-build the IDOR exploit — as one user, request two
+different object ids; different data back = IDOR (the `idor` oracle). That confirms `allocations.js`
+(a read-IDOR). The `benefits.js` miss is a *write* IDOR / missing access control: both ids return the
+same redirect, so the read-diff oracle correctly reports "not IDOR" — catching it needs a verify-after-
+write (user A changes user B's record, then observe B's record changed) or the access-control oracle.
+A benchmark that reported 1.0 everywhere would not be measuring anything.
 
 ## Why these numbers are honest
 

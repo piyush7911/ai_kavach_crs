@@ -74,7 +74,27 @@ def exploit_for(finding: dict, probes: Optional[dict] = None,
         return None, f"no probe is defined for class {klass!r}"
     if spec.get("oracle_kind") == "differential" and payload is None:
         return _differential_exploit(finding, probes, spec)
+    if spec.get("oracle_kind") == "idor" and payload is None:
+        return _idor_exploit(finding, probes, spec)
     return _single_exploit(finding, probes, spec, payload, success_if)
+
+
+def _idor_exploit(finding: dict, probes: dict, spec: dict) -> tuple[Optional[dict], str]:
+    """Build the two-request IDOR exploit: as ONE logged-in user, request the object id carrier with two
+    different ids. A properly-scoped endpoint returns the same (own) data or denies the foreign id; if the
+    foreign id is served DIFFERENT data, the user reached another user's object by changing the URL/body id.
+    The runner's `idor` oracle does the compare. Reuses `_single_exploit` for the carrier/field logic."""
+    def one(value):
+        ex, note = _single_exploit(finding, probes, spec, payload=value, success_if={"status": 200})
+        if ex is None:
+            return None, note
+        return {k: ex[k] for k in ("method", "path", "body", "headers") if k in ex}, note
+    own, note = one(spec["own_value"])
+    if own is None:
+        return None, note
+    foreign, _ = one(spec["foreign_value"])
+    exploit = {"login_as": "user", "idor": {"own_request": own, "foreign_request": foreign}}
+    return exploit, f"idor: {note}"
 
 
 def _differential_exploit(finding: dict, probes: dict, spec: dict) -> tuple[Optional[dict], str]:
@@ -182,8 +202,8 @@ def control_for(finding: dict, probes: Optional[dict] = None) -> Optional[dict]:
     """
     probes = probes or load_probes()
     spec = probes["classes"].get(_probe_class(finding))
-    if spec and spec.get("oracle_kind") == "differential":
-        return None  # the differential's own FALSE condition is the baseline; no separate control
+    if spec and spec.get("oracle_kind") in ("differential", "idor"):
+        return None  # the two-request oracles carry their own baseline (FALSE / own-id); no separate control
     exploit, _ = exploit_for(finding, probes, payload=probes.get("benign_value", "1"))
     return exploit
 

@@ -152,6 +152,15 @@
       "true_value": "1' || '1'=='1",
       "false_value": "1' || '1'=='2",
       "variants": []
+    },
+    "idor": {
+      "oracle_kind": "idor",
+      "own_value": "1",
+      "foreign_value": "2",
+      "success_if": {
+        "status": 200
+      },
+      "_note": "one user requests two different object ids; different data back = IDOR (runner's idor oracle)"
     }
   },
   "unsupported": {
@@ -166,7 +175,6 @@
     "xss-attr": "HTML-attribute breakout depends on the quoting of one particular template",
     "xss-css": "CSS-context injection has no reliable text oracle",
     "xss-url": "a value later in a URL cannot change the scheme; only encoding matters",
-    "idor": "needs two seeded identities and a cross-user comparison; the replay contract has neither",
     "csrf-missing": "acceptance of a cross-site request needs an application-specific success signal"
   },
   "benign_value": "1"
