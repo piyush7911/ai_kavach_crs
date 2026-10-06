@@ -1,0 +1,16 @@
+{
+  "target": "VAmPI",
+  "note": "Answer key for the benchmark harness. discovery=dynamic means a probe can find it; static (weak-jwt) and roe_excluded (live-DoS) are out of the probe's scope and scored separately.",
+  "labels": [
+    {"id": "sqli",          "klass": "injection",                 "route": "/users/v1/{username}",          "severity": "critical", "discovery": "dynamic"},
+    {"id": "bola-password", "klass": "broken-object-level-auth",  "route": "/users/v1/{username}/password", "severity": "critical", "discovery": "dynamic"},
+    {"id": "bola-email",    "klass": "broken-object-level-auth",  "route": "/users/v1/{username}/email",    "severity": "high",     "discovery": "dynamic"},
+    {"id": "bola-books",    "klass": "broken-object-level-auth",  "route": "/books/v1/{book_title}",        "severity": "critical", "discovery": "dynamic"},
+    {"id": "mass-assign",   "klass": "mass-assignment",           "route": "/users/v1/register",            "severity": "high",     "discovery": "dynamic"},
+    {"id": "data-exposure", "klass": "excessive-data-exposure",   "route": "/users/v1/_debug",              "severity": "high",     "discovery": "dynamic"},
+    {"id": "enumeration",   "klass": "user-enumeration",          "route": "/users/v1/login",               "severity": "medium",   "discovery": "dynamic"},
+    {"id": "regexdos",      "klass": "redos",                     "route": "/users/v1/{username}/email",    "severity": "medium",   "discovery": "roe_excluded"},
+    {"id": "rate-limit",    "klass": "rate-limiting",             "route": "*",                             "severity": "medium",   "discovery": "roe_excluded"},
+    {"id": "weak-jwt",      "klass": "weak-jwt",                  "route": "config.py",                     "severity": "high",     "discovery": "static"}
+  ]
+}

@@ -32,6 +32,13 @@ class Finding:
     reason: str = ""               # why suppressed, or what confirmed it
     evidence: dict = field(default_factory=dict)
     exploit: Optional[dict] = None  # replayable HTTP request: {method, path, headers, body, login_as, success_if}
+    # Security enrichment for a CONFIRMED finding (shape adapted from bug-hunter, MIT, © codexstar69).
+    # Unlike a static tool, our PoC's request/actual are what we really sent and got back over HTTP.
+    stride: str = ""                # Spoofing|Tampering|Repudiation|InfoDisclosure|DoS|ElevationOfPrivilege
+    reachability: str = ""          # EXTERNAL | AUTHENTICATED | INTERNAL | UNREACHABLE
+    exploitability: str = ""        # EASY | MEDIUM | HARD
+    cvss: str = ""                  # CVSS 3.1 vector string
+    poc: dict = field(default_factory=dict)  # {payload, request, expected, actual} — actually sent/observed
 
     def to_dict(self) -> dict:
         return asdict(self)
