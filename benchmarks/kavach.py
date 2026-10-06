@@ -48,7 +48,8 @@ def _static(stack: str, target: Path) -> list[Finding]:
     return []
 
 
-def _dynamic(url: str, zap_report: str | None = None, nuclei_report: str | None = None) -> tuple:
+def _dynamic(url: str, zap_report: str | None = None, nuclei_report: str | None = None,
+             llm: object | None = None) -> tuple:
     from src.pyauto.probes import (ProbeCtx, enrich_routes, mine_params, probe,
                                    routes_from_crawl, routes_from_sitemap, Route)
     pu = urlparse(url.rstrip("/"))
@@ -57,6 +58,11 @@ def _dynamic(url: str, zap_report: str | None = None, nuclei_report: str | None 
     sources = (routes_from_crawl(origin, seeds=((ctx_path + "/") or "/",))
                + routes_from_sitemap(f"{origin}{ctx_path}/sitemap.xml")
                + routes_from_sitemap(f"{origin}/sitemap.xml"))
+    if llm:                                            # Slice A: LLM reads the app's HTML/JS -> routes+params
+        from src.pyauto.llm_surface import gather_surface_text, propose_routes
+        lr = propose_routes(gather_surface_text(origin, ctx_path), llm)
+        print(f"[dynamic] +{len(lr)} routes proposed by the LLM from HTML/JS")
+        sources += lr
     if zap_report:                                     # a scanner's spider reaches routes/params we miss
         from benchmarks.scanners.zap import routes_from_zap
         zr = routes_from_zap(zap_report)
@@ -79,6 +85,24 @@ def _dynamic(url: str, zap_report: str | None = None, nuclei_report: str | None 
     return found, coverage(routes, found)
 
 
+def _build_probe_llm():
+    """The exploit/surface model (plan 010): reuses the OpenAI-compatible wiring, its own role MODEL_PROBE
+    (falls back to MODEL), local/air-gap endpoint via OPENAI_BASE_URL. Returns a `llm(prompt)->str` or None."""
+    import os
+    base = os.environ.get("OPENAI_BASE_URL")
+    if not base:
+        return None
+    from openai import OpenAI
+    client = OpenAI(base_url=base, api_key=os.environ.get("OPENAI_API_KEY", "x"))
+    model = os.environ.get("MODEL_PROBE") or os.environ.get("MODEL", "codegemma:7b")
+
+    def llm(prompt: str) -> str:
+        r = client.chat.completions.create(model=model, temperature=0, max_tokens=1500,
+                                           messages=[{"role": "user", "content": prompt}])
+        return r.choices[0].message.content or ""
+    return llm
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="python -m benchmarks.kavach")
     ap.add_argument("--target", help="source tree (stack auto-detected)")
@@ -86,6 +110,9 @@ def main(argv=None) -> int:
     ap.add_argument("--zap", help="an OWASP ZAP JSON report to ingest as candidates")
     ap.add_argument("--trivy", help="a Trivy JSON report (deps/CVEs/IaC/secrets) to ingest as candidates")
     ap.add_argument("--nuclei", help="a Nuclei JSONL report to ingest + confirm")
+    ap.add_argument("--llm-surface", action="store_true",
+                    help="plan 010 Slice A: let the LLM read HTML/JS and propose routes+params (needs "
+                         "OPENAI_BASE_URL + MODEL_PROBE/MODEL)")
     ap.add_argument("--out", default="", help="write the merged findings JSON here")
     args = ap.parse_args(argv)
     if not (args.target or args.url or args.zap or args.trivy or args.nuclei):
@@ -100,10 +127,13 @@ def main(argv=None) -> int:
             s = _static(stack, target)
             print(f"[static] {len(s)} candidate(s)")
             findings += s
+    llm = _build_probe_llm() if args.llm_surface else None
+    if args.llm_surface and llm is None:
+        print("[llm] --llm-surface set but no OPENAI_BASE_URL — skipping LLM surface discovery")
     cov = None
     if args.url:
         print(f"[dynamic] discovering + confirming on {args.url} ...")
-        d, cov = _dynamic(args.url, zap_report=args.zap, nuclei_report=args.nuclei)
+        d, cov = _dynamic(args.url, zap_report=args.zap, nuclei_report=args.nuclei, llm=llm)
         print(f"[dynamic] {len(d)} CONFIRMED")
         print(f"[coverage] examined {cov['routes_examined']} routes; actively ATTACKED "
               f"{cov['routes_attacked']} ({cov['attack_coverage_pct']}%); attack-gap {cov['attack_gap']} "
