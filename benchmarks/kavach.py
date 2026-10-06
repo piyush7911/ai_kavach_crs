@@ -229,6 +229,9 @@ def main(argv=None) -> int:
     ap.add_argument("--idor", action="store_true",
                     help="IDOR/BOLA candidate detection from a route map (needs --routes); path-id routes "
                          "are confirmed credential-free via the direct-object-reference oracle")
+    ap.add_argument("--smuggle", action="store_true",
+                    help="HTTP request-smuggling timing probe (needs --url; isolated-VM only); reports a "
+                         "high-confidence CANDIDATE (timing is not a self-validating proof)")
     ap.add_argument("--live", action="store_true",
                     help="run the language-agnostic live HTTP PROVE oracles (headers/cookies/CORS/JWT/"
                          "rate-limit/enumeration/reflected-XSS/redirect); needs --url")
@@ -354,6 +357,12 @@ def main(argv=None) -> int:
         how = "authenticated + credential-free" if auth_spec else "credential-free"
         print(f"[idor] {len(idf)} IDOR/BOLA candidate(s); {n_idor} CONFIRMED ({how} path-id oracle)")
         findings += idf
+
+    if args.smuggle and args.url:
+        from src.pyauto.smuggling import detect_smuggling
+        sm = detect_smuggling(args.url.rstrip("/"))
+        print(f"[smuggle] {len(sm)} request-smuggling timing candidate(s)")
+        findings += sm
 
     # Correlate code-location candidates (static / Opengrep / Joern / scanner) to routes, then confirm via oracle.
     if routes:
