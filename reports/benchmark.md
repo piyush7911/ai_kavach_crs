@@ -27,23 +27,23 @@ a live NodeGoat instance** and keep only what reproduces.
 
 | metric | value | what it means |
 |---|---|---|
-| recall | **0.857** | confirmed 6 of 7 in-scope bugs (nosql, eval, xss, ssrf, open-redirect, allocations-IDOR) |
-| precision | **1.0** | all 6 are replayed exploits — no false positives |
-| F1 | **0.923** | — |
-| severity-weighted recall | **0.882** | the one miss is the benefits write-IDOR (high); both criticals hit |
+| recall | **1.0** | confirmed all 7 in-scope bugs (nosql, eval, xss, ssrf, open-redirect, 2× IDOR) |
+| precision | **1.0** | all 7 are replayed exploits — no false positives |
+| F1 | **1.0** | — |
+| severity-weighted recall | **1.0** | — |
 | stability (Jaccard, 3 runs) | **1.0** | identical every run |
-| median run time | **~6.6 s** | includes booting + seeding a fresh Node+Mongo instance |
-| seconds / bug | **~1.1 s** | — |
+| median run time | **~6.7 s** | includes booting + seeding a fresh Node+Mongo instance |
+| seconds / bug | **~1.0 s** | — |
 | out of scope | 4 static-only (secrets, private key, cookie flags, CSRF), 1 RoE (ReDoS) | detected statically / not live-probed |
 
 Raw: `reports/bench_nodegoat.json`.
 
-**The one remaining miss is honest.** We now auto-build the IDOR exploit — as one user, request two
-different object ids; different data back = IDOR (the `idor` oracle). That confirms `allocations.js`
-(a read-IDOR). The `benefits.js` miss is a *write* IDOR / missing access control: both ids return the
-same redirect, so the read-diff oracle correctly reports "not IDOR" — catching it needs a verify-after-
-write (user A changes user B's record, then observe B's record changed) or the access-control oracle.
-A benchmark that reported 1.0 everywhere would not be measuring anything.
+**Both IDORs now confirm, by two different oracles.** `allocations.js` is a READ-IDOR: as one user,
+request two object ids; different data back = IDOR. `benefits.js` is a WRITE-IDOR / missing authorization
+that a read-diff cannot see (the mutation returns the same redirect for every id) — so the `write_idor`
+oracle does **verify-after-write**: as a regular user, write a distinctive marker into another user's
+record, then read the resource back; the marker appearing proves the attacker modified data they do not
+own. A fix (ownership or `isAdmin` check) denies the write, so the marker never appears.
 
 ## Why these numbers are honest
 

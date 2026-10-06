@@ -160,7 +160,9 @@
       "success_if": {
         "status": 200
       },
-      "_note": "one user requests two different object ids; different data back = IDOR (runner's idor oracle)"
+      "_note": "one user requests two different object ids; different data back = IDOR (runner's idor oracle)",
+      "marker": "2099-12-31",
+      "victim_id": "2"
     }
   },
   "unsupported": {

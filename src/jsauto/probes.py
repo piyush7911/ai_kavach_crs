@@ -75,8 +75,48 @@ def exploit_for(finding: dict, probes: Optional[dict] = None,
     if spec.get("oracle_kind") == "differential" and payload is None:
         return _differential_exploit(finding, probes, spec)
     if spec.get("oracle_kind") == "idor" and payload is None:
-        return _idor_exploit(finding, probes, spec)
+        route = ((finding.get("evidence") or {}).get("entry") or {}).get("route") or {}
+        if (route.get("method") or "GET").upper() in ("POST", "PUT", "PATCH"):
+            wx, note = _write_idor_exploit(finding, probes, spec)   # a mutation: verify-after-write
+            if wx is not None:
+                return wx, note
+        return _idor_exploit(finding, probes, spec)                 # a read: two-id read-diff
     return _single_exploit(finding, probes, spec, payload, success_if)
+
+
+def _write_idor_exploit(finding: dict, probes: dict, spec: dict) -> tuple[Optional[dict], str]:
+    """Build a verify-after-write IDOR exploit for a mutating route: as a regular user, write a distinctive
+    marker into the writable field(s) while the id carrier points at ANOTHER user's record, then read the
+    resource back (GET the same path). The runner's `write_idor` oracle does the before/after compare."""
+    ev = finding.get("evidence") or {}
+    entry = ev.get("entry") or {}
+    route = entry.get("route")
+    if not route:
+        return None, "the entry point has no route"
+    tainted = [tuple(x) for x in ev.get("tainted_fields", [])]
+    idf = tainted[0] if tainted else None
+    if not idf or idf[0] not in _LOCATIONS:
+        return None, "no id carrier to point at another user"
+    marker, victim = spec.get("marker", "2099-12-31"), spec.get("victim_id", "2")
+    req_fields = [tuple(x) for x in entry.get("request_fields", []) if x[0] in _LOCATIONS]
+    carriers = list(dict.fromkeys([idf] + req_fields))
+    values = {f: (victim if f == idf else marker) for f in carriers}
+
+    method = (route.get("method") or "POST").upper()
+    path = _fill_path(route["path"], {**{n: v for (loc, n), v in values.items()}, "_benign": victim})
+    body = {n: v for (loc, n), v in values.items() if loc in ("body", "payload")}
+    query = {n: v for (loc, n), v in values.items() if loc == "query"}
+    if query:
+        path += ("&" if "?" in path else "?") + urlencode(query, quote_via=quote, safe="")
+    write = {"method": method, "path": path}
+    if body:
+        write["body"] = body
+        write["headers"] = {"Content-Type": "application/x-www-form-urlencoded"}
+    read = {"method": "GET", "path": route["path"].split("?")[0]}
+    exploit = {"login_as": "user",
+               "write_idor": {"write_request": write, "read_request": read, "marker": marker,
+                              "write_as": "user", "read_as": "user"}}
+    return exploit, f"write-idor: marker in a non-id field, id {idf[1]}={victim}, read-back GET {read['path']}"
 
 
 def _idor_exploit(finding: dict, probes: dict, spec: dict) -> tuple[Optional[dict], str]:
