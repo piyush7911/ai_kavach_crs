@@ -93,7 +93,8 @@ def repair(finding: dict, tree: Path, llm: Callable[[str], str], pov: dict,
             feedback = f"the patch does not parse: {errs[:3]}"
             out.attempts.append({**att, "stage": "apply", "detail": feedback})
             continue
-        verdict = _gate(tree, target_file, patched, pov, run_cmd, env, seed_path, health_path, regression)
+        verdict = _gate(tree, target_file, patched, pov, run_cmd, env, seed_path, health_path, regression,
+                        klass=finding.get("klass", ""))
         out.attempts.append({**att, "stage": verdict[0], "detail": verdict[1]})
         if verdict[0] == "pov":                          # CEGIS: feed the concrete counterexample back, not "try again"
             feedback = (f"the exploit STILL fires. Counterexample — this request must be neutralized: "
@@ -112,7 +113,7 @@ def repair(finding: dict, tree: Path, llm: Callable[[str], str], pov: dict,
     return out
 
 
-def _gate(tree, target_file, patched, pov, run_cmd, env, seed_path, health_path, regression):
+def _gate(tree, target_file, patched, pov, run_cmd, env, seed_path, health_path, regression, klass=""):
     """Run the patched tree and check the exploit is gone (+ regression). Returns (stage, detail)."""
     work = Path(tempfile.mkdtemp(prefix="pyrepair_"))
     try:
@@ -132,7 +133,12 @@ def _gate(tree, target_file, patched, pov, run_cmd, env, seed_path, health_path,
                 ok, fdetail = _flow_ok_stable(app.base_url, flow)
                 if not ok:
                     return "regression", f"flow {flow.get('name', flow['path'])} broke: {fdetail}"
-            return "accepted", "exploit gone" + ("; regression ok" if regression else "")
+            if klass:                                    # static re-scan: the vuln CLASS must be gone, not just the PoC
+                from src.autonomy.rescan_gate import flow_cleared
+                cleared, rdetail = flow_cleared(patched_tree / target_file.relative_to(tree), klass)
+                if not cleared:
+                    return "rescan", rdetail
+            return "accepted", "exploit gone" + ("; regression ok" if regression else "") + "; flow re-scan clean"
         finally:
             app.stop()
     finally:
