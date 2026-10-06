@@ -36,15 +36,19 @@ def detect_stack(target: Path) -> str | None:
 
 
 def _static(stack: str, target: Path) -> list[Finding]:
-    if stack == "js":
-        from src.jsauto import static
-        return static.scan(target)["findings"]
-    if stack == "python":
-        from src.pyauto import static
-        return static.scan(target)
-    if stack == "java":
-        from src.javaauto import static
-        return static.scan(target)
+    try:
+        if stack == "js":
+            from src.jsauto import static
+            return static.scan(target)["findings"]
+        if stack == "python":
+            from src.pyauto import static
+            return static.scan(target)
+        if stack == "java":
+            from src.javaauto import static
+            return static.scan(target)
+    except ImportError as e:                           # a tree-sitter grammar not vendored: skip static, keep going
+        print(f"[static] {stack} parser unavailable ({e}); skipping static scan "
+              "(scanner/Joern candidates + dynamic confirm still run)")
     return []
 
 

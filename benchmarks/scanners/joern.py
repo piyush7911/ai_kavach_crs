@@ -23,8 +23,10 @@ _CLASS = {"sql-injection": "sql-injection", "nosql-injection": "nosql-injection"
 
 
 def findings_from_joern(tsv_path: str | Path) -> list[Finding]:
-    """Parse a Joern taint TSV into candidate Findings. FLOW row:
-    FLOW <class> <src_file> <src_line> <src_func> <sink_file> <sink_line> <sink_func>."""
+    """Parse a Joern taint TSV into candidate Findings. FLOW row (per joern_taint.sc), SINK first:
+    FLOW <class> <sink_file> <sink_line> <sink_func> <src_file> <src_line> <src_func>.
+    We anchor the Finding to the SOURCE (the request-handler method), so `correlate` can map it to a
+    route; the sink (where the fix lands) is kept in evidence."""
     path = Path(tsv_path)
     if not path.exists():
         return []
@@ -33,7 +35,7 @@ def findings_from_joern(tsv_path: str | Path) -> list[Finding]:
         cols = line.split("\t")
         if not cols or cols[0] != "FLOW" or len(cols) < 8:
             continue                                     # skip META / malformed rows
-        klass_raw, sfile, sline, sfunc, kfile, kline, kfunc = cols[1:8]
+        klass_raw, kfile, kline, kfunc, sfile, sline, sfunc = cols[1:8]
         i += 1
         try:
             line_no = max(int(sline), 0)
