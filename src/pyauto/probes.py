@@ -615,29 +615,38 @@ def probe(routes: list[Route], ctx: ProbeCtx) -> list[Finding]:
 
 
 def _is_exercised(r: Route) -> bool:
-    """Does at least one oracle family send a request to this route? (A route with no carrier and no
-    collection-read shape is 'examined but not exercised' — surface we saw but could not attack.)"""
+    """Did we send ANY request to this route (incl. a passive data-exposure GET)?"""
+    is_collection_read = r.method == "GET" and not r.path_params
+    return _is_attacked(r) or is_collection_read
+
+
+def _is_attacked(r: Route) -> bool:
+    """Did we send a PAYLOAD to this route — i.e. a family had a carrier (a path/body/query parameter) or
+    a login shape to inject into? This is the meaningful coverage: a bare GET with no parameter can only be
+    passively read, never actively attacked, so it is surface the probes could not really test."""
     has_carrier = bool(r.path_params or r.query_fields or r.body_fields)
-    is_collection_read = r.method == "GET" and not r.path_params        # data-exposure target
     import re as _re
     is_login = r.method == "POST" and "password" in r.body_fields and bool(_re.search(r"log[_-]?in|signin|auth", r.path, _re.I))
-    return has_carrier or is_collection_read or is_login
+    return has_carrier or is_login
 
 
 def coverage(routes: list[Route], findings: list = None) -> dict:
-    """Honest coverage of a dynamic run: how much surface we SAW vs actually EXERCISED (sent a request to)
-    vs CONFIRMED. 'Zero findings is never safe' — a big unexercised gap means the surface out-ran our
-    probes (the signal that should trigger the LLM fallback), not that the app is clean."""
+    """Honest coverage of a dynamic run. 'Zero findings is never safe': the number that matters is how many
+    routes we could ACTIVELY ATTACK (had a parameter to inject into) — not how many we merely pinged. A big
+    attack-gap means the surface out-ran our probes (no params found), which is exactly where the LLM
+    fallback (plan 010) should generate params/payloads — not evidence the app is clean."""
     findings = findings or []
     examined = len(routes)
-    exercised = [r for r in routes if _is_exercised(r)]
+    exercised = sum(1 for r in routes if _is_exercised(r))
+    attacked = sum(1 for r in routes if _is_attacked(r))
     confirmed_routes = {f.evidence.get("route") for f in findings if getattr(f, "status", "") == "confirmed"}
     return {
         "routes_examined": examined,
-        "routes_exercised": len(exercised),
-        "routes_unexercised": examined - len(exercised),   # surface seen but not attacked = the gap
+        "routes_exercised": exercised,                     # any request sent (incl. passive GET)
+        "routes_attacked": attacked,                       # a payload sent (had a parameter) — the real number
+        "attack_gap": examined - attacked,                 # surface we could not actively test → LLM-fallback target
         "routes_confirmed_a_bug": len(confirmed_routes),
-        "coverage_pct": round(100 * len(exercised) / examined, 1) if examined else 0.0,
+        "attack_coverage_pct": round(100 * attacked / examined, 1) if examined else 0.0,
     }
 
 

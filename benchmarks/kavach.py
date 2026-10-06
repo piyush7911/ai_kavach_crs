@@ -105,10 +105,11 @@ def main(argv=None) -> int:
         print(f"[dynamic] discovering + confirming on {args.url} ...")
         d, cov = _dynamic(args.url, zap_report=args.zap, nuclei_report=args.nuclei)
         print(f"[dynamic] {len(d)} CONFIRMED")
-        print(f"[coverage] examined {cov['routes_examined']} routes, exercised {cov['routes_exercised']} "
-              f"({cov['coverage_pct']}%), {cov['routes_unexercised']} unexercised (surface seen, not attacked)")
-        if cov["routes_unexercised"]:
-            print("[coverage] gap present → not 'clean'; this is where the LLM fallback (plan 010) will engage")
+        print(f"[coverage] examined {cov['routes_examined']} routes; actively ATTACKED "
+              f"{cov['routes_attacked']} ({cov['attack_coverage_pct']}%); attack-gap {cov['attack_gap']} "
+              f"(surface with no parameter we could inject)")
+        if cov["attack_gap"]:
+            print("[coverage] attack-gap > 0 → NOT 'clean'; this is where the LLM fallback (plan 010) will engage")
         findings += d
 
     # confirmable scanners: ingest their alerts, then re-test each with our oracle (real -> confirmed)

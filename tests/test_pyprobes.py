@@ -238,6 +238,7 @@ def test_coverage_examined_vs_exercised():
     ]
     cov = coverage(routes, [])
     assert cov["routes_examined"] == 5
-    assert cov["routes_exercised"] == 4                       # the lone POST /webhook is the only gap
-    assert cov["routes_unexercised"] == 1
-    assert cov["coverage_pct"] == 80.0
+    assert cov["routes_exercised"] == 4                       # 4 got a request (bare GETs + the 2 attacked)
+    assert cov["routes_attacked"] == 2                        # payload sent only to /u/{id} and /login
+    assert cov["attack_gap"] == 3                             # /users, /static, /webhook: no param to inject
+    assert cov["attack_coverage_pct"] == 40.0
