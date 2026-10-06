@@ -20,6 +20,29 @@ bug-hunter (MIT, © codexstar69); meaning reframed for a runtime-confirmed finde
 
 Raw: `reports/bench_vampi.json`.
 
+## NodeGoat result (3 runs) — `--target nodegoat`
+
+A finding here is also runtime-confirmed: jsauto detects + builds an exploit, then we **replay it against
+a live NodeGoat instance** and keep only what reproduces.
+
+| metric | value | what it means |
+|---|---|---|
+| recall | **0.714** | confirmed 5 of 7 in-scope bugs (nosql, eval, xss, ssrf, open-redirect) |
+| precision | **1.0** | the 5 are all replayed exploits — no false positives |
+| F1 | **0.833** | — |
+| severity-weighted recall | **0.765** | the misses are the two IDORs (high), the hits include both criticals |
+| stability (Jaccard, 3 runs) | **1.0** | identical every run |
+| median run time | **~6.5 s** | includes booting + seeding a fresh Node+Mongo instance |
+| seconds / bug | **~1.3 s** | — |
+| out of scope | 4 static-only (secrets, private key, cookie flags, CSRF), 1 RoE (ReDoS) | detected statically / not live-probed |
+
+Raw: `reports/bench_nodegoat.json`.
+
+**The 0.714 is deliberately honest.** The two misses are IDOR (`allocations.js`, `benefits.js`): our
+JS probe detects them but does not yet auto-build the two-user exploit the IDOR oracle needs (the oracle
+exists; the exploit generator for it doesn't — the same shape of gap we closed for VAmPI's books-BOLA
+with a resource-setup probe). A benchmark that reported 1.0 everywhere would not be measuring anything.
+
 ## Why these numbers are honest
 
 - **Precision ≈ 1 by construction.** A finding is only emitted after a replayed HTTP exploit confirms

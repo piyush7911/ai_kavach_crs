@@ -22,7 +22,7 @@ from dataclasses import dataclass, field
 from typing import Callable, Optional
 
 from benchmarks.oracles import run_exploit
-from src.jsauto.findings import Finding
+from src.jsauto.findings import apply_security, Finding
 from src.pyauto import probe_policy
 
 # field names whose presence in a response body is a data-exposure signal, and benign fillers by name
@@ -177,48 +177,16 @@ def _body(fields: list, override: dict | None = None) -> dict:
     return {f: override.get(f, _benign(f)) for f in fields}
 
 
-# Per-class security enrichment for a CONFIRMED finding: (STRIDE, exploitability, CVSS 3.1 vector).
-# (shape per bug-hunter, MIT, © codexstar69; our PoC request/actual are the real HTTP we sent/observed.)
-_SECURITY = {
-    "excessive-data-exposure": ("InfoDisclosure", "EASY", "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"),
-    "injection": ("Tampering", "EASY", "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"),
-    "broken-object-level-auth": ("ElevationOfPrivilege", "EASY", "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N"),
-    "user-enumeration": ("InfoDisclosure", "EASY", "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"),
-    "mass-assignment": ("ElevationOfPrivilege", "MEDIUM", "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N"),
-}
-
-
-def _poc(exploit: dict, detail: str) -> dict:
-    """The proof-of-concept, built from what we actually sent. For the two-request oracles the 'request'
-    is the attacking leg; 'actual' is the oracle's observation that confirmed it."""
-    ac = exploit.get("access_control")
-    diff = exploit.get("differential")
-    if ac:
-        req, payload = ac["request"], f"as {ac.get('unauthorized','another user')}"
-        expected = "401/403 (not the owner)"
-    elif diff:
-        req, payload = diff["true_request"], "boolean tautology vs contradiction"
-        expected = "identical responses (input does not reach the query)"
-    else:
-        req, payload = exploit, exploit.get("body") or exploit.get("path", "")
-        expected = "no sensitive field / request denied"
-    request = f"{req.get('method','GET')} {req.get('path','')}" + (f" body={req['body']}" if req.get("body") else "")
-    return {"payload": str(payload), "request": request, "expected": expected, "actual": detail}
-
-
 def _finding(klass: str, route: Route, cwe: str, owasp: str, message: str,
              exploit: dict, detail: str, severity: str = "high") -> Finding:
     fid = f"probe:{klass}:{route.method}:{route.path}"
     src = route_to_source(route.operation_id) or {}
-    stride, exploitability, cvss = _SECURITY.get(klass, ("", "", ""))
-    return Finding(id=fid, source="probe", klass=klass, file=src.get("file", "(runtime)"),
-                   function=src.get("function", ""), rule="dynamic-probe",
-                   cwe=cwe, owasp=owasp, severity=severity, confidence="high",
-                   message=message, status="confirmed", reason=detail,
-                   evidence={"route": f"{route.method} {route.path}"}, exploit=exploit,
-                   stride=stride, exploitability=exploitability, cvss=cvss,
-                   reachability="AUTHENTICATED" if route.auth_required else "EXTERNAL",
-                   poc=_poc(exploit, detail))
+    f = Finding(id=fid, source="probe", klass=klass, file=src.get("file", "(runtime)"),
+                function=src.get("function", ""), rule="dynamic-probe",
+                cwe=cwe, owasp=owasp, severity=severity, confidence="high",
+                message=message, status="confirmed", reason=detail,
+                evidence={"route": f"{route.method} {route.path}"}, exploit=exploit)
+    return apply_security(f, "AUTHENTICATED" if route.auth_required else "EXTERNAL", detail)
 
 
 # --- oracle families: each takes (routes, ctx) and yields confirmed Findings -------------------------
@@ -239,7 +207,6 @@ def _data_exposure(routes, ctx):
 def _injection(routes, ctx):
     from urllib.parse import quote
     for r in routes:
-        carriers = list(r.path_params) + list(r.body_fields) + list(r.query_fields)
         if not probe_policy.allow("injection", r)[0]:      # needs a carrier; skips credential routes (policy)
             continue
 

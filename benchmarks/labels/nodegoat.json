@@ -1,0 +1,18 @@
+{
+  "target": "NodeGoat",
+  "note": "Answer key from our detector's findings, tagged by confirmability. dynamic = a runtime probe can prove it; static = detected but no live PoV (secrets, cookie flags, CSRF); roe_excluded = live-DoS. route = the source file the bug lives in.",
+  "labels": [
+    {"id": "nosql",          "klass": "nosql-injection",        "route": "app/data/allocations-dao.js", "severity": "critical", "discovery": "dynamic"},
+    {"id": "eval",           "klass": "eval-injection",         "route": "app/routes/contributions.js", "severity": "critical", "discovery": "dynamic"},
+    {"id": "xss",            "klass": "xss",                    "route": "app/routes/profile.js",       "severity": "high",     "discovery": "dynamic"},
+    {"id": "ssrf",           "klass": "ssrf",                   "route": "app/routes/research.js",      "severity": "high",     "discovery": "dynamic"},
+    {"id": "open-redirect",  "klass": "open-redirect",          "route": "app/routes/index.js",         "severity": "medium",   "discovery": "dynamic"},
+    {"id": "idor-alloc",     "klass": "idor",                   "route": "app/routes/allocations.js",   "severity": "high",     "discovery": "dynamic"},
+    {"id": "idor-benefits",  "klass": "idor",                   "route": "app/routes/benefits.js",      "severity": "high",     "discovery": "dynamic"},
+    {"id": "hardcoded-secret","klass": "hardcoded-secret",      "route": "config/env/all.js",           "severity": "medium",   "discovery": "static"},
+    {"id": "private-key",    "klass": "private-key-in-repo",    "route": "artifacts/cert/server.key",   "severity": "high",     "discovery": "static"},
+    {"id": "session-cookie", "klass": "insecure-session-cookie","route": "server.js",                   "severity": "medium",   "discovery": "static"},
+    {"id": "csrf",           "klass": "csrf-missing",           "route": "server.js",                   "severity": "medium",   "discovery": "static"},
+    {"id": "redos",          "klass": "redos",                  "route": "app/routes/profile.js",       "severity": "medium",   "discovery": "roe_excluded"}
+  ]
+}

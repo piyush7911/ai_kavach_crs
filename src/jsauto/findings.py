@@ -44,6 +44,50 @@ class Finding:
         return asdict(self)
 
 
+# Security profile per vulnerability class, shared by both backends: (STRIDE, exploitability, CVSS 3.1
+# vector). Shape adapted from bug-hunter (MIT, © codexstar69). Keys cover the Python and JS klasses.
+SECURITY_PROFILE = {
+    "excessive-data-exposure": ("InfoDisclosure", "EASY", "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"),
+    "injection": ("Tampering", "EASY", "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"),
+    "nosql-injection": ("Tampering", "EASY", "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N"),
+    "eval-injection": ("ElevationOfPrivilege", "EASY", "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"),
+    "xss": ("Tampering", "MEDIUM", "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N"),
+    "ssrf": ("InfoDisclosure", "MEDIUM", "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:L/A:N"),
+    "open-redirect": ("Spoofing", "MEDIUM", "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"),
+    "idor": ("ElevationOfPrivilege", "EASY", "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N"),
+    "broken-object-level-auth": ("ElevationOfPrivilege", "EASY", "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N"),
+    "user-enumeration": ("InfoDisclosure", "EASY", "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"),
+    "mass-assignment": ("ElevationOfPrivilege", "MEDIUM", "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N"),
+}
+
+
+def build_poc(exploit: dict, detail: str) -> dict:
+    """A proof-of-concept built from what was actually sent. For the two-request oracles the 'request'
+    is the attacking leg and 'actual' is the confirming observation. Used by both backends."""
+    ac = (exploit or {}).get("access_control")
+    diff = (exploit or {}).get("differential")
+    if ac:
+        req = ac["request"]
+        payload, expected = f"as {ac.get('unauthorized', 'another user')}", "401/403 (not the owner)"
+    elif diff:
+        req = diff["true_request"]
+        payload, expected = "boolean tautology vs contradiction", "identical responses (input does not reach the query)"
+    else:
+        req = exploit or {}
+        payload, expected = req.get("body") or req.get("path", ""), "request denied / no sensitive data"
+    request = f"{req.get('method', 'GET')} {req.get('path', '')}" + (f" body={req['body']}" if req.get("body") else "")
+    return {"payload": str(payload), "request": request, "expected": expected, "actual": detail}
+
+
+def apply_security(finding: "Finding", reachability: str, detail: str = "") -> "Finding":
+    """Fill the security-enrichment fields on a CONFIRMED finding from the shared profile + its exploit."""
+    stride, exploitability, cvss = SECURITY_PROFILE.get(finding.klass, ("", "", ""))
+    finding.stride, finding.exploitability, finding.cvss = stride, exploitability, cvss
+    finding.reachability = reachability
+    finding.poc = build_poc(finding.exploit, detail or finding.reason)
+    return finding
+
+
 def dump(findings: list[Finding], path, extra: Optional[dict] = None) -> None:
     body = {"findings": [f.to_dict() for f in findings]}
     body.update(extra or {})

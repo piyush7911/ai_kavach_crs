@@ -25,13 +25,17 @@ _SEV_WEIGHT = {"low": 1, "medium": 2, "high": 4, "critical": 8}
 
 
 def _match(finding, label) -> bool:
-    """A confirmed finding matches a label when the class agrees and the route lines up (tolerant:
-    the label's route pattern appears in the finding's route, or vice versa)."""
+    """A confirmed finding matches a label when the class agrees and the location lines up (tolerant):
+    the label's `route` is a URL route (web probe) or a source file (NodeGoat), so match against either
+    the finding's evidence route or its file."""
     if finding.klass != label["klass"]:
         return False
-    froute = finding.evidence.get("route", "").split(" ", 1)[-1]
     lroute = label["route"]
-    return lroute in froute or froute in lroute or lroute == "*"
+    if lroute == "*":
+        return True
+    froute = finding.evidence.get("route", "").split(" ", 1)[-1]
+    ffile = getattr(finding, "file", "")
+    return (froute and (lroute in froute or froute in lroute)) or lroute == ffile
 
 
 def _score_run(findings, labels) -> dict:
@@ -75,7 +79,40 @@ def _vampi_discover():
     return probe(routes, ProbeCtx(base, VAMPI_AUTH, reseed=seed))
 
 
-_TARGETS = {"vampi": (_vampi_discover, "benchmarks/labels/vampi.json")}
+def _nodegoat_discover():
+    """Detect (jsauto static + probe exploits), then CONFIRM each by replaying its exploit against a live
+    instance; return only the confirmed findings, security-enriched. This is the JS analogue of the VAmPI
+    probe run — same 'a finding is a replayed exploit' bar."""
+    from pathlib import Path as _P
+    from src.jsauto import probes as jsprobes, static
+    from src.jsauto.findings import apply_security
+    from benchmarks.nodegoat.appserver import AppServer
+    from benchmarks.nodegoat.exploit import run_exploit
+    root = _P("benchmark_workspace/NodeGoat").resolve()
+    findings = static.scan(root)["findings"]
+    for i, f in enumerate(findings, 1):
+        f.id = f"JS-{i:03d}"
+    jsprobes.attach(findings)
+    confirmed = []
+    app = AppServer(root).start()
+    try:
+        for f in findings:
+            if not getattr(f, "exploit", None):
+                continue
+            hit, detail = run_exploit(app.base_url, f.exploit)
+            if hit:
+                reach = "AUTHENTICATED" if f.exploit.get("login_as") in ("user", "admin") else "EXTERNAL"
+                f.status, f.reason = "confirmed", detail
+                f.evidence = {**(f.evidence or {}), "route": f"{f.exploit.get('method', 'GET')} {f.file}"}
+                apply_security(f, reach, detail)
+                confirmed.append(f)
+    finally:
+        app.stop()
+    return confirmed
+
+
+_TARGETS = {"vampi": (_vampi_discover, "benchmarks/labels/vampi.json"),
+            "nodegoat": (_nodegoat_discover, "benchmarks/labels/nodegoat.json")}
 
 
 def main() -> int:
