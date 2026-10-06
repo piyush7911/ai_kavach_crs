@@ -495,7 +495,10 @@ def _single_request(route: Route, loc: str, name: str, value: str) -> dict:
     that dispatch on "which param is present" (e.g. a raw handler) only reach the vulnerable branch when
     the sibling params are absent; a single-field payload is also enough for these one-field bug classes."""
     from urllib.parse import quote, urlencode
-    pv = {p: (value if (loc == "path" and p == name) else _benign(p)) for p in route.path_params}
+    # path-param values go straight into the URL path, so encode them (a cmdi/traversal payload has spaces
+    # and slashes); keep {OOB_URL}/{OOB_MARKER} braces literal for the runner to substitute.
+    pv = {p: (quote(value, safe="{}") if (loc == "path" and p == name) else _benign(p))
+          for p in route.path_params}
     path = _fill_path(route.path, pv)
     if loc == "query":
         path += ("&" if "?" in path else "?") + urlencode({name: value}, quote_via=quote, safe="{}")
