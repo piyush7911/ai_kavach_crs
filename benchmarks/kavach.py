@@ -102,7 +102,7 @@ def _dynamic(url: str, zap_report: str | None = None, nuclei_report: str | None 
         newc = [c for c in cands if c.status == "confirmed"]
         print(f"[llm-attacks] {len(cands)} param/class hypotheses on gap routes → {len(newc)} CONFIRMED by oracle")
         found += newc
-    return found, coverage(routes, found)
+    return found, coverage(routes, found), routes
 
 
 def _build_probe_llm():
@@ -157,11 +157,11 @@ def main(argv=None) -> int:
     llm = _build_probe_llm() if want_llm else None
     if want_llm and llm is None:
         print("[llm] --llm-* set but no OPENAI_BASE_URL — skipping LLM fallback")
-    cov = None
+    cov, routes = None, []
     if args.url:
         print(f"[dynamic] discovering + confirming on {args.url} ...")
-        d, cov = _dynamic(args.url, zap_report=args.zap, nuclei_report=args.nuclei,
-                          llm=llm, surface=args.llm_surface, attacks=args.llm_attacks, target=args.target)
+        d, cov, routes = _dynamic(args.url, zap_report=args.zap, nuclei_report=args.nuclei,
+                                  llm=llm, surface=args.llm_surface, attacks=args.llm_attacks, target=args.target)
         print(f"[dynamic] {len(d)} CONFIRMED")
         print(f"[coverage] examined {cov['routes_examined']} routes; actively ATTACKED "
               f"{cov['routes_attacked']} ({cov['attack_coverage_pct']}%); attack-gap {cov['attack_gap']} "
@@ -200,6 +200,40 @@ def main(argv=None) -> int:
             print(f"[opengrep] {len(og)} candidate(s) (confirming over HTTP needs source→route correlation — "
                   f"reported as candidates)")
             findings += og
+
+    # Correlate code-location candidates (static / Opengrep / scanner) to routes, then confirm via oracle.
+    if routes:
+        from src.pyauto.correlate import correlate
+        from src.pyauto.probes import ProbeCtx, confirm_candidates
+        pu = urlparse(args.url.rstrip("/"))
+        code_cands = [f for f in findings if f.status == "candidate" and f.file not in ("", "(runtime)")]
+        bound = correlate(code_cands, routes)
+        origin = f"{pu.scheme}://{pu.netloc}"
+        ctx = ProbeCtx(origin, auth={}, reseed=None)
+        if bound:
+            confirm_candidates(bound, ctx)             # the ones with a taint param confirm straight away
+            promoted = sum(1 for f in bound if f.status == "confirmed")
+            print(f"[correlate] {len(bound)} code candidate(s) mapped to routes; {promoted} CONFIRMED (taint param)")
+            # param-less flagged routes: focus the source-fed LLM proposer on JUST those (high-signal) and confirm
+            unconf = [f for f in bound if f.status != "confirmed"]
+            if unconf and llm and args.target:
+                from benchmarks.oracles import Session
+                from src.pyauto.llm_attacks import make_source_lookup, propose_candidates
+                from src.pyauto.probes import Route
+                susp = [Route(s.split(" ", 1)[0], s.split(" ", 1)[1])
+                        for s in {f.evidence["route"] for f in unconf}]
+
+                def _fetch(r):
+                    try:
+                        return Session(origin).request(r.method, r.path).body
+                    except Exception:  # noqa: BLE001
+                        return ""
+                more = propose_candidates(susp, llm, _fetch, source_for=make_source_lookup(args.target),
+                                          max_routes=len(susp))
+                confirm_candidates(more, ctx)
+                newc = [m for m in more if m.status == "confirmed"]
+                print(f"[correlate+llm] focused the LLM on {len(susp)} flagged route(s) → {len(newc)} more CONFIRMED")
+                findings += newc
 
     confirmed = [f for f in findings if f.status == "confirmed"]
     print(f"\n== {len(findings)} findings: {len(confirmed)} confirmed, {len(findings) - len(confirmed)} candidate ==")
