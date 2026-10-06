@@ -82,3 +82,5 @@ reports/js_fix/*/trace.jsonl
 reports/js_fix/*/start_ts
 reports/js_fix/*/classified_calls.json
 benchmark_workspace/
+exp/third_party/
+exp/results/ossf/*.pre.findings.json

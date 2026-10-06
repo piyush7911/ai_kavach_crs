@@ -1,0 +1,69 @@
+{
+ "DVFA": {
+  "true": 5,
+  "base": [
+   "debug-on",
+   "secret-key"
+  ],
+  "community": [
+   "debug-on",
+   "ssrf-analyzer"
+  ],
+  "findings": 7,
+  "unlabeled": 4,
+  "secs": 8.2
+ },
+ "breakableflask": {
+  "true": 8,
+  "base": [
+   "cmdi",
+   "code"
+  ],
+  "community": [
+   "cmdi",
+   "code",
+   "pickle",
+   "ssti"
+  ],
+  "findings": 41,
+  "unlabeled": 34,
+  "secs": 9.1
+ },
+ "django.nv": {
+  "true": 27,
+  "base": [
+   "cmdi-upload",
+   "secret-key",
+   "sqli-upload"
+  ],
+  "community": [
+   "cmdi-upload",
+   "open-redirect-logout",
+   "sqli-upload",
+   "xss-base_backend",
+   "xss-search",
+   "xss-settings",
+   "xss-task_details"
+  ],
+  "findings": 40,
+  "unlabeled": 29,
+  "secs": 9.0
+ },
+ "vulnerable-django-app": {
+  "true": 7,
+  "base": [
+   "cmdi-filerunner",
+   "cmdi-testconn",
+   "secret-key"
+  ],
+  "community": [
+   "cmdi-filerunner",
+   "cmdi-testconn",
+   "sqli-userlookup",
+   "xss-guestbook"
+  ],
+  "findings": 19,
+  "unlabeled": 9,
+  "secs": 8.1
+ }
+}

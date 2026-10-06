@@ -1,0 +1,1 @@
+{"findings": [{"klass": "command", "file": "vda/core/views.py", "line": 40, "function": "testconn"}, {"klass": "command", "file": "vda/core/views.py", "line": 69, "function": "filerunner"}, {"klass": "secret", "file": "vda/vda/settings.py", "line": 23, "function": ""}]}
