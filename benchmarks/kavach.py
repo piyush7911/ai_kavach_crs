@@ -351,6 +351,20 @@ def main(argv=None) -> int:
                 f.patch_note = tr["note"]
         print(f"[fix] {patched} deterministic template patch(es) produced + verified (no LLM)")
 
+    # REPORTING GATE (FP-zero contract): a finding may stay `confirmed`/claimed only if it carries proof +
+    # self-critique (poc/evidence, counterevidence, confidence+rationale, severity conditions, and
+    # fix_verification when patched). Fill deterministically from the oracle; downgrade any that can't.
+    from src.autonomy.finding_gate import gate_finding
+    downgraded = 0
+    for f in findings:
+        ok, errs = gate_finding(f)
+        if f.status == "confirmed" and not ok:
+            f.status = "candidate"
+            f.reason = f"(gate) downgraded — not claimable: {errs[0]}"
+            downgraded += 1
+    if downgraded:
+        print(f"[gate] {downgraded} finding(s) downgraded confirmed→candidate (failed the reporting gate)")
+
     confirmed = [f for f in findings if f.status == "confirmed"]
     print(f"\n== {len(findings)} findings: {len(confirmed)} confirmed, {len(findings) - len(confirmed)} candidate ==")
     for f in sorted(findings, key=lambda x: (x.status != "confirmed", x.klass)):

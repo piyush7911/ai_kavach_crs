@@ -41,6 +41,12 @@ class Finding:
     poc: dict = field(default_factory=dict)  # {payload, request, expected, actual} — actually sent/observed
     patch: str = ""                 # unified diff of a deterministic template fix (FIX stage), when produced
     patch_note: str = ""            # what the template changed
+    # reporting-gate fields (adapted from Strix): a confirmed finding must carry these to be CLAIMED
+    counterevidence: str = ""       # what was controlled for / the strongest case against this finding
+    confidence_rationale: str = ""  # the gap, when confidence != high
+    severity_change_conditions: str = ""  # one thing that would raise/lower severity
+    evidence_text: str = ""         # the oracle observation (or the named fact)
+    fix_verification: str = ""      # required when a patch is attached
 
     def to_dict(self) -> dict:
         return asdict(self)
