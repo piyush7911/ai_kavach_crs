@@ -233,30 +233,35 @@ def _norm_body(s: str) -> str:
 
 
 def mine_params(base_url: str, routes: list[Route], ctx: "ProbeCtx",
-                words: list = None, budget: int = 3000) -> list[Route]:
+                words: list = None, budget: int = 4000) -> list[Route]:
     """Discover which query parameters a route actually reads, when they're exposed nowhere (SPA + JSON API,
     no forms). For each route: take a no-param baseline, then add one candidate name at a time; if the
     response changes, the route reads that parameter. Bounded by `budget` requests; loopback + throttled."""
     from benchmarks.oracles import Session
     words = words or _PARAM_WORDS
     spent = 0
+
+    def signature(resp):
+        # a read parameter can change ANY of these — body (data), status/Location (redirects, errors),
+        # length (a file read vs a not-found). Comparing only the body misses redirect/traversal params.
+        return (resp.status, resp.location, _norm_body(resp.body), len(resp.body) // 16)
+
     for r in routes:
         if r.query_fields or r.path_params or spent >= budget:
             continue
         s = Session(base_url, auth=ctx.auth)
         if not s.login("user" if r.auth_required else "none"):
             continue
-        base = _norm_body(s.request(r.method, r.path).body)
+        base = signature(s.request(r.method, r.path))
         live = []
         for w in words:
             if spent >= budget:
                 break
-            spent += 1
             sep = "&" if "?" in r.path else "?"
-            # a value that likely changes output for a read param: an existing-id "1" and a reflective token
-            for val in ("1", "kvchP9"):
+            for val in ("1", "kvchP9z"):                   # an existing id, and a reflective token
+                spent += 1
                 resp = s.request(r.method, f"{r.path}{sep}{w}={val}")
-                if _norm_body(resp.body) != base:
+                if signature(resp) != base or "kvchP9z" in resp.body:   # changed output OR reflected us
                     live.append(w)
                     break
         r.query_fields = live
