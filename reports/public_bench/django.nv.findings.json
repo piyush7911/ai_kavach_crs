@@ -1,0 +1,166 @@
+{
+  "findings": [
+    {
+      "id": "PY-001",
+      "source": "semgrep",
+      "klass": "command-injection",
+      "file": "taskManager/misc.py",
+      "line": 33,
+      "end_line": 39,
+      "function": "store_uploaded_file",
+      "rule": "kavach-py-command-injection",
+      "cwe": "CWE-78",
+      "owasp": "A03:2021",
+      "severity": "error",
+      "confidence": "high",
+      "message": "A shell command built from data can be injected (command injection).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          24,
+          41
+        ],
+        "lines": [
+          33
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "PY-002",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "taskManager/settings.py",
+      "line": 24,
+      "end_line": 24,
+      "function": "",
+      "rule": "kavach-py-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A secret, key, password or token is assigned a hard-coded string literal.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          0,
+          0
+        ],
+        "lines": [
+          24
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "PY-003",
+      "source": "semgrep",
+      "klass": "sql-injection",
+      "file": "taskManager/views.py",
+      "line": 183,
+      "end_line": 185,
+      "function": "upload",
+      "rule": "kavach-py-sql-injection",
+      "cwe": "CWE-89",
+      "owasp": "A03:2021",
+      "severity": "error",
+      "confidence": "high",
+      "message": "A SQL string built by formatting/concatenation reaches a query (SQL injection).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          170,
+          201
+        ],
+        "lines": [
+          183
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "PY-004",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "taskManager/views.py",
+      "line": 751,
+      "end_line": 751,
+      "function": "reset_password",
+      "rule": "kavach-py-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A secret, key, password or token is assigned a hard-coded string literal.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          740,
+          775
+        ],
+        "lines": [
+          751
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "PY-005",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "taskManager/views.py",
+      "line": 767,
+      "end_line": 767,
+      "function": "reset_password",
+      "rule": "kavach-py-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A secret, key, password or token is assigned a hard-coded string literal.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          740,
+          775
+        ],
+        "lines": [
+          767
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    }
+  ],
+  "seconds": 1.1,
+  "target": "benchmark_workspace/public/django.nv"
+}

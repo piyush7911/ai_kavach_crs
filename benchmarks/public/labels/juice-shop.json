@@ -1,0 +1,235 @@
+{
+ "target": "juice-shop",
+ "labels": [
+  {
+   "id": "loginAdminChallenge@routes/login.ts",
+   "family": "sql",
+   "file": "routes/login.ts",
+   "lines": [
+    17,
+    56
+   ],
+   "source": "vuln-code-snippet"
+  },
+  {
+   "id": "unionSqlInjectionChallenge@routes/search.ts",
+   "family": "sql",
+   "file": "routes/search.ts",
+   "lines": [
+    18,
+    74
+   ],
+   "source": "vuln-code-snippet"
+  },
+  {
+   "id": "chatbotGreedyInjectionChallenge@routes/chat.ts",
+   "family": "prompt-injection",
+   "file": "routes/chat.ts",
+   "lines": [
+    81,
+    188
+   ],
+   "source": "vuln-code-snippet"
+  },
+  {
+   "id": "noSqlReviewsChallenge@routes/updateProductReviews.ts",
+   "family": "sql",
+   "file": "routes/updateProductReviews.ts",
+   "lines": [
+    13,
+    31
+   ],
+   "source": "vuln-code-snippet"
+  },
+  {
+   "id": "redirectCryptoCurrencyChallenge@lib/insecurity.ts",
+   "family": "redirect",
+   "file": "lib/insecurity.ts",
+   "lines": [
+    121,
+    140
+   ],
+   "source": "vuln-code-snippet"
+  },
+  {
+   "id": "directoryListingChallenge@server.ts",
+   "family": "misconfig",
+   "file": "server.ts",
+   "lines": [
+    286,
+    309
+   ],
+   "source": "vuln-code-snippet"
+  },
+  {
+   "id": "resetPasswordMortyChallenge@server.ts",
+   "family": "authz",
+   "file": "server.ts",
+   "lines": [
+    359,
+    367
+   ],
+   "source": "vuln-code-snippet"
+  },
+  {
+   "id": "changeProductChallenge@server.ts",
+   "family": "authz",
+   "file": "server.ts",
+   "lines": [
+    369,
+    474
+   ],
+   "source": "vuln-code-snippet"
+  },
+  {
+   "id": "registerAdminChallenge@server.ts",
+   "family": "authz",
+   "file": "server.ts",
+   "lines": [
+    498,
+    537
+   ],
+   "source": "vuln-code-snippet"
+  },
+  {
+   "id": "exposedMetricsChallenge@server.ts",
+   "family": "misconfig",
+   "file": "server.ts",
+   "lines": [
+    746,
+    793
+   ],
+   "source": "vuln-code-snippet"
+  },
+  {
+   "id": "weakPasswordChallenge@models/user.ts",
+   "family": "crypto",
+   "file": "models/user.ts",
+   "lines": [
+    36,
+    75
+   ],
+   "source": "vuln-code-snippet"
+  },
+  {
+   "id": "rce-eval-userProfile",
+   "family": "code",
+   "file": "routes/userProfile.ts",
+   "lines": [
+    60,
+    70
+   ],
+   "source": "audit (verified in code; maps to a challenges.yml challenge)"
+  },
+  {
+   "id": "nosql-trackOrder",
+   "family": "sql",
+   "file": "routes/trackOrder.ts",
+   "lines": [
+    12,
+    24
+   ],
+   "source": "audit (verified in code; maps to a challenges.yml challenge)"
+  },
+  {
+   "id": "nosql-showProductReviews",
+   "family": "sql",
+   "file": "routes/showProductReviews.ts",
+   "lines": [
+    30,
+    40
+   ],
+   "source": "audit (verified in code; maps to a challenges.yml challenge)"
+  },
+  {
+   "id": "path-fileServer",
+   "family": "path",
+   "file": "routes/fileServer.ts",
+   "lines": [
+    28,
+    36
+   ],
+   "source": "audit (verified in code; maps to a challenges.yml challenge)"
+  },
+  {
+   "id": "path-keyServer",
+   "family": "path",
+   "file": "routes/keyServer.ts",
+   "lines": [
+    10,
+    18
+   ],
+   "source": "audit (verified in code; maps to a challenges.yml challenge)"
+  },
+  {
+   "id": "ssrf-profileImageUrl",
+   "family": "ssrf",
+   "file": "routes/profileImageUrlUpload.ts",
+   "lines": [
+    18,
+    30
+   ],
+   "source": "audit (verified in code; maps to a challenges.yml challenge)"
+  },
+  {
+   "id": "open-redirect",
+   "family": "redirect",
+   "file": "routes/redirect.ts",
+   "lines": [
+    10,
+    25
+   ],
+   "source": "audit (verified in code; maps to a challenges.yml challenge)"
+  },
+  {
+   "id": "jwt-hardcoded-key",
+   "family": "secret",
+   "file": "lib/insecurity.ts",
+   "lines": [
+    50,
+    58
+   ],
+   "source": "audit (verified in code; maps to a challenges.yml challenge)"
+  },
+  {
+   "id": "md5-hash",
+   "family": "crypto",
+   "file": "lib/insecurity.ts",
+   "lines": [
+    41,
+    41
+   ],
+   "source": "audit (verified in code; maps to a challenges.yml challenge)"
+  },
+  {
+   "id": "yaml-deser-fileUpload",
+   "family": "deserialization",
+   "file": "routes/fileUpload.ts",
+   "lines": [
+    100,
+    115
+   ],
+   "source": "audit (verified in code; maps to a challenges.yml challenge)"
+  },
+  {
+   "id": "rce-b2bOrder",
+   "family": "code",
+   "file": "routes/b2bOrder.ts",
+   "lines": [
+    15,
+    30
+   ],
+   "source": "audit (verified in code; maps to a challenges.yml challenge)"
+  },
+  {
+   "id": "xxe-lib-xml",
+   "family": "xxe",
+   "file": "lib/xml.ts",
+   "lines": [
+    1,
+    80
+   ],
+   "source": "code comment: 'required for the XXE challenges'"
+  }
+ ]
+}

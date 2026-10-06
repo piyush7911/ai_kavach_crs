@@ -1,0 +1,71 @@
+{
+ "target": "vulnerable-django-app",
+ "labels": [
+  {
+   "id": "cmdi-testconn",
+   "family": "command",
+   "file": "vda/core/views.py",
+   "source": "navinfo.ini",
+   "functions": [
+    "testconn"
+   ]
+  },
+  {
+   "id": "cmdi-filerunner",
+   "family": "command",
+   "file": "vda/core/views.py",
+   "source": "navinfo.ini",
+   "functions": [
+    "filerunner"
+   ]
+  },
+  {
+   "id": "sqli-userlookup",
+   "family": "sql",
+   "file": "vda/core/views.py",
+   "source": "navinfo.ini",
+   "functions": [
+    "userlookup"
+   ]
+  },
+  {
+   "id": "csrf-changepass",
+   "family": "csrf",
+   "file": "vda/core/views.py",
+   "source": "navinfo.ini",
+   "functions": [
+    "changepass"
+   ]
+  },
+  {
+   "id": "xss-guestbook",
+   "family": "xss",
+   "file": "vda/core/templates/utils/guestbook.html",
+   "source": "navinfo.ini",
+   "lines": [
+    1,
+    100
+   ]
+  },
+  {
+   "id": "secret-key",
+   "family": "secret",
+   "file": "vda/vda/settings.py",
+   "source": "audit",
+   "lines": [
+    23,
+    23
+   ]
+  },
+  {
+   "id": "debug-on",
+   "family": "misconfig",
+   "file": "vda/vda/settings.py",
+   "source": "audit",
+   "lines": [
+    26,
+    26
+   ]
+  }
+ ]
+}

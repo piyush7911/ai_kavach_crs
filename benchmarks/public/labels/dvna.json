@@ -1,0 +1,108 @@
+{
+ "target": "dvna",
+ "labels": [
+  {
+   "id": "sqli",
+   "family": "sql",
+   "file": "core/appHandler.js",
+   "source": "docs",
+   "functions": [
+    "userSearch"
+   ]
+  },
+  {
+   "id": "cmdi",
+   "family": "command",
+   "file": "core/appHandler.js",
+   "source": "docs",
+   "functions": [
+    "ping"
+   ]
+  },
+  {
+   "id": "xss",
+   "family": "xss",
+   "file": "core/appHandler.js",
+   "source": "docs",
+   "functions": [
+    "productSearch"
+   ],
+   "lines": [
+    60,
+    76
+   ]
+  },
+  {
+   "id": "idor-modify",
+   "family": "idor",
+   "file": "core/appHandler.js",
+   "source": "docs",
+   "functions": [
+    "modifyProduct"
+   ]
+  },
+  {
+   "id": "idor-modify-submit",
+   "family": "idor",
+   "file": "core/appHandler.js",
+   "source": "docs",
+   "functions": [
+    "modifyProductSubmit"
+   ]
+  },
+  {
+   "id": "idor-user-edit",
+   "family": "idor",
+   "file": "core/appHandler.js",
+   "source": "docs",
+   "functions": [
+    "userEditSubmit"
+   ]
+  },
+  {
+   "id": "redirect",
+   "family": "redirect",
+   "file": "core/appHandler.js",
+   "source": "docs",
+   "functions": [
+    "redirect"
+   ]
+  },
+  {
+   "id": "code-calc",
+   "family": "code",
+   "file": "core/appHandler.js",
+   "source": "docs",
+   "functions": [
+    "calc"
+   ]
+  },
+  {
+   "id": "xxe",
+   "family": "xxe",
+   "file": "core/appHandler.js",
+   "source": "docs",
+   "functions": [
+    "bulkProducts"
+   ]
+  },
+  {
+   "id": "deser",
+   "family": "deserialization",
+   "file": "core/appHandler.js",
+   "source": "docs",
+   "functions": [
+    "bulkProductsLegacy"
+   ]
+  },
+  {
+   "id": "api-exposure",
+   "family": "authz",
+   "file": "core/appHandler.js",
+   "source": "docs",
+   "functions": [
+    "listUsersAPI"
+   ]
+  }
+ ]
+}

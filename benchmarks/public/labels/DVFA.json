@@ -1,0 +1,52 @@
+{
+ "target": "DVFA",
+ "labels": [
+  {
+   "id": "bac-admin",
+   "family": "authz",
+   "file": "routes.py",
+   "source": "README",
+   "functions": [
+    "admin"
+   ]
+  },
+  {
+   "id": "ssrf-analyzer",
+   "family": "ssrf",
+   "file": "routes.py",
+   "source": "README",
+   "functions": [
+    "follow_url"
+   ]
+  },
+  {
+   "id": "xss-guestbook",
+   "family": "xss",
+   "file": "routes.py",
+   "source": "README",
+   "functions": [
+    "guestbook"
+   ]
+  },
+  {
+   "id": "secret-key",
+   "family": "secret",
+   "file": "app.py",
+   "source": "audit",
+   "lines": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "debug-on",
+   "family": "misconfig",
+   "file": "app.py",
+   "source": "audit",
+   "lines": [
+    9,
+    9
+   ]
+  }
+ ]
+}

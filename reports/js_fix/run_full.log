@@ -1,0 +1,18 @@
+  scan     scanning /Users/piyush/Desktop/cyber hackathon/ai_kavach_crs/benchmark_workspace/nodegoat
+  finding  [1/23] JS-005 eval-injection app/routes/contributions.js:handleContributionsUpdate
+  result   JS-005: proven (hardened)
+  finding  [2/23] JS-021 vulnerable-dependency package.json:
+  result   JS-021: unresolved
+  finding  [3/23] JS-024 vulnerable-dependency package.json:
+  result   JS-024: unresolved
+  finding  [4/23] JS-025 vulnerable-dependency package.json:
+  result   JS-025: unresolved
+  finding  [5/23] JS-026 vulnerable-dependency package.json:
+  result   JS-026: patched_unproven
+  finding  [6/23] JS-001 nosql-injection app/data/allocations-dao.js:searchCriteria
+  result   JS-001: proven
+  finding  [7/23] JS-002 nosql-injection app/data/memos-dao.js:insert
+  result   JS-002: patched_unproven
+  finding  [8/23] JS-003 idor app/routes/allocations.js:displayAllocations
+  result   JS-003: proven
+  finding  [9/23] JS-004 idor app/routes/benefits.js:updateBenefits

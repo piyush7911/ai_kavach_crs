@@ -1,0 +1,85 @@
+{
+ "target": "breakableflask",
+ "labels": [
+  {
+   "id": "pickle",
+   "family": "deserialization",
+   "file": "main.py",
+   "source": "vulnerability_index.md",
+   "functions": [
+    "cookie"
+   ]
+  },
+  {
+   "id": "cmdi",
+   "family": "command",
+   "file": "main.py",
+   "source": "vulnerability_index.md",
+   "functions": [
+    "rp",
+    "lookup"
+   ]
+  },
+  {
+   "id": "code",
+   "family": "code",
+   "file": "main.py",
+   "source": "vulnerability_index.md",
+   "functions": [
+    "evaluate"
+   ]
+  },
+  {
+   "id": "xxe",
+   "family": "xxe",
+   "file": "main.py",
+   "source": "vulnerability_index.md",
+   "functions": [
+    "xml"
+   ]
+  },
+  {
+   "id": "padding-oracle",
+   "family": "crypto",
+   "file": "main.py",
+   "source": "vulnerability_index.md",
+   "functions": [
+    "config",
+    "decrypt",
+    "unpad"
+   ]
+  },
+  {
+   "id": "ssti",
+   "family": "ssti",
+   "file": "main.py",
+   "source": "vulnerability_index.md",
+   "functions": [
+    "sayhi"
+   ]
+  },
+  {
+   "id": "sqli",
+   "family": "sql",
+   "file": "main.py",
+   "source": "vulnerability_index.md",
+   "functions": [
+    "listservices",
+    "query_build"
+   ]
+  },
+  {
+   "id": "jwt",
+   "family": "jwt",
+   "file": "main.py",
+   "source": "vulnerability_index.md",
+   "functions": [
+    "jwtmain",
+    "login",
+    "verify_token",
+    "verify_token_none",
+    "verify_token_hs256"
+   ]
+  }
+ ]
+}

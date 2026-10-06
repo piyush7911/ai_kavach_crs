@@ -1,0 +1,70 @@
+{
+  "findings": [
+    {
+      "id": "PY-001",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "app.py",
+      "line": 4,
+      "end_line": 4,
+      "function": "",
+      "rule": "kavach-py-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A secret, key, password or token is assigned a hard-coded string literal.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          0,
+          0
+        ],
+        "lines": [
+          4
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "PY-002",
+      "source": "semgrep",
+      "klass": "debug-enabled",
+      "file": "app.py",
+      "line": 9,
+      "end_line": 9,
+      "function": "",
+      "rule": "kavach-py-flask-debug",
+      "cwe": "CWE-489",
+      "owasp": "A05:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A Flask app running with debug=True exposes the interactive debugger (RCE) in production.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          0,
+          0
+        ],
+        "lines": [
+          9
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    }
+  ],
+  "seconds": 1.8,
+  "target": "benchmark_workspace/public/DVFA"
+}

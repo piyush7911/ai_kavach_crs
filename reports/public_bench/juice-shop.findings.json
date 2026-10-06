@@ -1,0 +1,1508 @@
+{
+  "findings": [
+    {
+      "id": "JS-001",
+      "source": "semgrep",
+      "klass": "nosql-injection",
+      "file": "data/static/codefixes/chatbotGreedyInjectionChallenge_1.ts",
+      "line": 65,
+      "end_line": 65,
+      "function": "execute",
+      "rule": "kavach-js-nosql-where",
+      "cwe": "CWE-943",
+      "owasp": "A03:2021",
+      "severity": "high",
+      "confidence": "medium",
+      "message": "A MongoDB $where clause is built by string interpolation. $where runs JavaScript on the database, so any interpolated value that is not provably numeric is injectable.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "kavach-js-nosql-where"
+        ],
+        "col": 45,
+        "function_lines": [
+          63,
+          66
+        ],
+        "lines": [
+          65
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-002",
+      "source": "semgrep",
+      "klass": "nosql-injection",
+      "file": "data/static/codefixes/chatbotGreedyInjectionChallenge_2_correct.ts",
+      "line": 66,
+      "end_line": 66,
+      "function": "execute",
+      "rule": "kavach-js-nosql-where",
+      "cwe": "CWE-943",
+      "owasp": "A03:2021",
+      "severity": "high",
+      "confidence": "medium",
+      "message": "A MongoDB $where clause is built by string interpolation. $where runs JavaScript on the database, so any interpolated value that is not provably numeric is injectable.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "kavach-js-nosql-where"
+        ],
+        "col": 45,
+        "function_lines": [
+          64,
+          67
+        ],
+        "lines": [
+          66
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-003",
+      "source": "semgrep",
+      "klass": "nosql-injection",
+      "file": "data/static/codefixes/chatbotGreedyInjectionChallenge_3.ts",
+      "line": 66,
+      "end_line": 66,
+      "function": "execute",
+      "rule": "kavach-js-nosql-where",
+      "cwe": "CWE-943",
+      "owasp": "A03:2021",
+      "severity": "high",
+      "confidence": "medium",
+      "message": "A MongoDB $where clause is built by string interpolation. $where runs JavaScript on the database, so any interpolated value that is not provably numeric is injectable.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "kavach-js-nosql-where"
+        ],
+        "col": 45,
+        "function_lines": [
+          64,
+          67
+        ],
+        "lines": [
+          66
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-004",
+      "source": "semgrep",
+      "klass": "nosql-injection",
+      "file": "data/static/codefixes/chatbotGreedyInjectionChallenge_4.ts",
+      "line": 66,
+      "end_line": 66,
+      "function": "execute",
+      "rule": "kavach-js-nosql-where",
+      "cwe": "CWE-943",
+      "owasp": "A03:2021",
+      "severity": "high",
+      "confidence": "medium",
+      "message": "A MongoDB $where clause is built by string interpolation. $where runs JavaScript on the database, so any interpolated value that is not provably numeric is injectable.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "kavach-js-nosql-where"
+        ],
+        "col": 45,
+        "function_lines": [
+          64,
+          67
+        ],
+        "lines": [
+          66
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-005",
+      "source": "semgrep",
+      "klass": "express-sequelize-injection",
+      "file": "data/static/codefixes/dbSchemaChallenge_1.ts",
+      "line": 5,
+      "end_line": 5,
+      "function": "<anonymous@2>",
+      "rule": "express-sequelize-injection",
+      "cwe": "CWE-89",
+      "owasp": "",
+      "severity": "high",
+      "confidence": "high",
+      "message": "Detected a sequelize statement that is tainted by user-input. This could lead to SQL injection if the variable is user-controlled and is not properly sanitized. In order to prevent SQL injection, it is recommended to use parameterized queri",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "express-sequelize-injection"
+        ],
+        "col": 27,
+        "function_lines": [
+          2,
+          16
+        ],
+        "lines": [
+          5
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-006",
+      "source": "semgrep",
+      "klass": "tainted-sql-string",
+      "file": "data/static/codefixes/dbSchemaChallenge_1.ts",
+      "line": 5,
+      "end_line": 5,
+      "function": "<anonymous@2>",
+      "rule": "tainted-sql-string",
+      "cwe": "CWE-89",
+      "owasp": "",
+      "severity": "high",
+      "confidence": "low",
+      "message": "Detected user input used to manually construct a SQL string. This is usually bad practice because manual construction could accidentally result in a SQL injection. An attacker could use a SQL injection to steal or modify contents of the dat",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "tainted-sql-string"
+        ],
+        "col": 73,
+        "function_lines": [
+          2,
+          16
+        ],
+        "lines": [
+          5
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-007",
+      "source": "semgrep",
+      "klass": "express-sequelize-injection",
+      "file": "data/static/codefixes/dbSchemaChallenge_3.ts",
+      "line": 11,
+      "end_line": 11,
+      "function": "<anonymous@4>",
+      "rule": "express-sequelize-injection",
+      "cwe": "CWE-89",
+      "owasp": "",
+      "severity": "high",
+      "confidence": "high",
+      "message": "Detected a sequelize statement that is tainted by user-input. This could lead to SQL injection if the variable is user-controlled and is not properly sanitized. In order to prevent SQL injection, it is recommended to use parameterized queri",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "express-sequelize-injection"
+        ],
+        "col": 27,
+        "function_lines": [
+          4,
+          22
+        ],
+        "lines": [
+          11
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-008",
+      "source": "semgrep",
+      "klass": "tainted-sql-string",
+      "file": "data/static/codefixes/dbSchemaChallenge_3.ts",
+      "line": 11,
+      "end_line": 11,
+      "function": "<anonymous@4>",
+      "rule": "tainted-sql-string",
+      "cwe": "CWE-89",
+      "owasp": "",
+      "severity": "high",
+      "confidence": "low",
+      "message": "Detected user input used to manually construct a SQL string. This is usually bad practice because manual construction could accidentally result in a SQL injection. An attacker could use a SQL injection to steal or modify contents of the dat",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "tainted-sql-string"
+        ],
+        "col": 73,
+        "function_lines": [
+          4,
+          22
+        ],
+        "lines": [
+          11
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-009",
+      "source": "semgrep",
+      "klass": "express-sequelize-injection",
+      "file": "data/static/codefixes/unionSqlInjectionChallenge_1.ts",
+      "line": 6,
+      "end_line": 6,
+      "function": "<anonymous@2>",
+      "rule": "express-sequelize-injection",
+      "cwe": "CWE-89",
+      "owasp": "",
+      "severity": "high",
+      "confidence": "high",
+      "message": "Detected a sequelize statement that is tainted by user-input. This could lead to SQL injection if the variable is user-controlled and is not properly sanitized. In order to prevent SQL injection, it is recommended to use parameterized queri",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "express-sequelize-injection"
+        ],
+        "col": 27,
+        "function_lines": [
+          2,
+          17
+        ],
+        "lines": [
+          6
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-010",
+      "source": "semgrep",
+      "klass": "tainted-sql-string",
+      "file": "data/static/codefixes/unionSqlInjectionChallenge_1.ts",
+      "line": 6,
+      "end_line": 6,
+      "function": "<anonymous@2>",
+      "rule": "tainted-sql-string",
+      "cwe": "CWE-89",
+      "owasp": "",
+      "severity": "high",
+      "confidence": "low",
+      "message": "Detected user input used to manually construct a SQL string. This is usually bad practice because manual construction could accidentally result in a SQL injection. An attacker could use a SQL injection to steal or modify contents of the dat",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "tainted-sql-string"
+        ],
+        "col": 73,
+        "function_lines": [
+          2,
+          17
+        ],
+        "lines": [
+          6
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-011",
+      "source": "semgrep",
+      "klass": "express-sequelize-injection",
+      "file": "data/static/codefixes/unionSqlInjectionChallenge_3.ts",
+      "line": 10,
+      "end_line": 10,
+      "function": "<anonymous@2>",
+      "rule": "express-sequelize-injection",
+      "cwe": "CWE-89",
+      "owasp": "",
+      "severity": "high",
+      "confidence": "high",
+      "message": "Detected a sequelize statement that is tainted by user-input. This could lead to SQL injection if the variable is user-controlled and is not properly sanitized. In order to prevent SQL injection, it is recommended to use parameterized queri",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "express-sequelize-injection"
+        ],
+        "col": 27,
+        "function_lines": [
+          2,
+          21
+        ],
+        "lines": [
+          10
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-012",
+      "source": "semgrep",
+      "klass": "tainted-sql-string",
+      "file": "data/static/codefixes/unionSqlInjectionChallenge_3.ts",
+      "line": 10,
+      "end_line": 10,
+      "function": "<anonymous@2>",
+      "rule": "tainted-sql-string",
+      "cwe": "CWE-89",
+      "owasp": "",
+      "severity": "high",
+      "confidence": "low",
+      "message": "Detected user input used to manually construct a SQL string. This is usually bad practice because manual construction could accidentally result in a SQL injection. An attacker could use a SQL injection to steal or modify contents of the dat",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "tainted-sql-string"
+        ],
+        "col": 73,
+        "function_lines": [
+          2,
+          21
+        ],
+        "lines": [
+          10
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-013",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "frontend/src/app/Services/keys.service.spec.ts",
+      "line": 68,
+      "end_line": 68,
+      "function": "<anonymous@62>",
+      "rule": "kavach-js-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A02:2021",
+      "severity": "medium",
+      "confidence": "medium",
+      "message": "A secret-looking property is set to a literal string in source.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "kavach-js-hardcoded-secret"
+        ],
+        "col": 37,
+        "function_lines": [
+          62,
+          70
+        ],
+        "lines": [
+          68
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-014",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "frontend/src/app/oauth/oauth.component.spec.ts",
+      "line": 91,
+      "end_line": 98,
+      "function": "<anonymous@88>",
+      "rule": "kavach-js-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A02:2021",
+      "severity": "medium",
+      "confidence": "medium",
+      "message": "A secret-looking property is set to a literal string in source.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "kavach-js-hardcoded-secret"
+        ],
+        "col": 54,
+        "function_lines": [
+          88,
+          92
+        ],
+        "lines": [
+          91,
+          98
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-015",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "frontend/src/app/register/register.component.spec.ts",
+      "line": 155,
+      "end_line": 155,
+      "function": "<anonymous@146>",
+      "rule": "kavach-js-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A02:2021",
+      "severity": "medium",
+      "confidence": "medium",
+      "message": "A secret-looking property is set to a literal string in source.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "kavach-js-hardcoded-secret"
+        ],
+        "col": 21,
+        "function_lines": [
+          146,
+          163
+        ],
+        "lines": [
+          155
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-016",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "frontend/src/app/two-factor-auth/two-factor-auth.component.spec.ts",
+      "line": 243,
+      "end_line": 243,
+      "function": "<anonymous@242>",
+      "rule": "kavach-js-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A02:2021",
+      "severity": "medium",
+      "confidence": "medium",
+      "message": "A secret-looking property is set to a literal string in source.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "kavach-js-hardcoded-secret"
+        ],
+        "col": 59,
+        "function_lines": [
+          242,
+          248
+        ],
+        "lines": [
+          243
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-017",
+      "source": "semgrep",
+      "klass": "hardcoded-jwt-secret",
+      "file": "lib/insecurity.ts",
+      "line": 54,
+      "end_line": 54,
+      "function": "authorize",
+      "rule": "hardcoded-jwt-secret",
+      "cwe": "CWE-798",
+      "owasp": "",
+      "severity": "medium",
+      "confidence": "high",
+      "message": "A hard-coded credential was detected. It is not recommended to store credentials in source-code, as this risks secrets being leaked and used by either an internal or external malicious adversary. It is recommended to use environment variabl",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "hardcoded-jwt-secret"
+        ],
+        "col": 55,
+        "function_lines": [
+          54,
+          54
+        ],
+        "lines": [
+          54
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-018",
+      "source": "semgrep",
+      "klass": "nosql-injection",
+      "file": "routes/chat.ts",
+      "line": 149,
+      "end_line": 149,
+      "function": "execute",
+      "rule": "kavach-js-nosql-where",
+      "cwe": "CWE-943",
+      "owasp": "A03:2021",
+      "severity": "high",
+      "confidence": "medium",
+      "message": "A MongoDB $where clause is built by string interpolation. $where runs JavaScript on the database, so any interpolated value that is not provably numeric is injectable.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "kavach-js-nosql-where"
+        ],
+        "col": 49,
+        "function_lines": [
+          147,
+          150
+        ],
+        "lines": [
+          149
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-019",
+      "source": "semgrep",
+      "klass": "express-res-sendfile",
+      "file": "routes/fileServer.ts",
+      "line": 32,
+      "end_line": 32,
+      "function": "verify",
+      "rule": "express-res-sendfile",
+      "cwe": "CWE-73",
+      "owasp": "",
+      "severity": "medium",
+      "confidence": "medium",
+      "message": "The application processes user-input, this is passed to res.sendFile which can allow an attacker to arbitrarily read files on the system through path traversal. It is recommended to perform input validation in addition to canonicalizing the",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "express-res-sendfile"
+        ],
+        "col": 19,
+        "function_lines": [
+          25,
+          37
+        ],
+        "lines": [
+          32
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-020",
+      "source": "semgrep",
+      "klass": "express-res-sendfile",
+      "file": "routes/keyServer.ts",
+      "line": 14,
+      "end_line": 14,
+      "function": "<anonymous@10>",
+      "rule": "express-res-sendfile",
+      "cwe": "CWE-73",
+      "owasp": "",
+      "severity": "medium",
+      "confidence": "medium",
+      "message": "The application processes user-input, this is passed to res.sendFile which can allow an attacker to arbitrarily read files on the system through path traversal. It is recommended to perform input validation in addition to canonicalizing the",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "express-res-sendfile"
+        ],
+        "col": 19,
+        "function_lines": [
+          10,
+          19
+        ],
+        "lines": [
+          14
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-021",
+      "source": "semgrep",
+      "klass": "express-res-sendfile",
+      "file": "routes/logfileServer.ts",
+      "line": 14,
+      "end_line": 14,
+      "function": "<anonymous@10>",
+      "rule": "express-res-sendfile",
+      "cwe": "CWE-73",
+      "owasp": "",
+      "severity": "medium",
+      "confidence": "medium",
+      "message": "The application processes user-input, this is passed to res.sendFile which can allow an attacker to arbitrarily read files on the system through path traversal. It is recommended to perform input validation in addition to canonicalizing the",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "express-res-sendfile"
+        ],
+        "col": 19,
+        "function_lines": [
+          10,
+          19
+        ],
+        "lines": [
+          14
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-022",
+      "source": "semgrep",
+      "klass": "express-sequelize-injection",
+      "file": "routes/login.ts",
+      "line": 34,
+      "end_line": 34,
+      "function": "<anonymous@32>",
+      "rule": "express-sequelize-injection",
+      "cwe": "CWE-89",
+      "owasp": "",
+      "severity": "high",
+      "confidence": "high",
+      "message": "Detected a sequelize statement that is tainted by user-input. This could lead to SQL injection if the variable is user-controlled and is not properly sanitized. In order to prevent SQL injection, it is recommended to use parameterized queri",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "express-sequelize-injection"
+        ],
+        "col": 27,
+        "function_lines": [
+          32,
+          55
+        ],
+        "lines": [
+          34
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-023",
+      "source": "semgrep",
+      "klass": "tainted-sql-string",
+      "file": "routes/login.ts",
+      "line": 34,
+      "end_line": 34,
+      "function": "<anonymous@32>",
+      "rule": "tainted-sql-string",
+      "cwe": "CWE-89",
+      "owasp": "",
+      "severity": "high",
+      "confidence": "low",
+      "message": "Detected user input used to manually construct a SQL string. This is usually bad practice because manual construction could accidentally result in a SQL injection. An attacker could use a SQL injection to steal or modify contents of the dat",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "tainted-sql-string"
+        ],
+        "col": 65,
+        "function_lines": [
+          32,
+          55
+        ],
+        "lines": [
+          34
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-024",
+      "source": "semgrep",
+      "klass": "ssrf",
+      "file": "routes/profileImageUrlUpload.ts",
+      "line": 24,
+      "end_line": 24,
+      "function": "<anonymous@17>",
+      "rule": "kavach-js-ssrf",
+      "cwe": "CWE-918",
+      "owasp": "A10:2021",
+      "severity": "high",
+      "confidence": "high",
+      "message": "A URL built from request input reaches an outbound HTTP client (SSRF).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "kavach-js-ssrf"
+        ],
+        "col": 39,
+        "function_lines": [
+          17,
+          50
+        ],
+        "lines": [
+          24
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-025",
+      "source": "semgrep",
+      "klass": "express-res-sendfile",
+      "file": "routes/quarantineServer.ts",
+      "line": 14,
+      "end_line": 14,
+      "function": "<anonymous@10>",
+      "rule": "express-res-sendfile",
+      "cwe": "CWE-73",
+      "owasp": "",
+      "severity": "medium",
+      "confidence": "medium",
+      "message": "The application processes user-input, this is passed to res.sendFile which can allow an attacker to arbitrarily read files on the system through path traversal. It is recommended to perform input validation in addition to canonicalizing the",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "express-res-sendfile"
+        ],
+        "col": 19,
+        "function_lines": [
+          10,
+          19
+        ],
+        "lines": [
+          14
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-026",
+      "source": "semgrep",
+      "klass": "open-redirect",
+      "file": "routes/redirect.ts",
+      "line": 18,
+      "end_line": 18,
+      "function": "<anonymous@13>",
+      "rule": "express-open-redirect",
+      "cwe": "CWE-601",
+      "owasp": "",
+      "severity": "medium",
+      "confidence": "high",
+      "message": "The application redirects to a URL specified by user-supplied input `query` that is not validated. This could redirect users to malicious locations. Consider using an allow-list approach to validate URLs, or warn users they are being redire",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "express-open-redirect"
+        ],
+        "col": 19,
+        "function_lines": [
+          13,
+          23
+        ],
+        "lines": [
+          18
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-027",
+      "source": "semgrep",
+      "klass": "express-sequelize-injection",
+      "file": "routes/search.ts",
+      "line": 23,
+      "end_line": 23,
+      "function": "<anonymous@20>",
+      "rule": "express-sequelize-injection",
+      "cwe": "CWE-89",
+      "owasp": "",
+      "severity": "high",
+      "confidence": "high",
+      "message": "Detected a sequelize statement that is tainted by user-input. This could lead to SQL injection if the variable is user-controlled and is not properly sanitized. In order to prevent SQL injection, it is recommended to use parameterized queri",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "express-sequelize-injection"
+        ],
+        "col": 27,
+        "function_lines": [
+          20,
+          72
+        ],
+        "lines": [
+          23
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-028",
+      "source": "semgrep",
+      "klass": "tainted-sql-string",
+      "file": "routes/search.ts",
+      "line": 23,
+      "end_line": 23,
+      "function": "<anonymous@20>",
+      "rule": "tainted-sql-string",
+      "cwe": "CWE-89",
+      "owasp": "",
+      "severity": "high",
+      "confidence": "low",
+      "message": "Detected user input used to manually construct a SQL string. This is usually bad practice because manual construction could accidentally result in a SQL injection. An attacker could use a SQL injection to steal or modify contents of the dat",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "tainted-sql-string"
+        ],
+        "col": 73,
+        "function_lines": [
+          20,
+          72
+        ],
+        "lines": [
+          23
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-029",
+      "source": "semgrep",
+      "klass": "nosql-injection",
+      "file": "routes/showProductReviews.ts",
+      "line": 36,
+      "end_line": 36,
+      "function": "<anonymous@29>",
+      "rule": "kavach-js-nosql-where",
+      "cwe": "CWE-943",
+      "owasp": "A03:2021",
+      "severity": "high",
+      "confidence": "medium",
+      "message": "A MongoDB $where clause is built by string interpolation. $where runs JavaScript on the database, so any interpolated value that is not provably numeric is injectable.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "kavach-js-nosql-where"
+        ],
+        "col": 30,
+        "function_lines": [
+          29,
+          49
+        ],
+        "lines": [
+          36
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-030",
+      "source": "semgrep",
+      "klass": "nosql-injection",
+      "file": "routes/trackOrder.ts",
+      "line": 18,
+      "end_line": 18,
+      "function": "<anonymous@13>",
+      "rule": "kavach-js-nosql-where",
+      "cwe": "CWE-943",
+      "owasp": "A03:2021",
+      "severity": "high",
+      "confidence": "medium",
+      "message": "A MongoDB $where clause is built by string interpolation. $where runs JavaScript on the database, so any interpolated value that is not provably numeric is injectable.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "kavach-js-nosql-where"
+        ],
+        "col": 29,
+        "function_lines": [
+          13,
+          28
+        ],
+        "lines": [
+          18
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-031",
+      "source": "semgrep",
+      "klass": "eval-injection",
+      "file": "routes/userProfile.ts",
+      "line": 65,
+      "end_line": 65,
+      "function": "<anonymous@25>",
+      "rule": "code-string-concat",
+      "cwe": "CWE-95",
+      "owasp": "",
+      "severity": "high",
+      "confidence": "high",
+      "message": "Found data from an Express or Next web request flowing to `eval`. If this data is user-controllable this can lead to execution of arbitrary system commands in the context of your application process. Avoid `eval` whenever possible.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "code-string-concat",
+          "kavach-js-code-injection"
+        ],
+        "col": 21,
+        "function_lines": [
+          25,
+          105
+        ],
+        "lines": [
+          65
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-032",
+      "source": "semgrep",
+      "klass": "path-traversal",
+      "file": "routes/vulnCodeFixes.ts",
+      "line": 81,
+      "end_line": 81,
+      "function": "<anonymous@70>",
+      "rule": "kavach-js-path-traversal",
+      "cwe": "CWE-22",
+      "owasp": "A01:2021",
+      "severity": "high",
+      "confidence": "high",
+      "message": "Request input is used as a file path without being confined to a directory.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "kavach-js-path-traversal"
+        ],
+        "col": 61,
+        "function_lines": [
+          70,
+          99
+        ],
+        "lines": [
+          81
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-033",
+      "source": "semgrep",
+      "klass": "path-traversal",
+      "file": "routes/vulnCodeSnippet.ts",
+      "line": 90,
+      "end_line": 90,
+      "function": "<anonymous@70>",
+      "rule": "kavach-js-path-traversal",
+      "cwe": "CWE-22",
+      "owasp": "A01:2021",
+      "severity": "high",
+      "confidence": "high",
+      "message": "Request input is used as a file path without being confined to a directory.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "kavach-js-path-traversal"
+        ],
+        "col": 61,
+        "function_lines": [
+          70,
+          116
+        ],
+        "lines": [
+          90
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-034",
+      "source": "semgrep",
+      "klass": "express-check-directory-listing",
+      "file": "server.ts",
+      "line": 268,
+      "end_line": 268,
+      "function": "",
+      "rule": "express-check-directory-listing",
+      "cwe": "CWE-548",
+      "owasp": "",
+      "severity": "medium",
+      "confidence": "medium",
+      "message": "Directory listing/indexing is enabled, which may lead to disclosure of sensitive directories and files. It is recommended to disable directory listing unless it is a public resource. If you need directory listing, ensure that sensitive file",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "express-check-directory-listing"
+        ],
+        "col": 2,
+        "lines": [
+          268
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-035",
+      "source": "semgrep",
+      "klass": "express-check-directory-listing",
+      "file": "server.ts",
+      "line": 288,
+      "end_line": 288,
+      "function": "",
+      "rule": "express-check-directory-listing",
+      "cwe": "CWE-548",
+      "owasp": "",
+      "severity": "medium",
+      "confidence": "medium",
+      "message": "Directory listing/indexing is enabled, which may lead to disclosure of sensitive directories and files. It is recommended to disable directory listing unless it is a public resource. If you need directory listing, ensure that sensitive file",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "express-check-directory-listing"
+        ],
+        "col": 2,
+        "lines": [
+          288
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-036",
+      "source": "semgrep",
+      "klass": "express-check-directory-listing",
+      "file": "server.ts",
+      "line": 292,
+      "end_line": 292,
+      "function": "",
+      "rule": "express-check-directory-listing",
+      "cwe": "CWE-548",
+      "owasp": "",
+      "severity": "medium",
+      "confidence": "medium",
+      "message": "Directory listing/indexing is enabled, which may lead to disclosure of sensitive directories and files. It is recommended to disable directory listing unless it is a public resource. If you need directory listing, ensure that sensitive file",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "express-check-directory-listing"
+        ],
+        "col": 2,
+        "lines": [
+          292
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-037",
+      "source": "semgrep",
+      "klass": "express-check-directory-listing",
+      "file": "server.ts",
+      "line": 296,
+      "end_line": 296,
+      "function": "",
+      "rule": "express-check-directory-listing",
+      "cwe": "CWE-548",
+      "owasp": "",
+      "severity": "medium",
+      "confidence": "medium",
+      "message": "Directory listing/indexing is enabled, which may lead to disclosure of sensitive directories and files. It is recommended to disable directory listing unless it is a public resource. If you need directory listing, ensure that sensitive file",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "express-check-directory-listing"
+        ],
+        "col": 2,
+        "lines": [
+          296
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-038",
+      "source": "semgrep",
+      "klass": "express-check-directory-listing",
+      "file": "server.ts",
+      "line": 300,
+      "end_line": 300,
+      "function": "",
+      "rule": "express-check-directory-listing",
+      "cwe": "CWE-548",
+      "owasp": "",
+      "severity": "medium",
+      "confidence": "medium",
+      "message": "Directory listing/indexing is enabled, which may lead to disclosure of sensitive directories and files. It is recommended to disable directory listing unless it is a public resource. If you need directory listing, ensure that sensitive file",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "express-check-directory-listing"
+        ],
+        "col": 2,
+        "lines": [
+          300
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    }
+  ],
+  "suppressed": [],
+  "dependency_audit_error": "skipped (--no-deps)",
+  "dependency_totals": {},
+  "semgrep_errors": [
+    "Syntax error at line data/static/codefixes/registerAdminChallenge_2.ts:1:\n `/* Generated API endpoints */\n  finale.initialize({ app, sequelize: seq })\n\n  const ",
+    "Syntax error at line data/static/codefixes/registerAdminChallenge_4.ts:1:\n `/* Generated API endpoints */\n  finale.initialize({ app, sequelize: seq })\n\n  const ",
+    "Syntax error at line data/static/codefixes/registerAdminChallenge_3_correct.ts:1:\n `/* Generated API endpoints */\n  finale.initialize({ app, sequelize: seq })\n\n",
+    "Syntax error at line data/static/codefixes/registerAdminChallenge_1.ts:1:\n `/* Generated API endpoints */\n  finale.initialize({ app, sequelize: seq })\n\n  const ",
+    "Syntax error at line data/static/codefixes/weakPasswordChallenge_3.ts:1:\n `User.init(\n      password: {\n        type: DataTypes.STRING,\n        set (clearTextPa",
+    "Syntax error at line data/static/codefixes/weakPasswordChallenge_2.ts:1:\n `User.init(\n      password: {\n        type: DataTypes.STRING,\n        set (clearTextPa",
+    "Syntax error at line data/static/codefixes/weakPasswordChallenge_1_correct.ts:1:\n `User.init(\n      password: {\n        type: DataTypes.STRING,\n        set (cle",
+    "Syntax error at line data/static/codefixes/weakPasswordChallenge_4.ts:1:\n `User.init(\n      password: {\n        type: DataTypes.STRING,\n        set (clearTextPa",
+    "Syntax error at line data/static/codefixes/loginAdminChallenge_1.ts:1:\n `export function login () {\n  function afterLogin (user: User, res: Response, next: Next",
+    "Syntax error at line data/static/codefixes/loginBenderChallenge_1.ts:1:\n `export function login () {\n  function afterLogin (user: User, res: Response, next: Nex",
+    "Syntax error at line data/static/codefixes/loginJimChallenge_4.ts:1:\n `export function login () {\n  function afterLogin (user: User, res: Response, next: NextFu",
+    "Syntax error at line data/static/codefixes/loginAdminChallenge_3.ts:1:\n `export function login () {\n  function afterLogin (user: User, res: Response, next: Next",
+    "Syntax error at line data/static/codefixes/loginAdminChallenge_4_correct.ts:1:\n `export function login () {\n  function afterLogin (user: User, res: Response, ne",
+    "Syntax error at line data/static/codefixes/loginJimChallenge_1_correct.ts:1:\n `export function login () {\n  function afterLogin (user: User, res: Response, next",
+    "Syntax error at line data/static/codefixes/loginAdminChallenge_2.ts:1:\n `export function login () {\n  function afterLogin (user: User, res: Response, next: Next",
+    "Syntax error at line data/static/codefixes/loginBenderChallenge_2_correct.ts:1:\n `export function login () {\n  function afterLogin (user: User, res: Response, n",
+    "Syntax error at line data/static/codefixes/loginBenderChallenge_4.ts:1:\n `export function login () {\n  function afterLogin (user: User, res: Response, next: Nex",
+    "Syntax error at line data/static/codefixes/loginJimChallenge_2.ts:1:\n `export function login () {\n  function afterLogin (user: User, res: Response, next: NextFu",
+    "Syntax error at line data/static/codefixes/loginBenderChallenge_3.ts:1:\n `export function login () {\n  function afterLogin (user: User, res: Response, next: Nex",
+    "Syntax error at line data/static/codefixes/loginJimChallenge_3.ts:1:\n `export function login () {\n  function afterLogin (user: User, res: Response, next: NextFu",
+    "Timeout when running Users.piyush.Desktop.cyberhackathon.ai_kavach_crs.config.semgrep.javascript.express.security.injection.raw-html-format.raw-html-format on f",
+    "Timeout when running Users.piyush.Desktop.cyberhackathon.ai_kavach_crs.config.semgrep.typescript.react.security.audit.react-unsanitized-method.react-unsanitized",
+    "Timeout when running Users.piyush.Desktop.cyberhackathon.ai_kavach_crs.config.semgrep.typescript.react.security.audit.react-unsanitized-property.react-unsanitiz",
+    "Syntax error at line data/static/codefixes/chatbotPromptInjectionChallenge_1.ts:11:\n `}` was unexpected",
+    "Syntax error at line data/static/codefixes/chatbotPromptInjectionChallenge_2_correct.ts:15:\n `: tool` was unexpected",
+    "Syntax error at line data/static/codefixes/chatbotPromptInjectionChallenge_3.ts:15:\n `}` was unexpected",
+    "Syntax error at line data/static/codefixes/chatbotPromptInjectionChallenge_4.ts:16:\n `}` was unexpected",
+    "Syntax error at line data/static/codefixes/restfulXssChallenge_2.ts:44:\n `: any[]` was unexpected",
+    "Syntax error at line data/static/codefixes/restfulXssChallenge_3.ts:44:\n `: any[]` was unexpected",
+    "Syntax error at line data/static/codefixes/restfulXssChallenge_4.ts:44:\n `: any[]` was unexpected",
+    "Syntax error at line data/static/codefixes/tokenSaleChallenge_1.ts:22:\n `]` was unexpected",
+    "Syntax error at line data/static/codefixes/tokenSaleChallenge_2.ts:23:\n `]` was unexpected",
+    "Syntax error at line data/static/codefixes/tokenSaleChallenge_3_correct.ts:18:\n `]` was unexpected"
+  ],
+  "seconds": 11.16,
+  "target": "benchmark_workspace/public/juice-shop"
+}

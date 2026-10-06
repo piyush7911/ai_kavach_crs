@@ -1,0 +1,102 @@
+{
+  "findings": [
+    {
+      "id": "PY-001",
+      "source": "semgrep",
+      "klass": "command-injection",
+      "file": "vda/core/views.py",
+      "line": 40,
+      "end_line": 40,
+      "function": "testconn",
+      "rule": "kavach-py-command-injection",
+      "cwe": "CWE-78",
+      "owasp": "A03:2021",
+      "severity": "error",
+      "confidence": "high",
+      "message": "A shell command built from data can be injected (command injection).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          36,
+          46
+        ],
+        "lines": [
+          40
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "PY-002",
+      "source": "semgrep",
+      "klass": "command-injection",
+      "file": "vda/core/views.py",
+      "line": 69,
+      "end_line": 69,
+      "function": "filerunner",
+      "rule": "kavach-py-command-injection",
+      "cwe": "CWE-78",
+      "owasp": "A03:2021",
+      "severity": "error",
+      "confidence": "high",
+      "message": "A shell command built from data can be injected (command injection).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          65,
+          84
+        ],
+        "lines": [
+          69
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "PY-003",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "vda/vda/settings.py",
+      "line": 23,
+      "end_line": 23,
+      "function": "",
+      "rule": "kavach-py-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A secret, key, password or token is assigned a hard-coded string literal.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          0,
+          0
+        ],
+        "lines": [
+          23
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    }
+  ],
+  "seconds": 1.1,
+  "target": "benchmark_workspace/public/vulnerable-django-app"
+}

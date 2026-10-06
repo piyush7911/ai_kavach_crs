@@ -1,0 +1,134 @@
+{
+ "cmdi": {
+  "real": 126,
+  "safe": 125,
+  "tp": 49,
+  "fn": 77,
+  "fp": 51,
+  "tn": 74,
+  "tpr": 0.389,
+  "fpr": 0.408,
+  "youden": -0.019
+ },
+ "crypto": {
+  "real": 130,
+  "safe": 116,
+  "tp": 0,
+  "fn": 130,
+  "fp": 0,
+  "tn": 116,
+  "tpr": 0.0,
+  "fpr": 0.0,
+  "youden": 0.0
+ },
+ "hash": {
+  "real": 129,
+  "safe": 107,
+  "tp": 0,
+  "fn": 129,
+  "fp": 0,
+  "tn": 107,
+  "tpr": 0.0,
+  "fpr": 0.0,
+  "youden": 0.0
+ },
+ "ldapi": {
+  "real": 27,
+  "safe": 32,
+  "tp": 0,
+  "fn": 27,
+  "fp": 0,
+  "tn": 32,
+  "tpr": 0.0,
+  "fpr": 0.0,
+  "youden": 0.0
+ },
+ "pathtraver": {
+  "real": 133,
+  "safe": 135,
+  "tp": 0,
+  "fn": 133,
+  "fp": 0,
+  "tn": 135,
+  "tpr": 0.0,
+  "fpr": 0.0,
+  "youden": 0.0
+ },
+ "securecookie": {
+  "real": 36,
+  "safe": 31,
+  "tp": 0,
+  "fn": 36,
+  "fp": 0,
+  "tn": 31,
+  "tpr": 0.0,
+  "fpr": 0.0,
+  "youden": 0.0
+ },
+ "sqli": {
+  "real": 272,
+  "safe": 232,
+  "tp": 241,
+  "fn": 31,
+  "fp": 206,
+  "tn": 26,
+  "tpr": 0.886,
+  "fpr": 0.888,
+  "youden": -0.002
+ },
+ "trustbound": {
+  "real": 83,
+  "safe": 43,
+  "tp": 0,
+  "fn": 83,
+  "fp": 0,
+  "tn": 43,
+  "tpr": 0.0,
+  "fpr": 0.0,
+  "youden": 0.0
+ },
+ "weakrand": {
+  "real": 218,
+  "safe": 275,
+  "tp": 0,
+  "fn": 218,
+  "fp": 0,
+  "tn": 275,
+  "tpr": 0.0,
+  "fpr": 0.0,
+  "youden": 0.0
+ },
+ "xpathi": {
+  "real": 15,
+  "safe": 20,
+  "tp": 0,
+  "fn": 15,
+  "fp": 0,
+  "tn": 20,
+  "tpr": 0.0,
+  "fpr": 0.0,
+  "youden": 0.0
+ },
+ "xss": {
+  "real": 246,
+  "safe": 209,
+  "tp": 0,
+  "fn": 246,
+  "fp": 0,
+  "tn": 209,
+  "tpr": 0.0,
+  "fpr": 0.0,
+  "youden": 0.0
+ },
+ "OVERALL": {
+  "real": 1415,
+  "safe": 1325,
+  "tp": 290,
+  "fn": 1125,
+  "fp": 257,
+  "tn": 1068,
+  "tpr": 0.205,
+  "fpr": 0.194,
+  "youden": 0.011
+ }
+}

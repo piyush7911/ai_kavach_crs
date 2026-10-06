@@ -1,0 +1,887 @@
+{
+  "findings": [
+    {
+      "id": "JS-001",
+      "source": "semgrep",
+      "klass": "tainted-sql-string",
+      "file": "core/appHandler.js",
+      "line": 10,
+      "end_line": 10,
+      "function": "userSearch",
+      "rule": "tainted-sql-string",
+      "cwe": "CWE-89",
+      "owasp": "",
+      "severity": "high",
+      "confidence": "low",
+      "message": "Detected user input used to manually construct a SQL string. This is usually bad practice because manual construction could accidentally result in a SQL injection. An attacker could use a SQL injection to steal or modify contents of the dat",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "tainted-sql-string"
+        ],
+        "col": 57,
+        "function_lines": [
+          9,
+          36
+        ],
+        "lines": [
+          10
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-002",
+      "source": "semgrep",
+      "klass": "express-sequelize-injection",
+      "file": "core/appHandler.js",
+      "line": 11,
+      "end_line": 11,
+      "function": "userSearch",
+      "rule": "express-sequelize-injection",
+      "cwe": "CWE-89",
+      "owasp": "",
+      "severity": "high",
+      "confidence": "high",
+      "message": "Detected a sequelize statement that is tainted by user-input. This could lead to SQL injection if the variable is user-controlled and is not properly sanitized. In order to prevent SQL injection, it is recommended to use parameterized queri",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "express-sequelize-injection"
+        ],
+        "col": 20,
+        "function_lines": [
+          9,
+          36
+        ],
+        "lines": [
+          11
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-003",
+      "source": "flow",
+      "klass": "sql-injection",
+      "file": "core/appHandler.js",
+      "line": 11,
+      "end_line": 11,
+      "function": "userSearch",
+      "rule": "flow:db.sequelize.query",
+      "cwe": "CWE-89",
+      "owasp": "",
+      "severity": "high",
+      "confidence": "high",
+      "message": "user-controlled `query` reaches db.sequelize.query() via userSearch",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "flow:db.sequelize.query"
+        ],
+        "callee": "db.sequelize.query",
+        "arg_index": 0,
+        "tainted_expr": "query",
+        "tainted_fields": [
+          [
+            "body",
+            "login"
+          ]
+        ],
+        "chain": [
+          "core/appHandler.js:userSearch"
+        ],
+        "entry": {
+          "function": "userSearch",
+          "file": "core/appHandler.js",
+          "line": 9,
+          "route": {
+            "method": "POST",
+            "path": "/usersearch"
+          },
+          "via": "route",
+          "request_param": [
+            "req"
+          ],
+          "request_fields": [
+            [
+              "body",
+              "login"
+            ]
+          ]
+        },
+        "classified_by": "catalog",
+        "lines": [
+          11
+        ],
+        "detected_by": [
+          "flow"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-004",
+      "source": "flow",
+      "klass": "command-injection",
+      "file": "core/appHandler.js",
+      "line": 39,
+      "end_line": 44,
+      "function": "ping",
+      "rule": "flow:exec",
+      "cwe": "CWE-78",
+      "owasp": "",
+      "severity": "critical",
+      "confidence": "high",
+      "message": "user-controlled `'ping -c 2 ' + req.body.address` reaches exec() via ping",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "flow:exec",
+          "kavach-js-command-injection"
+        ],
+        "callee": "exec",
+        "arg_index": 0,
+        "tainted_expr": "'ping -c 2 ' + req.body.address",
+        "tainted_fields": [
+          [
+            "body",
+            "address"
+          ]
+        ],
+        "chain": [
+          "core/appHandler.js:ping"
+        ],
+        "entry": {
+          "function": "ping",
+          "file": "core/appHandler.js",
+          "line": 38,
+          "route": {
+            "method": "POST",
+            "path": "/ping"
+          },
+          "via": "route",
+          "request_param": [
+            "req"
+          ],
+          "request_fields": [
+            [
+              "body",
+              "address"
+            ]
+          ]
+        },
+        "classified_by": "catalog",
+        "lines": [
+          39
+        ],
+        "detected_by": [
+          "flow",
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-005",
+      "source": "flow",
+      "klass": "xss",
+      "file": "core/appHandler.js",
+      "line": 70,
+      "end_line": 70,
+      "function": "<anonymous@65>",
+      "rule": "flow:render(app/products)",
+      "cwe": "CWE-79",
+      "owasp": "",
+      "severity": "high",
+      "confidence": "high",
+      "message": "user-controlled `output` reaches render(app/products)() via productSearch",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "flow:render(app/products)"
+        ],
+        "callee": "render(app/products)",
+        "arg_index": 1,
+        "tainted_expr": "output",
+        "tainted_fields": [
+          [
+            "body",
+            "name"
+          ]
+        ],
+        "chain": [
+          "core/appHandler.js:productSearch"
+        ],
+        "entry": {
+          "function": "productSearch",
+          "file": "core/appHandler.js",
+          "line": 58,
+          "route": {
+            "method": "POST",
+            "path": "/products"
+          },
+          "via": "route",
+          "request_param": [
+            "req"
+          ],
+          "request_fields": [
+            [
+              "body",
+              "name"
+            ]
+          ]
+        },
+        "classified_by": "catalog",
+        "template": "views/app/products.ejs",
+        "template_line": 20,
+        "context": "html",
+        "raw": true,
+        "variable": "output",
+        "lines": [
+          70
+        ],
+        "detected_by": [
+          "flow"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-006",
+      "source": "flow",
+      "klass": "idor",
+      "file": "core/appHandler.js",
+      "line": 77,
+      "end_line": 77,
+      "function": "modifyProduct",
+      "rule": "flow:db.Product.find",
+      "cwe": "CWE-639",
+      "owasp": "",
+      "severity": "high",
+      "confidence": "low",
+      "message": "user-controlled `db.Product.find({\n\t\t\twhere: {\n\t\t\t\t'id': req.query.id\n\t\t\t}\n\t\t` reaches db.Product.find() via modifyProduct",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "flow:db.Product.find"
+        ],
+        "callee": "db.Product.find",
+        "arg_index": 0,
+        "tainted_expr": "db.Product.find({\n\t\t\twhere: {\n\t\t\t\t'id': req.query.id\n\t\t\t}\n\t\t})",
+        "tainted_fields": [
+          [
+            "query",
+            "id"
+          ]
+        ],
+        "chain": [
+          "core/appHandler.js:modifyProduct"
+        ],
+        "entry": {
+          "function": "modifyProduct",
+          "file": "core/appHandler.js",
+          "line": 76,
+          "route": {
+            "method": "GET",
+            "path": "/modifyproduct"
+          },
+          "via": "route",
+          "request_param": [
+            "req"
+          ],
+          "request_fields": [
+            [
+              "query",
+              "id"
+            ]
+          ]
+        },
+        "classified_by": "catalog",
+        "lookup": "db.Product.find",
+        "identifier": "id",
+        "lookup_line": 85,
+        "authorization_check": "none found: the identifier is never compared with the authenticated identity and the route has no authorisation middleware",
+        "route_middleware": [
+          "authHandler.isAuthenticated"
+        ],
+        "lines": [
+          77
+        ],
+        "detected_by": [
+          "flow"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-007",
+      "source": "flow",
+      "klass": "idor",
+      "file": "core/appHandler.js",
+      "line": 104,
+      "end_line": 104,
+      "function": "modifyProductSubmit",
+      "rule": "flow:db.Product.find",
+      "cwe": "CWE-639",
+      "owasp": "",
+      "severity": "high",
+      "confidence": "low",
+      "message": "user-controlled `db.Product.find({\n\t\twhere: {\n\t\t\t'id': req.body.id\n\t\t}\n\t})` reaches db.Product.find() via modifyProductSubmit",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "flow:db.Product.find"
+        ],
+        "callee": "db.Product.find",
+        "arg_index": 0,
+        "tainted_expr": "db.Product.find({\n\t\twhere: {\n\t\t\t'id': req.body.id\n\t\t}\n\t})",
+        "tainted_fields": [
+          [
+            "body",
+            "id"
+          ]
+        ],
+        "chain": [
+          "core/appHandler.js:modifyProductSubmit"
+        ],
+        "entry": {
+          "function": "modifyProductSubmit",
+          "file": "core/appHandler.js",
+          "line": 103,
+          "route": {
+            "method": "POST",
+            "path": "/modifyproduct"
+          },
+          "via": "route",
+          "request_param": [
+            "req"
+          ],
+          "request_fields": [
+            [
+              "body",
+              "id"
+            ],
+            [
+              "body",
+              "code"
+            ],
+            [
+              "body",
+              "name"
+            ],
+            [
+              "body",
+              "description"
+            ],
+            [
+              "body",
+              "tags"
+            ]
+          ]
+        },
+        "classified_by": "catalog",
+        "lookup": "db.Product.find",
+        "identifier": "id",
+        "lookup_line": 107,
+        "authorization_check": "none found: the identifier is never compared with the authenticated identity and the route has no authorisation middleware",
+        "route_middleware": [
+          "authHandler.isAuthenticated"
+        ],
+        "lines": [
+          104
+        ],
+        "detected_by": [
+          "flow"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-008",
+      "source": "flow",
+      "klass": "idor",
+      "file": "core/appHandler.js",
+      "line": 147,
+      "end_line": 147,
+      "function": "userEditSubmit",
+      "rule": "flow:db.User.find",
+      "cwe": "CWE-639",
+      "owasp": "",
+      "severity": "high",
+      "confidence": "low",
+      "message": "user-controlled `db.User.find({\n\t\twhere: {\n\t\t\t'id': req.body.id\n\t\t}\t\t\n\t})` reaches db.User.find() via userEditSubmit",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "flow:db.User.find"
+        ],
+        "callee": "db.User.find",
+        "arg_index": 0,
+        "tainted_expr": "db.User.find({\n\t\twhere: {\n\t\t\t'id': req.body.id\n\t\t}\t\t\n\t})",
+        "tainted_fields": [
+          [
+            "body",
+            "id"
+          ]
+        ],
+        "chain": [
+          "core/appHandler.js:userEditSubmit"
+        ],
+        "entry": {
+          "function": "userEditSubmit",
+          "file": "core/appHandler.js",
+          "line": 144,
+          "route": {
+            "method": "POST",
+            "path": "/useredit"
+          },
+          "via": "route",
+          "request_param": [
+            "req"
+          ],
+          "request_fields": [
+            [
+              "body",
+              "id"
+            ],
+            [
+              "body",
+              "password"
+            ],
+            [
+              "body",
+              "cpassword"
+            ],
+            [
+              "body",
+              "email"
+            ],
+            [
+              "body",
+              "name"
+            ]
+          ]
+        },
+        "classified_by": "catalog",
+        "lookup": "db.User.find",
+        "identifier": "id",
+        "lookup_line": 145,
+        "authorization_check": "none found: the identifier is never compared with the authenticated identity and the route has no authorisation middleware",
+        "route_middleware": [
+          "authHandler.isAuthenticated"
+        ],
+        "lines": [
+          147
+        ],
+        "detected_by": [
+          "flow"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-009",
+      "source": "flow",
+      "klass": "open-redirect",
+      "file": "core/appHandler.js",
+      "line": 188,
+      "end_line": 188,
+      "function": "redirect",
+      "rule": "flow:res.redirect",
+      "cwe": "CWE-601",
+      "owasp": "",
+      "severity": "medium",
+      "confidence": "high",
+      "message": "user-controlled `req.query.url` reaches res.redirect() via redirect",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "express-open-redirect",
+          "flow:res.redirect"
+        ],
+        "callee": "res.redirect",
+        "arg_index": 0,
+        "tainted_expr": "req.query.url",
+        "tainted_fields": [
+          [
+            "query",
+            "url"
+          ]
+        ],
+        "chain": [
+          "core/appHandler.js:redirect"
+        ],
+        "entry": {
+          "function": "redirect",
+          "file": "core/appHandler.js",
+          "line": 186,
+          "route": {
+            "method": "GET",
+            "path": "/redirect"
+          },
+          "via": "route",
+          "request_param": [
+            "req"
+          ],
+          "request_fields": [
+            [
+              "query",
+              "url"
+            ]
+          ]
+        },
+        "classified_by": "catalog",
+        "lines": [
+          188
+        ],
+        "detected_by": [
+          "flow",
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-010",
+      "source": "flow",
+      "klass": "deserialization",
+      "file": "core/appHandler.js",
+      "line": 218,
+      "end_line": 218,
+      "function": "bulkProductsLegacy",
+      "rule": "flow:serialize.unserialize",
+      "cwe": "CWE-502",
+      "owasp": "",
+      "severity": "high",
+      "confidence": "high",
+      "message": "user-controlled `req.files.products.data.toString('utf8')` reaches serialize.unserialize() via bulkProductsLegacy",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "flow:serialize.unserialize"
+        ],
+        "callee": "serialize.unserialize",
+        "arg_index": 0,
+        "tainted_expr": "req.files.products.data.toString('utf8')",
+        "tainted_fields": [],
+        "chain": [
+          "core/appHandler.js:bulkProductsLegacy"
+        ],
+        "entry": {
+          "function": "bulkProductsLegacy",
+          "file": "core/appHandler.js",
+          "line": 215,
+          "route": {
+            "method": "POST",
+            "path": "/bulkproductslegacy"
+          },
+          "via": "route",
+          "request_param": [
+            "req"
+          ],
+          "request_fields": []
+        },
+        "classified_by": "catalog",
+        "lines": [
+          218
+        ],
+        "detected_by": [
+          "flow"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-011",
+      "source": "semgrep",
+      "klass": "express-third-party-object-deserialization",
+      "file": "core/appHandler.js",
+      "line": 218,
+      "end_line": 218,
+      "function": "bulkProductsLegacy",
+      "rule": "express-third-party-object-deserialization",
+      "cwe": "CWE-502",
+      "owasp": "",
+      "severity": "medium",
+      "confidence": "high",
+      "message": "The following function call serialize.unserialize accepts user controlled data which can result in Remote Code Execution (RCE) through Object Deserialization. It is recommended to use secure data processing alternatives such as JSON.parse()",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "express-third-party-object-deserialization"
+        ],
+        "col": 17,
+        "function_lines": [
+          215,
+          231
+        ],
+        "lines": [
+          218
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-012",
+      "source": "semgrep",
+      "klass": "express-libxml-noent",
+      "file": "core/appHandler.js",
+      "line": 235,
+      "end_line": 235,
+      "function": "bulkProducts",
+      "rule": "express-libxml-noent",
+      "cwe": "CWE-611",
+      "owasp": "",
+      "severity": "high",
+      "confidence": "high",
+      "message": "The libxml library processes user-input with the `noent` attribute is set to `true` which can lead to being vulnerable to XML External Entities (XXE) type attacks. It is recommended to set `noent` to `false` when using this feature to ensur",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "express-libxml-noent"
+        ],
+        "col": 41,
+        "function_lines": [
+          233,
+          248
+        ],
+        "lines": [
+          235
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-013",
+      "source": "flow",
+      "klass": "csrf-missing",
+      "file": "server.js",
+      "line": 4,
+      "end_line": 4,
+      "function": "",
+      "rule": "flow:application",
+      "cwe": "CWE-352",
+      "owasp": "",
+      "severity": "medium",
+      "confidence": "medium",
+      "message": "user-controlled `` reaches application() via ",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "flow:application"
+        ],
+        "callee": "application",
+        "arg_index": 0,
+        "tainted_expr": "",
+        "tainted_fields": [],
+        "chain": [],
+        "entry": {
+          "function": "",
+          "file": "server.js",
+          "line": 4,
+          "route": null,
+          "via": "application",
+          "request_param": [],
+          "request_fields": []
+        },
+        "classified_by": "catalog",
+        "session_modules": [
+          "express-session"
+        ],
+        "state_changing_routes": 10,
+        "disabled_protection_in_comment": false,
+        "routes": [
+          "POST /bulkproducts",
+          "POST /bulkproductslegacy",
+          "POST /calc",
+          "POST /forgotpw",
+          "POST /modifyproduct",
+          "POST /ping",
+          "POST /products",
+          "POST /resetpw",
+          "POST /useredit",
+          "POST /usersearch"
+        ],
+        "lines": [
+          4
+        ],
+        "detected_by": [
+          "flow"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-014",
+      "source": "semgrep",
+      "klass": "insecure-session-cookie",
+      "file": "server.js",
+      "line": 23,
+      "end_line": 28,
+      "function": "",
+      "rule": "express-cookie-session-default-name",
+      "cwe": "CWE-522",
+      "owasp": "",
+      "severity": "medium",
+      "confidence": "medium",
+      "message": "Don\u2019t use the default session cookie name Using the default session cookie name can open your app to attacks. The security issue posed is similar to X-Powered-By: a potential attacker can use it to fingerprint the server and target attacks ",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "express-cookie-session-default-name",
+          "express-cookie-session-no-domain",
+          "express-cookie-session-no-expires",
+          "express-cookie-session-no-httponly",
+          "express-cookie-session-no-path",
+          "express-cookie-session-no-secure"
+        ],
+        "col": 8,
+        "lines": [
+          23
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-015",
+      "source": "semgrep",
+      "klass": "express-session-hardcoded-secret",
+      "file": "server.js",
+      "line": 24,
+      "end_line": 24,
+      "function": "",
+      "rule": "express-session-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "",
+      "severity": "medium",
+      "confidence": "high",
+      "message": "A hard-coded credential was detected. It is not recommended to store credentials in source-code, as this risks secrets being leaked and used by either an internal or external malicious adversary. It is recommended to use environment variabl",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "express-session-hardcoded-secret"
+        ],
+        "col": 2,
+        "lines": [
+          24
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    }
+  ],
+  "suppressed": [],
+  "dependency_audit_error": "skipped (--no-deps)",
+  "dependency_totals": {},
+  "semgrep_errors": [],
+  "seconds": 3.62,
+  "target": "benchmark_workspace/public/dvna"
+}

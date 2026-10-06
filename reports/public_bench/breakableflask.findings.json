@@ -1,0 +1,102 @@
+{
+  "findings": [
+    {
+      "id": "PY-001",
+      "source": "semgrep",
+      "klass": "command-injection",
+      "file": "main.py",
+      "line": 172,
+      "end_line": 172,
+      "function": "rp",
+      "rule": "kavach-py-command-injection",
+      "cwe": "CWE-78",
+      "owasp": "A03:2021",
+      "severity": "error",
+      "confidence": "high",
+      "message": "A shell command built from data can be injected (command injection).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          171,
+          172
+        ],
+        "lines": [
+          172
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "PY-002",
+      "source": "semgrep",
+      "klass": "code-injection",
+      "file": "main.py",
+      "line": 379,
+      "end_line": 379,
+      "function": "evaluate",
+      "rule": "kavach-py-code-injection",
+      "cwe": "CWE-95",
+      "owasp": "A03:2021",
+      "severity": "error",
+      "confidence": "high",
+      "message": "eval/exec on a non-constant value can run arbitrary code (code injection).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          373,
+          387
+        ],
+        "lines": [
+          379
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "PY-003",
+      "source": "semgrep",
+      "klass": "sql-injection",
+      "file": "main.py",
+      "line": 629,
+      "end_line": 629,
+      "function": "",
+      "rule": "kavach-py-sql-injection",
+      "cwe": "CWE-89",
+      "owasp": "A03:2021",
+      "severity": "error",
+      "confidence": "high",
+      "message": "A SQL string built by formatting/concatenation reaches a query (SQL injection).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          0,
+          0
+        ],
+        "lines": [
+          629
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    }
+  ],
+  "seconds": 1.0,
+  "target": "benchmark_workspace/public/breakableflask"
+}

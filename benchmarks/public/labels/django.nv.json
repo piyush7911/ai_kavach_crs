@@ -1,0 +1,256 @@
+{
+ "target": "django.nv",
+ "labels": [
+  {
+   "id": "cmdi-upload",
+   "family": "command",
+   "file": "taskManager/misc.py",
+   "source": "author comment",
+   "functions": [
+    "store_uploaded_file"
+   ]
+  },
+  {
+   "id": "sqli-upload",
+   "family": "sql",
+   "file": "taskManager/views.py",
+   "source": "author comment",
+   "functions": [
+    "upload"
+   ]
+  },
+  {
+   "id": "idor-upload",
+   "family": "idor",
+   "file": "taskManager/views.py",
+   "source": "author comment",
+   "functions": [
+    "upload"
+   ]
+  },
+  {
+   "id": "idor-download",
+   "family": "idor",
+   "file": "taskManager/views.py",
+   "source": "author comment",
+   "functions": [
+    "download"
+   ]
+  },
+  {
+   "id": "idor-task_create",
+   "family": "idor",
+   "file": "taskManager/views.py",
+   "source": "author comment",
+   "functions": [
+    "task_create"
+   ]
+  },
+  {
+   "id": "idor-task_edit",
+   "family": "idor",
+   "file": "taskManager/views.py",
+   "source": "author comment",
+   "functions": [
+    "task_edit"
+   ]
+  },
+  {
+   "id": "idor-task_delete",
+   "family": "idor",
+   "file": "taskManager/views.py",
+   "source": "author comment",
+   "functions": [
+    "task_delete"
+   ]
+  },
+  {
+   "id": "idor-task_complete",
+   "family": "idor",
+   "file": "taskManager/views.py",
+   "source": "author comment",
+   "functions": [
+    "task_complete"
+   ]
+  },
+  {
+   "id": "idor-project_edit",
+   "family": "idor",
+   "file": "taskManager/views.py",
+   "source": "author comment",
+   "functions": [
+    "project_edit"
+   ]
+  },
+  {
+   "id": "idor-project_delete",
+   "family": "idor",
+   "file": "taskManager/views.py",
+   "source": "author comment",
+   "functions": [
+    "project_delete"
+   ]
+  },
+  {
+   "id": "idor-note_create",
+   "family": "idor",
+   "file": "taskManager/views.py",
+   "source": "author comment",
+   "functions": [
+    "note_create"
+   ]
+  },
+  {
+   "id": "idor-note_edit",
+   "family": "idor",
+   "file": "taskManager/views.py",
+   "source": "author comment",
+   "functions": [
+    "note_edit"
+   ]
+  },
+  {
+   "id": "idor-note_delete",
+   "family": "idor",
+   "file": "taskManager/views.py",
+   "source": "author comment",
+   "functions": [
+    "note_delete"
+   ]
+  },
+  {
+   "id": "idor-profile_by_id",
+   "family": "idor",
+   "file": "taskManager/views.py",
+   "source": "author comment",
+   "functions": [
+    "profile_by_id"
+   ]
+  },
+  {
+   "id": "func-access-manage_groups",
+   "family": "authz",
+   "file": "taskManager/views.py",
+   "source": "author comment",
+   "functions": [
+    "manage_groups"
+   ]
+  },
+  {
+   "id": "open-redirect-logout",
+   "family": "redirect",
+   "file": "taskManager/views.py",
+   "source": "author comment",
+   "functions": [
+    "logout_view"
+   ]
+  },
+  {
+   "id": "csrf-profile_by_id",
+   "family": "csrf",
+   "file": "taskManager/views.py",
+   "source": "author comment",
+   "functions": [
+    "profile_by_id"
+   ]
+  },
+  {
+   "id": "csrf-reset_password",
+   "family": "csrf",
+   "file": "taskManager/views.py",
+   "source": "author comment",
+   "functions": [
+    "reset_password"
+   ]
+  },
+  {
+   "id": "csrf-change_password",
+   "family": "csrf",
+   "file": "taskManager/views.py",
+   "source": "author comment",
+   "functions": [
+    "change_password"
+   ]
+  },
+  {
+   "id": "secret-key",
+   "family": "secret",
+   "file": "taskManager/settings.py",
+   "source": "author comment",
+   "lines": [
+    24,
+    24
+   ]
+  },
+  {
+   "id": "debug-on",
+   "family": "misconfig",
+   "file": "taskManager/settings.py",
+   "source": "author comment",
+   "lines": [
+    28,
+    29
+   ]
+  },
+  {
+   "id": "md5-hasher",
+   "family": "crypto",
+   "file": "taskManager/settings.py",
+   "source": "author comment",
+   "lines": [
+    100,
+    101
+   ]
+  },
+  {
+   "id": "pickle-session",
+   "family": "deserialization",
+   "file": "taskManager/settings.py",
+   "source": "audit",
+   "lines": [
+    106,
+    108
+   ]
+  },
+  {
+   "id": "xss-base_backend",
+   "family": "xss",
+   "file": "taskManager/templates/taskManager/base_backend.html",
+   "source": "audit (|safe)",
+   "lines": [
+    1,
+    400
+   ]
+  },
+  {
+   "id": "xss-settings",
+   "family": "xss",
+   "file": "taskManager/templates/taskManager/settings.html",
+   "source": "audit (|safe)",
+   "lines": [
+    1,
+    400
+   ]
+  },
+  {
+   "id": "xss-search",
+   "family": "xss",
+   "file": "taskManager/templates/taskManager/search.html",
+   "source": "audit (|safe)",
+   "lines": [
+    1,
+    400
+   ]
+  },
+  {
+   "id": "xss-task_details",
+   "family": "xss",
+   "file": "taskManager/templates/taskManager/task_details.html",
+   "source": "audit (|safe)",
+   "lines": [
+    1,
+    400
+   ]
+  }
+ ]
+}
