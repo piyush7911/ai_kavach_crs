@@ -72,7 +72,8 @@
     "reflected-output": {
       "value": "kvch<b>7x7</b>",
       "success_if": {
-        "body_regex": "kvch<b>7x7</b>"
+        "body_regex": "kvch<b>7x7</b>",
+        "require_html": true
       },
       "variants": [
         {
@@ -98,7 +99,8 @@
     "xss-html": {
       "value": "kvch<b>7x7</b>",
       "success_if": {
-        "body_regex": "kvch<b>7x7</b>"
+        "body_regex": "kvch<b>7x7</b>",
+        "require_html": true
       },
       "variants": [
         {

@@ -34,7 +34,8 @@ _BENIGN = {"email": "probe@kavach.test", "password": "ProbePass1!", "book_title"
 # sits inside '...') and numeric (input sits bare after `=`). One style alone misses the other context.
 _INJECTION_STYLES = [
     ("' OR '1'='1", "' OR '1'='2"),   # string context:  WHERE x = '<input>'
-    ("1 OR 1=1", "1 OR 1=2"),         # numeric context: WHERE x = <input>
+    ("1 OR 1=1", "1 OR 1=2"),         # numeric context, list result: all rows vs one
+    ("0 OR 1=1", "0 OR 1=2"),         # numeric, single-row + existing base id: present vs absent (flips)
     # both pairs differ ONLY in a trailing digit, which `_norm` strips — so if the endpoint merely
     # reflects the payload the two responses still normalise equal (no false positive); a real query
     # returns different rows (all vs one), which survives normalisation.
@@ -180,16 +181,18 @@ def routes_from_crawl(base_url: str, seeds: tuple = ("/",), max_pages: int = 25)
         if page in seen:
             continue
         seen.add(page)
+        page_url = base + page
         try:
-            body = urllib.request.urlopen(base + page, timeout=5).read().decode("utf-8", "replace")
+            body = urllib.request.urlopen(page_url, timeout=5).read().decode("utf-8", "replace")
         except (urllib.error.URLError, OSError, ValueError):
             continue
         for raw in link.findall(body):
             u = _html.unescape(raw)
-            if u.startswith(("mailto:", "javascript:", "#")):
+            if u.startswith(("mailto:", "javascript:", "#", "data:")):
                 continue
-            parsed = urllib.parse.urlparse(u)
-            if parsed.netloc and parsed.netloc != host:    # off-site link
+            absolute = urllib.parse.urljoin(page_url, u)     # resolve relative links against this page
+            parsed = urllib.parse.urlparse(absolute)
+            if parsed.scheme not in ("http", "https") or parsed.netloc != host:   # off-site / non-http
                 continue
             path = parsed.path or "/"
             params = list(urllib.parse.parse_qs(parsed.query, keep_blank_values=True).keys())
@@ -197,6 +200,67 @@ def routes_from_crawl(base_url: str, seeds: tuple = ("/",), max_pages: int = 25)
             if not parsed.query and path not in seen:       # crawl plain pages a little further
                 queue.append(path)
     return [Route(m, p, query_fields=sorted(ps)) for (m, p), ps in sorted(routes.items())]
+
+
+def routes_from_sitemap(sitemap_url: str) -> list[Route]:
+    """Routes from a standard sitemap.xml (`<loc>` entries). Many apps ship one, and a SPA that hides its
+    endpoints from a link crawl often still lists them here. Paths are origin-absolute; params (if any in
+    the URL) are collected, but sitemaps usually carry none — that's what `mine_params` is for."""
+    import urllib.parse
+    import urllib.request
+    try:
+        body = urllib.request.urlopen(sitemap_url, timeout=5).read().decode("utf-8", "replace")
+    except (urllib.error.URLError, OSError, ValueError):
+        return []
+    routes: dict = {}
+    for loc in re.findall(r"<loc>\s*(.*?)\s*</loc>", body, re.S | re.I):
+        p = urllib.parse.urlparse(loc.strip())
+        path = p.path or "/"
+        params = list(urllib.parse.parse_qs(p.query, keep_blank_values=True).keys())
+        routes.setdefault(("GET", path), set()).update(params)
+    return [Route(m, p, query_fields=sorted(ps)) for (m, p), ps in sorted(routes.items())]
+
+
+# High-signal query-parameter names, for apps that expose neither a spec nor forms (the name is the only
+# thing standing between us and the vulnerable code path). Ordered by how commonly they carry a bug.
+_PARAM_WORDS = ["id", "userId", "user", "name", "url", "uri", "redirect", "returnUrl", "return", "next",
+                "dest", "target", "file", "fileName", "filename", "path", "cmd", "command", "q", "query",
+                "search", "input", "data", "page", "dir", "host", "domain", "xml", "callback", "image"]
+
+
+def _norm_body(s: str) -> str:
+    return re.sub(r"\s+", " ", re.sub(r"\d+", "", s)).strip()
+
+
+def mine_params(base_url: str, routes: list[Route], ctx: "ProbeCtx",
+                words: list = None, budget: int = 3000) -> list[Route]:
+    """Discover which query parameters a route actually reads, when they're exposed nowhere (SPA + JSON API,
+    no forms). For each route: take a no-param baseline, then add one candidate name at a time; if the
+    response changes, the route reads that parameter. Bounded by `budget` requests; loopback + throttled."""
+    from benchmarks.oracles import Session
+    words = words or _PARAM_WORDS
+    spent = 0
+    for r in routes:
+        if r.query_fields or r.path_params or spent >= budget:
+            continue
+        s = Session(base_url, auth=ctx.auth)
+        if not s.login("user" if r.auth_required else "none"):
+            continue
+        base = _norm_body(s.request(r.method, r.path).body)
+        live = []
+        for w in words:
+            if spent >= budget:
+                break
+            spent += 1
+            sep = "&" if "?" in r.path else "?"
+            # a value that likely changes output for a read param: an existing-id "1" and a reflective token
+            for val in ("1", "kvchP9"):
+                resp = s.request(r.method, f"{r.path}{sep}{w}={val}")
+                if _norm_body(resp.body) != base:
+                    live.append(w)
+                    break
+        r.query_fields = live
+    return routes
 
 
 def route_to_source(operation_id: str) -> Optional[dict]:
@@ -485,7 +549,8 @@ def _path_traversal(routes, ctx):
 
 
 def _reflected_xss(routes, ctx):
-    yield from _marker_family(routes, ctx, "xss", "kvch<b>7x7</b>", {"body_regex": "kvch<b>7x7</b>"},
+    yield from _marker_family(routes, ctx, "xss", "kvch<b>7x7</b>",
+                              {"body_regex": "kvch<b>7x7</b>", "require_html": True},
                               "CWE-79", "A3:2021", severity="medium")
 
 
