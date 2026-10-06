@@ -76,10 +76,10 @@ def correlate_with_routemap(candidates: list, routemap_path: str, param_lookup) 
         path = r.get("path", "")
         path = path if path.startswith("/") else "/" + path
         index[(Path(r.get("file", "")).name, r.get("function", ""))] = f"{method} {path}"
-    bound = []
+    bound, seen = [], set()
     for c in candidates:
-        if (c.evidence or {}).get("route"):
-            continue
+        if getattr(c, "status", "") == "confirmed":        # exact route map is authoritative — re-map even if a
+            continue                                        # heuristic already stamped a (param-less) route
         base = Path(c.file or "").name
         rs = index.get((base, c.function or ""))
         if not rs:
@@ -88,6 +88,10 @@ def correlate_with_routemap(candidates: list, routemap_path: str, param_lookup) 
         if not params:                                         # route known but no wire param resolved
             continue
         for p in params:
+            key = (rs, p, c.klass)                              # many Joern flows share a (route, param, class)
+            if key in seen:                                     # dedup so the oracle is not replayed per flow
+                continue
+            seen.add(key)
             d = copy.copy(c)
             d.evidence = {**(c.evidence or {}), "route": rs, "param": p,
                           "correlated_from": f"{c.file}:{c.function}"}
