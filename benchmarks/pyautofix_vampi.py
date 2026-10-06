@@ -112,15 +112,22 @@ def main() -> int:
     repairable = [f for f in findings if _repairable(f)]
     print(f"discovered {len(findings)} bugs; {len(repairable)} repairable with the gate; fixing with {MODEL}\n")
 
-    proven = 0
+    proven = attempted = failed = 0
     for f in repairable:
+        # circuit breaker: if most fixes are failing, something is wrong (bad model/endpoint/app) —
+        # stop burning the autonomous-run budget. Adapted from bug-hunter (MIT, codexstar69).
+        if attempted >= 3 and failed / attempted > 0.5:
+            print(f"\ncircuit breaker: {failed}/{attempted} failed (>50%) — halting, {len(repairable) - attempted} skipped")
+            break
         finding = {"file": f.file, "function": f.function, "klass": f.klass, "cwe": f.cwe,
                    "guidance": GUIDANCE[f.klass]}
         print(f"-> {f.klass} in {f.file}:{f.function}")
         out = repair(finding, TREE, llm, f.exploit, RUN_CMD, env={"vulnerable": "1"},
                      seed_path="/createdb", health_path="/", regression=_regression(f), attempts=3)
         print(f"   {out.status.upper()} — {out.reason}")
+        attempted += 1
         proven += out.status == "proven"
+        failed += out.status != "proven"
     print(f"\nautonomously fixed + proven: {proven} / {len(repairable)}")
     return 0 if proven else 1
 

@@ -85,16 +85,22 @@ def main() -> int:
     model = OpenAIModel(OpenAI(base_url=os.environ.get("OPENAI_BASE_URL"),
                                api_key=os.environ.get("OPENAI_API_KEY", "x")))
     gates = NodeGoatGates()
-    proven = hardened = 0
+    proven = hardened = attempted = failed = 0
     try:
         for f in repairable:
+            # circuit breaker: >50% failing after 3 tries ⇒ halt the run (bug-hunter, MIT, codexstar69).
+            if attempted >= 3 and failed / attempted > 0.5:
+                print(f"\ncircuit breaker: {failed}/{attempted} failed (>50%) — halting, {len(repairable) - attempted} skipped")
+                break
             variants = probes.variants_for(f.to_dict())
             print(f"-> {f.klass} in {f.file}:{f.function}  ({len(variants)} hardening variants)")
             out = repair(f.to_dict(), ROOT, model, gates, max_attempts=3, variants=variants)
             tag = out.status.upper() + (" + HARDENED" if out.hardened else "")
             print(f"   {tag} — {out.reason}")
+            attempted += 1
             proven += out.status == "proven"
             hardened += out.hardened
+            failed += out.status != "proven"
     finally:
         gates._stop()
     print(f"\nautonomously fixed + proven: {proven} / {len(repairable)}  (hardened: {hardened})")

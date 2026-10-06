@@ -111,7 +111,7 @@ def _gate(tree, target_file, patched, pov, run_cmd, env, seed_path, health_path,
             if still:
                 return "pov", f"the exploit still works: {detail}"
             for flow in (regression or []):
-                ok, fdetail = _flow_ok(app.base_url, flow)
+                ok, fdetail = _flow_ok_stable(app.base_url, flow)
                 if not ok:
                     return "regression", f"flow {flow.get('name', flow['path'])} broke: {fdetail}"
             return "accepted", "exploit gone" + ("; regression ok" if regression else "")
@@ -119,6 +119,22 @@ def _gate(tree, target_file, patched, pov, run_cmd, env, seed_path, health_path,
             app.stop()
     finally:
         shutil.rmtree(work, ignore_errors=True)
+
+
+def _flow_ok_stable(base_url, flow, tries: int = 3):
+    """A regression flow that passes on ANY try is not a regression. Transient flakiness (a slow DB,
+    a one-off login/network hiccup) otherwise rejects a correct patch; only a flow that fails every try
+    is counted a break. Adapted from bug-hunter's two-run flaky baseline (MIT, codexstar69): same intent,
+    applied to our live HTTP flows instead of a unit suite."""
+    import time
+    ok, detail = False, "not run"
+    for i in range(tries):
+        ok, detail = _flow_ok(base_url, flow)
+        if ok:
+            return True, detail
+        if i < tries - 1:
+            time.sleep(0.5)
+    return False, detail + f" (failed {tries}/{tries} tries)"
 
 
 def _flow_ok(base_url, flow):

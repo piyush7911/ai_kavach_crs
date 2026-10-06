@@ -141,3 +141,22 @@ def test_bola_setup_emits_self_contained_exploit(monkeypatch):
     assert ac["setup_as"] == "user"
     assert ac["request"]["path"] == "/books/v1/kavach-probe-book_title"
     assert found[0].klass == "broken-object-level-auth"
+
+
+def test_probe_policy_allow():
+    from src.pyauto import probe_policy as P
+    # DoS/ReDoS/rate-limit: never probed live (RoE)
+    assert P.allow("redos", Route("GET", "/x"))[0] is False
+    # data-exposure: collection reads only
+    assert P.allow("excessive-data-exposure", Route("GET", "/users"))[0] is True
+    assert P.allow("excessive-data-exposure", Route("GET", "/users/{id}", path_params=["id"]))[0] is False
+    # injection: needs a carrier, skips credential routes
+    assert P.allow("injection", Route("GET", "/u/{id}", path_params=["id"]))[0] is True
+    assert P.allow("injection", Route("GET", "/health"))[0] is False
+    assert P.allow("injection", Route("POST", "/login", body_fields=["username", "password"]))[0] is False
+    # BOLA: authed route with a resource id
+    assert P.allow("broken-object-level-auth", Route("PUT", "/u/{id}/email", path_params=["id"], auth_required=True))[0] is True
+    assert P.allow("broken-object-level-auth", Route("GET", "/u/{id}", path_params=["id"], auth_required=False))[0] is False
+    # enumeration: login-shaped credential POST
+    assert P.allow("user-enumeration", Route("POST", "/users/v1/login", body_fields=["username", "password"]))[0] is True
+    assert P.allow("user-enumeration", Route("POST", "/users/v1/register", body_fields=["username", "password"]))[0] is False

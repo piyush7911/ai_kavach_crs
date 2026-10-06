@@ -23,6 +23,7 @@ from typing import Callable, Optional
 
 from benchmarks.oracles import run_exploit
 from src.jsauto.findings import Finding
+from src.pyauto import probe_policy
 
 # field names whose presence in a response body is a data-exposure signal, and benign fillers by name
 _SENSITIVE = re.compile(r'"(password|passwd|pwd|token|secret|ssn|api[_-]?key|credit[_-]?card)"', re.I)
@@ -191,7 +192,7 @@ def _finding(klass: str, route: Route, cwe: str, owasp: str, message: str,
 
 def _data_exposure(routes, ctx):
     for r in routes:
-        if r.method != "GET" or r.path_params:          # list/object reads; skip per-id reads (noisier)
+        if not probe_policy.allow("excessive-data-exposure", r)[0]:   # collection reads only (policy)
             continue
         ex = {"method": "GET", "path": _fill_path(r.path, {}), "auth": ctx.auth,
               "login_as": "user" if r.auth_required else "none",
@@ -206,8 +207,8 @@ def _injection(routes, ctx):
     from urllib.parse import quote
     for r in routes:
         carriers = list(r.path_params) + list(r.body_fields) + list(r.query_fields)
-        if not carriers or "password" in r.body_fields:   # credential routes are input-sensitive by
-            continue                                       # design (login/register) -> enumeration, not SQLi
+        if not probe_policy.allow("injection", r)[0]:      # needs a carrier; skips credential routes (policy)
+            continue
 
         def build(val):
             pv = {p: quote(val, safe="") for p in r.path_params}     # payload rides in the URL -> encode
@@ -237,7 +238,7 @@ def _bola(routes, ctx):
     owner, other = users[0], users[1]
     owner_name = ctx.roles[owner][0]
     for r in routes:
-        if not (r.auth_required and r.path_params):
+        if not probe_policy.allow("broken-object-level-auth", r)[0]:   # authed route with a resource id (policy)
             continue
         ctx._seed()
         values = {r.path_params[0]: owner_name}
@@ -301,9 +302,7 @@ def _enumeration(routes, ctx):
     """User enumeration: a login route answers a known user + wrong password differently from an unknown
     user. Different ⇒ the error message distinguishes valid accounts. Identified by route shape."""
     for r in routes:
-        if r.method != "POST" or "password" not in r.body_fields:
-            continue
-        if not re.search(r"log[_-]?in|signin|auth", r.path, re.I):
+        if not probe_policy.allow("user-enumeration", r)[0]:   # login-shaped credential POST (policy)
             continue
         user_field = next((f for f in r.body_fields if f != "password"), "username")
         known = ctx.roles.get("user", [ctx.roles.get("admin", ["admin"])[0]])[0]
@@ -369,6 +368,7 @@ _FAMILIES = [_data_exposure, _injection, _bola, _bola_setup, _enumeration, _mass
 
 def probe(routes: list[Route], ctx: ProbeCtx) -> list[Finding]:
     """Run every oracle family over the routes; return the confirmed findings (each with a replay)."""
+    _log_exclusions(routes)
     found = []
     for family in _FAMILIES:
         try:
@@ -376,3 +376,13 @@ def probe(routes: list[Route], ctx: ProbeCtx) -> list[Finding]:
         except Exception as e:  # noqa: BLE001 — one family failing must not sink the run
             print(f"  probe family {family.__name__} errored: {e}")
     return found
+
+
+def _log_exclusions(routes: list[Route]) -> None:
+    """Audit line: how many (route, class) pairs the pre-probe policy skips, so no live request is spent
+    on them. Satisfies the RoE's 'keep a record of what was and was not probed'."""
+    klasses = ("excessive-data-exposure", "injection", "broken-object-level-auth", "user-enumeration")
+    skipped = sum(1 for r in routes for k in klasses if not probe_policy.allow(k, r)[0])
+    total = len(routes) * len(klasses)
+    print(f"pre-probe policy: {skipped}/{total} (route,class) pairs excluded before any request "
+          f"(RoE-aligned; {len(probe_policy.EXCLUSIONS)} exclusion rules)")
