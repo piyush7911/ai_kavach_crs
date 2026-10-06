@@ -39,6 +39,8 @@ class Finding:
     exploitability: str = ""        # EASY | MEDIUM | HARD
     cvss: str = ""                  # CVSS 3.1 vector string
     poc: dict = field(default_factory=dict)  # {payload, request, expected, actual} — actually sent/observed
+    patch: str = ""                 # unified diff of a deterministic template fix (FIX stage), when produced
+    patch_note: str = ""            # what the template changed
 
     def to_dict(self) -> dict:
         return asdict(self)

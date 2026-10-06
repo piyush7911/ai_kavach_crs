@@ -149,6 +149,9 @@ def main(argv=None) -> int:
                     help="run the language-agnostic live HTTP PROVE oracles (headers/cookies/CORS/JWT/"
                          "rate-limit/enumeration/reflected-XSS/redirect); needs --url")
     ap.add_argument("--routes", help="a route-map JSON (route_map.py output) to drive --live + confirm")
+    ap.add_argument("--fix", action="store_true",
+                    help="FIX stage: produce deterministic template patches (weak-hash/cookie-flags) for "
+                         "findings that have a safe template; needs --target. Dependencies stay report-only")
     ap.add_argument("--nuclei", help="a Nuclei JSONL report to ingest + confirm")
     ap.add_argument("--llm-surface", action="store_true",
                     help="plan 010 Slice A: let the LLM read HTML/JS and propose routes+params (needs "
@@ -313,6 +316,20 @@ def main(argv=None) -> int:
         seen_keys.add(key)
         deduped.append(f)
     findings = deduped
+
+    # FIX stage (deterministic, template-first): for findings with a safe template, produce a verified
+    # mechanical patch — no LLM. Classes without a template are left for the LLM repair loop; dependencies
+    # are never version-bumped (report-only). Needs the source tree (--target).
+    if args.fix and args.target:
+        from src.autonomy.template_patch import template_repair
+        patched = 0
+        for f in findings:
+            tr = template_repair(f.to_dict() if hasattr(f, "to_dict") else {"klass": f.klass, "file": f.file}, args.target)
+            if tr and tr["status"] == "proven":
+                patched += 1
+                f.patch = tr["diff"]
+                f.patch_note = tr["note"]
+        print(f"[fix] {patched} deterministic template patch(es) produced + verified (no LLM)")
 
     confirmed = [f for f in findings if f.status == "confirmed"]
     print(f"\n== {len(findings)} findings: {len(confirmed)} confirmed, {len(findings) - len(confirmed)} candidate ==")
