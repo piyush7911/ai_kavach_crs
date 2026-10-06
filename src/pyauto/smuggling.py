@@ -1,4 +1,4 @@
-"""HTTP request smuggling detector (timing oracle). In-scope on an isolated per-team VM.
+"""HTTP request smuggling detector (timing oracle). In scope on an isolated instance.
 
 PortSwigger's timing method: a CL.TE / TE.CL probe makes a desynced back-end wait for bytes that never
 arrive, so the response is DELAYED vs a well-formed baseline. Timing is inherently probabilistic — it cannot
@@ -6,7 +6,7 @@ be a self-validating proof like a marker or an OOB callback — so, to honor our
 tier, a smuggling signal is reported as a high-confidence CANDIDATE (never `confirmed`), with the measured
 delays as evidence. Jitter is suppressed by requiring the hang on TWO independent trials and a wide margin
 over baseline (a calibration knob). Raw sockets (urllib/requests can't send conflicting CL+TE). Bounded,
-non-destructive; only safe on an isolated instance (a desync can affect co-tenants — not the case per team VM).
+non-destructive; only safe on an isolated instance (a desync can affect co-tenants sharing the same host).
 """
 from __future__ import annotations
 

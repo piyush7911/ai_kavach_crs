@@ -1,9 +1,9 @@
 """
 Offline npm advisory data.
 
-The rules of engagement do not allow reaching the npm registry at the event, so `npm audit` cannot
-be used. Instead a snapshot of public vulnerability advisories is built BEFORE the event (this is the
-only step that needs the network) and the lockfile is matched against it locally.
+For air-gapped or network-restricted deployments, `npm audit` cannot be used. Instead a snapshot of
+public vulnerability advisories is built ahead of time (this is the only step that needs the network)
+and the lockfile is matched against it locally.
 
     python -m src.jsauto.advisories build --zip osv_npm_all.zip --out config/advisories/npm.json.gz
 

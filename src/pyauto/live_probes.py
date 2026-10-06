@@ -8,8 +8,8 @@ oracles (open redirect, reflected XSS, response-header injection).
 
 Every finding here is either a FACT (a header is absent/misconfigured — cannot be a false positive) or a
 REPLAYED EXPLOIT (a guessed JWT secret verifies a token; a payload reflects unencoded). So the whole set is
-safe to put in the CONFIRMED tier: the model/jury never sees an unproven claim. Ported from the benchmark
-experiment (exp/scripts/live_checks.py) into the engine; loopback-only, sequential, capped.
+safe to put in the CONFIRMED tier: nothing unproven is ever reported. Promoted from the experimental
+version (exp/scripts/live_checks.py) into the engine; loopback-only, sequential, capped.
 
 Input routes are the generic route-map shape {method, path, params, param_annotations, file, function,
 body} produced for ANY framework by the route extractor (or our own discovery). Output is confirmed
@@ -308,8 +308,8 @@ def _cache_poison(L, rid, u, m):
     """Web cache poisoning by the 3-request method (0-FP): on a cache-buster URL (so we only ever touch a
     synthetic key, never a real cached path), send an unkeyed header carrying a UNIQUE marker; then request
     the SAME url as a victim with NO malicious header. If the victim response carries the marker, the cache
-    served attacker-controlled unkeyed input — confirmed. Unique marker => no coincidence. In-scope on an
-    isolated per-team VM; bounded (one synthetic key)."""
+    served attacker-controlled unkeyed input — confirmed. Unique marker => no coincidence. Safe on an
+    isolated instance; bounded (one synthetic key)."""
     if m != "GET":
         return
     marker = "kvcp" + uuid.uuid4().hex[:8]

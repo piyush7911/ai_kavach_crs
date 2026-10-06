@@ -329,7 +329,7 @@ class LLMClient:
             raise EndpointNotAllowed(f"model {model!r} is not in KAVACH_ALLOWED_MODELS={models}")
 
     def _trace(self, record: dict) -> None:
-        """Append one audit record. The jury may ask for every query, so nothing is sampled."""
+        """Append one audit record. Every query is logged in full; nothing is sampled."""
         path = os.getenv("KAVACH_LLM_TRACE") or getattr(self, "trace_path", "")
         if not path:
             return

@@ -1,4 +1,4 @@
-"""Candidate sanity pruner, adapted from Shannon's review constraints #12/#13 (AGPL — ideas only).
+"""Candidate sanity pruner (review constraints #12 and #13).
 
 Cheap, deterministic checks on a STATIC candidate (from Joern/Opengrep/vocab) before it is even reported in
 the candidate tier — catches the two failure modes a source-reading finder hits:

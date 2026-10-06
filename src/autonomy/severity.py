@@ -1,6 +1,6 @@
-"""Severity + reporting honesty, adapted from Shannon (AGPL — ideas only).
+"""Severity and reporting honesty.
 
-Three deterministic rules that make a finding's severity/claim honest rather than a restatement of the CWE:
+Four deterministic rules that make a finding's severity/claim honest rather than a restatement of the CWE:
   P6a self-refutation: if the severity rationale contains the reason it does NOT matter ("attacker can't
        read it", "only the victim sees it", "requires access they already have"), the author wrote the
        close argument — lower a tier and flag.

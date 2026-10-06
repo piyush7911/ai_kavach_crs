@@ -1,10 +1,10 @@
 """
 Vulnerable-dependency detection for a Node application, OFFLINE by default.
 
-The rules of engagement do not allow the npm registry at the event, so the default path never touches
-the network: the lockfile's dependency graph is matched against a vendored advisory snapshot
-(`src/jsauto/advisories.py`, built before the event). `npm audit` is kept as an explicit opt-in
-(`allow_network=True`) for use where the registry is permitted.
+Deployments are often network-restricted, so the default path never touches the network: the lockfile's
+dependency graph is matched against a vendored advisory snapshot (`src/jsauto/advisories.py`, built
+ahead of time). `npm audit` is kept as an explicit opt-in (`allow_network=True`) for use where the
+registry is permitted.
 
 Scope is RUNTIME dependencies only. Packages the lockfile marks `dev` are ignored: they never run in
 production, and a typical app has about three times as many advisories once test runners, task runners

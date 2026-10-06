@@ -1,10 +1,10 @@
 """Reporting gate: a finding may not be CLAIMED (stay `confirmed`) unless it carries proof + a self-critique.
 
-Adapted from strix/tools/reporting/tool.py (Apache-2.0): Strix refuses to file a finding without poc,
-evidence, counterevidence, confidence(+rationale), severity_change_conditions, and — when a fix is proposed
-— a fix_verification. Strix asks the LLM to write those; we fill them DETERMINISTICALLY from the oracle, so a
-replayed exploit (or a deterministic fact) carries its own proof. A confirmed finding that cannot satisfy the
-gate is downgraded to `candidate` rather than claimed — this is the FP-zero contract, enforced structurally.
+A finding is not filed without a PoC, evidence, counterevidence, a confidence rating (with a rationale
+when it is not high), severity_change_conditions, and — when a fix is proposed — a fix_verification.
+These fields are filled DETERMINISTICALLY from the oracle rather than asserted by a model, so a replayed
+exploit (or a deterministic fact) carries its own proof. A confirmed finding that cannot satisfy the gate
+is downgraded to `candidate` rather than claimed — this is the FP-zero contract, enforced structurally.
 
 Two proof shapes count as poc:
   - a replayable `exploit` dict (injection / OOB / two-user oracle), or
@@ -91,7 +91,7 @@ def validate_report(f: dict) -> list[str]:
 def gate_finding(finding) -> tuple[bool, list[str]]:
     """Fill + validate a Finding object in place; return (ok, errors). A Finding is any object with the
     attributes we read (klass/status/exploit/reason/evidence) and settable gate attributes. Also applies
-    the Shannon-derived honesty rules (only ever lowers/flags severity, never inflates)."""
+    the severity honesty rules (only ever lowers/flags severity, never inflates)."""
     from src.autonomy.severity import refine
     d = finding.to_dict() if hasattr(finding, "to_dict") else dict(finding)
     fill_from_oracle(d)

@@ -142,8 +142,7 @@ def _gate(tree, target_file, patched, pov, run_cmd, env, seed_path, health_path,
 def _flow_ok_stable(base_url, flow, tries: int = 3):
     """A regression flow that passes on ANY try is not a regression. Transient flakiness (a slow DB,
     a one-off login/network hiccup) otherwise rejects a correct patch; only a flow that fails every try
-    is counted a break. Adapted from bug-hunter's two-run flaky baseline (MIT, codexstar69): same intent,
-    applied to our live HTTP flows instead of a unit suite."""
+    is counted a break."""
     import time
     ok, detail = False, "not run"
     for i in range(tries):

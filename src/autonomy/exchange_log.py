@@ -1,10 +1,10 @@
-"""P4: independent HTTP exchange log (adapted from Strix's proxy-id cross-check, Apache-2.0).
+"""Independent HTTP exchange log.
 
-Today a finding's evidence is whatever the oracle code asserts happened. Strix rejects a finding that cites
-an http exchange id its real proxy never recorded. We get the same auditability cheaply: every request the
-oracle sends is appended to an append-only log with a numeric id; a finding cites the ids it used; verify()
-rejects ids absent from the log. No mitmproxy needed (our own logger) — air-gap-safe. Turns "confirmed by a
-live exploit" into an independently queryable claim instead of a trusted code-path assertion.
+Without this, a finding's evidence is whatever the oracle code asserts happened. This module makes that
+auditable: every request the oracle sends is appended to an append-only log with a numeric id; a finding
+cites the ids it used; verify() rejects any id absent from the log. No external proxy needed (a
+self-contained logger) — air-gap-safe. Turns "confirmed by a live exploit" into an independently
+queryable claim instead of a trusted code-path assertion.
 """
 from __future__ import annotations
 
@@ -24,7 +24,7 @@ class ExchangeLog:
 
     def record(self, method: str, url: str, status: int, req: dict | None = None,
                resp_preview: str = "") -> str:
-        """Log one exchange; return its id (a numeric string, as Strix requires)."""
+        """Log one exchange; return its id (a numeric string)."""
         with self._lock:
             self._n += 1
             rid = str(self._n)

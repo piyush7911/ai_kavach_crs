@@ -1,9 +1,8 @@
 """
 AI Kavach CRS — Agent Memory
 
-Implements the memory taxonomy that the agent literature converged on
-(working / episodic / semantic / procedural, per the CoALA framing and the 2026
-survey "Memory for Autonomous LLM Agents"), specialised for vulnerability repair.
+Implements a four-part memory taxonomy common in agent system design —
+working / episodic / semantic / procedural — specialised for vulnerability repair.
 
     WorkingMemory     Within one repair loop: the ledger of attempts already
                       made and why each was rejected. Prevents the agent from
@@ -21,7 +20,7 @@ survey "Memory for Autonomous LLM Agents"), specialised for vulnerability repair
 
 Why this is not the usual agent-memory design
 ---------------------------------------------
-The survey's central unsolved problem is **trustworthy reflection**: agents
+The central unsolved problem with agent memory is **trustworthy reflection**: agents
 store self-assessed lessons that were never checked, and a wrong lesson becomes
 permanent ("approach X always fails" → X is never tried again). That failure
 mode — self-reinforcing error — is what makes most agent memory risky.
@@ -228,9 +227,9 @@ class SemanticMemory:
     """
     Retrieval over validated fix patterns.
 
-    Retrieval is deliberately **structured, not embedding-based**. The survey
-    notes that similarity search answers "what looks like this?" rather than
-    "what caused this?", and for our domain the causal key is explicit: the CWE
+    Retrieval is deliberately **structured, not embedding-based**. Similarity
+    search answers "what looks like this?" rather than "what caused this?",
+    and for our domain the causal key is explicit: the CWE
     and the sanitizer's crash class. Matching on those, then breaking ties on
     root-cause token overlap, is more faithful than cosine distance over prose —
     and it needs no extra model call, so retrieval is free and deterministic.

@@ -1,5 +1,5 @@
 """
-AI Kavach CRS — LangGraph Multi-Agent Orchestrator
+AI Kavach CRS — Multi-Agent Orchestrator
 Coordinates Alpha, Beta, and Gamma agents in parallel DRV loops.
 First validated patch wins. If no agent succeeds, vulnerability is UNRESOLVED.
 """

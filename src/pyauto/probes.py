@@ -12,7 +12,7 @@ hit. The routes come from whatever the app exposes (`routes_from_openapi`, or a 
 nothing here names an endpoint, so it carries to an app we never built for.
 
 The oracles themselves are the unchanged, language-neutral ones exposed by benchmarks/oracles.py.
-Every request goes through that module's global throttle, loopback only (Rules of Engagement). ReDoS /
+Every request goes through that module's global throttle, loopback only (RoE). ReDoS /
 rate-limiting are deliberately NOT probed live (that is a denial of service); they are left to review.
 """
 from __future__ import annotations

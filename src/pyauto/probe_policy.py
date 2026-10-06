@@ -1,13 +1,12 @@
 """Pre-probe exclusion policy — decide whether a probe family is worth attempting on a route BEFORE
 spending a live request. Runtime verification already makes a false confirmation impossible (a fabricated
-exploit simply fails), so this is about not WASTING throttled-probe budget on classes that cannot be
-proven, and about respecting the Rules of Engagement (no live DoS). It also records a reason for every
-skip, which doubles as the audit trail the RoE require.
+exploit simply fails), so this is about not wasting throttled-probe budget on classes that cannot be
+proven, and about respecting the no-live-denial-of-service testing policy (RoE). It also records a
+reason for every skip, which doubles as the audit trail that policy requires.
 
-The exclusion catalogue is adapted from bug-hunter's Skeptic "hard exclusions" (MIT, © codexstar69),
-reframed for a system that confirms over HTTP: some of their static-review exclusions are enforced here
-statically, some are already handled by our runtime oracle (noted), and the live-DoS ones we simply never
-probe. `allow(klass, route)` returns (attempt?, reason).
+Each exclusion is enforced in one of three ways: some are checked here statically, some are already
+handled by the runtime oracle (noted), and the live-DoS ones are simply never probed.
+`allow(klass, route)` returns (attempt?, reason).
 """
 from __future__ import annotations
 
@@ -33,7 +32,8 @@ EXCLUSIONS = [
 
 
 def allow(klass: str, route) -> tuple[bool, str]:
-    """(attempt?, reason). The statically-checkable exclusions; the rest are handled at runtime or by RoE."""
+    """(attempt?, reason). The statically-checkable exclusions; the rest are handled at runtime or by the
+    no-live-DoS policy (RoE)."""
     if klass in _NO_LIVE_PROBE:
         return False, "excluded by RoE (no live DoS)"
     carriers = list(route.path_params) + list(route.body_fields) + list(route.query_fields)

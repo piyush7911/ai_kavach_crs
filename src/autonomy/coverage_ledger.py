@@ -1,8 +1,8 @@
-"""P2: evidenced coverage ledger (adapted from strix/tools/coverage/tools.py, Apache-2.0).
+"""Evidenced coverage ledger.
 
 Findings answer "what did we find". Coverage answers "what did we look at, and how did each close" — the
 negative space that makes "zero findings" trustworthy. Each (surface, risk_area) pair gets ONE evidenced
-outcome. Turns our count-based probes.coverage() into a checkable per-(route,class) record.
+outcome. Turns the count-based probes.coverage() into a checkable per-(route,class) record.
 
 Outcomes: reported | no_issue_found | ruled_out | not_applicable | needs_follow_up.
 Evidence is MANDATORY for ruled_out / not_applicable / needs_follow_up.

@@ -1,14 +1,8 @@
 """
 AI Kavach CRS — Agent Delta, The Critic (LLM-as-Judge).
 
-Adapted from two multi-agent references:
-
-  * Anthropic, *How we built our multi-agent research system* — LLM-as-judge with
-    an explicit rubric, and giving every subagent an objective, an output format,
-    and clear boundaries.
-  * Google ADK codelab, *Building a Multi-Agent System* — a Judge agent returning
-    a strict Pydantic schema (`status` + `feedback`), plus a deterministic
-    EscalationChecker that decides when the loop changes course.
+The Critic follows the LLM-as-judge pattern: it is given an explicit rubric and
+a strict output schema, and nothing else to do but return a verdict.
 
 Why this exists
 ---------------
@@ -37,7 +31,7 @@ logger = logging.getLogger(__name__)
 
 
 class CriticFeedback(BaseModel):
-    """Strict schema for a Critic verdict — the analogue of ADK's JudgeFeedback."""
+    """Strict schema for a Critic verdict."""
 
     verdict: Literal["insufficient", "wrong_target", "malformed", "regression_risk"] = Field(
         description=(
