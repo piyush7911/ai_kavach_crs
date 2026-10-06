@@ -429,6 +429,18 @@ def main(argv=None) -> int:
         where = f.evidence.get("route") or (f"{f.file}:{f.line}" if f.line else f.file)
         print(f"  [{f.status:9}] {f.klass:24} {f.source:7} {where}")
     if args.out:
+        from pathlib import Path as _P
+        from src.autonomy.exchange_log import ExchangeLog
+        xlog = ExchangeLog(str(_P(args.out).with_name("exchanges.jsonl")))   # audit record of attack traffic
+        for f in findings:
+            if f.status == "confirmed" and f.exploit:
+                ex = f.exploit
+                inner = (ex.get("differential") or ex.get("idor") or ex.get("access_control")
+                         or ex.get("write_idor") or {})
+                req = inner.get("true_request") or inner.get("request") or inner.get("foreign_request") or ex
+                rid = xlog.record(req.get("method", "GET"), req.get("path", ""),
+                                  200, req=req, resp_preview=f.reason)
+                f.http_exchange_ids = [rid]
         from src.jsauto.findings import dump
         dump(findings, args.out, {"coverage": cov} if cov else None)
         print(f"wrote {args.out}")

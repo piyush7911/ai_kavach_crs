@@ -47,6 +47,7 @@ class Finding:
     severity_change_conditions: str = ""  # one thing that would raise/lower severity
     evidence_text: str = ""         # the oracle observation (or the named fact)
     fix_verification: str = ""      # required when a patch is attached
+    http_exchange_ids: list = field(default_factory=list)  # ids in the run's exchange log (audit record)
 
     def to_dict(self) -> dict:
         return asdict(self)
