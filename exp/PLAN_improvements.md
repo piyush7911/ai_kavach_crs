@@ -70,3 +70,16 @@ dependency fuzzing deferred (higher cost).
 T1 (param discovery) → T2 (mass-assign + CORS oracles) → T3 (concurrency). T1 alone is the biggest single
 lever (recall + speed); T2 adds breadth at zero precision cost; T3 makes the whole run fast and RoE-clean.
 All air-gap-safe, all exp-first.
+
+---
+## Build status (2026-10-07)
+- **T1 param discovery** ✅ promoted (recall+speed; live-proven id/ipaddress/fileurl; 11.6s→2.8s w/ rate knob)
+- **T2 mass-assignment + CORS** ✅ (mass-assign verify-after-write 0-FP; CORS already live)
+- **T3 concurrency** ✅ (thread-safe global rate cap + parallel_map; rate knob + worker parallelism)
+- **T5 differential patch validation** ✅ (regression set from observed traffic; wired into LLM-fallback)
+- **cache-poisoning** ✅ (3-request marker oracle, 0-FP, synthetic cache key; isolated-VM in-scope)
+- **request-smuggling** ✅ (CL.TE timing, CANDIDATE-tier — timing isn't a clean proof; 2/2-trial + margin)
+- **T4 GraphQL BOLA** ✅ (introspection surface → BOLA candidates → two-user confirm)
+- **T6 cached CPG** — DEFERRED: not an engine feature (CPG built by exp Joern scripts); sprint dev-tooling.
+- **T7 Schemathesis 5xx** — DEFERRED: needs an OpenAPI-spec input we don't wire; marginal security value.
+All promoted, 98 tests green, each 0-FP by construction (candidate tier for timing/unconfirmed).
