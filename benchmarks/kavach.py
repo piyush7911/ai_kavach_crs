@@ -432,6 +432,13 @@ def main(argv=None) -> int:
         from src.jsauto.findings import dump
         dump(findings, args.out, {"coverage": cov} if cov else None)
         print(f"wrote {args.out}")
+        if routes:                                     # evidenced coverage ledger beside the findings
+            from pathlib import Path as _P
+            from src.autonomy.coverage_ledger import ledger_from_run
+            ledger = ledger_from_run(routes, findings)
+            lpath = str(_P(args.out).with_name("coverage.json"))
+            ledger.dump(lpath)
+            print(f"[coverage] ledger: {ledger.counts()} -> {lpath}")
     return 0
 
 
