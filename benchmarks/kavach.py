@@ -148,6 +148,44 @@ def _build_probe_llm():
     return llm
 
 
+class _JSGates:
+    """Generic Gates for jsauto.repair: start the patched tree as a subprocess (via --run-cmd, PyAppServer
+    is framework-agnostic — the name is historical), replay the exploit, and regress against the observed
+    traffic baseline (T5). --run-cmd must bind the port via the {port} template."""
+    def __init__(self, run_cmd, seed, regression):
+        self.run_cmd, self.seed, self.regression, self.srv = run_cmd, seed, regression, None
+
+    def _stop(self):
+        if self.srv:
+            self.srv.stop()
+            self.srv = None
+
+    def start(self, tree):
+        from src.jsauto.repair import FAIL, PASS
+        from src.pyauto.runner import PyAppServer
+        self._stop()
+        try:
+            self.srv = PyAppServer(tree, self.run_cmd, seed_path=self.seed, health_path="/").start()
+            return PASS, "healthy"
+        except Exception as e:  # noqa: BLE001
+            return FAIL, f"app did not start: {str(e)[:140]}"
+
+    def replay(self, tree, exploit):
+        from benchmarks.oracles import run_exploit
+        from src.jsauto.repair import FAIL, PASS
+        hit, detail = run_exploit(self.srv.base_url, exploit)
+        return (FAIL, detail) if hit else (PASS, detail)
+
+    def regress(self, tree):
+        from src.jsauto.repair import FAIL, PASS
+        from src.pyauto.repair import _flow_ok_stable
+        for flow in self.regression:
+            ok, detail = _flow_ok_stable(self.srv.base_url, flow)
+            if not ok:
+                return FAIL, f"flow {flow.get('name', flow.get('path'))}: {detail}"
+        return PASS, "observed-traffic baseline preserved"
+
+
 def _llm_repair_one(f, args, llm, stack, regression=None):
     """Run the stack's CEGIS repair loop on one confirmed finding; return its RepairOutcome or None. The
     `regression` set (observed benign routes) is the behavior-preservation gate — a patch that changes any
@@ -167,6 +205,12 @@ def _llm_repair_one(f, args, llm, stack, regression=None):
             from src.pyauto.repair import repair as prepair
             return prepair(finding, tree, llm, f.exploit, args.run_cmd, env={},
                            seed_path=args.seed or None, regression=regression, attempts=2)
+        if stack == "js":
+            if not args.run_cmd:
+                return None
+            from src.jsauto.repair import repair as jsrepair
+            gates = _JSGates(args.run_cmd, args.seed or None, regression or [])
+            return jsrepair(finding, tree, llm, gates, max_attempts=2)
     except Exception as e:  # noqa: BLE001 — a repair failure must not sink the run
         print(f"   [fix] LLM repair errored on {f.klass} {f.file}: {str(e)[:120]}")
     return None
@@ -223,6 +267,29 @@ def _fix_stage(findings, args, _routes_for_fix=None):
             f.fix_verification = out.reason
             proven += 1
     print(f"[fix] LLM-fallback: {proven}/{len(cand)} confirmed finding(s) patched + proven (gated)")
+    _sibling_review(findings, args.target)
+
+
+def _sibling_review(findings, target):
+    """Bypass review: for every patched code finding, scan for the same class at OTHER files and surface them
+    as candidates (a per-route fix may leave twin sinks)."""
+    from src.autonomy.rescan_gate import sibling_sinks
+    patched = [f for f in findings if f.patch and f.file and f.file != "(runtime)"]
+    if not patched or not target:
+        return
+    seen = {(f.klass, f.file) for f in findings}
+    added = 0
+    for klass in {f.klass for f in patched}:
+        excl = {f.file for f in patched if f.klass == klass}
+        for s in sibling_sinks(target, klass, excl):
+            if (s.klass, s.file) not in seen:
+                s.reason = ("sibling-sink (bypass review): same class as a patched finding, at a DIFFERENT "
+                            "location — verify the patch covers it or patch here too")
+                findings.append(s)
+                seen.add((s.klass, s.file))
+                added += 1
+    if added:
+        print(f"[fix] sibling-sink review: {added} same-class location(s) the patch may not cover")
 
 
 def main(argv=None) -> int:

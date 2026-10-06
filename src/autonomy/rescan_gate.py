@@ -41,3 +41,21 @@ def flow_cleared(patched_file: str | Path, klass: str) -> tuple[bool, str]:
         return False, (f"the exploit stopped but a {klass} data-flow is STILL present at {loc} — you fixed the "
                        f"input, not the flow; neutralize the tainted path to the sink, not just this payload")
     return True, f"re-scan clean: no {klass} flow remains in the patched file"
+
+
+def sibling_sinks(tree: str | Path, klass: str, exclude_files: set) -> list:
+    """Bypass review (Shannon): after patching one sink, scan the whole tree for the SAME class at OTHER
+    files — a per-route fix often leaves twin call sites. Returns candidate Findings at locations not in
+    `exclude_files` (the patched ones), so they surface for verification. Empty if the scanner is absent."""
+    try:
+        from benchmarks.scanners.opengrep import _binary, findings_from_opengrep
+    except ImportError:
+        return []
+    if _binary() is None:
+        return []
+    want = _ALIASES.get(klass, {klass})
+    try:
+        hits = findings_from_opengrep(Path(tree))
+    except Exception:  # noqa: BLE001
+        return []
+    return [h for h in hits if h.klass in want and h.file not in exclude_files]

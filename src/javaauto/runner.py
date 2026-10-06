@@ -46,8 +46,10 @@ class JavaAppServer:
 
     def start(self, health_timeout: float = 90.0) -> "JavaAppServer":
         self.port = self.port or _free_port()
-        # 1. build the patched jar (incremental; the daemon keeps this to seconds after the first build)
-        build = subprocess.run([self._gradlew(), "bootJar", "-q", "--console=plain"],
+        # 1. build the patched jar (incremental; the daemon keeps this to seconds after the first build).
+        # --offline: air-gapped finale has no network — never block resolving a dependency (deps are already
+        # in the local Gradle cache from the first build / provisioning).
+        build = subprocess.run([self._gradlew(), "bootJar", "-q", "--console=plain", "--offline"],
                                cwd=self.tree, capture_output=True, text=True, timeout=self.build_timeout)
         if build.returncode != 0:
             raise RuntimeError(f"gradle build failed (rc={build.returncode}): {build.stderr[-500:] or build.stdout[-500:]}")
