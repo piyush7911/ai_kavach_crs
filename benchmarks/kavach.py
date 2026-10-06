@@ -232,6 +232,9 @@ def main(argv=None) -> int:
     ap.add_argument("--smuggle", action="store_true",
                     help="HTTP request-smuggling timing probe (needs --url; isolated-VM only); reports a "
                          "high-confidence CANDIDATE (timing is not a self-validating proof)")
+    ap.add_argument("--schema-fuzz", action="store_true",
+                    help="auto-fetch the target's OpenAPI spec and flag any 5xx on a schema-valid request "
+                         "(confirmed server fault); needs --url")
     ap.add_argument("--live", action="store_true",
                     help="run the language-agnostic live HTTP PROVE oracles (headers/cookies/CORS/JWT/"
                          "rate-limit/enumeration/reflected-XSS/redirect); needs --url")
@@ -363,6 +366,12 @@ def main(argv=None) -> int:
         sm = detect_smuggling(args.url.rstrip("/"))
         print(f"[smuggle] {len(sm)} request-smuggling timing candidate(s)")
         findings += sm
+
+    if getattr(args, "schema_fuzz", False) and args.url:
+        from src.pyauto.schema_fuzz import schema_fuzz
+        sf = schema_fuzz(args.url.rstrip("/"))
+        print(f"[schema-fuzz] {len(sf)} schema-valid 5xx server fault(s)")
+        findings += sf
 
     if args.url:                                       # GraphQL surface (only emits if an endpoint exists)
         import json as _j

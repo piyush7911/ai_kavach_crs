@@ -73,6 +73,7 @@ SECURITY_PROFILE = {
     "ssti": ("ElevationOfPrivilege", "EASY", "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"),
     "web-cache-poisoning": ("Tampering", "MEDIUM", "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:L/I:H/A:L"),
     "http-request-smuggling": ("Tampering", "HARD", "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:L"),
+    "server-error": ("DenialOfService", "EASY", "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:L"),
     # live/HTTP deterministic classes (language-agnostic PROVE stage) — facts or replayed exploits, FP-safe
     "clickjacking": ("Tampering", "MEDIUM", "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"),
     "cookie-flags": ("InfoDisclosure", "MEDIUM", "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:N/A:N"),
