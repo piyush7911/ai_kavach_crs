@@ -148,6 +148,9 @@ def main(argv=None) -> int:
     ap.add_argument("--misuse", action="store_true",
                     help="scan source for FP-safe API-misuse literals (weak hash/cipher/random, cookie "
                          "flags) as confirmed findings; needs --target. Pairs with --fix")
+    ap.add_argument("--idor", action="store_true",
+                    help="IDOR/BOLA candidate detection from a route map (needs --routes); path-id routes "
+                         "are confirmed credential-free via the direct-object-reference oracle")
     ap.add_argument("--live", action="store_true",
                     help="run the language-agnostic live HTTP PROVE oracles (headers/cookies/CORS/JWT/"
                          "rate-limit/enumeration/reflected-XSS/redirect); needs --url")
@@ -251,6 +254,13 @@ def main(argv=None) -> int:
         from collections import Counter as _Cm
         print(f"[misuse] {len(mf)} FP-safe API-misuse literal(s) confirmed {dict(_Cm(f.klass for f in mf))}")
         findings += mf
+
+    if args.idor and args.routes:
+        from benchmarks.scanners.idor import confirm_idor, findings_from_idor
+        idf = findings_from_idor(args.routes, args.target)
+        n_idor = confirm_idor(idf, args.url.rstrip("/")) if args.url else 0
+        print(f"[idor] {len(idf)} IDOR/BOLA candidate(s); {n_idor} CONFIRMED credential-free (path-id oracle)")
+        findings += idf
 
     # Correlate code-location candidates (static / Opengrep / Joern / scanner) to routes, then confirm via oracle.
     if routes:
