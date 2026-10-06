@@ -148,8 +148,10 @@ def _build_probe_llm():
     return llm
 
 
-def _llm_repair_one(f, args, llm, stack):
-    """Run the stack's CEGIS repair loop on one confirmed finding; return its RepairOutcome or None."""
+def _llm_repair_one(f, args, llm, stack, regression=None):
+    """Run the stack's CEGIS repair loop on one confirmed finding; return its RepairOutcome or None. The
+    `regression` set (observed benign routes) is the behavior-preservation gate — a patch that changes any
+    recorded response is rejected (differential validation, T5)."""
     from pathlib import Path as _P
     finding = {"file": f.file, "function": f.function, "klass": f.klass, "cwe": f.cwe}
     tree = _P(args.target)
@@ -157,20 +159,20 @@ def _llm_repair_one(f, args, llm, stack):
         if stack == "java":
             from urllib.parse import urlparse
             from src.javaauto.repair import repair as jrepair
-            return jrepair(finding, tree, llm, f.exploit,
-                           context_path=urlparse(args.url).path.rstrip("/"), attempts=2)
+            return jrepair(finding, tree, llm, f.exploit, context_path=urlparse(args.url).path.rstrip("/"),
+                           regression=regression, attempts=2)
         if stack == "python":
             if not args.run_cmd:
                 return None
             from src.pyauto.repair import repair as prepair
             return prepair(finding, tree, llm, f.exploit, args.run_cmd, env={},
-                           seed_path=args.seed or None, attempts=2)
+                           seed_path=args.seed or None, regression=regression, attempts=2)
     except Exception as e:  # noqa: BLE001 — a repair failure must not sink the run
         print(f"   [fix] LLM repair errored on {f.klass} {f.file}: {str(e)[:120]}")
     return None
 
 
-def _fix_stage(findings, args):
+def _fix_stage(findings, args, _routes_for_fix=None):
     """Template-first (deterministic, no LLM), then CEGIS LLM-fallback for confirmed code-location findings
     with no template. Attaches a verified patch + fix_verification so the reporting gate accepts it."""
     import os
@@ -195,9 +197,14 @@ def _fix_stage(findings, args):
     if not cand:
         print("[fix] LLM-fallback: no confirmed code-location findings need it")
         return
+    from src.autonomy.differential_validation import regression_from_routes   # observed behavior baseline
+    import json as _json
+    reg = regression_from_routes(_routes_for_fix, args.url.rstrip("/"),
+                                 auth=_json.load(open(args.auth)) if args.auth else None) if _routes_for_fix else []
+    print(f"[fix] differential validation: {len(reg)} observed routes form the behavior-preservation gate")
     proven = 0
     for f in cand:
-        out = _llm_repair_one(f, args, llm, stack)
+        out = _llm_repair_one(f, args, llm, stack, regression=reg)
         if out and out.status == "proven":
             f.patch, f.patch_note = out.diff, "LLM repair (CEGIS, gated)"
             f.fix_verification = out.reason
@@ -446,7 +453,7 @@ def main(argv=None) -> int:
     # mechanical patch — no LLM. Classes without a template are left for the LLM repair loop; dependencies
     # are never version-bumped (report-only). Needs the source tree (--target).
     if args.fix and args.target:
-        _fix_stage(findings, args)
+        _fix_stage(findings, args, routes)
 
     # REPORTING GATE (FP-zero contract): a finding may stay `confirmed`/claimed only if it carries proof +
     # self-critique (poc/evidence, counterevidence, confidence+rationale, severity conditions, and
