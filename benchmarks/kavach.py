@@ -287,6 +287,23 @@ def main(argv=None) -> int:
                     print(f"[correlate+llm] LLM-shaped OOB payloads confirmed {n_oob} more")
                     findings += [f for f in oob_cands if f.status == "confirmed" and f not in newc]
 
+    # DETERMINISTIC route-map bridge (no LLM): exact (file,function)->route from a framework route map +
+    # wire param resolved from source (constants included), then our oracle confirms. This is the preferred
+    # path when a route map is available — faster, offline, and precise — with the LLM only a fallback.
+    if args.routes and args.target and args.url:
+        from src.pyauto.correlate import correlate_with_routemap
+        from src.pyauto.param_source import build_param_lookup
+        from src.pyauto.probes import ProbeCtx, confirm_candidates
+        base = args.url.rstrip("/")                    # full base incl. any context path (e.g. /VulnerableApp)
+        rctx = ProbeCtx(base, auth={}, reseed=None)
+        code_cands = [f for f in findings if f.status == "candidate" and f.file not in ("", "(runtime)")]
+        rb = correlate_with_routemap(code_cands, args.routes, build_param_lookup(args.target))
+        if rb:
+            confirm_candidates(rb, rctx)
+            newd = [f for f in rb if f.status == "confirmed"]
+            print(f"[routemap] {len(rb)} candidate(s) mapped+param'd deterministically; {len(newd)} CONFIRMED (no LLM)")
+            findings += newd
+
     # de-duplicate: the same (class, route/location) can be confirmed via two paths (dynamic + correlate)
     seen_keys, deduped = set(), []
     for f in sorted(findings, key=lambda x: x.status != "confirmed"):   # keep the confirmed copy

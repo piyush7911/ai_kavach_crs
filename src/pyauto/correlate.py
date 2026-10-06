@@ -14,7 +14,10 @@ replays it. Nothing becomes `confirmed` without that replay — correlation only
 """
 from __future__ import annotations
 
+import copy
+import json
 import re
+from pathlib import Path
 
 from src.pyauto.probes import route_to_source
 
@@ -53,4 +56,40 @@ def correlate(candidates: list, routes: list) -> list:
             continue
         c.evidence = {**(c.evidence or {}), "route": _route_str(match), "correlated_from": f"{cfile}:{cfunc}"}
         bound.append(c)
+    return bound
+
+
+_METHODS = ("GET", "POST", "PUT", "PATCH", "DELETE")
+
+
+def correlate_with_routemap(candidates: list, routemap_path: str, param_lookup) -> list:
+    """Deterministic (no-LLM) bridge: map each code-location candidate to its EXACT route via a framework
+    route map (route_map.py output: {file, function, method, path}) and fill the wire param from
+    `param_lookup` (param_source.build_param_lookup). Returns route+param-bound candidates ready for
+    `confirm_candidates` — one copy per wire param so the oracle can try each. Keyed by (file-basename,
+    function) because handler names collide across controllers (getVulnerablePayloadLevel1 is reused)."""
+    routes = json.load(open(routemap_path)).get("routes", [])
+    index = {}
+    for r in routes:
+        method = r.get("method", "GET")
+        method = method if method in _METHODS else "GET"       # route maps use ANY for method-less mappings
+        path = r.get("path", "")
+        path = path if path.startswith("/") else "/" + path
+        index[(Path(r.get("file", "")).name, r.get("function", ""))] = f"{method} {path}"
+    bound = []
+    for c in candidates:
+        if (c.evidence or {}).get("route"):
+            continue
+        base = Path(c.file or "").name
+        rs = index.get((base, c.function or ""))
+        if not rs:
+            continue
+        params = param_lookup(base)
+        if not params:                                         # route known but no wire param resolved
+            continue
+        for p in params:
+            d = copy.copy(c)
+            d.evidence = {**(c.evidence or {}), "route": rs, "param": p,
+                          "correlated_from": f"{c.file}:{c.function}"}
+            bound.append(d)
     return bound
