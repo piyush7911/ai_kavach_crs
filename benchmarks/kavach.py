@@ -49,7 +49,7 @@ def _static(stack: str, target: Path) -> list[Finding]:
 
 
 def _dynamic(url: str, zap_report: str | None = None, nuclei_report: str | None = None,
-             llm: object | None = None) -> tuple:
+             llm: object | None = None, surface: bool = False, attacks: bool = False) -> tuple:
     from src.pyauto.probes import (ProbeCtx, enrich_routes, mine_params, probe,
                                    routes_from_crawl, routes_from_sitemap, Route)
     pu = urlparse(url.rstrip("/"))
@@ -58,7 +58,7 @@ def _dynamic(url: str, zap_report: str | None = None, nuclei_report: str | None 
     sources = (routes_from_crawl(origin, seeds=((ctx_path + "/") or "/",))
                + routes_from_sitemap(f"{origin}{ctx_path}/sitemap.xml")
                + routes_from_sitemap(f"{origin}/sitemap.xml"))
-    if llm:                                            # Slice A: LLM reads the app's HTML/JS -> routes+params
+    if surface and llm:                                # Slice A: LLM reads the app's HTML/JS -> routes+params
         from src.pyauto.llm_surface import gather_surface_text, propose_routes
         lr = propose_routes(gather_surface_text(origin, ctx_path), llm)
         print(f"[dynamic] +{len(lr)} routes proposed by the LLM from HTML/JS")
@@ -82,6 +82,21 @@ def _dynamic(url: str, zap_report: str | None = None, nuclei_report: str | None 
     enrich_routes(routes, ctx)
     from src.pyauto.probes import coverage
     found = probe(routes, ctx)
+    if attacks and llm:                                # Slice B: LLM proposes param+class for GAP routes
+        from benchmarks.oracles import Session
+        from src.pyauto.llm_attacks import propose_candidates
+        from src.pyauto.probes import confirm_candidates
+
+        def fetch(r):
+            try:
+                return Session(origin).request(r.method, r.path).body
+            except Exception:  # noqa: BLE001
+                return ""
+        cands = propose_candidates(routes, llm, fetch)
+        confirm_candidates(cands, ctx)                 # our sound oracle decides — not the LLM
+        newc = [c for c in cands if c.status == "confirmed"]
+        print(f"[llm-attacks] {len(cands)} param/class hypotheses on gap routes → {len(newc)} CONFIRMED by oracle")
+        found += newc
     return found, coverage(routes, found)
 
 
@@ -113,6 +128,8 @@ def main(argv=None) -> int:
     ap.add_argument("--llm-surface", action="store_true",
                     help="plan 010 Slice A: let the LLM read HTML/JS and propose routes+params (needs "
                          "OPENAI_BASE_URL + MODEL_PROBE/MODEL)")
+    ap.add_argument("--llm-attacks", action="store_true",
+                    help="plan 010 Slice B: LLM proposes {param,class} for gap routes; our oracle confirms")
     ap.add_argument("--out", default="", help="write the merged findings JSON here")
     args = ap.parse_args(argv)
     if not (args.target or args.url or args.zap or args.trivy or args.nuclei):
@@ -127,13 +144,15 @@ def main(argv=None) -> int:
             s = _static(stack, target)
             print(f"[static] {len(s)} candidate(s)")
             findings += s
-    llm = _build_probe_llm() if args.llm_surface else None
-    if args.llm_surface and llm is None:
-        print("[llm] --llm-surface set but no OPENAI_BASE_URL — skipping LLM surface discovery")
+    want_llm = args.llm_surface or args.llm_attacks
+    llm = _build_probe_llm() if want_llm else None
+    if want_llm and llm is None:
+        print("[llm] --llm-* set but no OPENAI_BASE_URL — skipping LLM fallback")
     cov = None
     if args.url:
         print(f"[dynamic] discovering + confirming on {args.url} ...")
-        d, cov = _dynamic(args.url, zap_report=args.zap, nuclei_report=args.nuclei, llm=llm)
+        d, cov = _dynamic(args.url, zap_report=args.zap, nuclei_report=args.nuclei,
+                          llm=llm, surface=args.llm_surface, attacks=args.llm_attacks)
         print(f"[dynamic] {len(d)} CONFIRMED")
         print(f"[coverage] examined {cov['routes_examined']} routes; actively ATTACKED "
               f"{cov['routes_attacked']} ({cov['attack_coverage_pct']}%); attack-gap {cov['attack_gap']} "
