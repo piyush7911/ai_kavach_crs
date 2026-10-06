@@ -108,18 +108,25 @@ def _dynamic(url: str, zap_report: str | None = None, nuclei_report: str | None 
 def _build_probe_llm():
     """The exploit/surface model (plan 010): reuses the OpenAI-compatible wiring, its own role MODEL_PROBE
     (falls back to MODEL), local/air-gap endpoint via OPENAI_BASE_URL. Returns a `llm(prompt)->str` or None."""
+    import json
     import os
+    import urllib.request
     base = os.environ.get("OPENAI_BASE_URL")
     if not base:
         return None
-    from openai import OpenAI
-    client = OpenAI(base_url=base, api_key=os.environ.get("OPENAI_API_KEY", "x"))
     model = os.environ.get("MODEL_PROBE") or os.environ.get("MODEL", "codegemma:7b")
+    key = os.environ.get("OPENAI_API_KEY", "x")
 
     def llm(prompt: str) -> str:
-        r = client.chat.completions.create(model=model, temperature=0, max_tokens=1500,
-                                           messages=[{"role": "user", "content": prompt}])
-        return r.choices[0].message.content or ""
+        # OpenAI-compatible /chat/completions over plain HTTP (works for ollama and any compat endpoint) —
+        # no openai SDK dependency, which keeps the air-gapped runner install-free.
+        body = json.dumps({"model": model, "temperature": 0, "max_tokens": 1500,
+                           "messages": [{"role": "user", "content": prompt}]}).encode()
+        req = urllib.request.Request(f"{base.rstrip('/')}/chat/completions", data=body,
+                                     headers={"Content-Type": "application/json", "Authorization": f"Bearer {key}"})
+        with urllib.request.urlopen(req, timeout=120) as r:
+            data = json.load(r)
+        return data["choices"][0]["message"]["content"] or ""
     return llm
 
 
@@ -133,6 +140,7 @@ def main(argv=None) -> int:
                     help="run Opengrep over --target as a candidate source (defaults to the vendored "
                          "community corpus for breadth, else our taint rules)")
     ap.add_argument("--opengrep-rules", default="", help="rules file/dir for --opengrep (override the default)")
+    ap.add_argument("--joern", help="a Joern taint TSV (cross-file flows) to ingest as candidates")
     ap.add_argument("--nuclei", help="a Nuclei JSONL report to ingest + confirm")
     ap.add_argument("--llm-surface", action="store_true",
                     help="plan 010 Slice A: let the LLM read HTML/JS and propose routes+params (needs "
@@ -141,8 +149,8 @@ def main(argv=None) -> int:
                     help="plan 010 Slice B: LLM proposes {param,class} for gap routes; our oracle confirms")
     ap.add_argument("--out", default="", help="write the merged findings JSON here")
     args = ap.parse_args(argv)
-    if not (args.target or args.url or args.zap or args.trivy or args.nuclei or args.opengrep):
-        ap.error("give at least one of --target / --url / --zap / --trivy / --nuclei / --opengrep")
+    if not (args.target or args.url or args.zap or args.trivy or args.nuclei or args.opengrep or args.joern):
+        ap.error("give at least one of --target / --url / --zap / --trivy / --nuclei / --opengrep / --joern")
 
     findings: list[Finding] = []
     if args.target:
@@ -201,7 +209,13 @@ def main(argv=None) -> int:
                   f"reported as candidates)")
             findings += og
 
-    # Correlate code-location candidates (static / Opengrep / scanner) to routes, then confirm via oracle.
+    if args.joern:
+        from benchmarks.scanners.joern import findings_from_joern
+        jf = findings_from_joern(args.joern)
+        print(f"[joern] {len(jf)} cross-file taint candidate(s) (confirmed via source→route correlation + oracle)")
+        findings += jf
+
+    # Correlate code-location candidates (static / Opengrep / Joern / scanner) to routes, then confirm via oracle.
     if routes:
         from src.pyauto.correlate import correlate
         from src.pyauto.probes import ProbeCtx, confirm_candidates
