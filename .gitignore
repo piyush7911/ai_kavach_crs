@@ -84,3 +84,4 @@ reports/js_fix/*/classified_calls.json
 benchmark_workspace/
 exp/third_party/
 exp/results/ossf/*.pre.findings.json
+exp/live/gradle_home/
