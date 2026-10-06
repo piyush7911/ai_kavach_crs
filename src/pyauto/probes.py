@@ -81,6 +81,77 @@ def routes_from_openapi(spec_path: str) -> list[Route]:
     return out
 
 
+_FRAMEWORK_MODULES = ("connexion", "flask", "werkzeug", "swagger_ui", "flask_cors")
+_CREDENTIAL_BODY = {r"regist|signup": ["username", "password", "email"],
+                    r"log[_-]?in|signin|auth": ["username", "password"]}
+
+
+def routes_from_wsgi(app) -> list[Route]:
+    """Discover routes from a LIVE WSGI app — no spec needed. Reads the Flask/Werkzeug url_map and the
+    bound view function, which gives method, path, path params AND the exact handler module/function
+    (so repair still knows what to fix). Body/query fields are not declared by the url_map, so they are
+    left empty and filled dynamically by `enrich_routes`. This is the spec-free source for an app we
+    were handed with no OpenAPI: a plain Flask app, or any framework whose url_map we can read."""
+    flask_app = getattr(app, "app", app)        # connexion.FlaskApp -> underlying Flask
+    out = []
+    for rule in flask_app.url_map.iter_rules():
+        fn = flask_app.view_functions.get(rule.endpoint)
+        module = getattr(fn, "__module__", "") or ""
+        if rule.endpoint == "static" or module.split(".")[0] in _FRAMEWORK_MODULES:
+            continue                            # skip framework-internal endpoints (static, swagger, ...)
+        path = re.sub(r"<(?:[^:>]+:)?([^>]+)>", r"{\1}", rule.rule)   # <int:id> / <name> -> {id}/{name}
+        op_id = f"{module}.{getattr(fn, '__name__', '')}" if module else ""
+        for method in sorted(m for m in rule.methods if m not in ("HEAD", "OPTIONS")):
+            out.append(Route(method, path, sorted(rule.arguments), [], [], False, op_id))
+    return out
+
+
+def _guess_body(route: Route) -> list:
+    """Body fields a bare url_map does not declare, guessed from the path. Login/register get the usual
+    credential fields; a PUT/PATCH like `.../password` or `.../email` gets the field its last path
+    segment names (so the request is well-formed enough to reach the handler, not bounced by validation)."""
+    for pattern, fields in _CREDENTIAL_BODY.items():
+        if re.search(pattern, route.path, re.I):
+            return list(fields)
+    if route.method in ("PUT", "PATCH"):
+        last = route.path.rstrip("/").split("/")[-1]
+        if last and "{" not in last:
+            return [last]
+    return []
+
+
+def enrich_routes(routes: list[Route], ctx: "ProbeCtx") -> list[Route]:
+    """Fill the gaps a bare url_map leaves, so the oracle families fire without a spec:
+      * request bodies are guessed from the path (`_guess_body`), so enumeration/mass-assignment have
+        fields to send, injection knows to skip credential routes, and PUT/PATCH reach their handler;
+      * auth_required is inferred by a metamorphic probe — if an anonymous request is refused but a
+        logged-in user is served the same request, the route is auth-protected. This differential is
+        robust to frameworks that answer a missing token with 400 (connexion) rather than 401, and it
+        does NOT flag a genuinely public route (served to anon too). Loopback + throttled (RoE)."""
+    from benchmarks.oracles import Session
+    # try the most-privileged role first: an admin-only route denies a plain user too, so a non-admin
+    # probe would wrongly read it as public.
+    roles = sorted(ctx.roles, key=lambda x: x != "admin")
+    for r in routes:
+        if not r.body_fields:
+            r.body_fields = _guess_body(r)
+        if r.auth_required:
+            continue
+        path = _fill_path(r.path, {})
+        body = _body(r.body_fields) if r.body_fields else None
+        anon = Session(ctx.base_url, auth={**ctx.auth, "body_json": True}).request(r.method, path, body=body)
+        if anon.status < 400 or anon.status == 404:
+            continue                            # served (or genuine not-found) anonymously -> public
+        for role in roles:                      # any role served where anon was refused ⇒ auth-protected
+            s = Session(ctx.base_url, auth={**ctx.auth, "body_json": True})
+            s.login(role)
+            authed = s.request(r.method, path, body=body)
+            if authed.status < 400 or authed.status != anon.status:
+                r.auth_required = True
+                break
+    return routes
+
+
 def route_to_source(operation_id: str) -> Optional[dict]:
     """Map a route's OpenAPI operationId to its handler location so a dynamically-found bug can be
     repaired: `api_views.users.update_password` -> {file: 'api_views/users.py', function: 'update_password'}.

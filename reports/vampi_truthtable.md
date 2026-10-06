@@ -30,6 +30,12 @@ VAmPI endpoint — the probes read routes from the app's OpenAPI spec and try th
   the object via the collection POST, then a non-owner reads it. The only undiscovered bugs are the two
   the Rules of Engagement forbid probing live (ReDoS, rate-limiting). This is the jump from the old
   "detect 1 statically" to "discover 7 dynamically + 1 statically".
+- **Spec-free discovery: 6 / 7 of the above with NO OpenAPI spec** (`benchmarks.pyprobe_nospec_vampi`).
+  The routes are read from the live app's `url_map` (method, path, path params, and the exact handler
+  for repair); what the url_map omits — auth and request bodies — is inferred dynamically (a metamorphic
+  anon-vs-authed probe for auth, path-shape guesses for bodies). Only books-BOLA is lost, because its
+  create body is not declared anywhere to read. This is the finale case: handed an app with no spec, we
+  still discover 6 bugs over HTTP without being told its routes.
 - **Confirmation: 8 / 9 live** (all except RegexDOS, which we deliberately do not DoS-test). Every
   confirmed bug uses our **unchanged, language-neutral oracles** — single-request, differential
   (SQLi / enumeration), metamorphic (BOLA / mass-assignment / access-control), a weak-key check, and a

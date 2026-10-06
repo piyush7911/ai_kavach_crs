@@ -3,8 +3,45 @@
 Route parsing from an OpenAPI spec and exploit construction (path/body filling, family targeting) are
 deterministic and worth a guard; the live confirmation is benchmarks/pyprobe_vampi.py against a running
 VAmPI, which cannot run in CI."""
-from src.pyauto.probes import (Route, _bola, _bola_setup, _collection_of, _data_exposure,
-                               _injection, _fill_path, route_to_source, routes_from_openapi)
+from src.pyauto.probes import (Route, _bola, _bola_setup, _collection_of, _data_exposure, _guess_body,
+                               _injection, _fill_path, route_to_source, routes_from_openapi,
+                               routes_from_wsgi)
+
+
+def test_guess_body_from_path():
+    assert _guess_body(Route("POST", "/users/v1/register")) == ["username", "password", "email"]
+    assert _guess_body(Route("POST", "/users/v1/login")) == ["username", "password"]
+    assert _guess_body(Route("PUT", "/users/v1/{username}/password")) == ["password"]
+    assert _guess_body(Route("PUT", "/users/v1/{username}/email")) == ["email"]
+    assert _guess_body(Route("GET", "/users/v1/{username}")) == []       # reads don't carry a body
+
+
+def test_routes_from_wsgi_reads_url_map():
+    """Spec-free introspection: method, path (converters -> {name}), path params, and the exact handler
+    module/function come straight off a Werkzeug-style url_map + view_functions."""
+    def handler():
+        pass
+    handler.__module__ = "api_views.users"
+    handler.__name__ = "update_password"
+
+    class _Rule:
+        def __init__(self, rule, methods, args, endpoint):
+            self.rule, self.methods, self.arguments, self.endpoint = rule, set(methods), set(args), endpoint
+
+    class _App:
+        url_map = type("M", (), {"iter_rules": lambda self: iter([
+            _Rule("/users/v1/<username>/password", {"PUT", "OPTIONS"}, {"username"}, "ep1"),
+            _Rule("/static/<path:filename>", {"GET"}, {"filename"}, "static"),
+        ])})()
+        view_functions = {"ep1": handler}
+
+    routes = routes_from_wsgi(_App())
+    assert len(routes) == 1                                  # the static endpoint is dropped
+    r = routes[0]
+    assert r.method == "PUT" and r.path == "/users/v1/{username}/password"
+    assert r.path_params == ["username"]
+    assert r.operation_id == "api_views.users.update_password"
+    assert route_to_source(r.operation_id) == {"file": "api_views/users.py", "function": "update_password"}
 
 
 def test_route_to_source_maps_operation_id():
