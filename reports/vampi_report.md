@@ -145,3 +145,31 @@ that runs a patched copy per attempt) is documented in `src/pyauto/REPAIR_HANDOF
 ### VAmPI final status
 Detection ✅ · Verification ✅ · Repair mechanics ✅ (loop proven both directions) ·
 Model-driven repair loop: wiring left (thin mirror of src/jsauto + a managed Python adapter).
+
+---
+
+## Update (2026-10-06): FULL autonomous Python loop — PROVEN with a local model
+
+The Python repair loop is now wired end to end (`src/pyauto/repair.py` + `src/pyauto/runner.py`):
+the model proposes the whole function, it is spliced + parse-checked, the PATCHED Flask app is
+started on a free port per attempt, and the fix is accepted only when the exploit no longer
+reproduces AND a regression flow still passes.
+
+Run on VAmPI's excessive-data-exposure bug with **`codegemma:7b` (local, no cloud)**:
+
+    python -m benchmarks.pyrepair_vampi
+    attempt 1: accepted: exploit gone; regression ok
+    RESULT: proven — 13 s, first attempt, stable across runs
+
+The model's patch (real, not hand-written):
+
+    def debug():
+    -    return jsonify({'users': User.get_all_users_debug()})
+    +    users = User.get_all_users_debug()
+    +    filtered = [{k: v for k, v in u.items() if k not in ['password', 'token']} for u in users]
+    +    return jsonify({'users': filtered})
+
+### VAmPI final status: full find -> fix -> prove, cross-language, local model
+Detection ✅ · Verification ✅ · Repair ✅ (autonomous, local model, proven + regression). The same
+architecture now closes the loop on a Python/Flask app we never built for — per-language rules, a
+parser, a splicer, and an auth config, with the LLM and the gates unchanged.

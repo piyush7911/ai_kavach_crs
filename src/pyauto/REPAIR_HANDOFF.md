@@ -1,4 +1,8 @@
-# Python repair — what's built (Track 1) and the wiring left (Track 2)
+# Python repair — BUILT and PROVEN (Track 1); integration notes (Track 2)
+
+> UPDATE: the autonomous loop is now built and proven. `src/pyauto/repair.py` + `runner.py` run
+> the full find->fix->prove on VAmPI with codegemma:7b (proven, first attempt). What is left is
+> folding it into the unified engine / dashboard / `fix` command and adding a Python policy gate.
 
 Goal: a full Python find -> fix -> prove loop, the counterpart of `src/jsauto`'s repair.
 
