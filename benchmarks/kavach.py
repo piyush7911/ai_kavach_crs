@@ -235,6 +235,16 @@ def main(argv=None) -> int:
                 print(f"[correlate+llm] focused the LLM on {len(susp)} flagged route(s) → {len(newc)} more CONFIRMED")
                 findings += newc
 
+    # de-duplicate: the same (class, route/location) can be confirmed via two paths (dynamic + correlate)
+    seen_keys, deduped = set(), []
+    for f in sorted(findings, key=lambda x: x.status != "confirmed"):   # keep the confirmed copy
+        key = (f.klass, f.evidence.get("route") or f"{f.file}:{f.line}")
+        if key in seen_keys:
+            continue
+        seen_keys.add(key)
+        deduped.append(f)
+    findings = deduped
+
     confirmed = [f for f in findings if f.status == "confirmed"]
     print(f"\n== {len(findings)} findings: {len(confirmed)} confirmed, {len(findings) - len(confirmed)} candidate ==")
     for f in sorted(findings, key=lambda x: (x.status != "confirmed", x.klass)):
