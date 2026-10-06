@@ -304,6 +304,26 @@ _PRIV_FIELDS = ["isAdmin", "is_admin", "admin", "role", "roles", "is_active", "a
                 "emailVerified", "premium", "isSuperuser", "is_staff", "is_superuser", "account_type"]
 
 
+def _cache_poison(L, rid, u, m):
+    """Web cache poisoning by the 3-request method (0-FP): on a cache-buster URL (so we only ever touch a
+    synthetic key, never a real cached path), send an unkeyed header carrying a UNIQUE marker; then request
+    the SAME url as a victim with NO malicious header. If the victim response carries the marker, the cache
+    served attacker-controlled unkeyed input — confirmed. Unique marker => no coincidence. In-scope on an
+    isolated per-team VM; bounded (one synthetic key)."""
+    if m != "GET":
+        return
+    marker = "kvcp" + uuid.uuid4().hex[:8]
+    url = u + ("&" if "?" in u else "?") + "kvcb=" + uuid.uuid4().hex[:8]     # synthetic cache key
+    atk = L.req("GET", url, headers={"X-Forwarded-Host": f"{marker}.evil", "X-Host": f"{marker}.evil",
+                                     "X-Forwarded-Scheme": "nothttps"})
+    if atk is None:
+        return
+    victim = L.req("GET", url)                                               # no malicious header
+    if victim is not None and marker in (victim.text + json.dumps(dict(victim.headers))):
+        L.add(rid, "web-cache-poisoning",
+              f"unkeyed header reflected to a victim via the cache (marker {marker!r} on a cache-buster key)")
+
+
 def _mass_assign(L, rid, r, u, m):
     """Mass-assignment by VERIFY-AFTER-WRITE (0-FP): on a write route, send an extra privileged field set to
     a UNIQUE marker, then read the resource back; if the marker appears, the server accepted a field the
@@ -378,6 +398,7 @@ def live_confirm(base_url: str, routes: list[dict], ctx: str = "", budget: int =
         _form(L, rid, resp)
         _sensitive(L, rid, r, resp)
         _mass_assign(L, rid, r, u, m)
+        _cache_poison(L, rid, u, m)
         if re.search(r"(?i)set-cookie", json.dumps(dict(resp.headers))) or resp.cookies:
             _session(L, rid, u, m, markers)
         if _is_login(r, keys):
