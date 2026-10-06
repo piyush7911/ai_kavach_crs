@@ -96,7 +96,7 @@ def main() -> int:
     client = OpenAI(base_url=os.environ.get("OPENAI_BASE_URL"), api_key=os.environ.get("OPENAI_API_KEY", "x"))
 
     def llm(prompt: str) -> str:
-        r = client.chat.completions.create(model=MODEL, temperature=0,
+        r = client.chat.completions.create(model=MODEL, temperature=0, max_tokens=1024,
                                            messages=[{"role": "user", "content": prompt}])
         return r.choices[0].message.content or ""
 
