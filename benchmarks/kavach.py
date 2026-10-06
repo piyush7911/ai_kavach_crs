@@ -134,6 +134,63 @@ def _build_probe_llm():
     return llm
 
 
+def _llm_repair_one(f, args, llm, stack):
+    """Run the stack's CEGIS repair loop on one confirmed finding; return its RepairOutcome or None."""
+    from pathlib import Path as _P
+    finding = {"file": f.file, "function": f.function, "klass": f.klass, "cwe": f.cwe}
+    tree = _P(args.target)
+    try:
+        if stack == "java":
+            from urllib.parse import urlparse
+            from src.javaauto.repair import repair as jrepair
+            return jrepair(finding, tree, llm, f.exploit,
+                           context_path=urlparse(args.url).path.rstrip("/"), attempts=2)
+        if stack == "python":
+            if not args.run_cmd:
+                return None
+            from src.pyauto.repair import repair as prepair
+            return prepair(finding, tree, llm, f.exploit, args.run_cmd, env={},
+                           seed_path=args.seed or None, attempts=2)
+    except Exception as e:  # noqa: BLE001 — a repair failure must not sink the run
+        print(f"   [fix] LLM repair errored on {f.klass} {f.file}: {str(e)[:120]}")
+    return None
+
+
+def _fix_stage(findings, args):
+    """Template-first (deterministic, no LLM), then CEGIS LLM-fallback for confirmed code-location findings
+    with no template. Attaches a verified patch + fix_verification so the reporting gate accepts it."""
+    import os
+    from pathlib import Path as _P
+    from src.autonomy.template_patch import has_template, template_repair
+    tcount = 0
+    for f in findings:
+        tr = template_repair(f.to_dict() if hasattr(f, "to_dict") else {"klass": f.klass, "file": f.file},
+                             args.target)
+        if tr and tr["status"] == "proven":
+            f.patch, f.patch_note = tr["diff"], tr["note"]
+            f.fix_verification = f"template re-verified: weak literal removed ({tr['note']})"
+            tcount += 1
+    print(f"[fix] {tcount} deterministic template patch(es) + verified (no LLM)")
+    if not (args.url and os.environ.get("OPENAI_BASE_URL")):
+        print("[fix] LLM-fallback skipped (needs --url + OPENAI_BASE_URL; py/js also need --run-cmd)")
+        return
+    stack = detect_stack(_P(args.target))
+    llm = _build_probe_llm()
+    cand = [f for f in findings if f.status == "confirmed" and not f.patch and f.exploit
+            and f.file and f.file != "(runtime)" and f.function and not has_template(f.klass, f.file)]
+    if not cand:
+        print("[fix] LLM-fallback: no confirmed code-location findings need it")
+        return
+    proven = 0
+    for f in cand:
+        out = _llm_repair_one(f, args, llm, stack)
+        if out and out.status == "proven":
+            f.patch, f.patch_note = out.diff, "LLM repair (CEGIS, gated)"
+            f.fix_verification = out.reason
+            proven += 1
+    print(f"[fix] LLM-fallback: {proven}/{len(cand)} confirmed finding(s) patched + proven (gated)")
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="python -m benchmarks.kavach")
     ap.add_argument("--target", help="source tree (stack auto-detected)")
@@ -156,8 +213,12 @@ def main(argv=None) -> int:
                          "rate-limit/enumeration/reflected-XSS/redirect); needs --url")
     ap.add_argument("--routes", help="a route-map JSON (route_map.py output) to drive --live + confirm")
     ap.add_argument("--fix", action="store_true",
-                    help="FIX stage: produce deterministic template patches (weak-hash/cookie-flags) for "
-                         "findings that have a safe template; needs --target. Dependencies stay report-only")
+                    help="FIX stage: template-first (weak-hash/cookie/random, no LLM), then LLM-fallback "
+                         "(CEGIS, gated) for confirmed code-location findings with no template. Needs "
+                         "--target; LLM-fallback also needs --url + the LLM endpoint (+ --run-cmd for py/js). "
+                         "Dependencies stay report-only")
+    ap.add_argument("--run-cmd", default="", help="command to start the app for the LLM-fix gate (py/js)")
+    ap.add_argument("--seed", default="", help="seed/reset path hit before each gate attempt (e.g. /createdb)")
     ap.add_argument("--nuclei", help="a Nuclei JSONL report to ingest + confirm")
     ap.add_argument("--llm-surface", action="store_true",
                     help="plan 010 Slice A: let the LLM read HTML/JS and propose routes+params (needs "
@@ -341,15 +402,7 @@ def main(argv=None) -> int:
     # mechanical patch — no LLM. Classes without a template are left for the LLM repair loop; dependencies
     # are never version-bumped (report-only). Needs the source tree (--target).
     if args.fix and args.target:
-        from src.autonomy.template_patch import template_repair
-        patched = 0
-        for f in findings:
-            tr = template_repair(f.to_dict() if hasattr(f, "to_dict") else {"klass": f.klass, "file": f.file}, args.target)
-            if tr and tr["status"] == "proven":
-                patched += 1
-                f.patch = tr["diff"]
-                f.patch_note = tr["note"]
-        print(f"[fix] {patched} deterministic template patch(es) produced + verified (no LLM)")
+        _fix_stage(findings, args)
 
     # REPORTING GATE (FP-zero contract): a finding may stay `confirmed`/claimed only if it carries proof +
     # self-critique (poc/evidence, counterevidence, confidence+rationale, severity conditions, and
