@@ -67,16 +67,35 @@ def discover(request, names, max_chunk: int = 96, budget: int = 400) -> list[str
     return found
 
 
-def discover_params(base_url, routes, ctx, wordlist=None, budget_per_route: int = 250) -> list:
+def parallel_map(fn, items, workers: int = 8):
+    """Run fn over items concurrently (latency hiding). The global request rate is capped by the throttle
+    token-bucket in exploit._throttle, so more workers never exceed the RoE req/s ceiling — they only fill
+    the wait time while one worker blocks on the network. Exceptions per item are swallowed to None."""
+    from concurrent.futures import ThreadPoolExecutor
+    if workers <= 1 or len(items) <= 1:
+        return [_safe(fn, x) for x in items]
+    with ThreadPoolExecutor(max_workers=workers) as ex:
+        return list(ex.map(lambda x: _safe(fn, x), items))
+
+
+def _safe(fn, x):
+    try:
+        return fn(x)
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def discover_params(base_url, routes, ctx, wordlist=None, budget_per_route: int = 250, workers: int = 8) -> list:
     """Engine wrapper: for each GET-able route with NO known carrier, discover its query params over HTTP
-    (logging in per ctx.auth when the route needs it) and set route.query_fields. Mirrors mine_params'
-    contract (routes with params already are skipped) but far faster + finds un-echoed params."""
+    (logging in per ctx.auth when the route needs it) and set route.query_fields. Routes are independent, so
+    they run concurrently (bounded by the global rate cap). Mirrors mine_params' contract but far faster +
+    finds un-echoed params."""
     from benchmarks.oracles import Session
     from src.pyauto.probes import _fill_path
     wl = wordlist or _DEFAULT_WORDS
-    for r in routes:
-        if r.query_fields or r.path_params or r.body_fields:
-            continue
+    targets = [r for r in routes if not (r.query_fields or r.path_params or r.body_fields)]
+
+    def work(r):
         sess = Session(base_url, auth=ctx.auth)
         if r.auth_required and ctx.auth:
             try:
@@ -85,11 +104,13 @@ def discover_params(base_url, routes, ctx, wordlist=None, budget_per_route: int 
                 pass
         path = _fill_path(r.path, {})
 
-        def request(params, _p=path, _s=sess):
-            resp = _s.request("GET", _p + ("&" if "?" in _p else "?") + urlencode(params))
+        def request(params):
+            resp = sess.request("GET", path + ("&" if "?" in path else "?") + urlencode(params))
             return resp.status, resp.body
 
         hits = discover(request, wl, budget=budget_per_route)
         if hits:
             r.query_fields = sorted(set(hits))
+
+    parallel_map(work, targets, workers=workers)
     return routes
