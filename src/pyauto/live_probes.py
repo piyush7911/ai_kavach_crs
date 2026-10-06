@@ -299,6 +299,32 @@ def _sensitive(L, rid, r, resp):
         L.add(rid, "sensitive-data-exposure", f"response contains {mm.group(0)[:40]}")
 
 
+# privileged fields a client should NOT be able to set (mined from strix mass_assignment.md)
+_PRIV_FIELDS = ["isAdmin", "is_admin", "admin", "role", "roles", "is_active", "active", "verified",
+                "emailVerified", "premium", "isSuperuser", "is_staff", "is_superuser", "account_type"]
+
+
+def _mass_assign(L, rid, r, u, m):
+    """Mass-assignment by VERIFY-AFTER-WRITE (0-FP): on a write route, send an extra privileged field set to
+    a UNIQUE marker, then read the resource back; if the marker appears, the server accepted a field the
+    client should not control. The marker is unique so a hit cannot be coincidence. Non-destructive (sets a
+    field on our own instance). Best-effort: only fires when a same-path GET reads the object back."""
+    if m not in ("POST", "PUT", "PATCH"):
+        return
+    marker = "kvma" + uuid.uuid4().hex[:8]
+    before = L.req("GET", u)
+    if before is None or marker in (before.text or ""):
+        return
+    body = {f: (marker if f in ("role", "roles", "account_type") else True) for f in _PRIV_FIELDS}
+    body.update({"username": "kvuser", "name": "kvuser", "email": "kv@example.com"})   # plausible payload
+    kw = {"json": body} if (r.get("body") or "RequestBody" in (r.get("param_annotations") or [])) else {"data": body}
+    if L.req(m, u, **kw) is None:
+        return
+    after = L.req("GET", u)
+    if after is not None and marker in (after.text or ""):
+        L.add(rid, "mass-assignment", f"privileged field accepted: unique marker {marker!r} persisted after writing it")
+
+
 # Classes that are an app-WIDE config fact (a header/policy missing everywhere), not a per-route bug. Reported
 # ONCE, not once per route — 40 identical "missing X-Frame-Options" findings read as false-positive spam and
 # the real issue is a single site-wide one. Per-route exploit classes (reflected XSS, open redirect, host-
@@ -351,6 +377,7 @@ def live_confirm(base_url: str, routes: list[dict], ctx: str = "", budget: int =
         _jwt(L, rid, resp)
         _form(L, rid, resp)
         _sensitive(L, rid, r, resp)
+        _mass_assign(L, rid, r, u, m)
         if re.search(r"(?i)set-cookie", json.dumps(dict(resp.headers))) or resp.cookies:
             _session(L, rid, u, m, markers)
         if _is_login(r, keys):
