@@ -83,7 +83,8 @@ def _dynamic(url: str, zap_report: str | None = None, nuclei_report: str | None 
         merged.setdefault((r.method, r.path), set()).update(r.query_fields)
     routes = [Route(m, p, query_fields=sorted(ps)) for (m, p), ps in sorted(merged.items())]
     ctx = ProbeCtx(origin, auth={}, reseed=None)
-    mine_params(origin, routes, ctx)                   # routes that already have params (from ZAP) are skipped
+    from src.pyauto.param_discovery import discover_params
+    discover_params(origin, routes, ctx)               # chunked binary-search param discovery (fast, 0-FP)
     enrich_routes(routes, ctx)
     from src.pyauto.probes import coverage
     found = probe(routes, ctx)
