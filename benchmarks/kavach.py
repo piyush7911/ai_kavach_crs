@@ -187,6 +187,19 @@ def _fix_stage(findings, args, _routes_for_fix=None):
             f.fix_verification = f"template re-verified: weak literal removed ({tr['note']})"
             tcount += 1
     print(f"[fix] {tcount} deterministic template patch(es) + verified (no LLM)")
+    # config-fix remediation for the confirmed live classes (no code-sink to splice): attach the exact,
+    # framework-aware fix snippet (RoE allows config fixes). Advisory (placement is app-specific).
+    from src.autonomy.config_fixes import remediation_for
+    ccount = 0
+    for f in findings:
+        if f.status == "confirmed" and not f.patch:
+            rem = remediation_for(f.klass, args.target)
+            if rem:
+                f.patch_note = f"config-fix ({rem['framework']}): {rem['snippet']}  [add in: {rem['where']}]"
+                f.fix_verification = f"advisory config remediation; {rem['verify']}"
+                ccount += 1
+    if ccount:
+        print(f"[fix] {ccount} config-fix remediation(s) attached to confirmed live findings")
     if not (args.url and os.environ.get("OPENAI_BASE_URL")):
         print("[fix] LLM-fallback skipped (needs --url + OPENAI_BASE_URL; py/js also need --run-cmd)")
         return
