@@ -22,7 +22,7 @@ from benchmarks.nodegoat.runner import _check_flow, DEFAULT_FLOWS
 from src.jsauto import probes, static
 from src.jsauto.repair import FAIL, PASS, repair
 
-ROOT = Path("benchmark_workspace/NodeGoat")
+ROOT = Path("benchmark_workspace/NodeGoat").resolve()  # absolute: AppServer runs with cwd=tree
 MODEL = os.environ.get("MODEL", "nvidia.nemotron-nano-3-30b")
 _FLOWS = json.loads(DEFAULT_FLOWS.read_text())
 
@@ -78,13 +78,24 @@ def main() -> int:
     for i, f in enumerate(findings, 1):
         f.id = f"JS-{i:03d}"
     probes.attach(findings)
-    repairable = [f for f in findings if getattr(f, "exploit", None)]
-    print(f"discovered {len(findings)} findings; {len(repairable)} with a replayable exploit; "
-          f"fixing with {MODEL}\n")
+    attached = [f for f in findings if getattr(f, "exploit", None)]
 
     model = OpenAIModel(OpenAI(base_url=os.environ.get("OPENAI_BASE_URL"),
                                api_key=os.environ.get("OPENAI_API_KEY", "x")))
     gates = NodeGoatGates()
+    # Confirm-first: only repair a finding whose exploit ACTUALLY reproduces on the untouched app. Without
+    # this, a non-reproducing exploit makes the "pov gone" gate pass trivially — a false proof. (The VAmPI
+    # driver needs no such step: its probe already emits only confirmed findings.)
+    for _ in range(3):                      # NodeGoat start can flake once (mongo warmup); retry
+        if gates.start(ROOT)[0] == PASS:
+            break
+    if gates._server is None:
+        print("could not start NodeGoat for the confirm pass")
+        return 2
+    repairable = [f for f in attached if gates.replay(ROOT, f.exploit)[0] == FAIL]
+    gates._stop()
+    print(f"discovered {len(findings)} findings; {len(attached)} with an exploit; "
+          f"{len(repairable)} CONFIRMED reproducing; fixing with {MODEL}\n")
     proven = hardened = attempted = failed = 0
     try:
         for f in repairable:

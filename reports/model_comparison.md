@@ -9,20 +9,25 @@ regression/golden flows still pass, and (JS) the exploit's variants are also blo
 - **nvidia.nemotron-nano-3-30b** — NVIDIA, 30B, via an OpenAI-compatible endpoint (AWS Bedrock here).
   Non-Chinese, so within the model rules. For the air-gapped finale it would run locally (30B weights).
 
-## NodeGoat — `benchmarks.ngautofix` (5 exploitable findings)
+## NodeGoat — `benchmarks.ngautofix` (6 confirmed-reproducing findings)
 
-| finding | codegemma:7b | nemotron-30b |
-|---|---|---|
-| nosql-injection (`searchCriteria`) | proven | **proven** |
-| eval-injection (`handleContributionsUpdate`) | proven | **proven + hardened** |
-| open-redirect (`index.js` handler) | — | **proven + hardened** |
-| xss (`handleProfileUpdate`) | proven | unresolved† |
-| ssrf (`displayResearch`) | proven | **proven + hardened** |
-| **total** | **4 / 5** | **4 / 5 (3 hardened)** |
+The driver now **confirms each exploit reproduces on the untouched app before repairing** — a
+non-reproducing exploit would otherwise pass the "pov gone" gate trivially (a false proof). That is why
+the denominator is the 6 confirmed, not the 7 with an exploit attached: the benefits write-IDOR builds an
+exploit but does not reproduce via the read-diff oracle, so it is correctly dropped, not fixed.
+
+| finding | nemotron-30b |
+|---|---|
+| nosql-injection (`searchCriteria`) | **proven** |
+| idor — allocations (`displayAllocations`) | **proven** |
+| eval-injection (`handleContributionsUpdate`) | **proven + hardened** |
+| open-redirect (`index.js` handler) | **proven + hardened** |
+| ssrf (`displayResearch`) | **proven + hardened** |
+| xss (`handleProfileUpdate`) | unresolved† |
+| **total** | **5 / 6 (3 hardened)** |
 
 † nemotron returned the same patch twice; the loop stopped (at temperature 0 a repeat only repeats the
-rejection). The two models have different blind spots: codegemma fixes xss but not open-redirect;
-nemotron the reverse.
+rejection). xss is nemotron's one consistent blind spot here.
 
 ## VAmPI — `benchmarks.pyautofix_vampi` (6 repairable findings)
 
@@ -48,10 +53,10 @@ shipped. `/_debug` is fixed reliably by the dedicated single-bug driver (`pyrepa
 - **Verification holds the line regardless of model.** Every miss above is a *rejected* patch, not a
   false "fixed": the gate replayed the exploit (and, on JS, its variants) and refused anything that left
   the bug exploitable or broke a legitimate flow. The weak model is the limit, never safety.
-- **nemotron-30b > codegemma:7b**: VAmPI 5/6 vs 3/6 (adds both email- and password-BOLA), NodeGoat
-  4/5 vs 4/5 but with **3 of 4 hardened** (variants blocked), and it fixes bugs with reasoning (SQLi
-  parameterization, ownership checks) rather than pattern-matching.
-- **Combined, nemotron fixes 9 of 11 across both stacks** (VAmPI 5/6 + NodeGoat 4/5) end-to-end with
+- **nemotron-30b > codegemma:7b**: VAmPI 5/6 vs 3/6 (adds both email- and password-BOLA), and it fixes
+  bugs with reasoning (SQLi parameterization, ownership/authorization checks, IDOR) rather than
+  pattern-matching — including the newly-added allocations IDOR.
+- **Combined, nemotron fixes 10 of 12 across both stacks** (VAmPI 5/6 + NodeGoat 5/6) end-to-end with
   proof, on apps the engine was never written for. The two misses are model capability (xss,
   data-exposure), not pipeline gaps — a stronger or ensembled model closes them, and the gates
   guarantee no regression if it does not.
