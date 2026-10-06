@@ -60,7 +60,7 @@ BenchmarkJava with the community Java rules (23 s run):
 Crypto, secure cookie and weak random reach TPR 1.0 with FPR 0. SQLi (FPR 0.73), command injection (0.87), path traversal (0.79) and LDAP stay noisy: these rules match the pattern and do not track data flow, so safe variants are flagged too.
 
 ## Joern pilot
-NodeGoat, VAmPI and SasanLabs/VulnerableApp: see [JOERN_PILOT.md](JOERN_PILOT.md).
+NodeGoat, VAmPI and SasanLabs/VulnerableApp: see [JOERN_PILOT.md](JOERN_PILOT.md) (part 1: hand-written tables; part 2: data files mined from community taint rules, in `knowledge/`).
 
 ## Not run
 - SecJS: ships no dataset (builder code only).

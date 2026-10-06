@@ -1,0 +1,44 @@
+META	command-injection	sinks=3	sources=0	sanitizer_specs=3
+META	deserialization	sinks=0	sources=44	sanitizer_specs=0
+META	open-redirect	sinks=14	sources=59	sanitizer_specs=0
+FLOW	open-redirect	app/routes/index.js	72	<lambda>1	app/routes/index.js	72	<lambda>1
+FLOW	open-redirect	app/routes/index.js	72	<lambda>1	app/routes/profile.js	50	<lambda>2
+META	ssrf	sinks=75	sources=44	sanitizer_specs=3
+FLOW	ssrf	app/routes/index.js	70	index	app/routes/profile.js	50	<lambda>2
+FLOW	ssrf	app/routes/index.js	76	index	app/routes/research.js	15	<lambda>0
+FLOW	ssrf	app/routes/index.js	76	index	app/routes/profile.js	50	<lambda>2
+FLOW	ssrf	app/routes/research.js	16	<lambda>0	app/routes/research.js	15	<lambda>0
+FLOW	ssrf	app/routes/index.js	55	index	app/routes/profile.js	50	<lambda>2
+FLOW	ssrf	app/routes/index.js	63	index	app/routes/profile.js	50	<lambda>2
+FLOW	ssrf	app/routes/index.js	51	index	app/routes/profile.js	50	<lambda>2
+FLOW	ssrf	app/routes/index.js	70	index	app/routes/index.js	72	<lambda>1
+FLOW	ssrf	app/routes/index.js	67	index	app/routes/profile.js	50	<lambda>2
+FLOW	ssrf	app/routes/index.js	52	index	app/routes/profile.js	50	<lambda>2
+FLOW	ssrf	app/routes/index.js	48	index	app/routes/profile.js	50	<lambda>2
+FLOW	ssrf	app/routes/index.js	47	index	app/routes/profile.js	50	<lambda>2
+FLOW	ssrf	app/routes/index.js	76	index	app/routes/index.js	72	<lambda>1
+FLOW	ssrf	app/routes/index.js	66	index	app/routes/profile.js	50	<lambda>2
+FLOW	ssrf	app/routes/index.js	56	index	app/routes/profile.js	50	<lambda>2
+META	path-traversal	sinks=22	sources=44	sanitizer_specs=2
+FLOW	path-traversal	app/routes/research.js	25	<lambda>1	app/routes/research.js	15	<lambda>0
+META	ssti	sinks=69	sources=44	sanitizer_specs=0
+FLOW	ssti	app/routes/session.js	239	<lambda>15	app/routes/session.js	198	<lambda>12
+FLOW	ssti	app/routes/allocations.js	25	<lambda>1	app/routes/allocations.js	18	<lambda>0
+FLOW	ssti	app/routes/contributions.js	70	<lambda>4	app/routes/contributions.js	34	<lambda>2
+FLOW	ssti	app/routes/allocations.js	25	<lambda>1	app/routes/allocations.js	21	<lambda>0
+FLOW	ssti	app/routes/session.js	82	<lambda>7	app/routes/session.js	57	<lambda>6
+FLOW	ssti	app/routes/contributions.js	70	<lambda>4	app/routes/contributions.js	32	<lambda>2
+FLOW	ssti	app/routes/session.js	249	<lambda>12	app/routes/session.js	198	<lambda>12
+FLOW	ssti	app/routes/contributions.js	70	<lambda>4	app/routes/contributions.js	33	<lambda>2
+FLOW	ssti	app/routes/profile.js	100	<lambda>3	app/routes/profile.js	50	<lambda>2
+FLOW	ssti	app/routes/profile.js	65	<lambda>2	app/routes/profile.js	50	<lambda>2
+META	xss	sinks=8	sources=45	sanitizer_specs=8
+FLOW	xss	app/routes/research.js	25	<lambda>1	app/routes/research.js	15	<lambda>0
+META	nosql-injection	sinks=0	sources=0	sanitizer_specs=0
+META	sql-injection	sinks=0	sources=44	sanitizer_specs=2
+META	xxe	sinks=9	sources=44	sanitizer_specs=0
+FLOW	xxe	app/routes/research.js	25	<lambda>1	app/routes/research.js	15	<lambda>0
+META	code-injection	sinks=101	sources=63	sanitizer_specs=0
+FLOW	code-injection	app/routes/contributions.js	32	<lambda>2	app/routes/contributions.js	32	<lambda>2
+FLOW	code-injection	app/routes/contributions.js	33	<lambda>2	app/routes/contributions.js	33	<lambda>2
+FLOW	code-injection	app/routes/contributions.js	34	<lambda>2	app/routes/contributions.js	34	<lambda>2

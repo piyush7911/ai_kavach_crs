@@ -1,0 +1,696 @@
+{
+ "_about": "Mined from semgrep-rules taint-mode rules (java); generic ecosystem knowledge, no benchmark input. Each spec keeps fw/rule provenance.",
+ "taint_rules": 21,
+ "patterns_parsed": 114,
+ "patterns_skipped": 72,
+ "frameworks": {
+  "lang": 13,
+  "spring": 6,
+  "aws-lambda": 2
+ },
+ "sources": {
+  "sql-injection": [
+   {
+    "kind": "typed",
+    "type": "HttpServletRequest",
+    "fw": "lang",
+    "rule": "formatted-sql-string"
+   },
+   {
+    "kind": "typed",
+    "type": "String",
+    "fw": "lang",
+    "rule": "formatted-sql-string"
+   },
+   {
+    "kind": "call",
+    "name": "format",
+    "ctor": false,
+    "recv": "String",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "formatted-sql-string"
+   },
+   {
+    "kind": "call",
+    "name": "join",
+    "ctor": false,
+    "recv": "String",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "formatted-sql-string"
+   },
+   {
+    "kind": "call",
+    "name": "concat",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": "String",
+    "arg": null,
+    "fw": "lang",
+    "rule": "formatted-sql-string"
+   },
+   {
+    "kind": "call",
+    "name": "concat",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "formatted-sql-string"
+   },
+   {
+    "kind": "call",
+    "name": "append",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "formatted-sql-string"
+   },
+   {
+    "kind": "param",
+    "annotations": [
+     "CookieValue",
+     "PathVariable",
+     "RequestBody",
+     "RequestHeader",
+     "RequestParam"
+    ],
+    "fw": "spring",
+    "rule": "tainted-sql-string"
+   }
+  ],
+  "other": [
+   {
+    "kind": "typed",
+    "type": "HttpServletRequest",
+    "fw": "lang",
+    "rule": "tainted-env-from-http-request"
+   },
+   {
+    "kind": "call",
+    "name": "getValue",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "tainted-env-from-http-request"
+   },
+   {
+    "kind": "call",
+    "name": "decode",
+    "ctor": false,
+    "recv": "net.URLDecoder",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "tainted-session-from-http-request"
+   }
+  ],
+  "command-injection": [
+   {
+    "kind": "typed",
+    "type": "HttpServletRequest",
+    "fw": "lang",
+    "rule": "tainted-cmd-from-http-request"
+   },
+   {
+    "kind": "call",
+    "name": "getValue",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "tainted-cmd-from-http-request"
+   },
+   {
+    "kind": "param",
+    "annotations": [
+     "CookieValue",
+     "ModelAttribute",
+     "PathVariable",
+     "RequestBody",
+     "RequestHeader",
+     "RequestParam"
+    ],
+    "fw": "spring",
+    "rule": "tainted-system-command"
+   },
+   {
+    "kind": "call",
+    "name": "format",
+    "ctor": false,
+    "recv": "String",
+    "type": null,
+    "arg": null,
+    "fw": "spring",
+    "rule": "tainted-system-command"
+   },
+   {
+    "kind": "call",
+    "name": "join",
+    "ctor": false,
+    "recv": "String",
+    "type": null,
+    "arg": null,
+    "fw": "spring",
+    "rule": "tainted-system-command"
+   },
+   {
+    "kind": "call",
+    "name": "concat",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": "String",
+    "arg": null,
+    "fw": "spring",
+    "rule": "tainted-system-command"
+   },
+   {
+    "kind": "call",
+    "name": "concat",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "spring",
+    "rule": "tainted-system-command"
+   }
+  ],
+  "ldap-injection": [
+   {
+    "kind": "typed",
+    "type": "HttpServletRequest",
+    "fw": "lang",
+    "rule": "tainted-ldapi-from-http-request"
+   }
+  ],
+  "xpath-injection": [],
+  "xss": [
+   {
+    "kind": "param",
+    "annotations": [
+     "CookieValue",
+     "ModelAttribute",
+     "PathVariable",
+     "RequestBody",
+     "RequestHeader",
+     "RequestParam"
+    ],
+    "fw": "spring",
+    "rule": "tainted-html-string"
+   },
+   {
+    "kind": "call",
+    "name": "concat",
+    "ctor": false,
+    "recv": "\"[\\w$]+\"",
+    "type": null,
+    "arg": null,
+    "fw": "spring",
+    "rule": "tainted-html-string"
+   },
+   {
+    "kind": "call",
+    "name": "append",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "spring",
+    "rule": "tainted-html-string"
+   },
+   {
+    "kind": "call",
+    "name": "format",
+    "ctor": false,
+    "recv": "String",
+    "type": null,
+    "arg": null,
+    "fw": "spring",
+    "rule": "tainted-html-string"
+   }
+  ],
+  "xxe": [],
+  "path-traversal": [
+   {
+    "kind": "typed",
+    "type": "HttpServletRequest",
+    "fw": "lang",
+    "rule": "httpservlet-path-traversal"
+   },
+   {
+    "kind": "call",
+    "name": "getValue",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "httpservlet-path-traversal"
+   },
+   {
+    "kind": "param",
+    "annotations": [
+     "CookieValue",
+     "ModelAttribute",
+     "PathVariable",
+     "RequestBody",
+     "RequestHeader",
+     "RequestParam"
+    ],
+    "fw": "spring",
+    "rule": "tainted-file-path"
+   }
+  ],
+  "ssrf": [
+   {
+    "kind": "param",
+    "annotations": [
+     "CookieValue",
+     "ModelAttribute",
+     "PathVariable",
+     "RequestBody",
+     "RequestHeader",
+     "RequestParam"
+    ],
+    "fw": "spring",
+    "rule": "tainted-url-host"
+   }
+  ]
+ },
+ "sinks": {
+  "sql-injection": [
+   {
+    "kind": "call",
+    "name": "concat",
+    "ctor": false,
+    "recv": "\"[\\w$]+\"",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "tainted-sql-string"
+   },
+   {
+    "kind": "call",
+    "name": "append",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "tainted-sql-string"
+   },
+   {
+    "kind": "call",
+    "name": "format",
+    "ctor": false,
+    "recv": "String",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "tainted-sql-string"
+   },
+   {
+    "kind": "call",
+    "name": "createStatement",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": "Connection",
+    "arg": null,
+    "fw": "lang",
+    "rule": "formatted-sql-string"
+   },
+   {
+    "kind": "call",
+    "name": "prepareStatement",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": "Connection",
+    "arg": null,
+    "fw": "lang",
+    "rule": "formatted-sql-string"
+   },
+   {
+    "kind": "call",
+    "name": "batchUpdate",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": "JdbcTemplate",
+    "arg": null,
+    "fw": "lang",
+    "rule": "tainted-sql-from-http-request"
+   },
+   {
+    "kind": "typed",
+    "type": "String",
+    "fw": "spring",
+    "rule": "spring-sqli"
+   },
+   {
+    "kind": "call",
+    "name": ".*",
+    "ctor": false,
+    "recv": "NamedParameterBatchUpdateUtils",
+    "type": null,
+    "arg": null,
+    "fw": "spring",
+    "rule": "spring-sqli"
+   },
+   {
+    "kind": "call",
+    "name": ".*",
+    "ctor": false,
+    "recv": "BatchUpdateUtils",
+    "type": null,
+    "arg": null,
+    "fw": "spring",
+    "rule": "spring-sqli"
+   }
+  ],
+  "other": [],
+  "command-injection": [
+   {
+    "kind": "call",
+    "name": "start",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "spring",
+    "rule": "tainted-system-command"
+   }
+  ],
+  "ldap-injection": [
+   {
+    "kind": "call",
+    "name": "search",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": "InitialDirContext",
+    "arg": null,
+    "fw": "lang",
+    "rule": "tainted-ldapi-from-http-request"
+   },
+   {
+    "kind": "call",
+    "name": "search",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": "DirContext",
+    "arg": null,
+    "fw": "lang",
+    "rule": "tainted-ldapi-from-http-request"
+   }
+  ],
+  "xpath-injection": [
+   {
+    "kind": "call",
+    "name": "evaluate",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": "XPath",
+    "arg": null,
+    "fw": "lang",
+    "rule": "tainted-xpath-from-http-request"
+   },
+   {
+    "kind": "call",
+    "name": "compile",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": "XPath",
+    "arg": null,
+    "fw": "lang",
+    "rule": "tainted-xpath-from-http-request"
+   }
+  ],
+  "xss": [
+   {
+    "kind": "call",
+    "name": "getWriter",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": "HttpServletResponse",
+    "arg": null,
+    "fw": "lang",
+    "rule": "no-direct-response-writer"
+   },
+   {
+    "kind": "call",
+    "name": "getOutputStream",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": "HttpServletResponse",
+    "arg": null,
+    "fw": "lang",
+    "rule": "no-direct-response-writer"
+   },
+   {
+    "kind": "call",
+    "name": "body",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "spring",
+    "rule": "tainted-html-string"
+   }
+  ],
+  "xxe": [],
+  "path-traversal": [
+   {
+    "kind": "call",
+    "name": "FileInputStream",
+    "ctor": true,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "httpservlet-path-traversal"
+   },
+   {
+    "kind": "call",
+    "name": "File",
+    "ctor": true,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "spring",
+    "rule": "tainted-file-path"
+   },
+   {
+    "kind": "call",
+    "name": "FileReader",
+    "ctor": true,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "spring",
+    "rule": "tainted-file-path"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": "Paths",
+    "arg": null,
+    "fw": "spring",
+    "rule": "tainted-file-path"
+   },
+   {
+    "kind": "call",
+    "name": "ClassPathResource",
+    "ctor": true,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "spring",
+    "rule": "tainted-file-path"
+   },
+   {
+    "kind": "call",
+    "name": "getFile",
+    "ctor": false,
+    "recv": "ResourceUtils",
+    "type": null,
+    "arg": null,
+    "fw": "spring",
+    "rule": "tainted-file-path"
+   },
+   {
+    "kind": "call",
+    "name": "FileOutputStream",
+    "ctor": true,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "spring",
+    "rule": "tainted-file-path"
+   },
+   {
+    "kind": "call",
+    "name": "StreamSource",
+    "ctor": true,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "spring",
+    "rule": "tainted-file-path"
+   },
+   {
+    "kind": "call",
+    "name": "openOutputStream",
+    "ctor": false,
+    "recv": "FileUtils",
+    "type": null,
+    "arg": null,
+    "fw": "spring",
+    "rule": "tainted-file-path"
+   }
+  ],
+  "ssrf": [
+   {
+    "kind": "call",
+    "name": "URL",
+    "ctor": true,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "spring",
+    "rule": "tainted-url-host"
+   },
+   {
+    "kind": "call",
+    "name": "concat",
+    "ctor": false,
+    "recv": "\"[\\w$]+\"",
+    "type": null,
+    "arg": null,
+    "fw": "spring",
+    "rule": "tainted-url-host"
+   },
+   {
+    "kind": "call",
+    "name": "append",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "spring",
+    "rule": "tainted-url-host"
+   },
+   {
+    "kind": "call",
+    "name": "format",
+    "ctor": false,
+    "recv": "String",
+    "type": null,
+    "arg": null,
+    "fw": "spring",
+    "rule": "tainted-url-host"
+   }
+  ]
+ },
+ "sanitizers": {
+  "sql-injection": [],
+  "other": [],
+  "command-injection": [],
+  "ldap-injection": [],
+  "xpath-injection": [],
+  "xss": [
+   {
+    "kind": "call",
+    "name": "forHtml",
+    "ctor": false,
+    "recv": "Encode",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "no-direct-response-writer"
+   },
+   {
+    "kind": "call",
+    "name": "sanitize",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": "PolicyFactory",
+    "arg": null,
+    "fw": "lang",
+    "rule": "no-direct-response-writer"
+   },
+   {
+    "kind": "call",
+    "name": "scan",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": "AntiSamy",
+    "arg": null,
+    "fw": "lang",
+    "rule": "no-direct-response-writer"
+   },
+   {
+    "kind": "call",
+    "name": "clean",
+    "ctor": false,
+    "recv": "JSoup",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "no-direct-response-writer"
+   },
+   {
+    "kind": "call",
+    "name": "escapeHtml",
+    "ctor": false,
+    "recv": "apache.commons.lang.StringEscapeUtils",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "no-direct-response-writer"
+   },
+   {
+    "kind": "call",
+    "name": "htmlEscape",
+    "ctor": false,
+    "recv": "springframework.web.util.HtmlUtils",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "no-direct-response-writer"
+   },
+   {
+    "kind": "call",
+    "name": "encoder",
+    "ctor": false,
+    "recv": "owasp.esapi.ESAPI",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "no-direct-response-writer"
+   }
+  ],
+  "xxe": [],
+  "path-traversal": [
+   {
+    "kind": "call",
+    "name": "getName",
+    "ctor": false,
+    "recv": "apache.commons.io.FilenameUtils",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "httpservlet-path-traversal"
+   }
+  ],
+  "ssrf": []
+ }
+}
