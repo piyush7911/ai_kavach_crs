@@ -53,6 +53,8 @@ SECURITY_PROFILE = {
     "eval-injection": ("ElevationOfPrivilege", "EASY", "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"),
     "xss": ("Tampering", "MEDIUM", "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N"),
     "ssrf": ("InfoDisclosure", "MEDIUM", "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:L/A:N"),
+    "command-injection": ("ElevationOfPrivilege", "EASY", "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"),
+    "path-traversal": ("InfoDisclosure", "EASY", "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"),
     "open-redirect": ("Spoofing", "MEDIUM", "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"),
     "idor": ("ElevationOfPrivilege", "EASY", "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N"),
     "broken-object-level-auth": ("ElevationOfPrivilege", "EASY", "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N"),

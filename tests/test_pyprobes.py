@@ -181,3 +181,25 @@ def test_routes_from_crawl_extracts_paths_and_params(monkeypatch):
     assert routes[("GET", "/login")] == ["password", "username"]
     assert routes[("GET", "/users.json")] == ["callback"]
     assert ("GET", "/x") not in routes          # off-site owasp.org link dropped
+
+
+def test_single_request_sends_only_the_carrier():
+    from src.pyauto.probes import _single_request, Route
+    r = Route("GET", "/x/{id}", path_params=["id"], query_fields=["a", "b"])
+    # query carrier 'a' -> only a is sent (not sibling b); path id filled for routing
+    req = _single_request(r, "query", "a", "PAYLOAD")
+    assert "a=PAYLOAD" in req["path"] and "b=" not in req["path"]
+    assert "/x/1" in req["path"]            # path param filled with benign for routing
+
+
+def test_marker_family_confirms_and_pinpoints_carrier(monkeypatch):
+    from src.pyauto.probes import _marker_family, Route
+    import src.pyauto.probes as P
+    r = Route("GET", "/", query_fields=["redir", "id"])
+    # only fire when the payload rode in 'redir'
+    monkeypatch.setattr(P, "run_exploit",
+                        lambda base, ex: (True, "redirect") if "redir=" in ex["path"] else (False, "no"))
+    found = list(_marker_family([r], _Recorder(), "open-redirect", "http://evil", {"redirect_regex": "evil"},
+                                "CWE-601", "A1:2021", follow_redirects=False))
+    assert len(found) == 1 and found[0].klass == "open-redirect"
+    assert "redir" in found[0].message

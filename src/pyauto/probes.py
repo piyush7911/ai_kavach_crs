@@ -414,7 +414,83 @@ def _mass_assignment(routes, ctx):
                        ex, "self-registered admin-flag user performed a privileged DELETE; a plain user could not")
 
 
-_FAMILIES = [_data_exposure, _injection, _bola, _bola_setup, _enumeration, _mass_assignment]
+# --- single-request marker families (ported from the JS probe set) --------------------------------------
+# Each injects a payload into one carrier at a time and judges by a self-validating marker, so a merely
+# reflected input never false-positives: open-redirect checks the Location header (not the body);
+# command-injection's marker (31338) is the RESULT of a command, absent from the payload (31337);
+# path-traversal looks for /etc/passwd's structure; XSS requires the tag to come back UN-escaped; SSRF is
+# an out-of-band callback to our own listener. Payloads mirror config/js_probes.json.
+
+def _single_request(route: Route, loc: str, name: str, value: str) -> dict:
+    """Send ONLY the carrier under test (plus path params needed for routing) — not benign siblings. Apps
+    that dispatch on "which param is present" (e.g. a raw handler) only reach the vulnerable branch when
+    the sibling params are absent; a single-field payload is also enough for these one-field bug classes."""
+    from urllib.parse import quote, urlencode
+    pv = {p: (value if (loc == "path" and p == name) else _benign(p)) for p in route.path_params}
+    path = _fill_path(route.path, pv)
+    if loc == "query":
+        path += ("&" if "?" in path else "?") + urlencode({name: value}, quote_via=quote, safe="{}")
+    req = {"method": route.method, "path": path}
+    if loc == "body":
+        req["body"] = {name: value}
+        req["headers"] = {"Content-Type": "application/x-www-form-urlencoded"}
+    return req
+
+
+def _marker_family(routes, ctx, klass, value, success_if, cwe, owasp, *,
+                   oob=False, follow_redirects=None, severity="high"):
+    for r in routes:
+        if not probe_policy.allow(klass, r)[0]:
+            continue
+        carriers = ([("path", p) for p in r.path_params] + [("query", q) for q in r.query_fields]
+                    + [("body", b) for b in r.body_fields])
+        for loc, name in carriers:
+            ex = _single_request(r, loc, name, value)
+            ex.update(success_if={**success_if}, auth=ctx.auth,
+                      login_as="user" if r.auth_required else "none")
+            if oob:
+                ex["oob"] = True
+            if follow_redirects is not None:
+                ex["follow_redirects"] = follow_redirects
+            hit, detail = run_exploit(ctx.base_url, ex)
+            if hit:
+                yield _finding(klass, r, cwe, owasp,
+                               f"{klass} via {loc} field {name!r} on {r.method} {r.path}", ex, detail, severity)
+                break                                   # one carrier is enough to prove the route
+
+
+_REDIRECT_RE = (r"(?i)^\s*(?:(?:https?:)?[/\\]{2}|https?:[/\\]*|/[\t\r\n]+[/\\])"
+                r"(?:[^/\\@]*@)?kavach-probe\.invalid(?:[:/\\?#]|$)")
+
+
+def _open_redirect(routes, ctx):
+    yield from _marker_family(routes, ctx, "open-redirect", "https://kavach-probe.invalid/landing",
+                              {"redirect_regex": _REDIRECT_RE}, "CWE-601", "A1:2021",
+                              follow_redirects=False, severity="medium")
+
+
+def _ssrf(routes, ctx):
+    yield from _marker_family(routes, ctx, "ssrf", "{OOB_URL}", {"oob_marker": "{OOB_MARKER}"},
+                              "CWE-918", "A10:2021", oob=True, severity="high")
+
+
+def _command_injection(routes, ctx):
+    yield from _marker_family(routes, ctx, "command-injection", ";expr 31337 + 1", {"body_regex": "31338"},
+                              "CWE-78", "A3:2021", severity="critical")
+
+
+def _path_traversal(routes, ctx):
+    yield from _marker_family(routes, ctx, "path-traversal", "../../../../../../etc/passwd",
+                              {"body_regex": r"root:[^\n]*:0:0"}, "CWE-22", "A1:2021", severity="high")
+
+
+def _reflected_xss(routes, ctx):
+    yield from _marker_family(routes, ctx, "xss", "kvch<b>7x7</b>", {"body_regex": "kvch<b>7x7</b>"},
+                              "CWE-79", "A3:2021", severity="medium")
+
+
+_FAMILIES = [_data_exposure, _injection, _bola, _bola_setup, _enumeration, _mass_assignment,
+             _open_redirect, _ssrf, _command_injection, _path_traversal, _reflected_xss]
 
 
 def probe(routes: list[Route], ctx: ProbeCtx) -> list[Finding]:
