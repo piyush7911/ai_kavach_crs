@@ -87,7 +87,7 @@ def _nodegoat_discover():
     from src.jsauto import probes as jsprobes, static
     from src.jsauto.findings import apply_security
     from benchmarks.nodegoat.appserver import AppServer
-    from benchmarks.nodegoat.exploit import run_exploit
+    from benchmarks.oracle_engine import run_exploit
     root = _P("benchmark_workspace/NodeGoat").resolve()
     findings = static.scan(root)["findings"]
     for i, f in enumerate(findings, 1):

@@ -17,7 +17,7 @@ from pathlib import Path
 from openai import OpenAI
 
 from benchmarks.nodegoat.appserver import AppServer
-from benchmarks.nodegoat.exploit import Session, run_exploit
+from benchmarks.oracle_engine import Session, run_exploit
 from benchmarks.nodegoat.runner import _check_flow, DEFAULT_FLOWS
 from src.jsauto import probes, static
 from src.jsauto.repair import FAIL, PASS, repair
@@ -78,6 +78,13 @@ def main() -> int:
     for i, f in enumerate(findings, 1):
         f.id = f"JS-{i:03d}"
     probes.attach(findings)
+    import json as _json
+    NODEGOAT_AUTH = _json.load(open("config/nodegoat_auth.json"))   # this benchmark's creds, passed explicitly
+    for f in findings:
+        if getattr(f, "exploit", None):
+            f.exploit.setdefault("auth", NODEGOAT_AUTH)
+    for flow in _FLOWS:
+        flow.setdefault("auth", NODEGOAT_AUTH)
     attached = [f for f in findings if getattr(f, "exploit", None)]
 
     model = OpenAIModel(OpenAI(base_url=os.environ.get("OPENAI_BASE_URL"),

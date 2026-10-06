@@ -1,6 +1,6 @@
 """Send a language-neutral exploit request to a running app and judge the outcome.
 
-An exploit request (the contract shape from NODEGOAT_PLAN.md) is a plain dict:
+An exploit request (the engine contract shape) is a plain dict:
 
     {
       "method": "POST",
@@ -33,12 +33,8 @@ import urllib.parse
 import urllib.request
 from dataclasses import dataclass
 
-# NodeGoat seed accounts (config/../artifacts/db-reset.js). Override per app if needed.
-CREDS = {
-    "user": ("user1", "User1_123"),
-    "admin": ("admin", "Admin_123"),
-    "user2": ("user2", "User2_123"),
-}
+# (No application credentials live in the oracle engine. Each app supplies its own auth spec via `auth=` /
+# --auth; each benchmark loads its own spec in its own driver.)
 import os as _os
 # Global request rate cap (RoE "throttled fuzzing"): min seconds between requests across ALL threads.
 # Tunable via KAVACH_MIN_INTERVAL (e.g. 0.02 => 50 req/s). Serialized under a lock so the cap holds no
@@ -74,8 +70,8 @@ class _NoRedirect(urllib.request.HTTPRedirectHandler):
 class Session:
     """A client against one base URL, redirects off by default.
 
-    Auth is pluggable so the SAME oracles work across apps/languages. Default: NodeGoat's
-    cookie form-login (`CREDS`). Pass an `auth` spec for another app, e.g. VAmPI's JWT:
+    Auth is pluggable so the SAME oracles work across apps/languages.
+    Pass an `auth` spec (login path + field names + roles->creds) per app; NO creds are built in. e.g. VAmPI JWT:
         {"kind": "bearer_json", "login_path": "/users/v1/login",
          "user_field": "username", "pass_field": "password", "token_field": "auth_token",
          "roles": {"admin": ["admin", "pass1"], "user": ["name1", "pass1"]}}
@@ -126,11 +122,9 @@ class Session:
             return True
         if self.auth:
             return self._login_via_spec(role)
-        if role not in CREDS:
-            raise ValueError(f"unknown login role: {role!r}")
-        user, pw = CREDS[role]
-        r = self.request("POST", "/login", body={"userName": user, "password": pw})
-        return r.status in (200, 302)
+        # No auth spec configured: the engine does NOT hardcode any app's credentials/login shape. An
+        # authenticated class therefore cannot be confirmed without an --auth spec (login simply fails here).
+        return False
 
     def _login_via_spec(self, role: str) -> bool:
         a = self.auth
@@ -158,9 +152,8 @@ class _OOBServer:
     """A loopback-only HTTP server that serves a unique marker and records callbacks.
 
     For SSRF: the target is told to fetch this server. `{OOB_URL}` in the exploit is
-    replaced by its address and `{OOB_MARKER}` by the token. NodeGoat's /research
-    reflects the fetched body, so the token coming back in the response proves the
-    server made the request. The recorded hits also drive the `oob_marker` oracle for
+    replaced by its address and `{OOB_MARKER}` by the token. An endpoint that reflects
+    the fetched body proves the server made the request. The recorded hits also drive the `oob_marker` oracle for
     targets that do not reflect.
     """
 

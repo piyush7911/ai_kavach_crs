@@ -39,7 +39,7 @@ def test_confirm_idor_promotes_on_oracle_hit(monkeypatch):
         sent.append((own, foreign))
         return (own != foreign and ":userId" not in own, "foreign id returned different data")
     monkeypatch.setattr(I, "run_exploit", fake_run, raising=False)
-    import benchmarks.nodegoat.exploit as E
+    import benchmarks.oracle_engine as E
     monkeypatch.setattr(E, "run_exploit", fake_run)
     f = Finding(id="i1", source="idor", klass="idor", file="A.js", status="candidate",
                 evidence={"route": "GET /allocations/:userId", "id_segment": "userId"})

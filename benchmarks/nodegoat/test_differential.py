@@ -1,5 +1,5 @@
 """Offline check for the boolean-based-injection oracle's normalizer (no server)."""
-from benchmarks.nodegoat.exploit import _norm
+from benchmarks.oracle_engine import _norm
 
 
 def test_norm_strips_volatile_values():
@@ -22,7 +22,7 @@ if __name__ == "__main__":
 
 
 def test_denied_recognises_refusals_and_serves():
-    from benchmarks.nodegoat.exploit import _denied, Response
+    from benchmarks.oracle_engine import _denied, Response
     assert _denied(Response(403, "", ""))                       # forbidden
     assert _denied(Response(302, "", "/login"))                 # bounced to login
     assert _denied(Response(302, "", "/dashboard"))             # bounced to landing

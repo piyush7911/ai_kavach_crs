@@ -1,0 +1,19 @@
+{
+ "login_path": "/login",
+ "user_field": "userName",
+ "pass_field": "password",
+ "roles": {
+  "user": [
+   "user1",
+   "User1_123"
+  ],
+  "admin": [
+   "admin",
+   "Admin_123"
+  ],
+  "user2": [
+   "user2",
+   "User2_123"
+  ]
+ }
+}

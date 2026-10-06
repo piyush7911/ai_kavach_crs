@@ -34,7 +34,7 @@ def test_read_route_still_builds_read_idor():
 
 
 def test_write_idor_oracle_confirms_on_marker_appearing(monkeypatch):
-    import benchmarks.nodegoat.exploit as E
+    import benchmarks.oracle_engine as E
     state = {"store": ""}
 
     class _S:

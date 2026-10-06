@@ -17,7 +17,7 @@ import sys
 import urllib.error
 import urllib.request
 
-from benchmarks.nodegoat.exploit import run_exploit, Session
+from benchmarks.oracle_engine import run_exploit, Session
 
 VAMPI = "http://127.0.0.1:5001"
 

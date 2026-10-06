@@ -23,7 +23,7 @@ def test_parallel_map_runs_all_and_swallows_errors():
 
 def test_throttle_is_thread_safe_rate_cap():
     import threading, time
-    from benchmarks.nodegoat import exploit as E
+    from benchmarks import oracle_engine as E
     E._MIN_INTERVAL = 0.02
     E._last_request = 0.0
     n = 20

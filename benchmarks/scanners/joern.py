@@ -10,9 +10,71 @@ route, with the sink kept in evidence for the fix/report.
 """
 from __future__ import annotations
 
+import shutil
+import subprocess
 from pathlib import Path
 
 from src.jsauto.findings import Finding
+
+_SCRIPT = Path(__file__).resolve().parents[2] / "exp" / "scripts" / "joern_taint.sc"
+_SRC2CPG = {"java": "javasrc2cpg", "python": "pysrc2cpg", "javascript": "jssrc2cpg"}
+
+
+def _joern_bin(name: str) -> str | None:
+    """joern tools from PATH, JOERN_HOME, or the vendored exp/third_party/joern/."""
+    hit = shutil.which(name)
+    if hit:
+        return hit
+    import os
+    for base in (os.environ.get("JOERN_HOME", ""), "exp/third_party/joern"):
+        if base:
+            cand = Path(base) / name
+            if cand.exists():
+                return str(cand)
+    return None
+
+
+def _lang_of(target: Path) -> str:
+    exts = {p.suffix for p in target.rglob("*")}
+    if ".java" in exts:
+        return "java"
+    if ".py" in exts:
+        return "python"
+    if ".js" in exts or ".ts" in exts:
+        return "javascript"
+    return ""
+
+
+def run_joern(target: str | Path, out_dir: str | Path, wide: bool = False) -> str | None:
+    """Build a CPG and run the taint script to produce a TSV; return its path, or None if Joern is not
+    available / the build fails (tolerant — the caller falls back to a pre-built --joern TSV). One command
+    when Joern is installed or vendored at exp/third_party/joern."""
+    target, out_dir = Path(target), Path(out_dir)
+    lang = _lang_of(target)
+    joern, build = _joern_bin("joern"), _joern_bin(_SRC2CPG.get(lang, ""))
+    if not lang or not joern or not build or not _SCRIPT.exists():
+        return None
+    out_dir.mkdir(parents=True, exist_ok=True)
+    cpg, tsv = out_dir / "app.cpg", out_dir / "joern.tsv"
+    try:
+        r1 = subprocess.run([build, str(target), "-o", str(cpg)], capture_output=True, text=True, timeout=900)
+        if r1.returncode != 0 or not cpg.exists():
+            return None
+        params = ["--param", f"cpgFile={cpg}", "--param", f"lang={lang}", "--param", f"outFile={tsv}"]
+        if wide:
+            params += ["--param", "wide=true"]
+        r2 = subprocess.run([joern, "--script", str(_SCRIPT), *params], capture_output=True, text=True, timeout=900)
+        if r2.returncode != 0 or not tsv.exists():
+            return None
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    return str(tsv)
+
+
+def findings_from_joern_auto(target: str | Path, out_dir: str | Path) -> list[Finding]:
+    """One-command Joern: build+run+parse. Empty if Joern is unavailable (then use a pre-built --joern TSV)."""
+    tsv = run_joern(target, out_dir)
+    return findings_from_joern(tsv) if tsv else []
 
 # joern class label -> our oracle/vocabulary class (so flows join the correlate/confirm/report path)
 _CLASS = {"sql-injection": "sql-injection", "nosql-injection": "nosql-injection", "xss": "xss",

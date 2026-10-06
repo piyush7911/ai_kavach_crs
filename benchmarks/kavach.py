@@ -303,6 +303,9 @@ def main(argv=None) -> int:
                          "community corpus for breadth, else our taint rules)")
     ap.add_argument("--opengrep-rules", default="", help="rules file/dir for --opengrep (override the default)")
     ap.add_argument("--joern", help="a Joern taint TSV (cross-file flows) to ingest as candidates")
+    ap.add_argument("--joern-run", action="store_true",
+                    help="auto-build the CPG + run Joern taint on --target (one command; needs joern on PATH "
+                         "or vendored at exp/third_party/joern), instead of a pre-built --joern TSV")
     ap.add_argument("--misuse", action="store_true",
                     help="scan source for FP-safe API-misuse literals (weak hash/cipher/random, cookie "
                          "flags) as confirmed findings; needs --target. Pairs with --fix")
@@ -423,6 +426,12 @@ def main(argv=None) -> int:
             print(f"[opengrep] {len(og)} candidate(s){' (cache hit — tree unchanged)' if cached else ''}")
             findings += og
 
+    if args.joern_run and args.target:
+        from benchmarks.scanners.joern import findings_from_joern_auto
+        jf = findings_from_joern_auto(args.target, ".kavach_cache/joern")
+        print(f"[joern] auto-run → {len(jf)} cross-file taint candidate(s)"
+              + ("" if jf else " (joern unavailable — vendor it or pass a pre-built --joern TSV)"))
+        findings += jf
     if args.joern:
         from benchmarks.scanners.joern import findings_from_joern
         jf = findings_from_joern(args.joern)

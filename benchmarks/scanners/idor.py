@@ -25,7 +25,7 @@ _KNOBS = {n.lower() for n in _VOCAB["expansion_projection_knobs"]}
 _CHECK_MARKERS = _VOCAB["ownership_check_markers"]
 _ID_SEG = re.compile(r"\{(\w+)\}|/:(\w+)")
 _ID_PARAM = re.compile(r"^(?:id|uuid|guid|slug)$|(?:_id|id)$", re.I)
-_RESOURCE_KEYS = {"username", "book_title", "email", "user", "account", "name", "title", "token"}
+_RESOURCE_KEYS = {"username", "email", "user", "account", "name", "title", "token", "slug"}
 _LOGIN_RE = re.compile(r"log[_-]?in|signin|register|signup|authenticate|/auth", re.I)
 _NON_REF = {"cookietoken", "password", "request", "response", "cookierole", "amount", "csrf", "_csrf"}
 
@@ -98,7 +98,7 @@ def confirm_idor(findings: list[Finding], base_url: str, auth: dict | None = Non
     first (catches no-auth IDOR), then as each configured role (catches authenticated IDOR when creds are
     provided). Promotes on a hit; a candidate that never flips stays a candidate (0 FP). Authenticated IDOR
     with no creds configured, and cross-tenant IDOR with no path id, stay candidates."""
-    from benchmarks.nodegoat.exploit import run_exploit
+    from benchmarks.oracle_engine import run_exploit
     # roles to try: unauthenticated, then each configured role (or NodeGoat's built-in creds when no spec)
     roles = ["none"] + (sorted((auth or {}).get("roles", {})) if auth else ["user", "admin"])
     promoted = 0
