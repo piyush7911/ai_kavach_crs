@@ -29,10 +29,15 @@ _SKIP = ("node_modules", "/test/", "/tests/", "/build/", "/.git/", "/target/")
 
 
 def build_param_lookup(root: str | Path):
-    """Scan the source tree once; return lookup(file_basename) -> sorted list of wire param names."""
+    """Scan the source tree once; return lookup(file_basename) -> sorted list of wire param names.
+
+    Constants are resolved FILE-LOCAL first, then globally — the same name can mean different things in two
+    files (VulnerableApp: URL_PARAM_KEY is "url" in the RFI controller and "fileName" in the path-traversal
+    one), so a global table picks the wrong value. Local wins; the global table is only a fallback for
+    constants defined in a shared file (e.g. Constants.java)."""
     root = Path(root)
-    consts: dict[str, str] = {}
-    texts: dict[str, str] = {}
+    g_consts: dict[str, str] = {}
+    files: list[tuple[str, str]] = []
     for f in root.rglob("*"):
         if f.suffix not in _EXTS or any(s in "/" + str(f).replace("\\", "/") for s in _SKIP):
             continue
@@ -40,31 +45,33 @@ def build_param_lookup(root: str | Path):
             t = f.read_text(errors="replace")
         except OSError:
             continue
-        texts.setdefault(f.name, "")
-        texts[f.name] += "\n" + t                       # same basename in two dirs: union their text
+        files.append((f.name, t))
         for m in _CONST.finditer(t):
-            consts.setdefault(m.group(1), m.group(2))
+            g_consts.setdefault(m.group(1), m.group(2))
 
-    def resolve(arg: str):
+    def resolve(arg: str, local: dict):
         arg = arg.strip()
         if len(arg) >= 2 and arg[0] in "\"'" and arg[-1] in "\"'":
             return arg[1:-1]
-        return consts.get(arg.split(".")[-1])           # Constants.ID -> ID -> "id"
+        key = arg.split(".")[-1]                         # Constants.ID / URL_PARAM_KEY -> last segment
+        return local.get(key, g_consts.get(key))        # file-local first, global fallback
 
     params: dict[str, set] = defaultdict(set)
-    for name, t in texts.items():
+    for name, t in files:
+        local = {m.group(1): m.group(2) for m in _CONST.finditer(t)}
         for m in _JAVA_GET.finditer(t):
-            v = resolve(m.group(1))
+            v = resolve(m.group(1), local)
             if v:
                 params[name].add(v)
         for m in _JAVA_RP_LIT.finditer(t):
             params[name].add(m.group(1))
         for m in _JAVA_RP_CONST.finditer(t):
-            v = resolve(m.group(1))
+            v = resolve(m.group(1), local)
             if v:
                 params[name].add(v)
         for rx in (_PY_GET, _PY_IDX):
             for m in rx.finditer(t):
                 params[name].add(m.group(1))
 
-    return lambda basename: sorted(params.get(basename, set()))
+    valid = re.compile(r"^[A-Za-z_][\w.\-]*$")          # a real HTTP param name — drops leaked path constants
+    return lambda basename: sorted(p for p in params.get(basename, set()) if valid.match(p))
