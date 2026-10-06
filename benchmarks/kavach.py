@@ -129,6 +129,8 @@ def main(argv=None) -> int:
     ap.add_argument("--url", help="running app base URL for dynamic discovery + confirmation")
     ap.add_argument("--zap", help="an OWASP ZAP JSON report to ingest as candidates")
     ap.add_argument("--trivy", help="a Trivy JSON report (deps/CVEs/IaC/secrets) to ingest as candidates")
+    ap.add_argument("--opengrep", action="store_true",
+                    help="run Opengrep taint rules over --target as a candidate source (LGPL, low-FP)")
     ap.add_argument("--nuclei", help="a Nuclei JSONL report to ingest + confirm")
     ap.add_argument("--llm-surface", action="store_true",
                     help="plan 010 Slice A: let the LLM read HTML/JS and propose routes+params (needs "
@@ -137,8 +139,8 @@ def main(argv=None) -> int:
                     help="plan 010 Slice B: LLM proposes {param,class} for gap routes; our oracle confirms")
     ap.add_argument("--out", default="", help="write the merged findings JSON here")
     args = ap.parse_args(argv)
-    if not (args.target or args.url or args.zap or args.trivy or args.nuclei):
-        ap.error("give at least one of --target / --url / --zap / --trivy / --nuclei")
+    if not (args.target or args.url or args.zap or args.trivy or args.nuclei or args.opengrep):
+        ap.error("give at least one of --target / --url / --zap / --trivy / --nuclei / --opengrep")
 
     findings: list[Finding] = []
     if args.target:
@@ -186,6 +188,15 @@ def main(argv=None) -> int:
         t = findings_from_trivy(args.trivy)
         print(f"[trivy] {len(t)} candidate(s) ingested (deps/CVEs/IaC/secrets — source-level, not HTTP-confirmable)")
         findings += t
+    if args.opengrep:
+        if not args.target:
+            print("[opengrep] needs --target (a source tree) — skipping")
+        else:
+            from benchmarks.scanners.opengrep import findings_from_opengrep
+            og = findings_from_opengrep(args.target)
+            print(f"[opengrep] {len(og)} taint candidate(s) (low-FP; confirming over HTTP needs source→route "
+                  f"correlation — reported as candidates)")
+            findings += og
 
     confirmed = [f for f in findings if f.status == "confirmed"]
     print(f"\n== {len(findings)} findings: {len(confirmed)} confirmed, {len(findings) - len(confirmed)} candidate ==")

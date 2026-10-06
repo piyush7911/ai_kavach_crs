@@ -42,8 +42,24 @@ rules:
   pattern-sources:
     - pattern: flask.request.$ANY.get(...)
     - pattern: request.$ANY.get(...)
+    - pattern: request.get_json(...)
   pattern-sinks:
     - pattern: open(...)
+
+- id: kavach-taint-py-ssrf
+  languages: [python]
+  severity: WARNING
+  mode: taint
+  message: Request input reaches a server-side HTTP fetch (taint).
+  metadata: {cwe: "CWE-918", kavach_class: ssrf}
+  pattern-sources:
+    - pattern: flask.request.$ANY.get(...)
+    - pattern: request.$ANY.get(...)
+    - pattern: request.get_json(...)
+  pattern-sinks:
+    - pattern: requests.$M(...)
+    - pattern: urllib.request.urlopen(...)
+    - pattern: urlopen(...)
 
 # ---------- Java (Spring / generic) ----------
 - id: kavach-taint-java-sqli
