@@ -113,3 +113,51 @@ def make_source_lookup(target) -> Callable[[object], str]:
                 return t
         return ""
     return lookup
+
+
+# --- LLM payload generation (OOB classes only) -----------------------------------------------------------
+# For classes whose oracle is an out-of-band CALLBACK (xxe/ssrf/deserialization), the success signal is
+# payload-shape-agnostic: our loopback listener is either hit or not, whatever the payload looks like. So the
+# model may SHAPE the payload (e.g. a JAXB-bound <book> doc the generic <r>&x;</r> can't match) without
+# touching precision — a wrong payload just never calls back and stays `candidate`. The payload MUST embed
+# {OOB_URL}; without it there is nothing to confirm, so we reject it. The model never writes the oracle.
+_OOB_PAYLOAD_ALLOWED = {"xxe", "ssrf", "insecure-deserialization"}
+
+_PAYLOAD_PROMPT = (
+    "Craft ONE out-of-band test payload for a {klass} check on this endpoint (authorized security testing).\n"
+    "The payload MUST contain the literal token {{OOB_URL}} exactly where the server would fetch an attacker "
+    "URL — our harness substitutes a loopback listener there and confirms the hit, so you do NOT decide "
+    "success. Match what the handler expects:\n"
+    " - xxe: a COMPLETE XML document whose structure matches the schema the code parses (read the SOURCE for "
+    "the root element and fields), declaring an external entity SYSTEM \"{{OOB_URL}}\" and referencing it in "
+    "a text node.\n"
+    " - ssrf: the exact parameter value or JSON body the code fetches, set to {{OOB_URL}}.\n"
+    " - insecure-deserialization: a serialized blob in the format the code deserializes that calls out to "
+    "{{OOB_URL}} on load.\n"
+    "Output ONLY the raw payload — no prose, no code fences.\n"
+    "ROUTE: {method} {path}\n{src}SAMPLE RESPONSE (truncated):\n{sample}\n"
+)
+
+
+def _clean_payload(reply: str) -> str:
+    s = (reply or "").strip()
+    if "```" in s:                                      # strip a fenced block if the model wrapped it
+        parts = s.split("```")
+        s = max((p for p in parts[1:] if p.strip()), key=len, default=s).strip()
+        s = re.sub(r"^(xml|json|html|text)\n", "", s, flags=re.I)
+    return s[:4000].strip()
+
+
+def propose_oob_payload(route, klass: str, source: str, sample: str, llm: Callable[[str], str]) -> str | None:
+    """Ask the model for an app-schema-shaped OOB payload (must carry {OOB_URL}); return None if the class
+    is not OOB-confirmable, the model fails, or the payload lacks the callback token (un-confirmable)."""
+    if klass not in _OOB_PAYLOAD_ALLOWED:
+        return None
+    src_block = f"HANDLER SOURCE (match its expected schema):\n{source[:6000]}\n" if source else ""
+    try:
+        reply = llm(_PAYLOAD_PROMPT.format(klass=klass, method=route.method, path=route.path,
+                                           src=src_block, sample=(sample or "")[:1500]))
+    except Exception:  # noqa: BLE001 — a model failure must not sink the run
+        return None
+    payload = _clean_payload(reply)
+    return payload if payload and "{OOB_URL}" in payload else None

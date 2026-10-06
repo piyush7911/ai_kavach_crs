@@ -265,3 +265,42 @@ def test_deserialization_builds_node_serialize_oob(monkeypatch):
     assert sent["oob"] is True and sent["success_if"] == {"oob_marker": "{OOB_MARKER}"}
     assert "_$$ND_FUNC$$_" in sent["body"]["products"] and "{OOB_URL}" in sent["body"]["products"]
     assert found and found[0].klass == "insecure-deserialization"
+
+
+def test_confirm_with_oob_payload_promotes_on_callback(monkeypatch):
+    from src.pyauto.probes import confirm_with_oob_payload, ProbeCtx
+    from src.jsauto.findings import Finding
+    import src.pyauto.probes as P
+    sent = {}
+    monkeypatch.setattr(P, "run_exploit", lambda base, ex: (sent.update(ex), (True, "oob hit"))[1])
+    f = Finding(id="c1", source="opengrep", klass="xxe", file="Parser.java", status="candidate",
+                evidence={"route": "POST /parse"})
+    n = confirm_with_oob_payload([f], ProbeCtx("http://x", auth={}),
+                                 lambda route, klass: '<book><name>{OOB_URL}</name></book>')
+    assert n == 1 and f.status == "confirmed"
+    assert sent["oob"] is True and "{OOB_URL}" in sent["body"]
+    assert sent["headers"]["Content-Type"] == "application/xml"
+
+
+def test_confirm_with_oob_payload_rejects_token_less_payload(monkeypatch):
+    from src.pyauto.probes import confirm_with_oob_payload, ProbeCtx
+    from src.jsauto.findings import Finding
+    import src.pyauto.probes as P
+    monkeypatch.setattr(P, "run_exploit", lambda base, ex: (True, "should not be called"))
+    f = Finding(id="c2", source="opengrep", klass="ssrf", file="x.py", status="candidate",
+                evidence={"route": "POST /fetch", "param": "url"})
+    n = confirm_with_oob_payload([f], ProbeCtx("http://x", auth={}),
+                                 lambda route, klass: 'http://no-token-here/')  # lacks {OOB_URL}
+    assert n == 0 and f.status == "candidate"           # un-confirmable -> stays candidate, no FP
+
+
+def test_propose_oob_payload_requires_token():
+    from src.pyauto.llm_attacks import propose_oob_payload
+    from src.pyauto.probes import Route
+    r = Route("POST", "/parse")
+    ok = propose_oob_payload(r, "xxe", "class Book{}", "", lambda p: '<r><!ENTITY x SYSTEM "{OOB_URL}">&x;</r>')
+    assert ok and "{OOB_URL}" in ok
+    bad = propose_oob_payload(r, "xxe", "", "", lambda p: "<r>no token</r>")
+    assert bad is None                                  # no {OOB_URL} -> rejected
+    skip = propose_oob_payload(r, "sql-injection", "", "", lambda p: "' OR 1=1--")
+    assert skip is None                                 # not an OOB class

@@ -645,6 +645,54 @@ def confirm_candidates(findings: list[Finding], ctx: ProbeCtx) -> list[Finding]:
     return findings
 
 
+_OOB_CLASSES = {"xxe": ("CWE-611", "A05:2021", "high"),
+                "ssrf": ("CWE-918", "A10:2021", "high"),
+                "insecure-deserialization": ("CWE-502", "A08:2021", "critical")}
+
+
+def confirm_with_oob_payload(findings: list[Finding], ctx: ProbeCtx, payload_for) -> int:
+    """LLM-SHAPED payload, OOB-oracle-DECIDED. For each still-candidate, route-bound OOB-class finding
+    (xxe/ssrf/deserialization), ask `payload_for(route, klass) -> payload|None` for an app-schema-shaped
+    payload, replay it, and promote to `confirmed` only if our one-time loopback listener is actually hit.
+    The model shapes the carrier (e.g. a JAXB-bound document the generic payload can't match); the OOB
+    callback — not the model — decides, so a wrong payload simply never confirms (stays candidate, never a
+    false positive). The payload must carry {OOB_URL} or it is skipped. Returns the count promoted."""
+    promoted = 0
+    for f in findings:
+        if f.status == "confirmed":
+            continue
+        meta = _OOB_CLASSES.get(f.klass)
+        ev = f.evidence or {}
+        route_str = ev.get("route", "")
+        if not meta or not route_str:
+            continue
+        method, _, path = route_str.partition(" ")
+        method, path = method or "POST", path or "/"
+        payload = payload_for(Route(method, path), f.klass)
+        if not payload or "{OOB_URL}" not in payload:   # un-confirmable without the callback token
+            continue
+        cwe, owasp, severity = meta
+        if f.klass == "xxe":                            # whole XML document in the raw body
+            m = method if method in ("POST", "PUT", "PATCH") else "POST"
+            ex = {"method": m, "path": _fill_path(path, {}),
+                  "headers": {"Content-Type": "application/xml"}, "body": payload}
+        else:                                           # payload rides in a named field (the candidate's param)
+            param = ev.get("param") or "data"
+            ex = {"method": method, "path": _fill_path(path, {}), "body": {param: payload},
+                  "headers": {"Content-Type": "application/x-www-form-urlencoded"}}
+        ex.update(oob=True, success_if={"oob_marker": "{OOB_MARKER}"}, auth=ctx.auth, login_as="none")
+        hit, detail = run_exploit(ctx.base_url, ex)
+        if hit:
+            promoted += 1
+            hf = _finding(f.klass, Route(method, path), cwe, owasp,
+                          f"{f.klass} confirmed with an LLM-shaped OOB payload on {route_str}", ex, detail, severity)
+            f.status = "confirmed"
+            f.exploit, f.reason = hf.exploit, hf.reason
+            f.stride, f.cvss = hf.stride, hf.cvss
+            f.reachability, f.exploitability, f.poc = hf.reachability, hf.exploitability, hf.poc
+    return promoted
+
+
 def probe(routes: list[Route], ctx: ProbeCtx) -> list[Finding]:
     """Run every oracle family over the routes; return the confirmed findings (each with a replay)."""
     _log_exclusions(routes)

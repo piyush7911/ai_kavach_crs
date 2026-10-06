@@ -235,6 +235,20 @@ def main(argv=None) -> int:
                 print(f"[correlate+llm] focused the LLM on {len(susp)} flagged route(s) → {len(newc)} more CONFIRMED")
                 findings += newc
 
+                # OOB classes (xxe/ssrf/deserialization) the generic payload couldn't match: let the model
+                # SHAPE an app-schema payload; the loopback callback still decides, so precision holds.
+                from src.pyauto.llm_attacks import propose_oob_payload
+                from src.pyauto.probes import confirm_with_oob_payload
+                src_lookup = make_source_lookup(args.target)
+
+                def _payload_for(route, klass):
+                    return propose_oob_payload(route, klass, src_lookup(route), _fetch(route), llm)
+                oob_cands = unconf + more
+                n_oob = confirm_with_oob_payload(oob_cands, ctx, _payload_for)
+                if n_oob:
+                    print(f"[correlate+llm] LLM-shaped OOB payloads confirmed {n_oob} more")
+                    findings += [f for f in oob_cands if f.status == "confirmed" and f not in newc]
+
     # de-duplicate: the same (class, route/location) can be confirmed via two paths (dynamic + correlate)
     seen_keys, deduped = set(), []
     for f in sorted(findings, key=lambda x: x.status != "confirmed"):   # keep the confirmed copy
