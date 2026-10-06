@@ -167,3 +167,22 @@ finding still has a replayable exploit behind it.
   gate + variants). Candidates report-only.
 - **Phase 4 — eval.** Recall uplift on a held-out app with deterministic families disabled; precision
   must stay 1.0.
+
+---
+
+## 13. Implementation status (garv) — Phase 0 + Slices A/B/B.5 BUILT
+
+| piece | status | evidence |
+|---|---|---|
+| Phase 0 — coverage map | ✅ done | `kavach` reports examined / **attacked** / attack-gap; "0 is never clean" |
+| Slice A — LLM surface discovery | ✅ done | `src/pyauto/llm_surface.py`, `--llm-surface`; nemotron extracts routes from HTML/JS (codegemma too weak) |
+| Slice B — LLM param/class (black-box) | ✅ done | `src/pyauto/llm_attacks.py`, `--llm-attacks`; precision-safe (0 FP) but 0 new on obscured params |
+| **Slice B.5 — source-fed attack proposal** | ✅ **done, proven** | `make_source_lookup` + source in prompt; on VulnerableApp confirmed **2 new command-injection** (param `ipaddress`, read from the handler source) that static+miner missed — **40 proposals → 2 confirmed, 0 false positives** |
+
+**Guarantee held throughout:** the LLM only proposes routes/params/classes; a bug is `confirmed` only when the deterministic oracle replays an exploit. The LLM cannot produce a false positive (VulnerableApp: 40 proposals, 2 confirmed, 0 FP).
+
+**Result:** VulnerableApp dynamic confirmed went **2 → 4** (2 SQLi by the miner + 2 command-injection by the source-fed LLM finder). This is the concrete anti-"0 findings" mechanism working on a deliberately-obscured app.
+
+**Hard dependency for the finale:** a capable LOCAL model for `MODEL_PROBE` (nemotron-class). codegemma-7b was too weak (0 extractions). Securing a strong local model in the air-gapped box is required for the LLM finder to help.
+
+**Still open (from §12):** Slice-B.5 route→source matching is a grep heuristic — fine where the handler file/class name relates to the route; a real per-language route→handler map would be more precise. Confirmed findings do not yet auto-flow into the fix loop from `kavach` (Phase 3).
