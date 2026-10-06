@@ -30,6 +30,10 @@ _TEMPLATES = [
      "setHttpOnly(false) -> setHttpOnly(true)"),
     ("cookie-samesite", (".java",), re.compile(r'(\.setHttpOnly\(\s*)false(\s*\))'), r"\1true\2",
      "setHttpOnly(false) -> setHttpOnly(true)"),
+    # SecureRandom extends Random, so the no-arg swap is API-compatible and needs no import (fully qualified).
+    # Only no-arg new Random(): a seeded new Random(seed) has no matching SecureRandom(long) ctor -> LLM.
+    ("weak-random", (".java",), re.compile(r'(\bnew\s+)Random(\s*\(\s*\))'), r"\1java.security.SecureRandom\2",
+     "new Random() -> new java.security.SecureRandom()"),
 ]
 
 
@@ -74,10 +78,21 @@ def template_repair(finding: dict, tree: str | Path) -> dict | None:
     if not path.exists():
         return None
     src = path.read_text(errors="replace")
-    patched, applied, note = apply_templates(klass, path.name, src)
-    if not applied:
-        return None
-    clean = _verify_clean(klass, path.name, patched)
+    lines = src.splitlines(keepends=True)
+    line_no = int(finding.get("line") or 0)
+    if 1 <= line_no <= len(lines):
+        # LINE-SCOPED: only this finding's own site. A no-arg-Random template must not claim to fix a
+        # seeded `new Random(seed)` on another line of the same file — that site has no safe template.
+        new_line, applied, note = apply_templates(klass, path.name, lines[line_no - 1])
+        if not applied:
+            return None
+        clean = _verify_clean(klass, path.name, new_line)
+        patched = "".join(lines[:line_no - 1] + [new_line] + lines[line_no:])
+    else:                                               # no line: fall back to whole-file (e.g. a config class)
+        patched, applied, note = apply_templates(klass, path.name, src)
+        if not applied:
+            return None
+        clean = _verify_clean(klass, path.name, patched)
     diff = "".join(difflib.unified_diff(src.splitlines(True), patched.splitlines(True),
                                         f"a/{rel}", f"b/{rel}"))
     return {"status": "proven" if clean else "failed", "class": klass, "file": rel,

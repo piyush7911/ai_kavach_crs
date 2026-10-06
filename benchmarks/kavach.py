@@ -145,6 +145,9 @@ def main(argv=None) -> int:
                          "community corpus for breadth, else our taint rules)")
     ap.add_argument("--opengrep-rules", default="", help="rules file/dir for --opengrep (override the default)")
     ap.add_argument("--joern", help="a Joern taint TSV (cross-file flows) to ingest as candidates")
+    ap.add_argument("--misuse", action="store_true",
+                    help="scan source for FP-safe API-misuse literals (weak hash/cipher/random, cookie "
+                         "flags) as confirmed findings; needs --target. Pairs with --fix")
     ap.add_argument("--live", action="store_true",
                     help="run the language-agnostic live HTTP PROVE oracles (headers/cookies/CORS/JWT/"
                          "rate-limit/enumeration/reflected-XSS/redirect); needs --url")
@@ -241,6 +244,13 @@ def main(argv=None) -> int:
         jf = findings_from_joern(args.joern)
         print(f"[joern] {len(jf)} cross-file taint candidate(s) (confirmed via source→route correlation + oracle)")
         findings += jf
+
+    if args.misuse and args.target:
+        from benchmarks.scanners.misuse import findings_from_misuse
+        mf = findings_from_misuse(args.target)
+        from collections import Counter as _Cm
+        print(f"[misuse] {len(mf)} FP-safe API-misuse literal(s) confirmed {dict(_Cm(f.klass for f in mf))}")
+        findings += mf
 
     # Correlate code-location candidates (static / Opengrep / Joern / scanner) to routes, then confirm via oracle.
     if routes:
