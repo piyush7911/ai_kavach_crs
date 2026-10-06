@@ -109,6 +109,9 @@ def _dynamic(url: str, zap_report: str | None = None, nuclei_report: str | None 
     return found, coverage(routes, found), routes
 
 
+_LLM_TRACE_PATH = None   # set from --out: every probe-LLM query/response is appended here for jury audit
+
+
 def _build_probe_llm():
     """The exploit/surface model (plan 010): reuses the OpenAI-compatible wiring, its own role MODEL_PROBE
     (falls back to MODEL), local/air-gap endpoint via OPENAI_BASE_URL. Returns a `llm(prompt)->str` or None."""
@@ -124,13 +127,23 @@ def _build_probe_llm():
     def llm(prompt: str) -> str:
         # OpenAI-compatible /chat/completions over plain HTTP (works for ollama and any compat endpoint) —
         # no openai SDK dependency, which keeps the air-gapped runner install-free.
+        import time
         body = json.dumps({"model": model, "temperature": 0, "max_tokens": 1500,
                            "messages": [{"role": "user", "content": prompt}]}).encode()
         req = urllib.request.Request(f"{base.rstrip('/')}/chat/completions", data=body,
                                      headers={"Content-Type": "application/json", "Authorization": f"Bearer {key}"})
+        t0 = time.time()
         with urllib.request.urlopen(req, timeout=120) as r:
             data = json.load(r)
-        return data["choices"][0]["message"]["content"] or ""
+        reply = data["choices"][0]["message"]["content"] or ""
+        if _LLM_TRACE_PATH:                              # RoE §5: LLM query traces retained for jury audit
+            try:
+                with open(_LLM_TRACE_PATH, "a") as fh:
+                    fh.write(json.dumps({"ts": round(t0, 3), "model": model, "ms": round((time.time() - t0) * 1000),
+                                         "prompt": prompt, "response": reply}, default=str) + "\n")
+            except OSError:
+                pass
+        return reply
     return llm
 
 
@@ -231,6 +244,12 @@ def main(argv=None) -> int:
     args = ap.parse_args(argv)
     if not (args.target or args.url or args.zap or args.trivy or args.nuclei or args.opengrep or args.joern):
         ap.error("give at least one of --target / --url / --zap / --trivy / --nuclei / --opengrep / --joern")
+
+    global _LLM_TRACE_PATH
+    if args.out:                                       # RoE §5 audit: trace every LLM query beside the output
+        from pathlib import Path as _P
+        _LLM_TRACE_PATH = str(_P(args.out).with_name("llm_trace.jsonl"))
+        open(_LLM_TRACE_PATH, "w").close()
 
     findings: list[Finding] = []
     if args.target:
