@@ -853,6 +853,15 @@ class Analyzer:
                     for i in tainted_idx:
                         if self._arg_matches(spec, i, len(argl)):
                             self._emit(fn, node, spec, ctext, i, self.p.text(f, argl[i]), chain, entry)
+        # method-name sinks: a call whose METHOD name marks it dangerous on ANY object (e.g. `.query(sql)`
+        # on sequelize/mysql/pg/a db wrapper). The module/root guards above miss these because the receiver
+        # is a local object, not an imported module. Only fires when a tainted arg reaches it.
+        for spec in self.k.get("method_sinks", []):
+            if re.match(spec["methods"], last):
+                matched = True
+                for i in tainted_idx:
+                    if self._arg_matches(spec, i, len(argl)):
+                        self._emit(fn, node, spec, ctext, i, self.p.text(f, argl[i]), chain, entry)
         if matched:
             return
 
