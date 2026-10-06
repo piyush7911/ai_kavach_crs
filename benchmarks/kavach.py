@@ -393,6 +393,25 @@ def main(argv=None) -> int:
             print(f"[routemap] {len(rb)} candidate(s) mapped+param'd deterministically; {len(newd)} CONFIRMED (no LLM)")
             findings += newd
 
+    # candidate sanity (Shannon #12/#13): drop static candidates whose cited file:line/function does not
+    # exist (hallucination), demote injection candidates with no ingress. Confirmed findings are exempt.
+    if args.target:
+        from src.autonomy.candidate_sanity import sanity
+        kept, dropped = [], 0
+        for f in findings:
+            verdict, reason = sanity(f.to_dict() if hasattr(f, "to_dict") else {"klass": f.klass,
+                                     "file": f.file, "line": f.line, "function": f.function,
+                                     "status": f.status, "evidence": f.evidence}, args.target)
+            if verdict == "drop":
+                dropped += 1
+                continue
+            if verdict == "demote":
+                f.confidence = "low"
+            kept.append(f)
+        if dropped:
+            print(f"[sanity] dropped {dropped} candidate(s) with a hallucinated/invalid source location")
+        findings = kept
+
     # de-duplicate: the same (class, route/location) can be confirmed via two paths (dynamic + correlate)
     seen_keys, deduped = set(), []
     for f in sorted(findings, key=lambda x: x.status != "confirmed"):   # keep the confirmed copy

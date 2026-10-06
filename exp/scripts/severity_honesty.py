@@ -55,8 +55,10 @@ def refine(finding: dict) -> dict:
     if status == "confirmed" and _HEDGE.search(f"{finding.get('message','')} {finding.get('reason','')}"):
         warnings.append("overstatement/hedge in a confirmed claim — state what was observed, not 'potential/could'")
 
-    # P6b: no-consequence floor
-    if klass in _NEEDS_CONSEQUENCE and "state-chang" not in reason.lower() and "cross" not in reason.lower():
+    # P6b: no-consequence floor — judged on the OBSERVED reason/evidence only, NOT the hypothetical
+    # severity_change_conditions template (which itself mentions "state-changing").
+    observed = (finding.get("reason", "") + " " + str((finding.get("evidence") or {}).get("detail", ""))).lower()
+    if klass in _NEEDS_CONSEQUENCE and "state-chang" not in observed and "cross" not in observed:
         if _TIERS.index(sev) > _TIERS.index("low"):
             sev = "low"
             parts.append("no demonstrated cross-user/state-changing consequence → floored to low")

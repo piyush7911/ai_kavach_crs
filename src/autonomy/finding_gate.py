@@ -90,12 +90,21 @@ def validate_report(f: dict) -> list[str]:
 
 def gate_finding(finding) -> tuple[bool, list[str]]:
     """Fill + validate a Finding object in place; return (ok, errors). A Finding is any object with the
-    attributes we read (klass/status/exploit/reason/evidence) and settable gate attributes."""
+    attributes we read (klass/status/exploit/reason/evidence) and settable gate attributes. Also applies
+    the Shannon-derived honesty rules (only ever lowers/flags severity, never inflates)."""
+    from src.autonomy.severity import refine
     d = finding.to_dict() if hasattr(finding, "to_dict") else dict(finding)
     fill_from_oracle(d)
+    ref = refine(d)                                      # honest severity: self-refutation, floor, hedges
+    d["severity"] = ref["severity"]
+    if ref["severity_rationale"] and ref["severity_rationale"] != "severity kept from profile":
+        d["severity_change_conditions"] = (d.get("severity_change_conditions", "")
+                                           + f" | honesty: {ref['severity_rationale']}").strip(" |")
     errs = validate_report(d)
     for k in ("counterevidence", "confidence", "confidence_rationale", "severity_change_conditions",
-              "evidence_text"):
+              "evidence_text", "severity"):
         if hasattr(finding, "__dict__"):
-            setattr(finding, k, d.get(k, ""))
+            setattr(finding, k, d.get(k, getattr(finding, k, "")))
+    if ref["warnings"] and hasattr(finding, "__dict__"):
+        finding.reason = (getattr(finding, "reason", "") + "  [honesty: " + "; ".join(ref["warnings"]) + "]")
     return (not errs, errs)
