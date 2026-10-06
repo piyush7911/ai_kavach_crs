@@ -54,7 +54,7 @@ class Attempt:
 
 @dataclass
 class RepairOutcome:
-    status: str = "unresolved"      # proven | patched_unproven | unresolved | error
+    status: str = "unresolved"      # proven | patched_unproven | advisory | unresolved | error
     reason: str = ""
     attempts: list = field(default_factory=list)
     gates: dict = field(default_factory=dict)
@@ -259,46 +259,34 @@ def _run_gates(tree: Path, finding: dict, gates: Gates, variants: Optional[list]
 
 
 def _repair_dependency(finding: dict, root: Path, gates: Gates, out: RepairOutcome, started: float, on_event) -> RepairOutcome:
-    """A dependency fix is deterministic: raise the version to the published fix, then run regression."""
+    """A dependency fix is a RECOMMENDATION, not an action. The final evaluation is air-gapped: with no
+    network the package tree cannot be re-resolved/reinstalled, and an un-reinstalled bump proves nothing.
+    So we report the exact version to upgrade to (as a suggested diff for display) but deliberately do NOT
+    edit the manifest, do NOT run gates, and hand back no auto-apply payload. The operator applies the
+    advice where there is network. Status is `advisory`."""
     ev = finding.get("evidence") or {}
     pkg, fix = ev.get("package", ""), ev.get("fix_version", "")
-    if not fix:
+    if not fix:                                              # nothing to recommend -> stays unresolved
         out.reason = ("no published fix version for the package itself" +
                       (f"; the vulnerable code is in {ev.get('via_packages')}, which only an update of the "
                        f"parent can change" if ev.get("via_packages") else ""))
         out.seconds = round(time.time() - started, 2)
         return out
+    out.status = "advisory"
     if ev.get("fix_is_major_bump"):
-        out.reason = f"the fix is a major version bump ({ev.get('installed')} -> {fix}); needs a human decision"
+        out.reason = (f"recommend (needs a human decision): major version bump {ev.get('installed')} -> "
+                      f"{fix} for {pkg}; not applied (air-gapped, and a major bump can break the app)")
         out.seconds = round(time.time() - started, 2)
         return out
     before = (root / "package.json").read_text()
     after = patch.bump_dependency(before, pkg, fix)
     if after is None:
         out.status, out.reason = "error", f"{pkg} is not a dependency declared in package.json"
+        out.seconds = round(time.time() - started, 2)
         return out
-    problems = patch.check_dependency_patch(before, after)
-    if problems:
-        out.status, out.reason = "error", "; ".join(problems)
-        return out
-    work = Path(tempfile.mkdtemp(prefix="jsrepair_dep_"))
-    try:
-        tree = work / "tree"
-        _copy_tree(root, tree)
-        (tree / "package.json").write_text(after)
-        res = _run_gates(tree, {"exploit": None}, gates)
-        out.gates = res["gates"]
-        out.attempts.append(Attempt(1, res["failed"] or "accepted", res["detail"]))
-        if res["failed"]:
-            out.reason = f"the {res['failed']} gate failed after the bump: {res['detail']}"
-        else:
-            out.diff = _diff(before, after, "package.json")
-            out.new_text = after
-            out.status = "patched_unproven"
-            out.reason = ("version raised; the installed packages were NOT re-resolved, so the gates ran "
-                          "against the old node_modules")
-    finally:
-        shutil.rmtree(work, ignore_errors=True)
+    out.diff = _diff(before, after, "package.json")          # the SUGGESTED change, for display only
+    out.reason = (f"recommend upgrading {pkg} to {fix}; NOT applied — the air-gapped evaluation cannot "
+                  "re-resolve/reinstall/test dependencies offline, so this stays advisory")
     out.seconds = round(time.time() - started, 2)
     return out
 

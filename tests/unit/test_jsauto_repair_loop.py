@@ -178,17 +178,18 @@ def dep(fix="4.20.0", major=False, via=None):
                          "fix_is_major_bump": major, "via_packages": via or []}}
 
 
-def test_a_dependency_with_a_published_non_major_fix_is_bumped_deterministically(root):
+def test_a_dependency_fix_is_advisory_only_not_applied(root):
+    # air-gapped: we RECOMMEND the version (suggested diff shown) but never edit/test offline
     model = ScriptedModel()                                              # the model is never consulted
     out = R.repair(dep(), root, model, StubGates())
-    assert out.status == "patched_unproven" and '+    "express": "^4.20.0"' in out.diff
-    assert model.prompts == [] and "NOT re-resolved" in out.reason
-    assert "4.16.4" in (root / "package.json").read_text()                # original untouched
+    assert out.status == "advisory" and '+    "express": "^4.20.0"' in out.diff
+    assert model.prompts == [] and "NOT applied" in out.reason and out.new_text == ""
+    assert "4.16.4" in (root / "package.json").read_text()                # manifest untouched
 
 
-def test_a_major_bump_is_left_for_a_human(root):
+def test_a_major_bump_is_advisory_and_flags_human_decision(root):
     out = R.repair(dep(fix="5.0.0", major=True), root, ScriptedModel(), StubGates())
-    assert out.status == "unresolved" and "major version bump" in out.reason and out.diff == ""
+    assert out.status == "advisory" and "major version bump" in out.reason and out.diff == ""
 
 
 def test_a_transitive_vulnerability_has_no_fix_the_loop_can_apply(root):
