@@ -48,7 +48,7 @@ def _static(stack: str, target: Path) -> list[Finding]:
     return []
 
 
-def _dynamic(url: str, zap_report: str | None = None) -> list[Finding]:
+def _dynamic(url: str, zap_report: str | None = None, nuclei_report: str | None = None) -> list[Finding]:
     from src.pyauto.probes import (ProbeCtx, enrich_routes, mine_params, probe,
                                    routes_from_crawl, routes_from_sitemap, Route)
     pu = urlparse(url.rstrip("/"))
@@ -57,11 +57,16 @@ def _dynamic(url: str, zap_report: str | None = None) -> list[Finding]:
     sources = (routes_from_crawl(origin, seeds=((ctx_path + "/") or "/",))
                + routes_from_sitemap(f"{origin}{ctx_path}/sitemap.xml")
                + routes_from_sitemap(f"{origin}/sitemap.xml"))
-    if zap_report:                                     # ZAP's spider reaches routes/params we miss
+    if zap_report:                                     # a scanner's spider reaches routes/params we miss
         from benchmarks.scanners.zap import routes_from_zap
         zr = routes_from_zap(zap_report)
         print(f"[dynamic] +{len(zr)} routes from ZAP's crawl")
         sources += zr
+    if nuclei_report:
+        from benchmarks.scanners.nuclei import routes_from_nuclei
+        nr = routes_from_nuclei(nuclei_report)
+        print(f"[dynamic] +{len(nr)} routes from Nuclei")
+        sources += nr
     merged: dict = {}
     for r in sources:
         merged.setdefault((r.method, r.path), set()).update(r.query_fields)
@@ -78,10 +83,11 @@ def main(argv=None) -> int:
     ap.add_argument("--url", help="running app base URL for dynamic discovery + confirmation")
     ap.add_argument("--zap", help="an OWASP ZAP JSON report to ingest as candidates")
     ap.add_argument("--trivy", help="a Trivy JSON report (deps/CVEs/IaC/secrets) to ingest as candidates")
+    ap.add_argument("--nuclei", help="a Nuclei JSONL report to ingest + confirm")
     ap.add_argument("--out", default="", help="write the merged findings JSON here")
     args = ap.parse_args(argv)
-    if not (args.target or args.url or args.zap or args.trivy):
-        ap.error("give at least one of --target / --url / --zap / --trivy")
+    if not (args.target or args.url or args.zap or args.trivy or args.nuclei):
+        ap.error("give at least one of --target / --url / --zap / --trivy / --nuclei")
 
     findings: list[Finding] = []
     if args.target:
@@ -94,20 +100,25 @@ def main(argv=None) -> int:
             findings += s
     if args.url:
         print(f"[dynamic] discovering + confirming on {args.url} ...")
-        d = _dynamic(args.url, zap_report=args.zap)
+        d = _dynamic(args.url, zap_report=args.zap, nuclei_report=args.nuclei)
         print(f"[dynamic] {len(d)} CONFIRMED")
         findings += d
-    if args.zap:
-        from benchmarks.scanners.zap import findings_from_zap
-        z = findings_from_zap(args.zap)
-        print(f"[zap] {len(z)} candidate(s) ingested")
-        if args.url:                                   # re-test ZAP's alerts with our own oracle
+
+    # confirmable scanners: ingest their alerts, then re-test each with our oracle (real -> confirmed)
+    from benchmarks.scanners.nuclei import findings_from_nuclei
+    from benchmarks.scanners.zap import findings_from_zap
+    for report, label, loader in ((args.zap, "zap", findings_from_zap), (args.nuclei, "nuclei", findings_from_nuclei)):
+        if not report:
+            continue
+        cand = loader(report)
+        print(f"[{label}] {len(cand)} candidate(s) ingested")
+        if args.url:
             from src.pyauto.probes import ProbeCtx, confirm_candidates
             pu = urlparse(args.url.rstrip("/"))
-            confirm_candidates(z, ProbeCtx(f"{pu.scheme}://{pu.netloc}", auth={}, reseed=None))
-            print(f"[zap] {sum(1 for f in z if f.status == 'confirmed')} confirmed by our oracle, "
-                  f"{sum(1 for f in z if f.status != 'confirmed')} left candidate")
-        findings += z
+            confirm_candidates(cand, ProbeCtx(f"{pu.scheme}://{pu.netloc}", auth={}, reseed=None))
+            print(f"[{label}] {sum(1 for f in cand if f.status == 'confirmed')} confirmed by our oracle, "
+                  f"{sum(1 for f in cand if f.status != 'confirmed')} left candidate")
+        findings += cand
     if args.trivy:
         from benchmarks.scanners.trivy import findings_from_trivy
         t = findings_from_trivy(args.trivy)
