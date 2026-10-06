@@ -254,3 +254,14 @@ def test_xxe_family_builds_oob_xml_body(monkeypatch):
     assert "ENTITY" in sent["body"] and sent["headers"]["Content-Type"] == "application/xml"
     assert sent["success_if"] == {"oob_marker": "{OOB_MARKER}"}
     assert found and found[0].klass == "xxe"
+
+
+def test_deserialization_builds_node_serialize_oob(monkeypatch):
+    from src.pyauto.probes import _deserialization, Route
+    import src.pyauto.probes as P
+    sent = {}
+    monkeypatch.setattr(P, "run_exploit", lambda base, ex: (sent.update(ex), (True, "oob callback received"))[1])
+    found = list(_deserialization([Route("POST", "/import", body_fields=["products"])], _Recorder()))
+    assert sent["oob"] is True and sent["success_if"] == {"oob_marker": "{OOB_MARKER}"}
+    assert "_$$ND_FUNC$$_" in sent["body"]["products"] and "{OOB_URL}" in sent["body"]["products"]
+    assert found and found[0].klass == "insecure-deserialization"

