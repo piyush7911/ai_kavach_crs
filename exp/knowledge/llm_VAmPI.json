@@ -1,0 +1,229 @@
+{
+ "_about": "LLM-proposed specs (nvidia.nemotron-nano-3-30b); classified_by=llm; candidate-level, validated against the candidate list",
+ "model": "nvidia.nemotron-nano-3-30b",
+ "candidates": 64,
+ "stats": {
+  "batches_failed": 0,
+  "malformed": 0,
+  "invalid": 0,
+  "accepted": 17,
+  "none": 47
+ },
+ "sources": {
+  "*": [
+   {
+    "kind": "call",
+    "name": "get",
+    "recv": "request_data",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "request_data.get"
+   },
+   {
+    "kind": "call",
+    "name": "token_validator",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".token_validator"
+   },
+   {
+    "kind": "call",
+    "name": "get_json",
+    "recv": "request",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "request.get_json"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "recv": "headers",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "headers.get"
+   },
+   {
+    "kind": "call",
+    "name": "User",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".User"
+   },
+   {
+    "kind": "call",
+    "name": "get_user",
+    "recv": "User",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "User.get_user"
+   },
+   {
+    "kind": "call",
+    "name": "getenv",
+    "recv": "os",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "os.getenv"
+   }
+  ]
+ },
+ "sinks": {
+  "sql-injection": [
+   {
+    "kind": "call",
+    "name": "dumps",
+    "recv": "json",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "json.dumps"
+   },
+   {
+    "kind": "call",
+    "name": "filter_by",
+    "recv": "query",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "query.filter_by"
+   },
+   {
+    "kind": "call",
+    "name": "validate",
+    "recv": "jsonschema",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "jsonschema.validate"
+   },
+   {
+    "kind": "call",
+    "name": "register_user",
+    "recv": "User",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "User.register_user"
+   },
+   {
+    "kind": "call",
+    "name": "Book",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".Book"
+   },
+   {
+    "kind": "call",
+    "name": "execute",
+    "recv": "session",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "session.execute"
+   }
+  ],
+  "xss": [
+   {
+    "kind": "call",
+    "name": "search",
+    "recv": "re",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "re.search"
+   },
+   {
+    "kind": "call",
+    "name": "json",
+    "recv": "Book",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "Book.json"
+   },
+   {
+    "kind": "call",
+    "name": "text",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".text"
+   }
+  ],
+  "code-injection": [
+   {
+    "kind": "call",
+    "name": "decode",
+    "recv": "jwt",
+    "type": null,
+    "ctor": false,
+    "arg": 1,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "jwt.decode"
+   }
+  ]
+ },
+ "sanitizers": {}
+}

@@ -1,0 +1,3674 @@
+{
+ "_about": "hybrid = community-mined + LLM-proposed gap specs",
+ "sources": {
+  "other": [
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "request.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "django",
+    "rule": "nan-injection"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "django",
+    "rule": "nan-injection"
+   },
+   {
+    "kind": "param",
+    "annotations": [
+     "route"
+    ],
+    "fw": "flask",
+    "rule": "nan-injection"
+   },
+   {
+    "kind": "access",
+    "name": "md5",
+    "ctor": false,
+    "recv": "hashlib",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "md5-used-as-password"
+   },
+   {
+    "kind": "call",
+    "name": "new",
+    "ctor": false,
+    "recv": "hashlib",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "md5-used-as-password"
+   },
+   {
+    "kind": "access",
+    "name": "MD5",
+    "ctor": false,
+    "recv": "Cryptodome.Hash",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "md5-used-as-password"
+   },
+   {
+    "kind": "access",
+    "name": "MD5",
+    "ctor": false,
+    "recv": "Crypto.Hash",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "md5-used-as-password"
+   },
+   {
+    "kind": "access",
+    "name": "MD5",
+    "ctor": false,
+    "recv": "hazmat.primitives.hashes",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "md5-used-as-password"
+   },
+   {
+    "kind": "call",
+    "name": "format",
+    "ctor": false,
+    "recv": "\".\"",
+    "type": null,
+    "arg": null,
+    "fw": "twilio",
+    "rule": "twiml-injection"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "recv": "request_data",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "request_data.get"
+   },
+   {
+    "kind": "call",
+    "name": "token_validator",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".token_validator"
+   },
+   {
+    "kind": "call",
+    "name": "get_json",
+    "recv": "request",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "request.get_json"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "recv": "headers",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "headers.get"
+   },
+   {
+    "kind": "call",
+    "name": "User",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".User"
+   },
+   {
+    "kind": "call",
+    "name": "get_user",
+    "recv": "User",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "User.get_user"
+   },
+   {
+    "kind": "call",
+    "name": "getenv",
+    "recv": "os",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "os.getenv"
+   }
+  ],
+  "code-injection": [
+   {
+    "kind": "access",
+    "name": "event",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "tainted-code-exec"
+   },
+   {
+    "kind": "access",
+    "name": "environ",
+    "ctor": false,
+    "recv": "os",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run-tainted-env-args"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "os.environ",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run-tainted-env-args"
+   },
+   {
+    "kind": "access",
+    "name": "environb",
+    "ctor": false,
+    "recv": "os",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run-tainted-env-args"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "os.environb",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run-tainted-env-args"
+   },
+   {
+    "kind": "call",
+    "name": "getenv",
+    "ctor": false,
+    "recv": "os",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run-tainted-env-args"
+   },
+   {
+    "kind": "call",
+    "name": "getenvb",
+    "ctor": false,
+    "recv": "os",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run-tainted-env-args"
+   },
+   {
+    "kind": "access",
+    "name": "argv",
+    "ctor": false,
+    "recv": "sys",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run-tainted-env-args"
+   },
+   {
+    "kind": "access",
+    "name": "orig_argv",
+    "ctor": false,
+    "recv": "sys",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run-tainted-env-args"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "request.form",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "access",
+    "name": "form",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "request.args",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "access",
+    "name": "args",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "request.values",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "access",
+    "name": "values",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "request.cookies",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "access",
+    "name": "stream",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "request.headers",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "access",
+    "name": "data",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "access",
+    "name": "full_path",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "access",
+    "name": "url",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "access",
+    "name": "json",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "call",
+    "name": "get_json",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "request.view_args",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "access",
+    "name": "view_args",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "param",
+    "annotations": [
+     "route"
+    ],
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "request.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "param",
+    "annotations": [
+     "api_view"
+    ],
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "[\\w$]+.POST",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "access",
+    "name": "POST",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "[\\w$]+.FILES",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "access",
+    "name": "FILES",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "[\\w$]+.DATA",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "access",
+    "name": "DATA",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "[\\w$]+.QUERY_PARAMS",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "access",
+    "name": "QUERY_PARAMS",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "[\\w$]+.data",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "access",
+    "name": "data",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "[\\w$]+.query_params",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "access",
+    "name": "query_params",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "access",
+    "name": "content_type",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "access",
+    "name": "stream",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "access",
+    "name": "requestline",
+    "ctor": false,
+    "recv": "self",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "access",
+    "name": "path",
+    "ctor": false,
+    "recv": "self",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": "self",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "self.headers",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "access",
+    "name": "rfile",
+    "ctor": false,
+    "recv": "self",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "param",
+    "annotations": [
+     "view_config"
+    ],
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "recv": "request_data",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "request_data.get"
+   },
+   {
+    "kind": "call",
+    "name": "token_validator",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".token_validator"
+   },
+   {
+    "kind": "call",
+    "name": "get_json",
+    "recv": "request",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "request.get_json"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "recv": "headers",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "headers.get"
+   },
+   {
+    "kind": "call",
+    "name": "User",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".User"
+   },
+   {
+    "kind": "call",
+    "name": "get_user",
+    "recv": "User",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "User.get_user"
+   },
+   {
+    "kind": "call",
+    "name": "getenv",
+    "recv": "os",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "os.getenv"
+   }
+  ],
+  "xpath-injection": [
+   {
+    "kind": "call",
+    "name": "get",
+    "recv": "request_data",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "request_data.get"
+   },
+   {
+    "kind": "call",
+    "name": "token_validator",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".token_validator"
+   },
+   {
+    "kind": "call",
+    "name": "get_json",
+    "recv": "request",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "request.get_json"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "recv": "headers",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "headers.get"
+   },
+   {
+    "kind": "call",
+    "name": "User",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".User"
+   },
+   {
+    "kind": "call",
+    "name": "get_user",
+    "recv": "User",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "User.get_user"
+   },
+   {
+    "kind": "call",
+    "name": "getenv",
+    "recv": "os",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "os.getenv"
+   }
+  ],
+  "ldap-injection": [
+   {
+    "kind": "call",
+    "name": "get",
+    "recv": "request_data",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "request_data.get"
+   },
+   {
+    "kind": "call",
+    "name": "token_validator",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".token_validator"
+   },
+   {
+    "kind": "call",
+    "name": "get_json",
+    "recv": "request",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "request.get_json"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "recv": "headers",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "headers.get"
+   },
+   {
+    "kind": "call",
+    "name": "User",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".User"
+   },
+   {
+    "kind": "call",
+    "name": "get_user",
+    "recv": "User",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "User.get_user"
+   },
+   {
+    "kind": "call",
+    "name": "getenv",
+    "recv": "os",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "os.getenv"
+   }
+  ],
+  "path-traversal": [
+   {
+    "kind": "call",
+    "name": "get",
+    "recv": "request_data",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "request_data.get"
+   },
+   {
+    "kind": "call",
+    "name": "token_validator",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".token_validator"
+   },
+   {
+    "kind": "call",
+    "name": "get_json",
+    "recv": "request",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "request.get_json"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "recv": "headers",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "headers.get"
+   },
+   {
+    "kind": "call",
+    "name": "User",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".User"
+   },
+   {
+    "kind": "call",
+    "name": "get_user",
+    "recv": "User",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "User.get_user"
+   },
+   {
+    "kind": "call",
+    "name": "getenv",
+    "recv": "os",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "os.getenv"
+   }
+  ],
+  "command-injection": [
+   {
+    "kind": "access",
+    "name": "event",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "dangerous-asyncio-create-exec"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "request.form",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "subprocess-injection"
+   },
+   {
+    "kind": "access",
+    "name": "form",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "subprocess-injection"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "request.args",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "subprocess-injection"
+   },
+   {
+    "kind": "access",
+    "name": "args",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "subprocess-injection"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "request.values",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "subprocess-injection"
+   },
+   {
+    "kind": "access",
+    "name": "values",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "subprocess-injection"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "request.cookies",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "subprocess-injection"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "subprocess-injection"
+   },
+   {
+    "kind": "access",
+    "name": "stream",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "subprocess-injection"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "request.headers",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "subprocess-injection"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "subprocess-injection"
+   },
+   {
+    "kind": "access",
+    "name": "data",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "subprocess-injection"
+   },
+   {
+    "kind": "access",
+    "name": "full_path",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "subprocess-injection"
+   },
+   {
+    "kind": "access",
+    "name": "url",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "subprocess-injection"
+   },
+   {
+    "kind": "access",
+    "name": "json",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "subprocess-injection"
+   },
+   {
+    "kind": "call",
+    "name": "get_json",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "subprocess-injection"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "request.view_args",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "subprocess-injection"
+   },
+   {
+    "kind": "access",
+    "name": "view_args",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "subprocess-injection"
+   },
+   {
+    "kind": "param",
+    "annotations": [
+     "route"
+    ],
+    "fw": "flask",
+    "rule": "subprocess-injection"
+   },
+   {
+    "kind": "access",
+    "name": "environ",
+    "ctor": false,
+    "recv": "os",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-asyncio-create-exec-tainted-env-args"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "os.environ",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-asyncio-create-exec-tainted-env-args"
+   },
+   {
+    "kind": "access",
+    "name": "environb",
+    "ctor": false,
+    "recv": "os",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-asyncio-create-exec-tainted-env-args"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "os.environb",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-asyncio-create-exec-tainted-env-args"
+   },
+   {
+    "kind": "call",
+    "name": "getenv",
+    "ctor": false,
+    "recv": "os",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-asyncio-create-exec-tainted-env-args"
+   },
+   {
+    "kind": "call",
+    "name": "getenvb",
+    "ctor": false,
+    "recv": "os",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-asyncio-create-exec-tainted-env-args"
+   },
+   {
+    "kind": "access",
+    "name": "argv",
+    "ctor": false,
+    "recv": "sys",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-asyncio-create-exec-tainted-env-args"
+   },
+   {
+    "kind": "access",
+    "name": "orig_argv",
+    "ctor": false,
+    "recv": "sys",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-asyncio-create-exec-tainted-env-args"
+   },
+   {
+    "kind": "call",
+    "name": "join",
+    "ctor": false,
+    "recv": "\"\\ \"",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "subprocess-list-passed-as-string"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "request.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-os-exec"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-os-exec"
+   },
+   {
+    "kind": "param",
+    "annotations": [
+     "api_view"
+    ],
+    "fw": "lang",
+    "rule": "dangerous-os-exec"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "[\\w$]+.POST",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-os-exec"
+   },
+   {
+    "kind": "access",
+    "name": "POST",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-os-exec"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "[\\w$]+.FILES",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-os-exec"
+   },
+   {
+    "kind": "access",
+    "name": "FILES",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-os-exec"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "[\\w$]+.DATA",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-os-exec"
+   },
+   {
+    "kind": "access",
+    "name": "DATA",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-os-exec"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "[\\w$]+.QUERY_PARAMS",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-os-exec"
+   },
+   {
+    "kind": "access",
+    "name": "QUERY_PARAMS",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-os-exec"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "[\\w$]+.data",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-os-exec"
+   },
+   {
+    "kind": "access",
+    "name": "data",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-os-exec"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "[\\w$]+.query_params",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-os-exec"
+   },
+   {
+    "kind": "access",
+    "name": "query_params",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-os-exec"
+   },
+   {
+    "kind": "access",
+    "name": "content_type",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-os-exec"
+   },
+   {
+    "kind": "access",
+    "name": "stream",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-os-exec"
+   },
+   {
+    "kind": "access",
+    "name": "requestline",
+    "ctor": false,
+    "recv": "self",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-os-exec"
+   },
+   {
+    "kind": "access",
+    "name": "path",
+    "ctor": false,
+    "recv": "self",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-os-exec"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": "self",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-os-exec"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "self.headers",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-os-exec"
+   },
+   {
+    "kind": "access",
+    "name": "rfile",
+    "ctor": false,
+    "recv": "self",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-os-exec"
+   },
+   {
+    "kind": "param",
+    "annotations": [
+     "view_config"
+    ],
+    "fw": "lang",
+    "rule": "dangerous-os-exec"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "recv": "request_data",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "request_data.get"
+   },
+   {
+    "kind": "call",
+    "name": "token_validator",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".token_validator"
+   },
+   {
+    "kind": "call",
+    "name": "get_json",
+    "recv": "request",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "request.get_json"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "recv": "headers",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "headers.get"
+   },
+   {
+    "kind": "call",
+    "name": "User",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".User"
+   },
+   {
+    "kind": "call",
+    "name": "get_user",
+    "recv": "User",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "User.get_user"
+   },
+   {
+    "kind": "call",
+    "name": "getenv",
+    "recv": "os",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "os.getenv"
+   }
+  ],
+  "csv-injection": [
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "request.form",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "csv-writer-injection"
+   },
+   {
+    "kind": "access",
+    "name": "form",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "csv-writer-injection"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "request.args",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "csv-writer-injection"
+   },
+   {
+    "kind": "access",
+    "name": "args",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "csv-writer-injection"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "request.values",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "csv-writer-injection"
+   },
+   {
+    "kind": "access",
+    "name": "values",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "csv-writer-injection"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "request.cookies",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "csv-writer-injection"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "csv-writer-injection"
+   },
+   {
+    "kind": "access",
+    "name": "stream",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "csv-writer-injection"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "request.headers",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "csv-writer-injection"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "csv-writer-injection"
+   },
+   {
+    "kind": "access",
+    "name": "data",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "csv-writer-injection"
+   },
+   {
+    "kind": "access",
+    "name": "full_path",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "csv-writer-injection"
+   },
+   {
+    "kind": "access",
+    "name": "url",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "csv-writer-injection"
+   },
+   {
+    "kind": "access",
+    "name": "json",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "csv-writer-injection"
+   },
+   {
+    "kind": "call",
+    "name": "get_json",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "csv-writer-injection"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "request.view_args",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "csv-writer-injection"
+   },
+   {
+    "kind": "access",
+    "name": "view_args",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "csv-writer-injection"
+   },
+   {
+    "kind": "param",
+    "annotations": [
+     "route"
+    ],
+    "fw": "flask",
+    "rule": "csv-writer-injection"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "recv": "request_data",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "request_data.get"
+   },
+   {
+    "kind": "call",
+    "name": "token_validator",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".token_validator"
+   },
+   {
+    "kind": "call",
+    "name": "get_json",
+    "recv": "request",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "request.get_json"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "recv": "headers",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "headers.get"
+   },
+   {
+    "kind": "call",
+    "name": "User",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".User"
+   },
+   {
+    "kind": "call",
+    "name": "get_user",
+    "recv": "User",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "User.get_user"
+   },
+   {
+    "kind": "call",
+    "name": "getenv",
+    "recv": "os",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "os.getenv"
+   }
+  ],
+  "ssrf": [
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "django",
+    "rule": "tainted-url-host"
+   },
+   {
+    "kind": "param",
+    "annotations": [
+     "route"
+    ],
+    "fw": "flask",
+    "rule": "tainted-url-host"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "recv": "request_data",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "request_data.get"
+   },
+   {
+    "kind": "call",
+    "name": "token_validator",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".token_validator"
+   },
+   {
+    "kind": "call",
+    "name": "get_json",
+    "recv": "request",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "request.get_json"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "recv": "headers",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "headers.get"
+   },
+   {
+    "kind": "call",
+    "name": "User",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".User"
+   },
+   {
+    "kind": "call",
+    "name": "get_user",
+    "recv": "User",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "User.get_user"
+   },
+   {
+    "kind": "call",
+    "name": "getenv",
+    "recv": "os",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "os.getenv"
+   }
+  ],
+  "deserialization": [
+   {
+    "kind": "access",
+    "name": "event",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "tainted-pickle-deserialization"
+   },
+   {
+    "kind": "call",
+    "name": ".*",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "django",
+    "rule": "avoid-insecure-deserialization"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "request.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "django",
+    "rule": "avoid-insecure-deserialization"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "django",
+    "rule": "avoid-insecure-deserialization"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "recv": "request_data",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "request_data.get"
+   },
+   {
+    "kind": "call",
+    "name": "token_validator",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".token_validator"
+   },
+   {
+    "kind": "call",
+    "name": "get_json",
+    "recv": "request",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "request.get_json"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "recv": "headers",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "headers.get"
+   },
+   {
+    "kind": "call",
+    "name": "User",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".User"
+   },
+   {
+    "kind": "call",
+    "name": "get_user",
+    "recv": "User",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "User.get_user"
+   },
+   {
+    "kind": "call",
+    "name": "getenv",
+    "recv": "os",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "os.getenv"
+   }
+  ],
+  "sql-injection": [
+   {
+    "kind": "access",
+    "name": "event",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "mysql-sqli"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "django",
+    "rule": "tainted-sql-string"
+   },
+   {
+    "kind": "param",
+    "annotations": [
+     "route"
+    ],
+    "fw": "flask",
+    "rule": "tainted-sql-string"
+   },
+   {
+    "kind": "param",
+    "annotations": [
+     "view_config"
+    ],
+    "fw": "pyramid",
+    "rule": "pyramid-sqlalchemy-sql-injection"
+   },
+   {
+    "kind": "call",
+    "name": "format",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "sqlalchemy",
+    "rule": "avoid-sqlalchemy-text"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "recv": "request_data",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "request_data.get"
+   },
+   {
+    "kind": "call",
+    "name": "token_validator",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".token_validator"
+   },
+   {
+    "kind": "call",
+    "name": "get_json",
+    "recv": "request",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "request.get_json"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "recv": "headers",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "headers.get"
+   },
+   {
+    "kind": "call",
+    "name": "User",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".User"
+   },
+   {
+    "kind": "call",
+    "name": "get_user",
+    "recv": "User",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "User.get_user"
+   },
+   {
+    "kind": "call",
+    "name": "getenv",
+    "recv": "os",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "os.getenv"
+   }
+  ],
+  "xss": [
+   {
+    "kind": "access",
+    "name": "event",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "tainted-html-response"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "django",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "param",
+    "annotations": [
+     "route"
+    ],
+    "fw": "flask",
+    "rule": "directly-returned-format-string"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "request.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "directly-returned-format-string"
+   },
+   {
+    "kind": "call",
+    "name": ".*",
+    "ctor": false,
+    "recv": "request",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "directly-returned-format-string"
+   },
+   {
+    "kind": "param",
+    "annotations": [
+     "view_config"
+    ],
+    "fw": "pyramid",
+    "rule": "pyramid-direct-use-of-response"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "recv": "request_data",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "request_data.get"
+   },
+   {
+    "kind": "call",
+    "name": "token_validator",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".token_validator"
+   },
+   {
+    "kind": "call",
+    "name": "get_json",
+    "recv": "request",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "request.get_json"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "recv": "headers",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "headers.get"
+   },
+   {
+    "kind": "call",
+    "name": "User",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".User"
+   },
+   {
+    "kind": "call",
+    "name": "get_user",
+    "recv": "User",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "User.get_user"
+   },
+   {
+    "kind": "call",
+    "name": "getenv",
+    "recv": "os",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "os.getenv"
+   }
+  ],
+  "xxe": [
+   {
+    "kind": "call",
+    "name": "get",
+    "recv": "request_data",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "request_data.get"
+   },
+   {
+    "kind": "call",
+    "name": "token_validator",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".token_validator"
+   },
+   {
+    "kind": "call",
+    "name": "get_json",
+    "recv": "request",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "request.get_json"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "recv": "headers",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "headers.get"
+   },
+   {
+    "kind": "call",
+    "name": "User",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".User"
+   },
+   {
+    "kind": "call",
+    "name": "get_user",
+    "recv": "User",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "User.get_user"
+   },
+   {
+    "kind": "call",
+    "name": "getenv",
+    "recv": "os",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "os.getenv"
+   }
+  ],
+  "nosql-injection": [
+   {
+    "kind": "access",
+    "name": "event",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "dynamodb-filter-injection"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "recv": "request_data",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "request_data.get"
+   },
+   {
+    "kind": "call",
+    "name": "token_validator",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".token_validator"
+   },
+   {
+    "kind": "call",
+    "name": "get_json",
+    "recv": "request",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "request.get_json"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "recv": "headers",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "headers.get"
+   },
+   {
+    "kind": "call",
+    "name": "User",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".User"
+   },
+   {
+    "kind": "call",
+    "name": "get_user",
+    "recv": "User",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "User.get_user"
+   },
+   {
+    "kind": "call",
+    "name": "getenv",
+    "recv": "os",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "os.getenv"
+   }
+  ],
+  "open-redirect": [
+   {
+    "kind": "call",
+    "name": "get",
+    "recv": "request_data",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "request_data.get"
+   },
+   {
+    "kind": "call",
+    "name": "token_validator",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".token_validator"
+   },
+   {
+    "kind": "call",
+    "name": "get_json",
+    "recv": "request",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "request.get_json"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "recv": "headers",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "headers.get"
+   },
+   {
+    "kind": "call",
+    "name": "User",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".User"
+   },
+   {
+    "kind": "call",
+    "name": "get_user",
+    "recv": "User",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "User.get_user"
+   },
+   {
+    "kind": "call",
+    "name": "getenv",
+    "recv": "os",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "os.getenv"
+   }
+  ],
+  "ssti": [
+   {
+    "kind": "call",
+    "name": "get",
+    "recv": "request_data",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "request_data.get"
+   },
+   {
+    "kind": "call",
+    "name": "token_validator",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".token_validator"
+   },
+   {
+    "kind": "call",
+    "name": "get_json",
+    "recv": "request",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "request.get_json"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "recv": "headers",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "headers.get"
+   },
+   {
+    "kind": "call",
+    "name": "User",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".User"
+   },
+   {
+    "kind": "call",
+    "name": "get_user",
+    "recv": "User",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "User.get_user"
+   },
+   {
+    "kind": "call",
+    "name": "getenv",
+    "recv": "os",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "os.getenv"
+   }
+  ]
+ },
+ "sinks": {
+  "other": [
+   {
+    "kind": "call",
+    "name": "float",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "django",
+    "rule": "nan-injection"
+   },
+   {
+    "kind": "call",
+    "name": "bool",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "django",
+    "rule": "nan-injection"
+   },
+   {
+    "kind": "call",
+    "name": "complex",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "django",
+    "rule": "nan-injection"
+   },
+   {
+    "kind": "call",
+    "name": "request",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "request-session-http-in-with-context"
+   },
+   {
+    "kind": "call",
+    "name": "Session",
+    "ctor": false,
+    "recv": "requests",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "request-session-with-http"
+   },
+   {
+    "kind": "call",
+    "name": ".*",
+    "ctor": false,
+    "recv": "requests",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "request-with-http"
+   },
+   {
+    "kind": "call",
+    "name": "request",
+    "ctor": false,
+    "recv": "requests",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "request-with-http"
+   },
+   {
+    "kind": "call",
+    "name": "Request",
+    "ctor": false,
+    "recv": "requests",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "request-with-http"
+   },
+   {
+    "kind": "call",
+    "name": "create",
+    "ctor": false,
+    "recv": "[\\w$]+.calls",
+    "type": null,
+    "arg": null,
+    "fw": "twilio",
+    "rule": "twiml-injection"
+   }
+  ],
+  "code-injection": [
+   {
+    "kind": "call",
+    "name": "eval",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "tainted-code-exec"
+   },
+   {
+    "kind": "call",
+    "name": "exec",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "tainted-code-exec"
+   },
+   {
+    "kind": "call",
+    "name": "push",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "call",
+    "name": "runsource",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "call",
+    "name": "runcode",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-interactive-code-run"
+   },
+   {
+    "kind": "call",
+    "name": "run_string",
+    "ctor": false,
+    "recv": "_xxsubinterpreters",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-subinterpreters-run-string"
+   },
+   {
+    "kind": "call",
+    "name": "run_in_subinterp",
+    "ctor": false,
+    "recv": "_testcapi",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-testcapi-run-in-subinterp"
+   },
+   {
+    "kind": "call",
+    "name": "run_in_subinterp",
+    "ctor": false,
+    "recv": "test.support",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-testcapi-run-in-subinterp"
+   },
+   {
+    "kind": "call",
+    "name": "decode",
+    "recv": "jwt",
+    "type": null,
+    "ctor": false,
+    "arg": 1,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "jwt.decode"
+   }
+  ],
+  "xpath-injection": [],
+  "ldap-injection": [],
+  "path-traversal": [],
+  "command-injection": [
+   {
+    "kind": "call",
+    "name": "create_subprocess_exec",
+    "ctor": false,
+    "recv": "asyncio",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "dangerous-asyncio-create-exec"
+   },
+   {
+    "kind": "call",
+    "name": "create_subprocess_exec",
+    "ctor": false,
+    "recv": "asyncio.subprocess",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "dangerous-asyncio-create-exec"
+   },
+   {
+    "kind": "call",
+    "name": "subprocess_exec",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "dangerous-asyncio-exec"
+   },
+   {
+    "kind": "call",
+    "name": "subprocess_shell",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "dangerous-asyncio-shell"
+   },
+   {
+    "kind": "call",
+    "name": "create_subprocess_shell",
+    "ctor": false,
+    "recv": "asyncio.subprocess",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "dangerous-asyncio-shell"
+   },
+   {
+    "kind": "call",
+    "name": "create_subprocess_shell",
+    "ctor": false,
+    "recv": "asyncio",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "dangerous-asyncio-shell"
+   },
+   {
+    "kind": "call",
+    "name": ".*",
+    "ctor": false,
+    "recv": "os",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "dangerous-spawn-process"
+   },
+   {
+    "kind": "call",
+    "name": ".*",
+    "ctor": false,
+    "recv": "subprocess",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "dangerous-subprocess-use"
+   },
+   {
+    "kind": "call",
+    "name": "system",
+    "ctor": false,
+    "recv": "os",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "dangerous-system-call"
+   },
+   {
+    "kind": "call",
+    "name": "popen",
+    "ctor": false,
+    "recv": "os",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "dangerous-system-call"
+   },
+   {
+    "kind": "call",
+    "name": "popen2",
+    "ctor": false,
+    "recv": "os",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "dangerous-system-call"
+   },
+   {
+    "kind": "call",
+    "name": "popen3",
+    "ctor": false,
+    "recv": "os",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "dangerous-system-call"
+   },
+   {
+    "kind": "call",
+    "name": "popen4",
+    "ctor": false,
+    "recv": "os",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "dangerous-system-call"
+   },
+   {
+    "kind": "call",
+    "name": "run",
+    "ctor": false,
+    "recv": "subprocess",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "subprocess-list-passed-as-string"
+   },
+   {
+    "kind": "call",
+    "name": "Popen",
+    "ctor": false,
+    "recv": "subprocess",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "subprocess-list-passed-as-string"
+   },
+   {
+    "kind": "call",
+    "name": "call",
+    "ctor": false,
+    "recv": "subprocess",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "subprocess-list-passed-as-string"
+   },
+   {
+    "kind": "call",
+    "name": "check_call",
+    "ctor": false,
+    "recv": "subprocess",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "subprocess-list-passed-as-string"
+   },
+   {
+    "kind": "call",
+    "name": "check_output",
+    "ctor": false,
+    "recv": "subprocess",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "subprocess-list-passed-as-string"
+   },
+   {
+    "kind": "call",
+    "name": "getattr",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-system-call"
+   },
+   {
+    "kind": "call",
+    "name": "__import__",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "dangerous-system-call"
+   }
+  ],
+  "csv-injection": [],
+  "ssrf": [
+   {
+    "kind": "call",
+    "name": "format",
+    "ctor": false,
+    "recv": "\"[\\w$]+\"",
+    "type": null,
+    "arg": null,
+    "fw": "django",
+    "rule": "tainted-url-host"
+   }
+  ],
+  "deserialization": [
+   {
+    "kind": "call",
+    "name": "load",
+    "ctor": false,
+    "recv": "pickle",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "tainted-pickle-deserialization"
+   },
+   {
+    "kind": "call",
+    "name": "loads",
+    "ctor": false,
+    "recv": "pickle",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "tainted-pickle-deserialization"
+   },
+   {
+    "kind": "call",
+    "name": "load",
+    "ctor": false,
+    "recv": "_pickle",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "tainted-pickle-deserialization"
+   },
+   {
+    "kind": "call",
+    "name": "loads",
+    "ctor": false,
+    "recv": "_pickle",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "tainted-pickle-deserialization"
+   },
+   {
+    "kind": "call",
+    "name": "load",
+    "ctor": false,
+    "recv": "cPickle",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "tainted-pickle-deserialization"
+   },
+   {
+    "kind": "call",
+    "name": "loads",
+    "ctor": false,
+    "recv": "cPickle",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "tainted-pickle-deserialization"
+   },
+   {
+    "kind": "call",
+    "name": "load",
+    "ctor": false,
+    "recv": "dill",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "tainted-pickle-deserialization"
+   },
+   {
+    "kind": "call",
+    "name": "loads",
+    "ctor": false,
+    "recv": "dill",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "tainted-pickle-deserialization"
+   },
+   {
+    "kind": "call",
+    "name": "open",
+    "ctor": false,
+    "recv": "shelve",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "tainted-pickle-deserialization"
+   },
+   {
+    "kind": "call",
+    "name": ".*",
+    "ctor": false,
+    "recv": "pickle",
+    "type": null,
+    "arg": null,
+    "fw": "django",
+    "rule": "avoid-insecure-deserialization"
+   },
+   {
+    "kind": "call",
+    "name": ".*",
+    "ctor": false,
+    "recv": "_pickle",
+    "type": null,
+    "arg": null,
+    "fw": "django",
+    "rule": "avoid-insecure-deserialization"
+   },
+   {
+    "kind": "call",
+    "name": ".*",
+    "ctor": false,
+    "recv": "cPickle",
+    "type": null,
+    "arg": null,
+    "fw": "django",
+    "rule": "avoid-insecure-deserialization"
+   },
+   {
+    "kind": "call",
+    "name": ".*",
+    "ctor": false,
+    "recv": "shelve",
+    "type": null,
+    "arg": null,
+    "fw": "django",
+    "rule": "avoid-insecure-deserialization"
+   },
+   {
+    "kind": "call",
+    "name": ".*",
+    "ctor": false,
+    "recv": "dill",
+    "type": null,
+    "arg": null,
+    "fw": "django",
+    "rule": "avoid-insecure-deserialization"
+   },
+   {
+    "kind": "call",
+    "name": ".*",
+    "ctor": false,
+    "recv": "yaml",
+    "type": null,
+    "arg": null,
+    "fw": "django",
+    "rule": "avoid-insecure-deserialization"
+   }
+  ],
+  "sql-injection": [
+   {
+    "kind": "call",
+    "name": "execute",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "mysql-sqli"
+   },
+   {
+    "kind": "call",
+    "name": "executemany",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "mysql-sqli"
+   },
+   {
+    "kind": "call",
+    "name": "mogrify",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "psycopg-sqli"
+   },
+   {
+    "kind": "call",
+    "name": "format",
+    "ctor": false,
+    "recv": "\"[\\w$]+\"",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "tainted-sql-string"
+   },
+   {
+    "kind": "call",
+    "name": "join",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "pyramid",
+    "rule": "pyramid-sqlalchemy-sql-injection"
+   },
+   {
+    "kind": "call",
+    "name": "text",
+    "ctor": false,
+    "recv": "sqlalchemy",
+    "type": null,
+    "arg": null,
+    "fw": "sqlalchemy",
+    "rule": "avoid-sqlalchemy-text"
+   },
+   {
+    "kind": "call",
+    "name": "dumps",
+    "recv": "json",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "json.dumps"
+   },
+   {
+    "kind": "call",
+    "name": "filter_by",
+    "recv": "query",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "query.filter_by"
+   },
+   {
+    "kind": "call",
+    "name": "validate",
+    "recv": "jsonschema",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "jsonschema.validate"
+   },
+   {
+    "kind": "call",
+    "name": "register_user",
+    "recv": "User",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "User.register_user"
+   },
+   {
+    "kind": "call",
+    "name": "Book",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".Book"
+   },
+   {
+    "kind": "call",
+    "name": "execute",
+    "recv": "session",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "session.execute"
+   }
+  ],
+  "xss": [
+   {
+    "kind": "call",
+    "name": "format",
+    "ctor": false,
+    "recv": "\"[\\w$]+\"",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "tainted-html-string"
+   },
+   {
+    "kind": "call",
+    "name": "format",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "tainted-html-string"
+   },
+   {
+    "kind": "call",
+    "name": "format",
+    "ctor": false,
+    "recv": "\".\"",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "directly-returned-format-string"
+   },
+   {
+    "kind": "call",
+    "name": "text",
+    "ctor": false,
+    "recv": "request.Response",
+    "type": null,
+    "arg": null,
+    "fw": "pyramid",
+    "rule": "pyramid-direct-use-of-response"
+   },
+   {
+    "kind": "call",
+    "name": "Response",
+    "ctor": false,
+    "recv": "pyramid.request",
+    "type": null,
+    "arg": null,
+    "fw": "pyramid",
+    "rule": "pyramid-direct-use-of-response"
+   },
+   {
+    "kind": "call",
+    "name": "search",
+    "recv": "re",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "re.search"
+   },
+   {
+    "kind": "call",
+    "name": "json",
+    "recv": "Book",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "Book.json"
+   },
+   {
+    "kind": "call",
+    "name": "text",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".text"
+   }
+  ],
+  "xxe": [],
+  "nosql-injection": [
+   {
+    "kind": "call",
+    "name": "scan",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "dynamodb-filter-injection"
+   },
+   {
+    "kind": "call",
+    "name": "query",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "dynamodb-filter-injection"
+   }
+  ],
+  "open-redirect": [],
+  "ssti": []
+ },
+ "sanitizers": {
+  "other": [
+   {
+    "kind": "call",
+    "name": "escape",
+    "ctor": false,
+    "recv": "sax.saxutils",
+    "type": null,
+    "arg": null,
+    "fw": "twilio",
+    "rule": "twiml-injection"
+   },
+   {
+    "kind": "call",
+    "name": "escape",
+    "ctor": false,
+    "recv": "html",
+    "type": null,
+    "arg": null,
+    "fw": "twilio",
+    "rule": "twiml-injection"
+   }
+  ],
+  "code-injection": [],
+  "xpath-injection": [],
+  "ldap-injection": [],
+  "path-traversal": [],
+  "command-injection": [
+   {
+    "kind": "call",
+    "name": "split",
+    "ctor": false,
+    "recv": "shlex",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "dangerous-subprocess-use"
+   },
+   {
+    "kind": "call",
+    "name": "quote",
+    "ctor": false,
+    "recv": "pipes",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "dangerous-subprocess-use"
+   },
+   {
+    "kind": "call",
+    "name": "quote",
+    "ctor": false,
+    "recv": "shlex",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "dangerous-subprocess-use"
+   }
+  ],
+  "csv-injection": [],
+  "ssrf": [],
+  "deserialization": [],
+  "sql-injection": [],
+  "xss": [
+   {
+    "kind": "call",
+    "name": "escape",
+    "ctor": false,
+    "recv": "utils.html",
+    "type": null,
+    "arg": null,
+    "fw": "django",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "call",
+    "name": "escape",
+    "ctor": false,
+    "recv": "jinja2",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "call",
+    "name": "escape",
+    "ctor": false,
+    "recv": "flask",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "call",
+    "name": "render_template",
+    "ctor": false,
+    "recv": "flask",
+    "type": null,
+    "arg": null,
+    "fw": "flask",
+    "rule": "raw-html-format"
+   }
+  ],
+  "xxe": [],
+  "nosql-injection": [],
+  "open-redirect": [],
+  "ssti": []
+ }
+}

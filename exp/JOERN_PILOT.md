@@ -120,3 +120,57 @@ methods, Spring response bodies, UnboundID LDAP), written back into the same dat
 - The scorer attributes a flow to the request-handler method that holds the source; VulnerableApp results use that rule.
 - Semgrep Rules License v1.0 applies to the mined data; check before shipping `knowledge/*.json`.
 - "Fixed" is 0: no patching was run.
+
+---
+
+# Part 3: hybrid = mined data + LLM-proposed gap specs (2026-10-06)
+
+Model: `nvidia.nemotron-nano-3-30b` through the OpenAI-compatible endpoint the user supplied (key passed via environment only;
+not written to any file; `grep` of exp/ and the memory folder finds none). 49 calls, 55k tokens in, 30k out, 204 s, 0 errors.
+
+## Method (IRIS-style spec inference)
+1. `scripts/joern_candidates.sc`: list the distinct library/external API calls each app uses (calls into the app's own types are
+   dropped deterministically, so the model never sees app-internal code paths). 64 / 104 / 290 distinct APIs for VAmPI / NodeGoat / VulnerableApp.
+2. `scripts/llm_spec_infer.py`: the model sees only the API name plus one short usage line and must return strict JSON
+   (role source|sink|sanitizer|none, class, argument index). Unknown ids, roles, classes or arguments are discarded (0 malformed, 7 invalid in a first, unfiltered run).
+   Accepted specs are tagged `classified_by: llm` and anchored to the exact resolved API name. Every call is logged to `results/llm_trace.jsonl`.
+3. `scripts/merge_knowledge.py`: mined file + LLM specs = hybrid file (`knowledge/hybrid_*.json`); `--pool` shares request-input sources
+   (annotated parameters, typed request objects, request property access) across classes (`knowledge/hybridpool_*.json`).
+4. Same Joern script and same scorer as before. Accepted LLM specs: VAmPI 17, NodeGoat 19, VulnerableApp 47.
+
+## Results on the same three targets
+
+| Target | Kavach pattern scan | Joern + hand-written tables | Joern + mined | **Hybrid** (mined + LLM) | **Hybrid, request sources pooled** |
+|---|---|---|---|---|---|
+| NodeGoat taint bugs found (of 5) | **5** | 3 | 3 | 3 | 3 |
+| VAmPI SQLi found | 0 | 1 (wide) | 0 / 1 (wide) | 0 / 1 (wide) | 0 / 1 (wide) |
+| VulnerableApp vulnerable levels found (of 52) | 10 (19%) | **46 (88.5%)** | 10 (19%) | 17 (33%) | 24 (46%) |
+| VulnerableApp safe levels flagged (of 32) | 6 (19%) | 19 (59%) | **2 (6%)** | 4 (12.5%) | 7 (22%) |
+| VulnerableApp TPR - FPR | 0.005 | 0.291 | 0.130 | 0.202 | **0.243** |
+| Flows not matching a labelled bug (NodeGoat / VAmPI) | 6 / 1 | 6 / 1 | 26 / 4 | 29 / 19 | 35 / 22 |
+
+VulnerableApp by class, hybrid pooled (tp / fn on vulnerable; fp / tn on secure): sql 8/1, 2/10; command 5/0, 1/0; ssrf 4/0, 1/0;
+ldap 4/0, 2/0; deserialization 2/0, 1/0; code 1/0; xxe 0/3, 0/4; xss 0/24, 0/11.
+
+## What it shows
+- **The LLM filled real gaps.** SQL went from 1 to 8 found once it proposed `JdbcTemplate.query/execute` and `EntityManager.createQuery`
+  as sinks; LDAP from 0 to 4 once request inputs were pooled (it proposed `LDAPConnection.search`, which the community rule omitted).
+  Servlet `getParameter/getCookies/getHeader` and Spring `RestTemplate.getForObject`, `ObjectMapper.readValue` were also correct.
+- **It also adds noise.** Examples of wrong proposals: `Cipher.doFinal` and `BCryptPasswordEncoder.encode` as code-injection sinks,
+  `Filter.encodeValue` (a sanitizer) as an LDAP sink, `SAXParserFactory.setFeature` (XXE hardening) as an XXE *sanitizer* of the right kind but off the data path,
+  `ResultSet.getInt` as an SQL sink, getters as sources. In the JS and Python apps most flows are unmatched (NodeGoat 35, VAmPI 22),
+  mainly app-internal DAO/model calls the model cannot tell apart from library calls (no package name to filter on).
+- **Trade-off, now measured:** mined only = best precision (FPR 6%), hybrid pooled = best balance of the data-file approaches (0.243),
+  hand-written tables = best recall (88.5%) with the worst precision (FPR 59%). No variant reaches the 5 of 5 that Kavach's own
+  NodeGoat-built JS engine gets on NodeGoat.
+- **Still missing for every data-file variant:** XSS (0 of 24: Spring `ResponseEntity<String>` bodies are not modelled as sinks by the
+  community rules, and the model labelled `BodyBuilder.body` as an SQL sink), XXE (community rules are hardening checks, not taint rules),
+  and NodeGoat NoSQL (the DAO call is not resolved by the JS front end).
+- Pooling request sources was a design change I made after seeing the LDAP result; the numbers for that column are therefore not a
+  clean pre-registered test.
+
+## Caveats
+- VulnerableApp is not held out: the miner, the sink tables and now the pooling were all adjusted after looking at it. BenchmarkJava (or another unseen
+  Java app) is the clean test, and the LLM specs should be generated there from scratch.
+- One LLM, one run, temperature 0; not repeated, so run-to-run variation is unmeasured.
+- Joern gets the LLM's verdict only through the data file; the LLM never decides whether a flow is a bug, and nothing here was exploit-confirmed. "Fixed" is 0.

@@ -20,7 +20,10 @@ import io.shiftleft.codepropertygraph.generated.nodes.*
   def callMatches(c: Call, s: ujson.Value): Boolean = {
     val kind = s("kind").str; val name = s("name").str; val recv = str(s("recv"))
     val ctor = s.obj.get("ctor").exists(_.bool)
-    if (kind == "access") {
+    val mfn = s.obj.get("mfn").flatMap(m => if (m == ujson.Null) None else Some(m.str))
+    if (mfn.isDefined) {
+      c.methodFullName.matches("(?s)" + mfn.get)          // LLM specs are anchored to the exact resolved API
+    } else if (kind == "access") {
       accessOps.contains(c.name) && (recv match {
         case Some(r) => c.code.matches("(?s).*" + r + "\\s*(\\.|\\[)\\s*['\"]?" + name + ".*")
         case None    => name != ".*" && c.code.matches("(?s)(^|.*\\W)" + name + "\\b.*")

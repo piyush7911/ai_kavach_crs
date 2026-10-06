@@ -1,0 +1,827 @@
+get	queryParams	java.util.Map.get:java.lang.Object(java.lang.Object)	queryParams.get(PASSWORD_PARAM)	64
+put	content	java.util.Map.put:java.lang.Object(java.lang.Object,java.lang.Object)	content.put("message", RATE_LIMITED_MESSAGE)	61
+hasNext		java.util.Iterator.hasNext:boolean()	for (CSVRecord row : parser) {     ExpectedIssue issue = parseRow(row);     if (issue != null) {         issue	47
+next		java.util.Iterator.next:java.lang.Object()	for (CSVRecord row : parser) {     ExpectedIssue issue = parseRow(row);     if (issue != null) {         issue	47
+asList	Arrays	java.util.Arrays.asList:java.util.List(java.lang.Object[])	Arrays.asList(response)	35
+body		org.springframework.http.ResponseEntity.BodyBuilder.body:<unresolvedSignature>(1)	body(ErrorBasedSQLInjectionVulnerability.CAR_IS_NOT_PRESENT_RESPONSE)	34
+iterator		java.util.List.iterator:java.util.Iterator()	rawFindings	32
+toString		<unresolvedNamespace>.toString:<unresolvedSignature>(0)	append(request.getScheme()).append("://").append(request.getServerName()).append(FrameworkConstants.COLON).app	32
+getUrl		org.springframework.http.RequestEntity.getUrl:<unresolvedSignature>(0)	getUrl()	29
+toMultiValueMap		org.springframework.util.CollectionUtils.toMultiValueMap:<unresolvedSignature>(1)	toMultiValueMap(headers)	28
+put	headers	java.util.Map.put:java.lang.Object(java.lang.Object,java.lang.Object)	headers.put("Set-Cookie", Arrays.asList(token))	26
+body		<unresolvedNamespace>.body:<unresolvedSignature>(1)	badRequest().body(Map.of("error", "Field 'tool' is required and must be non-empty"))	26
+get	symmetricAlgorithmKey	java.util.Optional.get:java.lang.Object()	symmetricAlgorithmKey.get()	21
+contains		<unresolvedNamespace>.contains:<unresolvedSignature>(1)	getUrl().toString().contains("%26")	20
+append	xmlBuilder	java.lang.StringBuilder.append:java.lang.StringBuilder(java.lang.String)	xmlBuilder.append(FrameworkConstants.SITEMAP_URLSET_TAG_END)	19
+getOriginalFilename		org.springframework.web.multipart.MultipartFile.getOriginalFilename:<unresolvedSignature>(0)	getOriginalFilename()	19
+getString		<unresolvedNamespace>.getString:<unresolvedSignature>(1)	getString("username")	18
+format	String	java.lang.String.format:java.lang.String(java.lang.String,java.lang.Object[])	String.format("CREATE USER application PASSWORD '%s'", appPassword)	17
+ok		org.springframework.http.ResponseEntity.ok:<unresolvedSignature>(1)	ok(result)	17
+status		org.springframework.http.ResponseEntity.status:<unresolvedSignature>(1)	status(HttpStatus.INTERNAL_SERVER_ERROR)	17
+startsWith		<unresolvedNamespace>.startsWith:<unresolvedSignature>(1)	startsWith(FrameworkConstants.HTTP)	17
+ok		org.springframework.http.ResponseEntity.ok:<unresolvedSignature>(0)	ok()	16
+escapeHtml4		org.apache.commons.text.StringEscapeUtils.escapeHtml4:<unresolvedSignature>(1)	escapeHtml4(normalizeBanner(banner))	16
+getLogger		org.apache.logging.log4j.LogManager.getLogger:<unresolvedSignature>(1)	getLogger(BenchmarkController.class)	15
+info	JWTVulnerability.LOGGER	org.apache.logging.log4j.Logger.info:<unresolvedSignature>(1)	JWTVulnerability.LOGGER.info(symmetricAlgorithmKey.isPresent())	14
+compile	Pattern	java.util.regex.Pattern.compile:java.util.regex.Pattern(java.lang.String)	Pattern.compile("(?is)<\\s*script\\b[^>]*>.*?<\\s*/\\s*script\\s*>")	14
+valueOf	Boolean	java.lang.Boolean.valueOf:java.lang.Boolean(java.lang.String)	Boolean.valueOf(queryParams.get("fetch"))	14
+split	token	java.lang.String.split:java.lang.String[](java.lang.String)	token.split(JWTUtils.BASE64_PADDING_CHARACTER_REGEX)	14
+get		<unresolvedNamespace>.get:<unresolvedSignature>(1)	getHeaders().get("cookie")	14
+getHeaders		org.springframework.http.RequestEntity.getHeaders:<unresolvedSignature>(0)	getHeaders()	14
+setFeature	spf	javax.xml.parsers.SAXParserFactory.setFeature:void(java.lang.String,boolean)	spf.setFeature("http://xml.org/sax/features/external-general-entities", false)	14
+build		<unresolvedNamespace>.build:<unresolvedSignature>(0)	setConnectTimeout(Duration.ofMillis(connectMs)).setReadTimeout(Duration.ofMillis(readMs)).build()	13
+put	profile	java.util.Map.put:java.lang.Object(java.lang.Object,java.lang.Object)	profile.put("passwordInDB", result.getUser().getPassword())	13
+addScript		org.springframework.jdbc.datasource.init.ResourceDatabasePopulator.addScript:<unresolvedSignature>(1)	addScript(new ClassPathResource("scripts/SQLInjection/db/schema.sql"))	13
+header		<unresolvedNamespace>.header:<unresolvedSignature>(2)	ok().header(DEPRECATION_HEADER, "@1786896221").header(SUNSET_HEADER, "Thu, 30 Sep 2027 23:59:59 GMT").header(L	13
+equals	cookieKeyValue[0]	java.lang.String.equals:boolean(java.lang.Object)	cookieKeyValue[0].equals(JWT)	13
+isEmpty	password	java.lang.String.isEmpty:boolean()	password.isEmpty()	12
+get	user	java.util.Optional.get:java.lang.Object()	user.get()	11
+isPresent	symmetricAlgorithmKey	java.util.Optional.isPresent:boolean()	symmetricAlgorithmKey.isPresent()	11
+add		org.springframework.http.HttpHeaders.add:<unresolvedSignature>(2)	add(CACHE_STATUS_HEADER, cacheHit ? CACHE_STATUS_HIT : CACHE_STATUS_MISS)	11
+error	ErrorBasedSQLInjectionVulnerability.LOGGER	org.apache.logging.log4j.Logger.error:<unresolvedSignature>(2)	ErrorBasedSQLInjectionVulnerability.LOGGER.error("Following error occurred", ex)	10
+now	LocalDateTime	java.time.LocalDateTime.now:java.time.LocalDateTime()	LocalDateTime.now()	10
+toString	payload	java.lang.StringBuilder.toString:java.lang.String()	payload.toString()	10
+getInt		<unresolvedNamespace>.getInt:<unresolvedSignature>(1)	getInt("id")	10
+next		<unresolvedNamespace>.next:<unresolvedSignature>(0)	next()	9
+defaultIfBlank		org.apache.commons.lang3.StringUtils.defaultIfBlank:<unresolvedSignature>(2)	defaultIfBlank(from, DEFAULT_FROM)	9
+query	this.applicationJdbcTemplate	org.springframework.jdbc.core.JdbcTemplate.query:<unresolvedSignature>(2)	this.applicationJdbcTemplate.query("select * from cars where id=" + id, <lambda>)	9
+getValue	map	java.util.Map$Entry.getValue:java.lang.Object()	map.getValue()	9
+nextInt	UnrestrictedFileUpload.RANDOM	java.util.Random.nextInt:int()	UnrestrictedFileUpload.RANDOM.nextInt()	8
+randomUUID	UUID	java.util.UUID.randomUUID:java.util.UUID()	UUID.randomUUID()	8
+toString		org.springframework.http.ResponseCookie.toString:<unresolvedSignature>(0)	toString()	8
+contains	queryFileName	java.lang.String.contains:boolean(java.lang.CharSequence)	queryFileName.contains(allowedFileName)	7
+headers		<unresolvedNamespace>.headers:<unresolvedSignature>(1)	ok().headers(responseHeaders)	7
+add		java.util.List.add:<unresolvedSignature>(1)	add(hintObj)	7
+getInputStream		javax.servlet.http.HttpServletRequest.getInputStream:<unresolvedSignature>(0)	getInputStream()	7
+get	validator	java.util.function.Supplier.get:java.lang.Object()	validator.get()	7
+isEmpty	user	java.util.Optional.isEmpty:boolean()	user.isEmpty()	7
+currentTimeMillis	System	java.lang.System.currentTimeMillis:long()	System.currentTimeMillis()	6
+of	Map	java.util.Map.of:java.util.Map(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)	Map.of("status", "failed", "error", ex.getMessage())	6
+isNotBlank		org.apache.commons.lang3.StringUtils.isNotBlank:<unresolvedSignature>(1)	isNotBlank(ipAddress)	6
+substring	queryFileName	java.lang.String.substring:java.lang.String(int,int)	queryFileName.substring(0, indexOfNullByte)	6
+indexOf	queryFileName	java.lang.String.indexOf:int(java.lang.String)	queryFileName.indexOf(NULL_BYTE_CHARACTER)	6
+append		<unresolvedNamespace>.append:<unresolvedSignature>(1)	append(request.getScheme()).append("://").append(request.getServerName()).append(FrameworkConstants.COLON).app	6
+isBlank		org.apache.commons.lang3.StringUtils.isBlank:<unresolvedSignature>(1)	isBlank(value)	6
+newInstance	SAXParserFactory	javax.xml.parsers.SAXParserFactory.newInstance:javax.xml.parsers.SAXParserFactory()	SAXParserFactory.newInstance()	6
+toString	this	java.lang.StringBuilder.toString:java.lang.String()	this.getResponseFromPingCommand(ipAddress, validator.get()).toString()	6
+anyMatch	PathTraversalVulnerability.ALLOWED_FILE_NAMES	java.util.stream.Stream.anyMatch:boolean(java.util.function.Predicate)	PathTraversalVulnerability.ALLOWED_FILE_NAMES.stream().anyMatch(<lambda>)	6
+startsWith	alg	java.lang.String.startsWith:boolean(java.lang.String)	alg.startsWith(JWTUtils.JWT_HMAC_ALGORITHM_IDENTIFIER)	6
+get	token	java.util.Optional.get:java.lang.Object()	token.get()	6
+encodeToString	Base64	java.util.Base64$Encoder.encodeToString:java.lang.String(byte[])	Base64.getEncoder().encodeToString(rawText.getBytes())	6
+getAuthority	requestUrl	java.net.URL.getAuthority:java.lang.String()	requestUrl.getAuthority()	6
+put	this.sessions	java.util.Map.put:java.lang.Object(java.lang.Object,java.lang.Object)	this.sessions.put(sessionKey(LevelConstants.LEVEL_1, sessionId), user.get())	6
+append	payload	java.lang.StringBuilder.append:java.lang.StringBuilder(java.lang.String)	payload.append(information)	6
+stream	PathTraversalVulnerability.ALLOWED_FILE_NAMES	java.util.List.stream:java.util.stream.Stream()	PathTraversalVulnerability.ALLOWED_FILE_NAMES.stream()	6
+toString	UUID	java.util.UUID.toString:java.lang.String()	UUID.randomUUID().toString()	6
+getString		org.json.JSONObject.getString:<unresolvedSignature>(1)	getString(JWTUtils.JWT_ALGORITHM_KEY_HEADER)	5
+apply	ErrorBasedSQLInjectionVulnerability.CAR_IS_PRESENT_RESPONSE	java.util.function.Function.apply:<unresolvedSignature>(1)	ErrorBasedSQLInjectionVulnerability.CAR_IS_PRESENT_RESPONSE.apply(JSONSerializationUtils.serialize(carInformat	5
+getUrlDecoder	Base64	java.util.Base64.getUrlDecoder:java.util.Base64$Decoder()	Base64.getUrlDecoder()	5
+getMessage	e	java.lang.Exception.getMessage:java.lang.String()	e.getMessage()	5
+isSecure		javax.servlet.http.HttpServletRequest.isSecure:<unresolvedSignature>(0)	isSecure()	5
+add		<unresolvedNamespace>.add:<unresolvedSignature>(1)	getHints().add(new VulnerabilityLevelHint(facadeLevelVulnerabilityTypes, buildFacadeHintDescription(attackVect	5
+iterator	queryParams	java.util.Set.iterator:java.util.Iterator()	queryParams.entrySet()	5
+has		org.json.JSONObject.has:<unresolvedSignature>(1)	has(JWTUtils.JWT_ALGORITHM_KEY_HEADER)	5
+split	token	java.lang.String.split:java.lang.String[](java.lang.String,int)	token.split(JWTUtils.JWT_TOKEN_PERIOD_CHARACTER_REGEX, -1)	5
+get		org.apache.commons.csv.CSVRecord.get:<unresolvedSignature>(1)	get(COL_CWE)	5
+entrySet	queryParams	java.util.Map.entrySet:java.util.Set()	queryParams.entrySet()	5
+append		java.lang.StringBuilder.append:<unresolvedSignature>(1)	append(request.getScheme())	5
+error	XXEVulnerability.LOGGER	org.apache.logging.log4j.Logger.error:<unresolvedSignature>(1)	XXEVulnerability.LOGGER.error(e)	5
+get	userOpt	java.util.Optional.get:java.lang.Object()	userOpt.get()	5
+setMaxAge		javax.servlet.http.Cookie.setMaxAge:<unresolvedSignature>(1)	setMaxAge(3600)	5
+isEmpty	token	java.util.Optional.isEmpty:boolean()	token.isEmpty()	5
+addCookie		javax.servlet.http.HttpServletResponse.addCookie:<unresolvedSignature>(1)	addCookie(cookie)	5
+setSecure		javax.servlet.http.Cookie.setSecure:<unresolvedSignature>(1)	setSecure(request.isSecure())	5
+format		java.lang.String.format:<unresolvedSignature>(2)	format(vulnerablePayloadWithPlaceHolder, StringEscapeUtils.escapeHtml4(imageLocation))	5
+isEmpty	users	java.util.List.isEmpty:boolean()	users.isEmpty()	5
+setPath		javax.servlet.http.Cookie.setPath:<unresolvedSignature>(1)	setPath("/")	5
+add	keys	java.util.List.add:boolean(java.lang.Object)	keys.add(typeKey(url, method, finding.getType()))	5
+isSet		org.apache.commons.csv.CSVRecord.isSet:<unresolvedSignature>(1)	isSet(COL_CWE)	5
+toUpperCase		<unresolvedNamespace>.toUpperCase:<unresolvedSignature>(0)	getUrl().toString().toUpperCase()	5
+getRequestURI		javax.servlet.http.HttpServletRequest.getRequestURI:<unresolvedSignature>(0)	getRequestURI()	5
+get	Paths	java.nio.file.Paths.get:java.nio.file.Path(java.lang.String,java.lang.String[])	Paths.get(benchmarksDir)	5
+parseInt	Integer	java.lang.Integer.parseInt:int(java.lang.String)	Integer.parseInt(level)	5
+getAnnotationsByType	method	java.lang.reflect.Method.getAnnotationsByType:java.lang.annotation.Annotation[](java.lang.Class)	method.getAnnotationsByType(AttackVector.class)	4
+decode	Base64	java.util.Base64$Decoder.decode:byte[](byte[])	Base64.getUrlDecoder().decode(jwtParts[0].getBytes(StandardCharsets.UTF_8))	4
+badRequest		org.springframework.http.ResponseEntity.badRequest:<unresolvedSignature>(0)	badRequest()	4
+equals	guessHash	java.lang.String.equals:boolean(java.lang.Object)	guessHash.equals(LEVEL_5_HASH)	4
+getBytes	jwtParts[0]	java.lang.String.getBytes:byte[](java.nio.charset.Charset)	jwtParts[0].getBytes(StandardCharsets.UTF_8)	4
+equals	passwordGuess	java.lang.String.equals:boolean(java.lang.Object)	passwordGuess.equals(LEVEL_2_ENCODED)	4
+isPresent	user	java.util.Optional.isPresent:boolean()	user.isPresent()	4
+getValue		javax.xml.bind.JAXBElement.getValue:<unresolvedSignature>(0)	getValue()	4
+from		org.springframework.http.ResponseCookie.from:<unresolvedSignature>(2)	from(LEVEL1_COOKIE, sessionId)	4
+getAttributeValue		<unresolvedNamespace>.getAttributeValue:<unresolvedSignature>(1)	getAttributeValue("uid")	4
+path		<unresolvedNamespace>.path:<unresolvedSignature>(1)	from(LEVEL1_COOKIE, sessionId).path(COOKIE_PATH)	4
+getUrlEncoder	Base64	java.util.Base64.getUrlEncoder:java.util.Base64$Encoder()	Base64.getUrlEncoder()	4
+find	CommandInjection.SEMICOLON_SPACE_LOGICAL_AND_PATTERN	<unresolvedNamespace>.find:<unresolvedSignature>(0)	CommandInjection.SEMICOLON_SPACE_LOGICAL_AND_PATTERN.matcher(requestEntity.getUrl().toString()).find()	4
+apply	QLInjectionVulnerability.GENERIC_EXCEPTION_RESPONSE_FUNCTION	java.util.function.Function.apply:<unresolvedSignature>(1)	ErrorBasedSQLInjectionVulnerability.GENERIC_EXCEPTION_RESPONSE_FUNCTION.apply(e)	4
+get	asymmetricAlgorithmKeyPair	java.util.Optional.get:java.lang.Object()	asymmetricAlgorithmKeyPair.get()	4
+startsWith	algorithm	java.lang.String.startsWith:boolean(java.lang.String)	algorithm.startsWith(JWTUtils.JWT_HMAC_ALGORITHM_IDENTIFIER)	4
+query	this.applicationJdbcTemplate	org.springframework.jdbc.core.JdbcTemplate.query:<unresolvedSignature>(3)	this.applicationJdbcTemplate.query(<lambda>, <lambda>, <lambda>)	4
+toString	builder	java.lang.StringBuilder.toString:java.lang.String()	builder.toString()	4
+matcher	pattern	java.util.regex.Pattern.matcher:java.util.regex.Matcher(java.lang.CharSequence)	pattern.matcher(post.substring(0, post.indexOf(Constants.NULL_BYTE_CHARACTER)))	4
+matcher	CommandInjection.SEMICOLON_SPACE_LOGICAL_AND_PATTERN	java.util.regex.Pattern.matcher:<unresolvedSignature>(1)	CommandInjection.SEMICOLON_SPACE_LOGICAL_AND_PATTERN.matcher(requestEntity.getUrl().toString())	4
+append		java.lang.StringBuilder.append:java.lang.StringBuilder(java.lang.String)	new StringBuilder().append(appUrl).append(allEndPointsResponseBean.getName()).append(FrameworkConstants.SLASH)	4
+apply	QLInjectionVulnerability.GENERIC_EXCEPTION_RESPONSE_FUNCTION	java.util.function.Function.apply:java.lang.Object(java.lang.Object)	ErrorBasedSQLInjectionVulnerability.GENERIC_EXCEPTION_RESPONSE_FUNCTION.apply(ex)	4
+getValue	entry	java.util.Map$Entry.getValue:java.lang.Object()	entry.getValue()	3
+getClassLoader	this	java.lang.Class.getClassLoader:java.lang.ClassLoader()	this.getClass().getClassLoader()	3
+contains	imageLocation	java.lang.String.contains:boolean(java.lang.CharSequence)	imageLocation.contains("(")	3
+arraycopy	System	java.lang.System.arraycopy:void(java.lang.Object,int,java.lang.Object,int,int)	System.arraycopy(passwordBytes, 0, keyBytes, 0, Math.min(passwordBytes.length, 14))	3
+getEncoder	Base64	java.util.Base64.getEncoder:java.util.Base64$Encoder()	Base64.getEncoder()	3
+query	this.jdbcTemplate	org.springframework.jdbc.core.JdbcTemplate.query:<unresolvedSignature>(3)	this.jdbcTemplate.query(SQL_AUTH_BY_USERNAME, new Object[] { username }, <lambda>)	3
+newSAXParser	spf	javax.xml.parsers.SAXParserFactory.newSAXParser:javax.xml.parsers.SAXParser()	spf.newSAXParser()	3
+getSingleResult		javax.persistence.TypedQuery.getSingleResult:<unresolvedSignature>(0)	getSingleResult()	3
+trim		<unresolvedNamespace>.trim:<unresolvedSignature>(0)	defaultIfBlank(banner, DEFAULT_BANNER).trim()	3
+put		org.json.JSONObject.put:<unresolvedSignature>(2)	put(JWTUtils.JWT_ALGORITHM_KEY_HEADER, "RS256")	3
+equals	password	java.lang.String.equals:boolean(java.lang.Object)	password.equals(userOpt.get().getPassword())	3
+prepareStatement		<unresolvedNamespace>.prepareStatement:<unresolvedSignature>(1)	prepareStatement("select * from cars where id=?")	3
+htmlEscapeHex		org.springframework.web.util.HtmlUtils.htmlEscapeHex:<unresolvedSignature>(1)	htmlEscapeHex(post)	3
+get		org.springframework.util.MultiValueMap.get:<unresolvedSignature>(1)	get(LOCATION_HEADER_KEY)	3
+startsWith	url	java.lang.String.startsWith:boolean(java.lang.String)	url.startsWith(FILE_PROTOCOL)	3
+append	builder	java.lang.StringBuilder.append:java.lang.StringBuilder(java.lang.String)	builder.append(String.format("%02x", value))	3
+getKey	entry	java.util.Map$Entry.getKey:java.lang.Object()	entry.getKey()	3
+contains	this.allowedValues	java.util.Set.contains:boolean(java.lang.Object)	this.allowedValues.contains(validatedFileName)	3
+getXMLReader	spf	javax.xml.parsers.SAXParser.getXMLReader:org.xml.sax.XMLReader()	spf.newSAXParser().getXMLReader()	3
+startsWith	s	java.lang.String.startsWith:boolean(java.lang.String)	s.startsWith(contextPath + "/")	3
+isEmpty		java.util.List.isEmpty:<unresolvedSignature>(0)	isEmpty()	3
+equalsIgnoreCase	IDORVulnerability.ROLE_ADMIN	java.lang.String.equalsIgnoreCase:boolean(java.lang.String)	IDORVulnerability.ROLE_ADMIN.equalsIgnoreCase(role)	3
+nextInt	random	java.security.SecureRandom.nextInt:int(int)	random.nextInt(1000000)	3
+isEmpty	userOpt	java.util.Optional.isEmpty:boolean()	userOpt.isEmpty()	3
+indexOf	post	java.lang.String.indexOf:int(java.lang.String)	post.indexOf(Constants.NULL_BYTE_CHARACTER)	3
+isBlank	sessionId	java.lang.String.isBlank:boolean()	sessionId.isBlank()	3
+put	jwtAlgoToJavaAlgoMapping	java.util.Map.put:java.lang.Object(java.lang.Object,java.lang.Object)	jwtAlgoToJavaAlgoMapping.put(JWT_HMAC_SHA_256_ALGORITHM, "HmacSHA256")	3
+getInstance	Mac	javax.crypto.Mac.getInstance:javax.crypto.Mac(java.lang.String)	Mac.getInstance(HMAC_ALGORITHM)	3
+substring	s	java.lang.String.substring:java.lang.String(int,int)	s.substring(0, queryIdx)	3
+verify		com.nimbusds.jwt.SignedJWT.verify:<unresolvedSignature>(1)	verify(verifier)	3
+setString		<unresolvedNamespace>.setString:<unresolvedSignature>(2)	setString(1, id)	3
+httpOnly		<unresolvedNamespace>.httpOnly:<unresolvedSignature>(1)	from(cookieName, "").path(COOKIE_PATH).maxAge(0).httpOnly(isHttpOnly)	3
+substring	s	java.lang.String.substring:java.lang.String(int)	s.substring(pathIdx)	3
+put		org.springframework.util.MultiValueMap.put:<unresolvedSignature>(2)	put(LOCATION_HEADER_KEY, new ArrayList<>())	3
+getResourceAsStream	this	java.lang.ClassLoader.getResourceAsStream:java.io.InputStream(java.lang.String)	this.getClass().getClassLoader().getResourceAsStream(JWTUtils.KEYS_LOCATION + "public_crt.pem")	3
+decode	Base64	java.util.Base64$Decoder.decode:byte[](java.lang.String)	Base64.getDecoder().decode(base64Payload)	3
+parse		com.nimbusds.jwt.SignedJWT.parse:<unresolvedSignature>(1)	parse(token)	3
+withoutPadding	Base64	java.util.Base64$Encoder.withoutPadding:java.util.Base64$Encoder()	Base64.getUrlEncoder().withoutPadding()	3
+isPresent	asymmetricAlgorithmKeyPair	java.util.Optional.isPresent:boolean()	asymmetricAlgorithmKeyPair.isPresent()	3
+trim	finding	java.lang.String.trim:java.lang.String()	finding.getMethod().trim()	3
+parseInt		java.lang.Integer.parseInt:<unresolvedSignature>(1)	parseInt(row.get(COL_LINE))	3
+plusMinutes	LocalDateTime	java.time.LocalDateTime.plusMinutes:java.time.LocalDateTime(long)	LocalDateTime.now().plusMinutes(5)	3
+valueOf	Integer	java.lang.Integer.valueOf:java.lang.Integer(java.lang.String)	Integer.valueOf(id)	3
+toLowerCase		<unresolvedNamespace>.toLowerCase:<unresolvedSignature>(0)	getOriginalFilename().toLowerCase()	3
+getName		org.sasanlabs.vulnerableapp.facade.schema.VulnerabilityDefinition.getName:<unresolvedSignature>(0)	getName()	3
+equals	requestUrl	java.lang.String.equals:<unresolvedSignature>(1)	requestUrl.getAuthority().equals(url)	3
+toString	type	java.lang.Integer.toString:java.lang.String()	type.getCweID().toString()	3
+isEmpty	cwe	java.lang.String.isEmpty:boolean()	cwe.isEmpty()	3
+isBefore	LocalDateTime	java.time.LocalDateTime.isBefore:boolean(java.time.chrono.ChronoLocalDateTime)	LocalDateTime.now().isBefore(token.get().getExpiresAt())	3
+equals	token	java.lang.String.equals:boolean(java.lang.Object)	token.get().getOtpHash().equals(otp)	3
+encode	URLEncoder	java.net.URLEncoder.encode:java.lang.String(java.lang.String,java.nio.charset.Charset)	URLEncoder.encode(token, StandardCharsets.UTF_8)	2
+toUnsignedInt	Byte	java.lang.Byte.toUnsignedInt:int(byte)	Byte.toUnsignedInt(digest[0])	2
+exists	this.contentDispositionRoot	java.io.File.exists:boolean()	this.contentDispositionRoot.toFile().exists()	2
+substring	post	java.lang.String.substring:java.lang.String(int,int)	post.substring(0, post.indexOf(Constants.NULL_BYTE_CHARACTER))	2
+contains	post	java.lang.String.contains:boolean(java.lang.CharSequence)	post.contains(Constants.NULL_BYTE_CHARACTER)	2
+length	localPart	java.lang.String.length:int()	localPart.length()	2
+error	ControllerExceptionHandler.LOGGER	org.apache.logging.log4j.Logger.error:<unresolvedSignature>(2)	ControllerExceptionHandler.LOGGER.error("Controller Exception Occurred :-", ex)	2
+get	this.level6FailedAttempts	java.util.Map.get:java.lang.Object(java.lang.Object)	this.level6FailedAttempts.get(username)	2
+query	this.jdbcTemplate	org.springframework.jdbc.core.JdbcTemplate.query:<unresolvedSignature>(2)	this.jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(AuthUser.class))	2
+matcher	PersistentXSSInHTMLTagVulnerability.IMG_INPUT_TAG_PATTERN	java.util.regex.Pattern.matcher:java.util.regex.Matcher(java.lang.CharSequence)	PersistentXSSInHTMLTagVulnerability.IMG_INPUT_TAG_PATTERN.matcher(post)	2
+warn	EmailServiceImpl.LOGGER	org.slf4j.Logger.warn:<unresolvedSignature>(3)	EmailServiceImpl.LOGGER.warn("Mail server unavailable while sending email to {}", to, ex)	2
+name		<unresolvedNamespace>.name:<unresolvedSignature>(0)	getRequestMethod().name()	2
+anyMatch	MetaDataServiceMock.IP_ENVIRONMENT_MAP	java.util.stream.Stream.anyMatch:boolean(java.util.function.Predicate)	MetaDataServiceMock.IP_ENVIRONMENT_MAP.values().stream().anyMatch(<lambda>)	2
+replaceAll	nHTMLTagVulnerability.IMG_INPUT_TAG_CASE_INSENSITIVE_PATTERN	java.util.regex.Matcher.replaceAll:java.lang.String(java.lang.String)	PersistentXSSInHTMLTagVulnerability.IMG_INPUT_TAG_CASE_INSENSITIVE_PATTERN.matcher(post).replaceAll("")	2
+setCacheControl		org.springframework.http.HttpHeaders.setCacheControl:<unresolvedSignature>(1)	setCacheControl(cacheControl)	2
+getJSONObject		org.json.JSONObject.getJSONObject:<unresolvedSignature>(1)	getJSONObject(JWTUtils.JSON_WEB_KEY_HEADER)	2
+remove	this.level6FailedAttempts	java.util.Map.remove:java.lang.Object(java.lang.Object)	this.level6FailedAttempts.remove(username)	2
+setProperty	reader	org.xml.sax.XMLReader.setProperty:void(java.lang.String,java.lang.Object)	reader.setProperty("http://www.oracle.com/xml/jaxp/properties/entityExpansionLimit", limit)	2
+equalsIgnoreCase	InsecureDeserializationVulnerability.THEME_DARK	java.lang.String.equalsIgnoreCase:boolean(java.lang.String)	InsecureDeserializationVulnerability.THEME_DARK.equalsIgnoreCase(theme)	2
+valueOf	String	java.lang.String.valueOf:java.lang.String(int)	String.valueOf(userId)	2
+getHost	url	java.net.URL.getHost:java.lang.String()	url.getHost()	2
+matches		org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder.matches:<unresolvedSignature>(2)	matches(rawPassword, bcryptHash)	2
+valueOf	String	java.lang.String.valueOf:java.lang.String(char)	String.valueOf((char) 0)	2
+getResourceAsStream	this	java.lang.Class.getResourceAsStream:java.io.InputStream(java.lang.String)	this.getClass().getResourceAsStream(SYMMETRIC_KEYS_FILE)	2
+getAnnotation	clazz	java.lang.Class.getAnnotation:java.lang.annotation.Annotation(java.lang.Class)	clazz.getAnnotation(VulnerableAppRestController.class)	2
+add	this.allowedValues	java.util.Set.add:boolean(java.lang.Object)	this.allowedValues.add(OWASP_IMAGE)	2
+indexOf	level	java.lang.String.indexOf:int(java.lang.String)	level.indexOf("_")	2
+maxAge		<unresolvedNamespace>.maxAge:<unresolvedSignature>(1)	from(cookieName, "").path(COOKIE_PATH).maxAge(0)	2
+setParameter	this.entityManager	<unresolvedNamespace>.setParameter:<unresolvedSignature>(2)	this.entityManager.createQuery(jql, CarInformation.class).setParameter("id", Integer.valueOf(id))	2
+toString		org.apache.commons.io.IOUtils.toString:<unresolvedSignature>(2)	toString(pemFile, StandardCharsets.US_ASCII)	2
+type		<unresolvedNamespace>.type:<unresolvedSignature>(1)	initializeDataSourceBuilder().type(HikariDataSource.class)	2
+close		com.unboundid.ldap.sdk.LDAPConnection.close:<unresolvedSignature>(0)	close()	2
+toFile	this.root	java.nio.file.Path.toFile:java.io.File()	this.root.toFile()	2
+trim	cwe	java.lang.String.trim:java.lang.String()	cwe.trim()	2
+matches	UnrestrictedFileUpload.ENDS_WITH_HTML_OR_HTM_PATTERN	<unresolvedNamespace>.matches:<unresolvedSignature>(0)	UnrestrictedFileUpload.ENDS_WITH_HTML_OR_HTM_PATTERN.matcher(file.getOriginalFilename()).matches()	2
+encodeValue		com.unboundid.ldap.sdk.Filter.encodeValue:<unresolvedSignature>(1)	encodeValue(username)	2
+getForObject		org.springframework.web.client.RestTemplate.getForObject:<unresolvedSignature>(2)	getForObject(url.toURI(), String.class)	2
+find	pattern	java.util.regex.Matcher.find:boolean()	pattern.matcher(post.substring(0, post.indexOf(Constants.NULL_BYTE_CHARACTER))).find()	2
+add	unmatchedItems	java.util.List.add:boolean(java.lang.Object)	unmatchedItems.add(new Finding(url, finding.getType(), null, null, finding.getCwe(), finding.getWascId(), find	2
+toFile	this.contentDispositionRoot	java.nio.file.Path.toFile:java.io.File()	this.contentDispositionRoot.toFile()	2
+readValue	JSONSerializationUtils.MAPPER	com.fasterxml.jackson.databind.ObjectMapper.readValue:<unresolvedSignature>(2)	JSONSerializationUtils.MAPPER.readValue(in, typeReference)	2
+getProtocol	requestUrl	java.net.URL.getProtocol:java.lang.String()	requestUrl.getProtocol()	2
+getPublic	asymmetricAlgorithmKeyPair	java.security.KeyPair.getPublic:java.security.PublicKey()	asymmetricAlgorithmKeyPair.get().getPublic()	2
+resolve	root	java.nio.file.Path.resolve:java.nio.file.Path(java.lang.String)	root.resolve(fileName)	2
+initializeDataSourceBuilder		org.springframework.boot.autoconfigure.jdbc.DataSourceProperties.initializeDataSourceBuilder:<unresolvedSignature>(0)	initializeDataSourceBuilder()	2
+getScheme		javax.servlet.http.HttpServletRequest.getScheme:<unresolvedSignature>(0)	getScheme()	2
+find	matcher	java.util.regex.Matcher.find:boolean()	matcher.find()	2
+trim	type	java.lang.String.trim:java.lang.String()	type.trim()	2
+unmarshal		javax.xml.bind.Unmarshaller.unmarshal:<unresolvedSignature>(1)	unmarshal(in)	2
+getConnection		<unresolvedNamespace>.getConnection:<unresolvedSignature>(0)	getDirectoryServer().getConnection()	2
+error	UrlParamBasedRFI.LOGGER	org.apache.logging.log4j.Logger.error:<unresolvedSignature>(2)	UrlParamBasedRFI.LOGGER.error("Following error occurred:", e)	2
+getContextPath		javax.servlet.http.HttpServletRequest.getContextPath:<unresolvedSignature>(0)	getContextPath()	2
+containsBean	this.context	org.springframework.context.ApplicationContext.containsBean:<unresolvedSignature>(1)	this.context.containsBean(name)	2
+add	missedItems	java.util.List.add:boolean(java.lang.Object)	missedItems.add(expectedRows.get(i))	2
+replaceAll	queryParams	java.lang.String.replaceAll:java.lang.String(java.lang.String,java.lang.String)	queryParams.get(Constants.ID).replaceAll("'", "")	2
+redirectErrorStream		java.lang.ProcessBuilder.redirectErrorStream:java.lang.ProcessBuilder(boolean)	new ProcessBuilder(new String[] { "sh", "-c", "ping -c 2 " + ipAddress }).redirectErrorStream(true)	2
+setHttpOnly		javax.servlet.http.Cookie.setHttpOnly:<unresolvedSignature>(1)	setHttpOnly(true)	2
+move	Files	java.nio.file.Files.move:java.nio.file.Path(java.nio.file.Path,java.nio.file.Path,java.nio.file.CopyOption[])	Files.move(source, target, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING)	2
+getDeclaredMethods	clazz	java.lang.Class.getDeclaredMethods:java.lang.reflect.Method[]()	clazz.getDeclaredMethods()	2
+error	XXEVulnerability.LOGGER	org.apache.logging.log4j.Logger.error:<unresolvedSignature>(2)	XXEVulnerability.LOGGER.error("Error occurred in LEVEL_6 of XXE vulnerability", e)	2
+contains	comment	java.lang.String.contains:boolean(java.lang.CharSequence)	comment.contains("<")	2
+getInstance	KeyFactory	java.security.KeyFactory.getInstance:java.security.KeyFactory(java.lang.String)	KeyFactory.getInstance("RSA")	2
+iterator		ANY.iterator:java.util.Iterator()	attackVectorsResources	2
+getRecordNumber		org.apache.commons.csv.CSVRecord.getRecordNumber:<unresolvedSignature>(0)	getRecordNumber()	2
+isEmpty	sessionCookie	java.lang.String.isEmpty:boolean()	sessionCookie.isEmpty()	2
+getSearchEntries		com.unboundid.ldap.sdk.SearchResult.getSearchEntries:<unresolvedSignature>(0)	getSearchEntries()	2
+isEmpty	wasc	java.lang.String.isEmpty:boolean()	wasc.isEmpty()	2
+iterator	nameVsCustomVulnerableEndPoint	java.util.Set.iterator:java.util.Iterator()	nameVsCustomVulnerableEndPoint.entrySet()	2
+iterator	card	<unresolvedNamespace>.iterator:java.util.Iterator()	card.hints()	2
+append	stringBuilder	java.lang.StringBuilder.append:java.lang.StringBuilder(java.lang.String)	stringBuilder.append(val).append("\n")	2
+getServerPort		javax.servlet.http.HttpServletRequest.getServerPort:<unresolvedSignature>(0)	getServerPort()	2
+search		com.unboundid.ldap.sdk.LDAPConnection.search:<unresolvedSignature>(3)	search("dc=sasanlabs,dc=org", SearchScope.SUB, filter)	2
+getServerName		javax.servlet.http.HttpServletRequest.getServerName:<unresolvedSignature>(0)	getServerName()	2
+getAnnotation	method	java.lang.reflect.Method.getAnnotation:java.lang.annotation.Annotation(java.lang.Class)	method.getAnnotation(VulnerableAppRequestMapping.class)	2
+size	missedItems	java.util.List.size:int()	missedItems.size()	2
+isEmpty	existingSession	java.lang.String.isEmpty:boolean()	existingSession.isEmpty()	2
+toString		java.lang.StringBuilder.toString:java.lang.String()	new StringBuilder(rawPassword).reverse().toString()	2
+matcher	UnrestrictedFileUpload.ENDS_WITH_HTML_OR_HTM_PATTERN	java.util.regex.Pattern.matcher:<unresolvedSignature>(1)	UnrestrictedFileUpload.ENDS_WITH_HTML_OR_HTM_PATTERN.matcher(file.getOriginalFilename())	2
+contains	map	java.lang.String.contains:boolean(java.lang.CharSequence)	map.getValue().contains("alert")	2
+init	mac	javax.crypto.Mac.init:void(java.security.Key)	mac.init(new SecretKeySpec(SERVER_SECRET, HMAC_ALGORITHM))	2
+getBytes		org.springframework.web.multipart.MultipartFile.getBytes:<unresolvedSignature>(0)	getBytes()	2
+getString	rs	java.sql.ResultSet.getString:java.lang.String(int)	rs.getString(2)	2
+containsKey	queryParams	java.util.Map.containsKey:boolean(java.lang.Object)	queryParams.containsKey(PARAMETER_NAME)	2
+startsWith	result	java.lang.String.startsWith:boolean(java.lang.String)	result.startsWith("http://")	2
+add	levelResponseBean	java.util.List.add:boolean(java.lang.Object)	levelResponseBean.getChallengeCards().add(new ChallengeCardResponseBean(messageBundle.getString(card.challenge	2
+size	expectedRows	java.util.List.size:int()	expectedRows.size()	2
+ofMillis	Duration	java.time.Duration.ofMillis:java.time.Duration(long)	Duration.ofMillis(connectMs)	2
+readLine	reader	java.io.BufferedReader.readLine:java.lang.String()	reader.readLine()	2
+isEmpty	finding	java.lang.String.isEmpty:boolean()	finding.getMethod().trim().isEmpty()	2
+indexOf	contents	java.lang.String.indexOf:int(java.lang.String)	contents.indexOf(beginToken)	2
+getInstance	MessageDigest	java.security.MessageDigest.getInstance:java.security.MessageDigest(java.lang.String)	MessageDigest.getInstance(algorithm)	2
+append	builder	java.lang.StringBuilder.append:java.lang.StringBuilder(char)	builder.append((char) ((ch - base + shift) % 26 + base))	2
+isEmpty	keys	java.util.List.isEmpty:boolean()	keys.isEmpty()	2
+get	users	java.util.List.get:java.lang.Object(int)	users.get(0)	2
+valueOf	String	java.lang.String.valueOf:java.lang.String(java.lang.Object)	String.valueOf(vulnerabilityType.getCweID())	2
+parse	CsvExpectedIssuesProvider.FORMAT	org.apache.commons.csv.CSVFormat.parse:<unresolvedSignature>(1)	CsvExpectedIssuesProvider.FORMAT.parse(reader)	2
+now	Instant	java.time.Instant.now:java.time.Instant()	Instant.now()	2
+put		java.util.Map.put:<unresolvedSignature>(2)	put(HttpHeaders.AUTHORIZATION, Arrays.asList(token))	2
+start		java.lang.ProcessBuilder.start:java.lang.Process()	new ProcessBuilder(new String[] { "sh", "-c", "ping -c 2 " + ipAddress }).redirectErrorStream(true).start()	2
+indexOf	s	java.lang.String.indexOf:int(int)	s.indexOf('?')	2
+setXIncludeAware	spf	javax.xml.parsers.SAXParserFactory.setXIncludeAware:void(boolean)	spf.setXIncludeAware(false)	2
+isBlank	incomingSessionId	java.lang.String.isBlank:boolean()	incomingSessionId.isBlank()	2
+description		<unresolvedNamespace>.description:<unresolvedSignature>(0)	payload().description()	2
+normalize	Paths	java.nio.file.Path.normalize:java.nio.file.Path()	Paths.get(BASE_RESOURCE_PATH).normalize()	2
+send	this.javaMailSender	org.springframework.mail.javamail.JavaMailSender.send:<unresolvedSignature>(1)	this.javaMailSender.send(message)	2
+size	unmatchedItems	java.util.List.size:int()	unmatchedItems.size()	2
+replaceAll	PersistentXSSInHTMLTagVulnerability.IMG_INPUT_TAG_PATTERN	java.util.regex.Matcher.replaceAll:java.lang.String(java.lang.String)	PersistentXSSInHTMLTagVulnerability.IMG_INPUT_TAG_PATTERN.matcher(post).replaceAll("")	2
+toCharArray	JWTAlgorithmKMS.KEY_STORE_PASSWORD	java.lang.String.toCharArray:char[]()	JWTAlgorithmKMS.KEY_STORE_PASSWORD.toCharArray()	2
+isAnnotationPresent	clazz	java.lang.Class.isAnnotationPresent:boolean(java.lang.Class)	clazz.isAnnotationPresent(VulnerableAppRestController.class)	2
+length	s	java.lang.String.length:int()	s.length()	2
+getPrivate	asymmetricAlgorithmKeyPair	java.security.KeyPair.getPrivate:java.security.PrivateKey()	asymmetricAlgorithmKeyPair.get().getPrivate()	2
+doFinal	mac	javax.crypto.Mac.doFinal:byte[](byte[])	mac.doFinal(data)	2
+of	Map	java.util.Map.of:java.util.Map(java.lang.Object,java.lang.Object)	Map.of("error", "Field 'tool' is required and must be non-empty")	2
+getTime		java.util.Date.getTime:long()	new Date().getTime()	2
+value		<unresolvedNamespace>.value:<unresolvedSignature>(0)	payload().value()	2
+readValue	DeserializationUtils.TYPED_MAPPER	com.fasterxml.jackson.databind.ObjectMapper.readValue:<unresolvedSignature>(2)	DeserializationUtils.TYPED_MAPPER.readValue(decode(base64Payload), type)	2
+setNamespaceAware	spf	javax.xml.parsers.SAXParserFactory.setNamespaceAware:void(boolean)	spf.setNamespaceAware(true)	2
+remove	this.sessions	java.util.Map.remove:java.lang.Object(java.lang.Object)	this.sessions.remove(sessionKey(LevelConstants.LEVEL_6, incomingSessionId))	2
+exists	this.root	java.io.File.exists:boolean()	this.root.toFile().exists()	2
+append	redirectUrl	java.lang.StringBuilder.append:java.lang.StringBuilder(java.lang.String)	redirectUrl.append("&token=").append(token)	2
+getClass	entry	java.lang.Object.getClass:java.lang.Class()	entry.getValue().getClass()	2
+createUnmarshaller		javax.xml.bind.JAXBContext.createUnmarshaller:<unresolvedSignature>(0)	createUnmarshaller()	2
+toURI	url	java.net.URL.toURI:java.net.URI()	url.toURI()	2
+matcher	nHTMLTagVulnerability.IMG_INPUT_TAG_CASE_INSENSITIVE_PATTERN	java.util.regex.Pattern.matcher:java.util.regex.Matcher(java.lang.CharSequence)	PersistentXSSInHTMLTagVulnerability.IMG_INPUT_TAG_CASE_INSENSITIVE_PATTERN.matcher(post)	2
+createTempDirectory	Files	java.nio.file.Files.createTempDirectory:java.nio.file.Path(java.lang.String,java.nio.file.attribute.FileAttribute[])	Files.createTempDirectory(null)	2
+createDirectory	Files	java.nio.file.Files.createDirectory:java.nio.file.Path(java.nio.file.Path,java.nio.file.attribute.FileAttribute[])	Files.createDirectory(root)	2
+entrySet	nameVsCustomVulnerableEndPoint	java.util.Map.entrySet:java.util.Set()	nameVsCustomVulnerableEndPoint.entrySet()	2
+usingRandom		<unresolvedNamespace>.usingRandom:<unresolvedSignature>(1)	usingRandom(secureRandom::nextInt)	2
+newInstance		javax.xml.bind.JAXBContext.newInstance:<unresolvedSignature>(1)	newInstance(ObjectFactory.class)	2
+equalsIgnoreCase	InsecureDeserializationVulnerability.THEME_LIGHT	java.lang.String.equalsIgnoreCase:boolean(java.lang.String)	InsecureDeserializationVulnerability.THEME_LIGHT.equalsIgnoreCase(theme)	2
+getProtocol	url	java.net.URL.getProtocol:java.lang.String()	url.getProtocol()	1
+isBlank	username	java.lang.String.isBlank:boolean()	username.isBlank()	1
+substring	this.csvPath	java.lang.String.substring:java.lang.String(int)	this.csvPath.substring(CLASSPATH_PREFIX.length())	1
+sign		com.nimbusds.jwt.SignedJWT.sign:<unresolvedSignature>(1)	sign(signer)	1
+setText		org.springframework.mail.javamail.MimeMessageHelper.setText:<unresolvedSignature>(2)	setText(htmlBody, true)	1
+substring	signedPayload	java.lang.String.substring:java.lang.String(int)	signedPayload.substring(separator + 1)	1
+equals		java.lang.String.equals:boolean(java.lang.Object)	new URL(url).getHost().equals("169.254.169.254")	1
+substring	email	java.lang.String.substring:java.lang.String(int,int)	email.substring(0, atIndex)	1
+matches	this.passwordEncoder	org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder.matches:<unresolvedSignature>(2)	this.passwordEncoder.matches(password, user.getPassword())	1
+toRSAPublicKey		com.nimbusds.jose.jwk.RSAKey.toRSAPublicKey:<unresolvedSignature>(0)	toRSAPublicKey()	1
+removeIf	CachePoisoningVulnerability.cache	java.util.concurrent.ConcurrentHashMap$KeySetView.removeIf:boolean(java.util.function.Predicate)	CachePoisoningVulnerability.cache.keySet().removeIf(<lambda>)	1
+replaceAll	raw	java.lang.String.replaceAll:java.lang.String(java.lang.String,java.lang.String)	raw.replaceAll("\\D", "")	1
+digest	digest	java.security.MessageDigest.digest:byte[](byte[])	digest.digest(input.getBytes(StandardCharsets.UTF_8))	1
+of		java.util.Map.of:<unresolvedSignature>(4)	of("filter", ldapQuery, "users", List.of(validUser.getAttributeValue("uid")))	1
+ofNullable	Optional	java.util.Optional.ofNullable:java.util.Optional(java.lang.Object)	Optional.ofNullable(asymmetricAlgorithmKeyMap.get(algorithm))	1
+shutdownNow	this.timeoutScheduler	java.util.concurrent.ScheduledThreadPoolExecutor.shutdownNow:java.util.List()	this.timeoutScheduler.shutdownNow()	1
+getPath	url	java.net.URL.getPath:java.lang.String()	url.getPath()	1
+contentEquals	JWTUtils.NONE_ALGORITHM	java.lang.String.contentEquals:boolean(java.lang.CharSequence)	JWTUtils.NONE_ALGORITHM.contentEquals(alg.toLowerCase())	1
+toByteArray		org.apache.commons.io.IOUtils.toByteArray:<unresolvedSignature>(1)	toByteArray(inputStream)	1
+toUpperCase	typeName	java.lang.String.toUpperCase:java.lang.String(java.util.Locale)	typeName.trim().toUpperCase(Locale.ROOT)	1
+containsKey	Http3xxStatusCodeBasedInjection.REDIRECT_DESTINATIONS	java.util.Map.containsKey:boolean(java.lang.Object)	Http3xxStatusCodeBasedInjection.REDIRECT_DESTINATIONS.containsKey(destinationKey)	1
+error	UnrestrictedFileUpload.LOGGER	org.apache.logging.log4j.Logger.error:<unresolvedSignature>(2)	UnrestrictedFileUpload.LOGGER.error("If you are running vulnerableApp as a Jar then UnrestrictedFileUpload wil	1
+equals	newTokenSigned	java.lang.String.equals:boolean(java.lang.Object)	newTokenSigned.equals(token)	1
+nextBytes		java.security.SecureRandom.nextBytes:void(byte[])	new SecureRandom().nextBytes(sharedSecret)	1
+release	this.billionLaughsSemaphore	java.util.concurrent.Semaphore.release:void()	this.billionLaughsSemaphore.release()	1
+getMessage	ex	java.lang.IllegalArgumentException.getMessage:java.lang.String()	ex.getMessage()	1
+startsWith	normalizedTarget	java.nio.file.Path.startsWith:boolean(java.nio.file.Path)	normalizedTarget.startsWith(normalizedBase)	1
+replaceAll	JWTUtils	java.lang.String.replaceAll:java.lang.String(java.lang.String,java.lang.String)	JWTUtils.getString(Base64.getUrlEncoder().encode(token)).replaceAll(BASE64_PADDING_CHARACTER_REGEX, "")	1
+containsKey	foundByKey	java.util.Map.containsKey:boolean(java.lang.Object)	foundByKey.containsKey(key)	1
+matches	id	java.lang.String.matches:boolean(java.lang.String)	id.matches("\\d+")	1
+max	Math	java.lang.Math.max:int(int,int)	Math.max(1, localPart.length() - 2)	1
+putIfAbsent	foundByKey	java.util.Map.putIfAbsent:java.lang.Object(java.lang.Object,java.lang.Object)	foundByKey.putIfAbsent(key, f)	1
+startsWith	imageLocation	java.lang.String.startsWith:boolean(java.lang.String)	imageLocation.startsWith(IMAGE_RESOURCE_PATH)	1
+endsWith	s	java.lang.String.endsWith:boolean(java.lang.String)	s.endsWith("/")	1
+setLevel		org.sasanlabs.vulnerableapp.facade.schema.VulnerabilityLevelDefinition.setLevel:<unresolvedSignature>(1)	setLevel(vulnLevel.value())	1
+init	hmacSHA	javax.crypto.Mac.init:void(java.security.Key)	hmacSHA.init(hmacSecretKey)	1
+info	DatabaseSeeder.LOGGER	org.apache.logging.log4j.Logger.info:<unresolvedSignature>(4)	DatabaseSeeder.LOGGER.info("{} seeded module: {} (Table: {})", seeder.toString(), seeder.getModuleName(), seed	1
+endsWith	requestUri	java.lang.String.endsWith:boolean(java.lang.String)	requestUri.endsWith(RESET_PAGE_PATH)	1
+from		com.nimbusds.jose.util.Base64URL.from:<unresolvedSignature>(1)	from(jwtParts[0])	1
+getInstance	KeyStore	java.security.KeyStore.getInstance:java.security.KeyStore(java.lang.String)	KeyStore.getInstance("PKCS12")	1
+warn	CsvExpectedIssuesProvider.LOGGER	org.apache.logging.log4j.Logger.warn:<unresolvedSignature>(4)	CsvExpectedIssuesProvider.LOGGER.warn("Skipping SAST CSV row at line {} of {}: non-integer line or sources col	1
+currentThread	Thread	java.lang.Thread.currentThread:java.lang.Thread()	Thread.currentThread()	1
+getBytes		<unresolvedNamespace>.getBytes:<unresolvedSignature>(1)	writeValueAsString(object).getBytes(StandardCharsets.UTF_8)	1
+length	email	java.lang.String.length:int()	email.length()	1
+isPresent	userOpt	java.util.Optional.isPresent:boolean()	userOpt.isPresent()	1
+forEach	endPoint	java.util.Set.forEach:void(java.util.function.Consumer)	endPoint.getLevelDescriptionSet().forEach(<lambda>)	1
+generatePublic	factory	java.security.KeyFactory.generatePublic:java.security.PublicKey(java.security.spec.KeySpec)	factory.generatePublic(spec)	1
+compute	this.level10ResetRequests	java.util.Map.compute:java.lang.Object(java.lang.Object,java.util.function.BiFunction)	this.level10ResetRequests.compute(email, <lambda>)	1
+setRemoveOnCancelPolicy	executor	java.util.concurrent.ScheduledThreadPoolExecutor.setRemoveOnCancelPolicy:void(boolean)	executor.setRemoveOnCancelPolicy(true)	1
+matches	PathTraversalVulnerability.SAFE_FILE_NAME_PATTERN	java.util.regex.Matcher.matches:boolean()	PathTraversalVulnerability.SAFE_FILE_NAME_PATTERN.matcher(fileName).matches()	1
+add	AuditLogGadget.AUDIT_TRAIL	java.util.List.add:boolean(java.lang.Object)	AuditLogGadget.AUDIT_TRAIL.add(note)	1
+toString	posts	java.lang.StringBuilder.toString:java.lang.String()	posts.toString()	1
+createQuery		javax.persistence.criteria.CriteriaBuilder.createQuery:<unresolvedSignature>(1)	createQuery(CarInformation.class)	1
+add	hintBeans	java.util.List.add:boolean(java.lang.Object)	hintBeans.add(new ChallengeCardResponseBean.HintResponseBean(hint.order(), messageBundle.getString(hint.text()	1
+putIfAbsent	expectedByKey	java.util.Map.putIfAbsent:java.lang.Object(java.lang.Object,java.lang.Object)	expectedByKey.putIfAbsent(key, ei)	1
+setVariant		org.sasanlabs.vulnerableapp.facade.schema.VulnerabilityLevelDefinition.setVariant:<unresolvedSignature>(1)	setVariant(Variant.valueOf(vulnLevel.variant().name()))	1
+length	PasswordResetSeeder.PASSWORD_CHARSET	java.lang.String.length:int()	PasswordResetSeeder.PASSWORD_CHARSET.length()	1
+getParameter		javax.servlet.http.HttpServletRequest.getParameter:<unresolvedSignature>(1)	getParameter("level")	1
+build	CSVFormat.DEFAULT	<unresolvedNamespace>.build:<unresolvedSignature>(0)	CSVFormat.DEFAULT.builder().setHeader().setSkipHeaderRecord(true).setIgnoreEmptyLines(true).setTrim(true).buil	1
+writeValueAsString	JSONSerializationUtils.MAPPER	<unresolvedNamespace>.writeValueAsString:<unresolvedSignature>(1)	JSONSerializationUtils.MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(object)	1
+parse		com.nimbusds.jose.jwk.ECKey.parse:<unresolvedSignature>(1)	parse(header.getJSONObject(JWTUtils.JSON_WEB_KEY_HEADER).toString())	1
+unmodifiableMap	Collections	java.util.Collections.unmodifiableMap:java.util.Map(java.util.Map)	Collections.unmodifiableMap(new HashMap<String, String>() {      {         put("home", "/VulnerableApp/");    	1
+contains	fileName	java.lang.String.contains:boolean(java.lang.CharSequence)	fileName.contains("..")	1
+getEncoded	factory	javax.crypto.SecretKey.getEncoded:byte[]()	factory.generateSecret(spec).getEncoded()	1
+append	password	java.lang.StringBuilder.append:java.lang.StringBuilder(char)	password.append(PASSWORD_CHARSET.charAt(index))	1
+setHtmlResource		org.sasanlabs.vulnerableapp.facade.schema.ResourceInformation.setHtmlResource:<unresolvedSignature>(1)	setHtmlResource(new ResourceURI(false, "/VulnerableApp/templates/" + facadeVulnerabilityDefinition.getName() +	1
+size	rowsOut	java.util.List.size:int()	rowsOut.size()	1
+getInputStream	process	java.lang.Process.getInputStream:java.io.InputStream()	process.getInputStream()	1
+error	BenchmarkController.LOGGER	org.apache.logging.log4j.Logger.error:<unresolvedSignature>(3)	BenchmarkController.LOGGER.error("Failed to persist benchmark result for tool '{}'; returning 500 with result"	1
+startsWith	b	java.lang.String.startsWith:boolean(java.lang.String)	b.startsWith("user")	1
+cancel	this.future	java.util.concurrent.ScheduledFuture.cancel:boolean(boolean)	this.future.cancel(true)	1
+getEncoded	key	java.security.Key.getEncoded:byte[]()	key.getEncoded()	1
+toURI	obj	java.net.URL.toURI:java.net.URI()	obj.toURI()	1
+createQuery	this.entityManager	javax.persistence.EntityManager.createQuery:<unresolvedSignature>(2)	this.entityManager.createQuery(jql, CarInformation.class)	1
+forEach	bufferedReader	java.util.stream.Stream.forEach:void(java.util.function.Consumer)	bufferedReader.lines().forEach(<lambda>)	1
+equals	symmetricAlgorithmKey	java.lang.String.equals:boolean(java.lang.Object)	symmetricAlgorithmKey.getAlgorithm().equals(algorithm)	1
+toUpperCase	cwe	java.lang.String.toUpperCase:java.lang.String(java.util.Locale)	cwe.trim().toUpperCase(Locale.ROOT)	1
+join	String	java.lang.String.join:java.lang.String(java.lang.CharSequence,java.lang.Iterable)	String.join("|", keys)	1
+error	SSRFVulnerability.LOGGER	org.apache.logging.log4j.Logger.error:<unresolvedSignature>(3)	SSRFVulnerability.LOGGER.error("Provided URL: {} is not valid and following exception occurred", url, e)	1
+plus	this.createdAt	java.time.Instant.plus:java.time.Instant(java.time.temporal.TemporalAmount)	this.createdAt.plus(ttl)	1
+equalsIgnoreCase	PasswordResetVulnerability.ACTION_REQUEST	java.lang.String.equalsIgnoreCase:boolean(java.lang.String)	PasswordResetVulnerability.ACTION_REQUEST.equalsIgnoreCase(request.getAction())	1
+startsWith	cacheKey	java.lang.String.startsWith:boolean(java.lang.String)	cacheKey.startsWith(levelCacheKeyPrefix)	1
+getInstance	Cipher	javax.crypto.Cipher.getInstance:javax.crypto.Cipher(java.lang.String,java.lang.String)	Cipher.getInstance("DES/ECB/NoPadding", "BC")	1
+isLetter	Character	java.lang.Character.isLetter:boolean(char)	Character.isLetter(ch)	1
+computeIfAbsent	map	java.util.Map.computeIfAbsent:java.lang.Object(java.lang.Object,java.util.function.Function)	map.computeIfAbsent(key, <lambda>)	1
+equal		javax.persistence.criteria.CriteriaBuilder.equal:<unresolvedSignature>(2)	equal(root.get("id"), id)	1
+isEmpty	type	java.lang.String.isEmpty:boolean()	type.trim().isEmpty()	1
+warn	SastBenchmarkStrategy.LOGGER	org.apache.logging.log4j.Logger.warn:<unresolvedSignature>(1)	SastBenchmarkStrategy.LOGGER.warn("SAST ground truth is empty; coverage cannot be computed and will be reporte	1
+orElseThrow	this	java.util.Optional.orElseThrow:java.lang.Object(java.util.function.Supplier)	this.findByLevel(LevelConstants.getOrdinal(levelName)).map(VaultEntity::getPassword).orElseThrow(<lambda>)	1
+get	JWTUtils.JWT_HMAC_ALGO_TO_JAVA_ALGORITHM_MAPPING	java.util.Map.get:java.lang.Object(java.lang.Object)	JWTUtils.JWT_HMAC_ALGO_TO_JAVA_ALGORITHM_MAPPING.get(algorithm)	1
+getMessage	ex	java.lang.Exception.getMessage:java.lang.String()	ex.getMessage()	1
+split	cookieKeyValue[1]	java.lang.String.split:java.lang.String[](java.lang.String)	cookieKeyValue[1].split("\\.")	1
+generate	this.randomAlphaNumGenerator	org.apache.commons.text.RandomStringGenerator.generate:<unresolvedSignature>(1)	this.randomAlphaNumGenerator.generate(length)	1
+contentEquals	ipAddress	java.lang.String.contentEquals:boolean(java.lang.CharSequence)	ipAddress.contentEquals("localhost")	1
+equalsIgnoreCase	this.gistUrl	java.lang.String.equalsIgnoreCase:boolean(java.lang.String)	this.gistUrl.equalsIgnoreCase(url)	1
+unmodifiableList	Collections	java.util.Collections.unmodifiableList:java.util.List(java.util.List)	Collections.unmodifiableList(parse())	1
+matcher	CommandInjection.IP_ADDRESS_PATTERN	java.util.regex.Pattern.matcher:java.util.regex.Matcher(java.lang.CharSequence)	CommandInjection.IP_ADDRESS_PATTERN.matcher(ipAddress)	1
+setConnectTimeout		org.springframework.boot.web.client.RestTemplateBuilder.setConnectTimeout:<unresolvedSignature>(1)	setConnectTimeout(Duration.ofMillis(connectMs))	1
+substring	signedPayload	java.lang.String.substring:java.lang.String(int,int)	signedPayload.substring(0, separator)	1
+equals	providedHash	java.lang.String.equals:boolean(java.lang.Object)	providedHash.equals(otpEntity.getOtpHash())	1
+info	AuthLoginService.LOGGER	org.apache.logging.log4j.Logger.info:<unresolvedSignature>(3)	AuthLoginService.LOGGER.info("Login attempt for user: {} | provided password: {}", username, password)	1
+keySet	CachePoisoningVulnerability.cache	java.util.concurrent.ConcurrentHashMap.keySet:java.util.concurrent.ConcurrentHashMap$KeySetView()	CachePoisoningVulnerability.cache.keySet()	1
+length	signedPayload	java.lang.String.length:int()	signedPayload.length()	1
+getMimeDecoder	Base64	java.util.Base64.getMimeDecoder:java.util.Base64$Decoder()	Base64.getMimeDecoder()	1
+matcher	UnrestrictedFileUpload.ENDS_WITH_HTML_PATTERN	java.util.regex.Pattern.matcher:<unresolvedSignature>(1)	UnrestrictedFileUpload.ENDS_WITH_HTML_PATTERN.matcher(file.getOriginalFilename())	1
+isEmpty	contextPath	java.lang.String.isEmpty:boolean()	contextPath.isEmpty()	1
+toLowerCase	alg	java.lang.String.toLowerCase:java.lang.String()	alg.toLowerCase()	1
+iterator	result	<unresolvedNamespace>.iterator:java.util.Iterator()	result.getSearchEntries()	1
+trim	url	java.lang.String.trim:java.lang.String()	url.trim()	1
+setSubject		org.springframework.mail.SimpleMailMessage.setSubject:<unresolvedSignature>(1)	setSubject(subject)	1
+add	seenFindingSignatures	java.util.Set.add:boolean(java.lang.Object)	seenFindingSignatures.add(signature)	1
+writeValueAsString	JSONSerializationUtils.MAPPER	com.fasterxml.jackson.databind.ObjectMapper.writeValueAsString:<unresolvedSignature>(1)	JSONSerializationUtils.MAPPER.writeValueAsString(object)	1
+getServletPath		javax.servlet.http.HttpServletRequest.getServletPath:<unresolvedSignature>(0)	getServletPath()	1
+indexOf	s	java.lang.String.indexOf:int(java.lang.String)	s.indexOf("://")	1
+warn	CsvExpectedIssuesProvider.LOGGER	org.apache.logging.log4j.Logger.warn:<unresolvedSignature>(3)	CsvExpectedIssuesProvider.LOGGER.warn("Skipping malformed SAST CSV row at line {} of {}: missing required colu	1
+contains	storedPassword	java.lang.String.contains:boolean(java.lang.CharSequence)	storedPassword.contains(":")	1
+info	CsvExpectedIssuesProvider.LOGGER	org.apache.logging.log4j.Logger.info:<unresolvedSignature>(3)	CsvExpectedIssuesProvider.LOGGER.info("Loaded {} expected SAST issues from {}", issues.size(), csvPath)	1
+isBlank	token	java.lang.String.isBlank:boolean()	token.isBlank()	1
+setCacheSeconds		org.springframework.context.support.ReloadableResourceBundleMessageSource.setCacheSeconds:<unresolvedSignature>(1)	setCacheSeconds(100)	1
+name	StandardCharsets.UTF_8	java.nio.charset.Charset.name:java.lang.String()	StandardCharsets.UTF_8.name()	1
+init	cipher	javax.crypto.Cipher.init:void(int,java.security.Key)	cipher.init(Cipher.ENCRYPT_MODE, key)	1
+entrySet	MetaDataServiceMock.IP_ENVIRONMENT_MAP	java.util.Map.entrySet:java.util.Set()	MetaDataServiceMock.IP_ENVIRONMENT_MAP.entrySet()	1
+stream	MetaDataServiceMock.METADATA_ENDPOINT_RESPONSE_BEAN	java.util.List.stream:java.util.stream.Stream()	MetaDataServiceMock.METADATA_ENDPOINT_RESPONSE_BEAN.stream()	1
+length	CsvExpectedIssuesProvider.CLASSPATH_PREFIX	java.lang.String.length:int()	CsvExpectedIssuesProvider.CLASSPATH_PREFIX.length()	1
+getJWTClaimsSet		com.nimbusds.jwt.SignedJWT.getJWTClaimsSet:<unresolvedSignature>(0)	getJWTClaimsSet()	1
+getBytes	rawText	java.lang.String.getBytes:byte[]()	rawText.getBytes()	1
+remove	AuditLogGadget.AUDIT_TRAIL	java.util.List.remove:java.lang.Object(int)	AuditLogGadget.AUDIT_TRAIL.remove(0)	1
+parse		com.nimbusds.jose.jwk.OctetKeyPair.parse:<unresolvedSignature>(1)	parse(header.getString(JWTUtils.JSON_WEB_KEY_HEADER))	1
+matches	CommandInjection.IP_ADDRESS_PATTERN	java.util.regex.Matcher.matches:boolean()	CommandInjection.IP_ADDRESS_PATTERN.matcher(ipAddress).matches()	1
+indexOf	email	java.lang.String.indexOf:int(int)	email.indexOf('@')	1
+readValue	DeserializationUtils.POLYMORPHIC_MAPPER	com.fasterxml.jackson.databind.ObjectMapper.readValue:<unresolvedSignature>(2)	DeserializationUtils.POLYMORPHIC_MAPPER.readValue(decode(base64Payload), Object.class)	1
+indexOf		<unresolvedNamespace>.indexOf:<unresolvedSignature>(1)	getOriginalFilename().indexOf(Constants.NULL_BYTE_CHARACTER)	1
+length	this	java.lang.String.length:int()	this.length()	1
+length		<unresolvedNamespace>.length:<unresolvedSignature>(0)	length()	1
+info	BenchmarkController.LOGGER	org.apache.logging.log4j.Logger.info:<unresolvedSignature>(3)	BenchmarkController.LOGGER.info("Wrote benchmark result for tool '{}' to {}", input.getTool(), written)	1
+parseLong	Long	java.lang.Long.parseLong:long(java.lang.String)	Long.parseLong(digits)	1
+setDefaultEncoding		org.springframework.context.support.ReloadableResourceBundleMessageSource.setDefaultEncoding:<unresolvedSignature>(1)	setDefaultEncoding("UTF-8")	1
+encode	Base64	java.util.Base64$Encoder.encode:byte[](byte[])	Base64.getUrlEncoder().encode(token)	1
+get	Paths	java.nio.file.Paths.get:java.nio.file.Path(java.net.URI)	Paths.get(uploadDirectoryURI)	1
+substring	UUID	java.lang.String.substring:java.lang.String(int,int)	UUID.randomUUID().toString().substring(0, 8)	1
+getBytes	token	java.lang.String.getBytes:byte[](java.nio.charset.Charset)	token.getBytes(StandardCharsets.UTF_8)	1
+computeIfAbsent	this.locks	java.util.concurrent.ConcurrentHashMap.computeIfAbsent:java.lang.Object(java.lang.Object,java.util.function.Function)	this.locks.computeIfAbsent(email + ":" + level, <lambda>)	1
+execute		org.springframework.jdbc.core.JdbcTemplate.execute:<unresolvedSignature>(1)	execute(String.format("CREATE USER application PASSWORD '%s'", appPassword))	1
+warn	JWTVulnerability.LOGGER	org.apache.logging.log4j.Logger.warn:<unresolvedSignature>(2)	JWTVulnerability.LOGGER.warn("Failed to validate token", e)	1
+getHints		org.sasanlabs.vulnerableapp.facade.schema.VulnerabilityLevelDefinition.getHints:<unresolvedSignature>(0)	getHints()	1
+contains	this.outerClass.MAX_FILE_UPLOAD_SIZE_OVERRIDE_PATHS	java.util.List.contains:<unresolvedSignature>(1)	this.outerClass.MAX_FILE_UPLOAD_SIZE_OVERRIDE_PATHS.contains(request.getServletPath())	1
+isEmpty	input	java.lang.String.isEmpty:boolean()	input.getTool().trim().isEmpty()	1
+setSkipHeaderRecord	CSVFormat.DEFAULT	<unresolvedNamespace>.setSkipHeaderRecord:<unresolvedSignature>(1)	CSVFormat.DEFAULT.builder().setHeader().setSkipHeaderRecord(true)	1
+equals	this.key	java.lang.String.equals:boolean(java.lang.Object)	this.key.equals(other.key)	1
+isEmpty	digits	java.lang.String.isEmpty:boolean()	digits.isEmpty()	1
+setOrder		org.sasanlabs.vulnerableapp.facade.schema.ChallengeCardHint.setOrder:<unresolvedSignature>(1)	setOrder(hint.order())	1
+getKey	keyStore	java.security.KeyStore.getKey:java.security.Key(java.lang.String,char[])	keyStore.getKey(RSA_KEY_ALIAS, KEY_STORE_PASSWORD.toCharArray())	1
+equals	saltedSha256Hash	java.lang.String.equals:boolean(java.lang.Object)	saltedSha256Hash.equals(rawPassword)	1
+getBytes	user	java.lang.String.getBytes:byte[](java.nio.charset.Charset)	user.getBytes(StandardCharsets.UTF_8)	1
+info	DatabaseSeeder.LOGGER	org.apache.logging.log4j.Logger.info:<unresolvedSignature>(2)	DatabaseSeeder.LOGGER.info("Seeding complete. Processed {} modules", seeders.size())	1
+stream	this.symmetricAlgorithmKeySet	java.util.Set.stream:java.util.stream.Stream()	this.symmetricAlgorithmKeySet.stream()	1
+writerWithDefaultPrettyPrinter	JSONSerializationUtils.MAPPER	com.fasterxml.jackson.databind.ObjectMapper.writerWithDefaultPrettyPrinter:<unresolvedSignature>(0)	JSONSerializationUtils.MAPPER.writerWithDefaultPrettyPrinter()	1
+substring	imageLocation	java.lang.String.substring:java.lang.String(int,int)	imageLocation.substring(0, imageLocation.indexOf(Constants.NULL_BYTE_CHARACTER))	1
+lines	reader	java.io.BufferedReader.lines:java.util.stream.Stream()	reader.lines()	1
+getDecoder	Base64	java.util.Base64.getDecoder:java.util.Base64$Decoder()	Base64.getDecoder()	1
+size	expected	java.util.List.size:int()	expected.size()	1
+getInstance	SecretKeyFactory	javax.crypto.SecretKeyFactory.getInstance:javax.crypto.SecretKeyFactory(java.lang.String)	SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256")	1
+error	JWTAlgorithmKMS.LOGGER	org.apache.logging.log4j.Logger.error:<unresolvedSignature>(1)	JWTAlgorithmKMS.LOGGER.error(e)	1
+indexOf	signedPayload	java.lang.String.indexOf:int(java.lang.String)	signedPayload.indexOf(SIGNATURE_SEPARATOR)	1
+length	cleaned	java.lang.String.length:int()	cleaned.length()	1
+getForObject	this.restTemplate	org.springframework.web.client.RestTemplate.getForObject:<unresolvedSignature>(2)	this.restTemplate.getForObject(groundTruthUrl, ScannerResponseBean[].class)	1
+asList		java.util.Arrays.asList:<unresolvedSignature>(1)	asList(attackVector.vulnerabilityExposed())	1
+trim	typeName	java.lang.String.trim:java.lang.String()	typeName.trim()	1
+processingInstruction	super	org.xml.sax.helpers.XMLFilterImpl.processingInstruction:void(java.lang.String,java.lang.String)	super.processingInstruction(target, data)	1
+setReadTimeout		<unresolvedNamespace>.setReadTimeout:<unresolvedSignature>(1)	setConnectTimeout(Duration.ofMillis(connectMs)).setReadTimeout(Duration.ofMillis(readMs))	1
+getBytes	input	java.lang.String.getBytes:byte[](java.nio.charset.Charset)	input.getBytes(StandardCharsets.UTF_8)	1
+toFile	filePath	java.nio.file.Path.toFile:java.io.File()	filePath.toFile()	1
+substring	cleaned	java.lang.String.substring:java.lang.String(int,int)	cleaned.substring(0, MAX_TOOL_LENGTH)	1
+doFinal	des	javax.crypto.Cipher.doFinal:byte[](byte[])	des.doFinal("KGS!@#$%".getBytes(StandardCharsets.US_ASCII))	1
+add	allEndpoints	java.util.List.add:boolean(java.lang.Object)	allEndpoints.add(allEndPointsResponseBean)	1
+trim	path	java.lang.String.trim:java.lang.String()	path.trim()	1
+sign		com.nimbusds.jose.crypto.RSASSASigner.sign:<unresolvedSignature>(2)	sign(JWSHeader.parse(Base64URL.from(jwtParts[0])), JWTUtils.getBytes(tokenToBeSigned))	1
+getBean	this.context	org.springframework.context.ApplicationContext.getBean:<unresolvedSignature>(2)	this.context.getBean(name, clazz)	1
+setValue		org.sasanlabs.vulnerableapp.facade.schema.ChallengeCardPayload.setValue:<unresolvedSignature>(1)	setValue(payload)	1
+validate		javax.mail.internet.InternetAddress.validate:<unresolvedSignature>(0)	validate()	1
+issueTime		<unresolvedNamespace>.issueTime:<unresolvedSignature>(1)	subject(String.valueOf(authRecord.getUserId())).claim("role", authRecord.getRole()).issueTime(new Date())	1
+matches	UnrestrictedFileUpload.ENDS_WITH_PNG_OR_JPEG_PATTERN	java.util.regex.Matcher.matches:boolean()	UnrestrictedFileUpload.ENDS_WITH_PNG_OR_JPEG_PATTERN.matcher(fileName).matches()	1
+startsWith	System	java.lang.String.startsWith:boolean(java.lang.String)	System.getProperty("os.name").toLowerCase().startsWith("windows")	1
+trim	tool	java.lang.String.trim:java.lang.String()	tool.trim()	1
+append	posts	java.lang.StringBuilder.append:java.lang.StringBuilder(java.lang.String)	posts.append("<div id=\"comments\">" + function.apply(post.getContent()) + "</div>")	1
+getLogger		org.slf4j.LoggerFactory.getLogger:<unresolvedSignature>(1)	getLogger(EmailServiceImpl.class)	1
+getInstance	Cipher	javax.crypto.Cipher.getInstance:javax.crypto.Cipher(java.lang.String)	Cipher.getInstance("AES/ECB/PKCS5Padding")	1
+toCharArray	this.CHARSET	java.lang.String.toCharArray:char[]()	this.CHARSET.toCharArray()	1
+find	UnrestrictedFileUpload.CONTAINS_PNG_OR_JPEG_PATTERN	<unresolvedNamespace>.find:<unresolvedSignature>(0)	UnrestrictedFileUpload.CONTAINS_PNG_OR_JPEG_PATTERN.matcher(file.getOriginalFilename()).find()	1
+toString		org.json.JSONObject.toString:<unresolvedSignature>(0)	toString()	1
+read	this.delegate	java.io.InputStream.read:int(byte[],int,int)	this.delegate.read(b, off, len)	1
+setResourceInformation		org.sasanlabs.vulnerableapp.facade.schema.VulnerabilityLevelDefinition.setResourceInformation:<unresolvedSignature>(1)	setResourceInformation(resourceInformation)	1
+selectFrom		<unresolvedNamespace>.selectFrom:<unresolvedSignature>(1)	usingRandom(secureRandom::nextInt).selectFrom(CHARSET.toCharArray())	1
+of	Map	java.util.Map.of:java.util.Map(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)	Map.of("filter", ldapQuery, "users", List.of(), "message", "No users found")	1
+setDescription		org.sasanlabs.vulnerableapp.facade.schema.VulnerabilityDefinition.setDescription:<unresolvedSignature>(1)	setDescription(messageBundle.getString(description, null))	1
+lines	bufferedReader	java.io.BufferedReader.lines:java.util.stream.Stream()	bufferedReader.lines()	1
+fillProperties		org.springframework.core.io.support.PropertiesLoaderUtils.fillProperties:<unresolvedSignature>(2)	fillProperties(attackVectorProperties, attackVectorResource)	1
+setMaxUploadSize		org.springframework.web.multipart.commons.CommonsMultipartResolver.setMaxUploadSize:<unresolvedSignature>(1)	setMaxUploadSize(-1)	1
+toCharArray	password	java.lang.String.toCharArray:char[]()	password.toCharArray()	1
+substring	level	java.lang.String.substring:java.lang.String(int)	level.substring(level.indexOf("_") + 1)	1
+get		javax.persistence.criteria.Root.get:<unresolvedSignature>(1)	get("id")	1
+substring		<unresolvedNamespace>.substring:<unresolvedSignature>(2)	getOriginalFilename().substring(0, file.getOriginalFilename().indexOf(Constants.NULL_BYTE_CHARACTER))	1
+isEmpty	activityCookie	java.lang.String.isEmpty:boolean()	activityCookie.isEmpty()	1
+normalize	root	java.nio.file.Path.normalize:java.nio.file.Path()	root.resolve(fileName).normalize()	1
+equals	s	java.lang.String.equals:boolean(java.lang.Object)	s.equals(contextPath)	1
+toAbsolutePath	this.unrestrictedFileUpload	java.nio.file.Path.toAbsolutePath:java.nio.file.Path()	this.unrestrictedFileUpload.getContentDispositionRoot().toAbsolutePath()	1
+substring	jwtParts[2]	java.lang.String.substring:java.lang.String(int,int)	jwtParts[2].substring(0, nullByteIndex)	1
+replaceAll	CachePoisoningVulnerability.SCRIPT_BLOCK_PATTERN	java.util.regex.Matcher.replaceAll:java.lang.String(java.lang.String)	CachePoisoningVulnerability.SCRIPT_BLOCK_PATTERN.matcher(candidate).replaceAll("")	1
+doFinal	hmacSHA	javax.crypto.Mac.doFinal:byte[](byte[])	hmacSHA.doFinal(token)	1
+getBytes	tokenToBeSigned	java.lang.String.getBytes:byte[](java.lang.String)	tokenToBeSigned.getBytes("UTF-8")	1
+plusMinutes	now	java.time.LocalDateTime.plusMinutes:java.time.LocalDateTime(long)	now.plusMinutes(ENFORCED_EXPIRY_MINUTES)	1
+isAfter	LocalDateTime	java.time.LocalDateTime.isAfter:boolean(java.time.chrono.ChronoLocalDateTime)	LocalDateTime.now().isAfter(resetToken.getExpiresAt())	1
+equals	requestUrl	java.lang.String.equals:boolean(java.lang.Object)	requestUrl.getAuthority().equals(urlToRedirect)	1
+compare	Integer	java.lang.Integer.compare:int(int,int)	Integer.compare(numA, numB)	1
+get	tokenOpt	java.util.Optional.get:java.lang.Object()	tokenOpt.get()	1
+createMimeMessage	this.javaMailSender	org.springframework.mail.javamail.JavaMailSender.createMimeMessage:<unresolvedSignature>(0)	this.javaMailSender.createMimeMessage()	1
+startListening	EmbeddedLDAPConfig.directoryServer	com.unboundid.ldap.listener.InMemoryDirectoryServer.startListening:<unresolvedSignature>(0)	EmbeddedLDAPConfig.directoryServer.startListening()	1
+setText		org.sasanlabs.vulnerableapp.facade.schema.ChallengeCardHint.setText:<unresolvedSignature>(1)	setText(messageBundle.getString(hint.text(), null))	1
+incrementAndGet	this.level2PredictableSessionCounter	java.util.concurrent.atomic.AtomicInteger.incrementAndGet:int()	this.level2PredictableSessionCounter.incrementAndGet()	1
+encode		org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder.encode:<unresolvedSignature>(1)	encode(rawPassword)	1
+writeValueAsString		com.fasterxml.jackson.databind.ObjectMapper.writeValueAsString:<unresolvedSignature>(1)	writeValueAsString(object)	1
+get	this.sessions	java.util.Map.get:java.lang.Object(java.lang.Object)	this.sessions.get(sessionKey(level, sessionId))	1
+isEqual	MessageDigest	java.security.MessageDigest.isEqual:boolean(byte[],byte[])	MessageDigest.isEqual(signature, hmac(json))	1
+values	MetaDataServiceMock.IP_ENVIRONMENT_MAP	java.util.Map.values:java.util.Collection()	MetaDataServiceMock.IP_ENVIRONMENT_MAP.values()	1
+charAt		<unresolvedNamespace>.charAt:<unresolvedSignature>(1)	charAt(0)	1
+createTempFile	Files	java.nio.file.Files.createTempFile:java.nio.file.Path(java.nio.file.Path,java.lang.String,java.lang.String,java.nio.file.attribute.FileAttribute[])	Files.createTempFile(dir, fileName + ".", ".tmp")	1
+containsKey	expectedByKey	java.util.Map.containsKey:boolean(java.lang.Object)	expectedByKey.containsKey(key)	1
+setBasename		org.springframework.context.support.ReloadableResourceBundleMessageSource.setBasename:<unresolvedSignature>(1)	setBasename(I18N_MESSAGE_FILE_LOCATION)	1
+add	scannerResponseBeans	java.util.List.add:boolean(java.lang.Object)	scannerResponseBeans.add(new ScannerResponseBean(new StringBuilder().append(appUrl).append(allEndPointsRespons	1
+getAlgorithm	privateKey	java.security.Key.getAlgorithm:java.lang.String()	privateKey.getAlgorithm()	1
+toECPublicKey		com.nimbusds.jose.jwk.ECKey.toECPublicKey:<unresolvedSignature>(0)	toECPublicKey()	1
+filter	this.symmetricAlgorithmKeySet	java.util.stream.Stream.filter:java.util.stream.Stream(java.util.function.Predicate)	this.symmetricAlgorithmKeySet.stream().filter(<lambda>)	1
+contains	queryParameterURL	java.lang.String.contains:boolean(java.lang.CharSequence)	queryParameterURL.contains(NULL_BYTE_CHARACTER)	1
+add	rowsOut	java.util.List.add:boolean(java.lang.Object)	rowsOut.add(buildExpectedFinding(url, type, method))	1
+getProperty	System	java.lang.System.getProperty:java.lang.String(java.lang.String)	System.getProperty("os.name")	1
+incrementAndGet	attempt.count	<unresolvedNamespace>.incrementAndGet:<unresolvedSignature>(0)	attempt.count.incrementAndGet()	1
+getCertificate	keyStore	java.security.KeyStore.getCertificate:java.security.cert.Certificate(java.lang.String)	keyStore.getCertificate(RSA_KEY_ALIAS)	1
+getBytes	sessionId	java.lang.String.getBytes:byte[]()	sessionId.getBytes()	1
+add	seenRowSignatures	java.util.Set.add:boolean(java.lang.Object)	seenRowSignatures.add(rowSignature)	1
+getMessage	nfe	java.lang.NumberFormatException.getMessage:java.lang.String()	nfe.getMessage()	1
+compareTo	a	java.lang.String.compareTo:int(java.lang.String)	a.compareTo(b)	1
+matcher	UnrestrictedFileUpload.ENDS_WITH_PNG_OR_JPEG_PATTERN	java.util.regex.Pattern.matcher:<unresolvedSignature>(1)	UnrestrictedFileUpload.ENDS_WITH_PNG_OR_JPEG_PATTERN.matcher(file.getOriginalFilename())	1
+init	des	javax.crypto.Cipher.init:void(int,java.security.Key)	des.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key8, "DES"))	1
+substring	email	java.lang.String.substring:java.lang.String(int)	email.substring(atIndex)	1
+deleteIfExists	Files	java.nio.file.Files.deleteIfExists:boolean(java.nio.file.Path)	Files.deleteIfExists(temp)	1
+setFrom		org.springframework.mail.SimpleMailMessage.setFrom:<unresolvedSignature>(1)	setFrom(emailConfiguration.getFrom())	1
+startsWith	urlToRedirect	java.lang.String.startsWith:boolean(java.lang.String)	urlToRedirect.startsWith("/")	1
+split	pem	java.lang.String.split:java.lang.String[](java.lang.String)	pem.split(beginDelimiter)	1
+isPresent	metaEndpointResponseBeanOptional	java.util.Optional.isPresent:boolean()	metaEndpointResponseBeanOptional.isPresent()	1
+addSuppressed	fallbackException	org.xml.sax.SAXException.addSuppressed:void(java.lang.Throwable)	fallbackException.addSuppressed(e)	1
+add	EmbeddedLDAPConfig.directoryServer	com.unboundid.ldap.listener.InMemoryDirectoryServer.add:<unresolvedSignature>(6)	EmbeddedLDAPConfig.directoryServer.add("dn: uid=" + uid + ",dc=sasanlabs,dc=org", "objectClass: inetOrgPerson"	1
+isUpperCase	Character	java.lang.Character.isUpperCase:boolean(char)	Character.isUpperCase(ch)	1
+setId		org.sasanlabs.vulnerableapp.facade.schema.VulnerabilityDefinition.setId:<unresolvedSignature>(1)	setId(name)	1
+getProperty	this.attackVectorProperties	java.util.Properties.getProperty:java.lang.String(java.lang.String)	this.attackVectorProperties.getProperty(propertyKey)	1
+getResource	Thread	java.lang.ClassLoader.getResource:java.net.URL(java.lang.String)	Thread.currentThread().getContextClassLoader().getResource(BASE_PATH)	1
+addAll	primaryKeysSeen	java.util.Set.addAll:boolean(java.util.Collection)	primaryKeysSeen.addAll(keys)	1
+get	roles	java.util.List.get:java.lang.Object(int)	roles.get(0)	1
+append		java.lang.StringBuilder.append:java.lang.StringBuilder(java.lang.Object)	new StringBuilder("/VulnerableApp/?v=PasswordResetVulnerability&level=LEVEL_").append(level)	1
+get	authRecords	java.util.List.get:java.lang.Object(int)	authRecords.get(0)	1
+contains	entry	java.util.Set.contains:boolean(java.lang.Object)	entry.getValue().contains(url.getHost())	1
+getEncoder	java.util.Base64	java.util.Base64.getEncoder:java.util.Base64$Encoder()	java.util.Base64.getEncoder()	1
+endsWith	imageLocation	java.lang.String.endsWith:boolean(java.lang.String)	imageLocation.endsWith(FILE_EXTENSION)	1
+toString	redirectUrl	java.lang.StringBuilder.toString:java.lang.String()	redirectUrl.toString()	1
+getCookies		javax.servlet.http.HttpServletRequest.getCookies:<unresolvedSignature>(0)	getCookies()	1
+setTo		org.springframework.mail.javamail.MimeMessageHelper.setTo:<unresolvedSignature>(1)	setTo(to)	1
+hashCode	this.algorithm	java.lang.String.hashCode:int()	this.algorithm.hashCode()	1
+containsKey	JWTUtils.JWT_HMAC_ALGO_TO_JAVA_ALGORITHM_MAPPING	java.util.Map.containsKey:boolean(java.lang.Object)	JWTUtils.JWT_HMAC_ALGO_TO_JAVA_ALGORITHM_MAPPING.containsKey(algorithm)	1
+getInstance	MessageDigest	java.security.MessageDigest.getInstance:java.security.MessageDigest(java.lang.String,java.lang.String)	MessageDigest.getInstance(hashAlgorithm.label(), "BC")	1
+stream	MetaDataServiceMock.IP_ENVIRONMENT_MAP	java.util.Set.stream:java.util.stream.Stream()	MetaDataServiceMock.IP_ENVIRONMENT_MAP.entrySet().stream()	1
+setSeparator		org.springframework.jdbc.datasource.init.ResourceDatabasePopulator.setSeparator:<unresolvedSignature>(1)	setSeparator(";")	1
+next	rs	java.sql.ResultSet.next:boolean()	rs.next()	1
+contains	primaryKeysSeen	java.util.Set.contains:boolean(java.lang.Object)	primaryKeysSeen.contains(key)	1
+append	xmlBuilder	java.lang.StringBuilder.append:java.lang.StringBuilder(int)	xmlBuilder.append(FrameworkConstants.SITEMAP_URL_TAG_START).append(FrameworkConstants.NEXT_LINE).append(Framew	1
+getName		<unresolvedNamespace>.getName:<unresolvedSignature>(0)	getName()	1
+setName		org.sasanlabs.vulnerableapp.facade.schema.VulnerabilityDefinition.setName:<unresolvedSignature>(1)	setName(name)	1
+encode	this.passwordEncoder	org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder.encode:<unresolvedSignature>(1)	this.passwordEncoder.encode(newPassword)	1
+isEmpty	preferencesCookie	java.lang.String.isEmpty:boolean()	preferencesCookie.isEmpty()	1
+add	detectedSet	java.util.Set.add:boolean(java.lang.Object)	detectedSet.add(ei)	1
+toString	Long	java.lang.Long.toString:java.lang.String(long)	Long.toString(Long.parseLong(digits))	1
+setSubject		org.springframework.mail.javamail.MimeMessageHelper.setSubject:<unresolvedSignature>(1)	setSubject(subject)	1
+size	detectedSet	java.util.Set.size:int()	detectedSet.size()	1
+getContextClassLoader	Thread	java.lang.Thread.getContextClassLoader:java.lang.ClassLoader()	Thread.currentThread().getContextClassLoader()	1
+close	this.delegate	java.io.InputStream.close:void()	this.delegate.close()	1
+isAfter	this.createdAt	java.time.Instant.isAfter:boolean(java.time.Instant)	this.createdAt.plus(ttl).isAfter(now)	1
+subject		<unresolvedNamespace>.subject:<unresolvedSignature>(1)	subject(String.valueOf(authRecord.getUserId()))	1
+addAll	detectedIndices	java.util.Set.addAll:boolean(java.util.Collection)	detectedIndices.addAll(hits)	1
+get	expectedRows	java.util.List.get:java.lang.Object(int)	expectedRows.get(i)	1
+get	Http3xxStatusCodeBasedInjection.REDIRECT_DESTINATIONS	java.util.Map.get:java.lang.Object(java.lang.Object)	Http3xxStatusCodeBasedInjection.REDIRECT_DESTINATIONS.get(destinationKey)	1
+trim	value	java.lang.String.trim:java.lang.String()	value.trim()	1
+getEpochSecond	Instant	java.time.Instant.getEpochSecond:long()	Instant.now().getEpochSecond()	1
+getInputStream		org.springframework.core.io.ClassPathResource.getInputStream:<unresolvedSignature>(0)	getInputStream()	1
+put	this.level6FailedAttempts	java.util.Map.put:java.lang.Object(java.lang.Object,java.lang.Object)	this.level6FailedAttempts.put(username, new FailedLoginAttempt(1, now))	1
+equalsIgnoreCase	PasswordResetVulnerability.ACTION_RESET	java.lang.String.equalsIgnoreCase:boolean(java.lang.String)	PasswordResetVulnerability.ACTION_RESET.equalsIgnoreCase(request.getAction())	1
+substring	a	java.lang.String.substring:java.lang.String(int)	a.substring(4)	1
+startElement	super	org.xml.sax.helpers.XMLFilterImpl.startElement:void(java.lang.String,java.lang.String,java.lang.String,org.xml.sax.Attributes)	super.startElement(uri, localName, qName, attributes)	1
+endsWith	baseUrl	java.lang.String.endsWith:boolean(java.lang.String)	baseUrl.endsWith("/")	1
+equals	hashGuess	java.lang.String.equals:boolean(java.lang.Object)	hashGuess.equals(LEVEL_9_HASH)	1
+name	ResourceType.CSS	<unresolvedNamespace>.name:<unresolvedSignature>(0)	ResourceType.CSS.name()	1
+normalize	this.unrestrictedFileUpload	java.nio.file.Path.normalize:java.nio.file.Path()	this.unrestrictedFileUpload.getContentDispositionRoot().toAbsolutePath().normalize()	1
+toUpperCase	rawPassword	java.lang.String.toUpperCase:java.lang.String()	rawPassword.toUpperCase()	1
+expirationTime		<unresolvedNamespace>.expirationTime:<unresolvedSignature>(1)	subject(String.valueOf(authRecord.getUserId())).claim("role", authRecord.getRole()).issueTime(new Date()).expi	1
+generatePrivate	factory	java.security.KeyFactory.generatePrivate:java.security.PrivateKey(java.security.spec.KeySpec)	factory.generatePrivate(spec)	1
+after		java.util.Date.after:boolean(java.util.Date)	new Date().after(expirationTime)	1
+keyUse		<unresolvedNamespace>.keyUse:<unresolvedSignature>(1)	keyUse(KeyUse.SIGNATURE)	1
+getBytes	otp	java.lang.String.getBytes:byte[]()	otp.getBytes()	1
+digest	MessageDigest	java.security.MessageDigest.digest:byte[](byte[])	MessageDigest.getInstance("SHA-256").digest(user.getBytes(StandardCharsets.UTF_8))	1
+close	delegate	java.io.InputStream.close:void()	delegate.close()	1
+sort	users	java.util.List.sort:void(java.util.Comparator)	users.sort(<lambda>)	1
+setDatabasePopulator		org.springframework.jdbc.datasource.init.DataSourceInitializer.setDatabasePopulator:<unresolvedSignature>(1)	setDatabasePopulator(populator)	1
+setDataSource		org.springframework.jdbc.datasource.init.DataSourceInitializer.setDataSource:<unresolvedSignature>(1)	setDataSource(adminDataSource)	1
+matches	UnrestrictedFileUpload.ENDS_WITH_PNG_OR_JPEG_PATTERN	<unresolvedNamespace>.matches:<unresolvedSignature>(0)	UnrestrictedFileUpload.ENDS_WITH_PNG_OR_JPEG_PATTERN.matcher(file.getOriginalFilename()).matches()	1
+doFilter		javax.servlet.FilterChain.doFilter:<unresolvedSignature>(2)	doFilter(request, response)	1
+nextInt	seededRandom	java.util.Random.nextInt:int(int)	seededRandom.nextInt(1000000)	1
+reverse		java.lang.StringBuilder.reverse:java.lang.StringBuilder()	new StringBuilder(rawPassword).reverse()	1
+isEmpty	tokenOpt	java.util.Optional.isEmpty:boolean()	tokenOpt.isEmpty()	1
+isEmpty	s	java.lang.String.isEmpty:boolean()	s.isEmpty()	1
+doFinal	cipher	javax.crypto.Cipher.doFinal:byte[](byte[])	cipher.doFinal(plaintext.getBytes(StandardCharsets.UTF_8))	1
+getBytes	role	java.lang.String.getBytes:byte[](java.nio.charset.Charset)	role.getBytes(StandardCharsets.UTF_8)	1
+writerWithDefaultPrettyPrinter	this.objectMapper	com.fasterxml.jackson.databind.ObjectMapper.writerWithDefaultPrettyPrinter:<unresolvedSignature>(0)	this.objectMapper.writerWithDefaultPrettyPrinter()	1
+where		<unresolvedNamespace>.where:<unresolvedSignature>(1)	select(root).where(cb.equal(root.get("id"), id))	1
+setDefaultLocale		org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver.setDefaultLocale:<unresolvedSignature>(1)	setDefaultLocale(Locale.US)	1
+add	issues	java.util.List.add:boolean(java.lang.Object)	issues.add(issue)	1
+contains	detectedIndices	java.util.Set.contains:boolean(java.lang.Object)	detectedIndices.contains(i)	1
+split	tokens[1]	java.lang.String.split:java.lang.String[](java.lang.String)	tokens[1].split(endDelimiter)	1
+equals	this.algorithm	java.lang.String.equals:boolean(java.lang.Object)	this.algorithm.equals(other.algorithm)	1
+openConnection	u	java.net.URL.openConnection:java.net.URLConnection()	u.openConnection()	1
+startsWith	filePath	java.nio.file.Path.startsWith:boolean(java.nio.file.Path)	filePath.startsWith(root)	1
+encodeToString	java.util.Base64	java.util.Base64$Encoder.encodeToString:java.lang.String(byte[])	java.util.Base64.getEncoder().encodeToString(encrypted)	1
+matches	UnrestrictedFileUpload.ENDS_WITH_HTML_PATTERN	<unresolvedNamespace>.matches:<unresolvedSignature>(0)	UnrestrictedFileUpload.ENDS_WITH_HTML_PATTERN.matcher(file.getOriginalFilename()).matches()	1
+collect	reader	java.util.stream.Stream.collect:java.lang.Object(java.util.stream.Collector)	reader.lines().collect(Collectors.joining())	1
+toURI	Thread	java.net.URL.toURI:java.net.URI()	Thread.currentThread().getContextClassLoader().getResource(BASE_PATH).toURI()	1
+setChallengeCards		org.sasanlabs.vulnerableapp.facade.schema.VulnerabilityLevelDefinition.setChallengeCards:<unresolvedSignature>(1)	setChallengeCards(facadeChallengeCards)	1
+replaceAll	CachePoisoningVulnerability.SCRIPT_TAG_PATTERN	java.util.regex.Matcher.replaceAll:java.lang.String(java.lang.String)	CachePoisoningVulnerability.SCRIPT_TAG_PATTERN.matcher(candidate).replaceAll("")	1
+length	baseUrl	java.lang.String.length:int()	baseUrl.length()	1
+hashCode	this.key	java.lang.String.hashCode:int()	this.key.hashCode()	1
+charAt	localPart	java.lang.String.charAt:char(int)	localPart.charAt(0)	1
+matcher	UnrestrictedFileUpload.ENDS_WITH_PNG_OR_JPEG_PATTERN	java.util.regex.Pattern.matcher:java.util.regex.Matcher(java.lang.CharSequence)	UnrestrictedFileUpload.ENDS_WITH_PNG_OR_JPEG_PATTERN.matcher(fileName)	1
+iterator	allEndPointsResponseBean	java.util.Set.iterator:java.util.Iterator()	allEndPointsResponseBean.getLevelDescriptionSet()	1
+map	carInformation	java.util.Optional.map:java.util.Optional(java.util.function.Function)	carInformation.map(<lambda>)	1
+contains	ips	java.util.Set.contains:boolean(java.lang.Object)	ips.contains(url.getHost())	1
+split	saltedSha256Hash	java.lang.String.split:java.lang.String[](java.lang.String,int)	saltedSha256Hash.split(HASH_SEPARATOR, 2)	1
+split	tokenToBeSigned	java.lang.String.split:java.lang.String[](java.lang.String,int)	tokenToBeSigned.split(JWTUtils.JWT_TOKEN_PERIOD_CHARACTER_REGEX, -1)	1
+characters	super	org.xml.sax.helpers.XMLFilterImpl.characters:void(char[],int,int)	super.characters(ch, start, length)	1
+equalsIgnoreCase	DastBenchmarkStrategy.UNSECURE_VARIANT	java.lang.String.equalsIgnoreCase:boolean(java.lang.String)	DastBenchmarkStrategy.UNSECURE_VARIANT.equalsIgnoreCase(entry.getVariant())	1
+setHeader	CSVFormat.DEFAULT	<unresolvedNamespace>.setHeader:<unresolvedSignature>(0)	CSVFormat.DEFAULT.builder().setHeader()	1
+set	blocked	java.util.concurrent.atomic.AtomicBoolean.set:void(boolean)	blocked.set(true)	1
+toLowerCase	tool	java.lang.String.toLowerCase:java.lang.String(java.util.Locale)	tool.trim().toLowerCase(Locale.ROOT)	1
+contains	PathTraversalVulnerability.ALLOWED_FILE_NAMES	java.util.List.contains:boolean(java.lang.Object)	PathTraversalVulnerability.ALLOWED_FILE_NAMES.contains(fileName)	1
+toUpperCase	finding	java.lang.String.toUpperCase:java.lang.String(java.util.Locale)	finding.getMethod().trim().toUpperCase(Locale.ROOT)	1
+valueOf		org.sasanlabs.vulnerableapp.facade.schema.Variant.valueOf:<unresolvedSignature>(1)	valueOf(vulnLevel.variant().name())	1
+getResources		org.springframework.core.io.support.PathMatchingResourcePatternResolver.getResources:<unresolvedSignature>(1)	getResources(ATTACK_VECTOR_PAYLOAD_PROPERTY_FILES_LOCATION_PATTERN)	1
+substring	post	java.lang.String.substring:java.lang.String(int)	post.substring(post.indexOf(Constants.NULL_BYTE_CHARACTER))	1
+createDirectories	Files	java.nio.file.Files.createDirectories:java.nio.file.Path(java.nio.file.Path,java.nio.file.attribute.FileAttribute[])	Files.createDirectories(dir)	1
+setIgnoreEmptyLines	CSVFormat.DEFAULT	<unresolvedNamespace>.setIgnoreEmptyLines:<unresolvedSignature>(1)	CSVFormat.DEFAULT.builder().setHeader().setSkipHeaderRecord(true).setIgnoreEmptyLines(true)	1
+matcher	CachePoisoningVulnerability.SCRIPT_TAG_PATTERN	java.util.regex.Pattern.matcher:java.util.regex.Matcher(java.lang.CharSequence)	CachePoisoningVulnerability.SCRIPT_TAG_PATTERN.matcher(candidate)	1
+isEmpty	authRecords	java.util.List.isEmpty:boolean()	authRecords.isEmpty()	1
+info	DatabaseSeeder.LOGGER	org.apache.logging.log4j.Logger.info:<unresolvedSignature>(1)	DatabaseSeeder.LOGGER.info("Starting Global Database Seeding")	1
+get	condition	java.util.function.Supplier.get:java.lang.Object()	condition.get()	1
+indexOf	imageLocation	java.lang.String.indexOf:int(java.lang.String)	imageLocation.indexOf(Constants.NULL_BYTE_CHARACTER)	1
+toFile	temp	java.nio.file.Path.toFile:java.io.File()	temp.toFile()	1
+charAt	PasswordResetSeeder.PASSWORD_CHARSET	java.lang.String.charAt:char(int)	PasswordResetSeeder.PASSWORD_CHARSET.charAt(index)	1
+put	this.asymmetricAlgorithmKeyMap	java.util.Map.put:java.lang.Object(java.lang.Object,java.lang.Object)	this.asymmetricAlgorithmKeyMap.put("RS256", new KeyPair(certificate.getPublicKey(), (PrivateKey) privateKey))	1
+claim		<unresolvedNamespace>.claim:<unresolvedSignature>(2)	subject(String.valueOf(authRecord.getUserId())).claim("role", authRecord.getRole())	1
+get	keyToExpected	java.util.Map.get:java.lang.Object(java.lang.Object)	keyToExpected.get(key)	1
+equals	url	java.lang.String.equals:boolean(java.lang.Object)	url.getProtocol().equals("http")	1
+trim	input	java.lang.String.trim:java.lang.String()	input.getTool().trim()	1
+getValue		<unresolvedNamespace>.getValue:<unresolvedSignature>(0)	getValue()	1
+apply	function	java.util.function.Function.apply:java.lang.Object(java.lang.Object)	function.apply(post.getContent())	1
+contains	Http3xxStatusCodeBasedInjection.WHITELISTED_URLS	java.util.Set.contains:boolean(java.lang.Object)	Http3xxStatusCodeBasedInjection.WHITELISTED_URLS.contains(urlToRedirect)	1
+getInputStream	urlConnection	java.net.URLConnection.getInputStream:java.io.InputStream()	urlConnection.getInputStream()	1
+setMaxUploadSizePerFile		org.springframework.web.multipart.commons.CommonsMultipartResolver.setMaxUploadSizePerFile:<unresolvedSignature>(1)	setMaxUploadSizePerFile(-1)	1
+getStringClaim		com.nimbusds.jwt.JWTClaimsSet.getStringClaim:<unresolvedSignature>(1)	getStringClaim("role")	1
+substring	requestUri	java.lang.String.substring:java.lang.String(int,int)	requestUri.substring(0, requestUri.length() - "/clearCache".length())	1
+createQuery	this.entityManager	javax.persistence.EntityManager.createQuery:<unresolvedSignature>(1)	this.entityManager.createQuery(cq)	1
+forEach	this.postRepository	java.util.List.forEach:void(java.util.function.Consumer)	this.postRepository.findByLevelIdentifier(level).forEach(<lambda>)	1
+size	this.seeders	java.util.List.size:int()	this.seeders.size()	1
+asList		java.util.Arrays.asList:<unresolvedSignature>(2)	asList(new ResourceURI(false, "/VulnerableApp/templates/" + facadeVulnerabilityDefinition.getName() + "/" + te	1
+toCharArray	rawPassword	java.lang.String.toCharArray:char[]()	rawPassword.toCharArray()	1
+error	JWTAlgorithmKMS.LOGGER	org.apache.logging.log4j.Logger.error:<unresolvedSignature>(2)	JWTAlgorithmKMS.LOGGER.error("Following error occurred while parsing SymmetricAlgoKeys", e)	1
+get		java.util.List.get:<unresolvedSignature>(1)	get(0)	1
+getSubject		com.nimbusds.jwt.JWTClaimsSet.getSubject:<unresolvedSignature>(0)	getSubject()	1
+toLowerCase	type	java.lang.String.toLowerCase:java.lang.String(java.util.Locale)	type.trim().toLowerCase(Locale.ROOT)	1
+replaceAll	id	java.lang.String.replaceAll:java.lang.String(java.lang.String,java.lang.String)	id.replaceAll("'", "")	1
+findAny	MetaDataServiceMock.METADATA_ENDPOINT_RESPONSE_BEAN	java.util.stream.Stream.findAny:java.util.Optional()	MetaDataServiceMock.METADATA_ENDPOINT_RESPONSE_BEAN.stream().filter(<lambda>).findAny()	1
+getBeansWithAnnotation	this.context	org.springframework.context.ApplicationContext.getBeansWithAnnotation:<unresolvedSignature>(1)	this.context.getBeansWithAnnotation(VulnerableAppRestController.class)	1
+nextInt	this.weakRandom	java.util.Random.nextInt:int(int)	this.weakRandom.nextInt(9000)	1
+getClass	result	java.lang.Object.getClass:java.lang.Class()	result.getClass()	1
+getBytes	this	java.lang.String.getBytes:byte[](java.nio.charset.Charset)	this.getBytes(StandardCharsets.US_ASCII)	1
+getLocale		org.springframework.context.i18n.LocaleContextHolder.getLocale:<unresolvedSignature>(0)	getLocale()	1
+serialize		com.nimbusds.jwt.SignedJWT.serialize:<unresolvedSignature>(0)	serialize()	1
+setTo		org.springframework.mail.SimpleMailMessage.setTo:<unresolvedSignature>(1)	setTo(to)	1
+removeEnd		org.apache.commons.lang3.StringUtils.removeEnd:<unresolvedSignature>(2)	removeEnd(emailConfiguration.getBaseUrl(), "/")	1
+substring	b	java.lang.String.substring:java.lang.String(int)	b.substring(4)	1
+of	List	java.util.List.of:java.util.List()	List.of()	1
+add	EmbeddedLDAPConfig.directoryServer	com.unboundid.ldap.listener.InMemoryDirectoryServer.add:<unresolvedSignature>(4)	EmbeddedLDAPConfig.directoryServer.add("dn: dc=sasanlabs,dc=org", "objectClass: top", "objectClass: domain", "	1
+setDescription		org.sasanlabs.vulnerableapp.facade.schema.ChallengeCardPayload.setDescription:<unresolvedSignature>(1)	setDescription(messageBundle.getString(card.payload().description(), null))	1
+minusMinutes	LocalDateTime	java.time.LocalDateTime.minusMinutes:java.time.LocalDateTime(long)	LocalDateTime.now().minusMinutes(15)	1
+substring	localPart	java.lang.String.substring:java.lang.String(int)	localPart.substring(Math.max(1, localPart.length() - 2))	1
+setProperty	System	java.lang.System.setProperty:java.lang.String(java.lang.String,java.lang.String)	System.setProperty("javax.xml.accessExternalDTD", "all")	1
+nextInt	random	java.util.Random.nextInt:int(int)	random.nextInt(10000)	1
+replaceAll	CachePoisoningVulnerability.JAVASCRIPT_SCHEME_PATTERN	java.util.regex.Matcher.replaceAll:java.lang.String(java.lang.String)	CachePoisoningVulnerability.JAVASCRIPT_SCHEME_PATTERN.matcher(candidate).replaceAll("")	1
+contains	privateKey	java.lang.String.contains:boolean(java.lang.CharSequence)	privateKey.getAlgorithm().contains("RSA")	1
+generateSecret	factory	javax.crypto.SecretKeyFactory.generateSecret:javax.crypto.SecretKey(java.security.spec.KeySpec)	factory.generateSecret(spec)	1
+indexOf	s	java.lang.String.indexOf:int(int,int)	s.indexOf('/', schemeIdx + 3)	1
+addAll	hits	java.util.Set.addAll:boolean(java.util.Collection)	hits.addAll(rows)	1
+parse		com.nimbusds.jose.JWSHeader.parse:<unresolvedSignature>(1)	parse(Base64URL.from(jwtParts[0]))	1
+substring	baseUrl	java.lang.String.substring:java.lang.String(int,int)	baseUrl.substring(0, baseUrl.length() - 1)	1
+setVulnerabilityTypes		org.sasanlabs.vulnerableapp.facade.schema.VulnerabilityDefinition.setVulnerabilityTypes:<unresolvedSignature>(1)	setVulnerabilityTypes(facadeVulnerabilityTypes)	1
+setHeader		javax.servlet.http.HttpServletResponse.setHeader:<unresolvedSignature>(2)	setHeader("Referrer-Policy", "unsafe-url")	1
+getMessage	ioe	java.io.IOException.getMessage:java.lang.String()	ioe.getMessage()	1
+setTrim	CSVFormat.DEFAULT	<unresolvedNamespace>.setTrim:<unresolvedSignature>(1)	CSVFormat.DEFAULT.builder().setHeader().setSkipHeaderRecord(true).setIgnoreEmptyLines(true).setTrim(true)	1
+nextInt	this.secureRandom	java.security.SecureRandom.nextInt:int(int)	this.secureRandom.nextInt(PASSWORD_CHARSET.length())	1
+getInt	rs	java.sql.ResultSet.getInt:int(int)	rs.getInt(1)	1
+setStaticResources		org.sasanlabs.vulnerableapp.facade.schema.ResourceInformation.setStaticResources:<unresolvedSignature>(1)	setStaticResources(Arrays.asList(new ResourceURI(false, "/VulnerableApp/templates/" + facadeVulnerabilityDefin	1
+equalsIgnoreCase		java.lang.String.equalsIgnoreCase:boolean(java.lang.String)	bytesToHex(hash).equalsIgnoreCase(storedHash)	1
+toLowerCase	user	java.lang.String.toLowerCase:java.lang.String(java.util.Locale)	user.toLowerCase(Locale.ROOT)	1
+setDaemon	thread	java.lang.Thread.setDaemon:void(boolean)	thread.setDaemon(true)	1
+emptyList	Collections	java.util.Collections.emptyList:java.util.List()	Collections.emptyList()	1
+setText		org.springframework.mail.SimpleMailMessage.setText:<unresolvedSignature>(1)	setText(body)	1
+setFrom		org.springframework.mail.javamail.MimeMessageHelper.setFrom:<unresolvedSignature>(1)	setFrom(emailConfiguration.getFrom())	1
+nextBytes	this.secureRandom	java.security.SecureRandom.nextBytes:void(byte[])	this.secureRandom.nextBytes(bytes)	1
+equalsIgnoreCase	b	java.lang.String.equalsIgnoreCase:boolean(java.lang.String)	b.name().equalsIgnoreCase(text)	1
+find	this.entityManager	javax.persistence.EntityManager.find:<unresolvedSignature>(2)	this.entityManager.find(CarInformation.class, id)	1
+length	requestUri	java.lang.String.length:int()	requestUri.length()	1
+put	CachePoisoningVulnerability.cache	java.util.concurrent.ConcurrentHashMap.put:java.lang.Object(java.lang.Object,java.lang.Object)	CachePoisoningVulnerability.cache.put(cacheKey, cachedResponse)	1
+size	issues	java.util.List.size:int()	issues.size()	1
+size	detectedIndices	java.util.Set.size:int()	detectedIndices.size()	1
+substring	urlToRedirect	java.lang.String.substring:java.lang.String(int)	urlToRedirect.substring(1)	1
+parse		com.nimbusds.jose.jwk.RSAKey.parse:<unresolvedSignature>(1)	parse(header.getJSONObject(JWTUtils.JSON_WEB_KEY_HEADER).toString())	1
+getName	clazz	java.lang.Class.getName:java.lang.String()	clazz.getName()	1
+indexOf	jwtParts[2]	java.lang.String.indexOf:int(java.lang.String)	jwtParts[2].indexOf(URLEncoder.encode(String.valueOf((char) 0), StandardCharsets.UTF_8.name()))	1
+name	ResourceType.JAVASCRIPT	<unresolvedNamespace>.name:<unresolvedSignature>(0)	ResourceType.JAVASCRIPT.name()	1
+getBean	this.context	org.springframework.context.ApplicationContext.getBean:<unresolvedSignature>(1)	this.context.getBean(name)	1
+joining	Collectors	java.util.stream.Collectors.joining:java.util.stream.Collector()	Collectors.joining()	1
+matcher	UnrestrictedFileUpload.CONTAINS_PNG_OR_JPEG_PATTERN	java.util.regex.Pattern.matcher:<unresolvedSignature>(1)	UnrestrictedFileUpload.CONTAINS_PNG_OR_JPEG_PATTERN.matcher(file.getOriginalFilename())	1
+matcher	CachePoisoningVulnerability.SCRIPT_BLOCK_PATTERN	java.util.regex.Pattern.matcher:java.util.regex.Matcher(java.lang.CharSequence)	CachePoisoningVulnerability.SCRIPT_BLOCK_PATTERN.matcher(candidate)	1
+getLevelDescriptionSet		org.sasanlabs.vulnerableapp.facade.schema.VulnerabilityDefinition.getLevelDescriptionSet:<unresolvedSignature>(0)	getLevelDescriptionSet()	1
+matcher	CachePoisoningVulnerability.JAVASCRIPT_SCHEME_PATTERN	java.util.regex.Pattern.matcher:java.util.regex.Matcher(java.lang.CharSequence)	CachePoisoningVulnerability.JAVASCRIPT_SCHEME_PATTERN.matcher(candidate)	1
+get	this.asymmetricAlgorithmKeyMap	java.util.Map.get:java.lang.Object(java.lang.Object)	this.asymmetricAlgorithmKeyMap.get(algorithm)	1
+equals	metaEndpointResponseBean.environment	java.lang.String.equals:boolean(java.lang.Object)	metaEndpointResponseBean.environment.equals(entry.getKey())	1
+equals	metaEndpointResponseBean.url	java.lang.String.equals:boolean(java.lang.Object)	metaEndpointResponseBean.url.equals(url.getPath())	1
+toString	password	java.lang.StringBuilder.toString:java.lang.String()	password.toString()	1
+iterator		org.apache.commons.csv.CSVParser.iterator:java.util.Iterator()	parser	1
+queryForObject	this.namedParameterJdbcTemplate	org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate.queryForObject:<unresolvedSignature>(3)	this.namedParameterJdbcTemplate.queryForObject("select * from cars where id=:id", namedParameters, new BeanPro	1
+copy		java.nio.file.Files.copy:<unresolvedSignature>(3)	copy(file.getInputStream(), root.resolve(fileName), StandardCopyOption.REPLACE_EXISTING)	1
+get	blocked	java.util.concurrent.atomic.AtomicBoolean.get:boolean()	blocked.get()	1
+activateDefaultTyping		com.fasterxml.jackson.databind.ObjectMapper.activateDefaultTyping:<unresolvedSignature>(3)	activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInf	1
+createNamedQuery	this.entityManager	javax.persistence.EntityManager.createNamedQuery:<unresolvedSignature>(2)	this.entityManager.createNamedQuery("findById", CarInformation.class)	1
+add	uniqueFindings	java.util.List.add:boolean(java.lang.Object)	uniqueFindings.add(f)	1
+select		javax.persistence.criteria.CriteriaQuery.select:<unresolvedSignature>(1)	select(root)	1
+map	this	java.util.Optional.map:java.util.Optional(java.util.function.Function)	this.findByLevel(LevelConstants.getOrdinal(levelName)).map(VaultEntity::getPassword)	1
+iterator	levelResponseBean	java.util.List.iterator:java.util.Iterator()	levelResponseBean.getAttackVectorResponseBeans()	1
+getAlgorithm	hmacSHA	javax.crypto.Mac.getAlgorithm:java.lang.String()	hmacSHA.getAlgorithm()	1
+tryAcquire	this.billionLaughsSemaphore	java.util.concurrent.Semaphore.tryAcquire:boolean()	this.billionLaughsSemaphore.tryAcquire()	1
+get	metaEndpointResponseBeanOptional	java.util.Optional.get:java.lang.Object()	metaEndpointResponseBeanOptional.get()	1
+isEmpty	hits	java.util.Set.isEmpty:boolean()	hits.isEmpty()	1
+replaceAll	lowered	java.lang.String.replaceAll:java.lang.String(java.lang.String,java.lang.String)	lowered.replaceAll("[^a-z0-9_-]", "")	1
+incrementAndGet	this.level1PredictableSessionCounter	java.util.concurrent.atomic.AtomicInteger.incrementAndGet:int()	this.level1PredictableSessionCounter.incrementAndGet()	1
+addValue		org.springframework.jdbc.core.namedparam.MapSqlParameterSource.addValue:<unresolvedSignature>(2)	addValue("id", id)	1
+resolve	dir	java.nio.file.Path.resolve:java.nio.file.Path(java.lang.String)	dir.resolve(fileName)	1
+startsWith	a	java.lang.String.startsWith:boolean(java.lang.String)	a.startsWith("user")	1
+equals	otpEntity	java.lang.String.equals:boolean(java.lang.Object)	otpEntity.getOtpHash().equals(otp)	1
+equalsIgnoreCase	saltAndHash[1]	java.lang.String.equalsIgnoreCase:boolean(java.lang.String)	saltAndHash[1].equalsIgnoreCase(calculatedHash)	1
+toLowerCase	System	java.lang.String.toLowerCase:java.lang.String()	System.getProperty("os.name").toLowerCase()	1
+getPublicKey	certificate	java.security.cert.Certificate.getPublicKey:java.security.PublicKey()	certificate.getPublicKey()	1
+min	Math	java.lang.Math.min:int(int,int)	Math.min(passwordBytes.length, 14)	1
+startsWith	this.csvPath	java.lang.String.startsWith:boolean(java.lang.String)	this.csvPath.startsWith(CLASSPATH_PREFIX)	1
+nextBytes	random	java.security.SecureRandom.nextBytes:void(byte[])	random.nextBytes(this.hmacKey)	1
+getName	result	java.lang.Class.getName:java.lang.String()	result.getClass().getName()	1
+warn	DastBenchmarkStrategy.LOGGER	org.apache.logging.log4j.Logger.warn:<unresolvedSignature>(1)	DastBenchmarkStrategy.LOGGER.warn("Ground truth is empty; coverage cannot be computed and will be reported as"	1
+addAndGet	this.level3PredictableSessionCounter	java.util.concurrent.atomic.AtomicInteger.addAndGet:int(int)	this.level3PredictableSessionCounter.addAndGet(100)	1
+equals	incomingSessionId	java.lang.String.equals:boolean(java.lang.Object)	incomingSessionId.equals(sessionId)	1
+add	allEndPointsResponseBean	java.util.Set.add:boolean(java.lang.Object)	allEndPointsResponseBean.getLevelDescriptionSet().add(levelResponseBean)	1
+getHeader		javax.servlet.http.HttpServletRequest.getHeader:<unresolvedSignature>(1)	getHeader(FORWARDED_HOST_HEADER)	1
+builder	CSVFormat.DEFAULT	<unresolvedNamespace>.builder:<unresolvedSignature>(0)	CSVFormat.DEFAULT.builder()	1
+isEmpty	cleaned	java.lang.String.isEmpty:boolean()	cleaned.isEmpty()	1
+schedule	scheduler	java.util.concurrent.ScheduledThreadPoolExecutor.schedule:java.util.concurrent.ScheduledFuture(java.lang.Runnable,long,java.util.concurrent.TimeUnit)	scheduler.schedule(<lambda>, timeoutMs, java.util.concurrent.TimeUnit.MILLISECONDS)	1
+getExpirationTime		com.nimbusds.jwt.JWTClaimsSet.getExpirationTime:<unresolvedSignature>(0)	getExpirationTime()	1
+generate	this.randomStringGenerator	org.apache.commons.text.RandomStringGenerator.generate:<unresolvedSignature>(1)	this.randomStringGenerator.generate(length)	1
+encode	URLEncoder	java.net.URLEncoder.encode:java.lang.String(java.lang.String,java.lang.String)	URLEncoder.encode(String.valueOf((char) 0), StandardCharsets.UTF_8.name())	1
+getCriteriaBuilder	this.entityManager	javax.persistence.EntityManager.getCriteriaBuilder:<unresolvedSignature>(0)	this.entityManager.getCriteriaBuilder()	1
+equals	CachePoisoningVulnerability.DEMO_USER_COOKIE	java.lang.String.equals:<unresolvedSignature>(1)	CachePoisoningVulnerability.DEMO_USER_COOKIE.equals(cookie.getName())	1
+getAttributeValue		com.unboundid.ldap.sdk.SearchResultEntry.getAttributeValue:<unresolvedSignature>(1)	getAttributeValue("uid")	1
+split	storedPassword	java.lang.String.split:java.lang.String[](java.lang.String)	storedPassword.split(":")	1
+equals	storedHash	java.lang.String.equals:boolean(java.lang.Object)	storedHash.equals(computedHash)	1
+getBytes	pwd	java.lang.String.getBytes:byte[](java.nio.charset.Charset)	pwd.getBytes(StandardCharsets.US_ASCII)	1
+run		org.springframework.boot.SpringApplication.run:<unresolvedSignature>(2)	run(Application.class, args)	1
+read	this.delegate	java.io.InputStream.read:int()	this.delegate.read()	1
+from		javax.persistence.criteria.CriteriaQuery.from:<unresolvedSignature>(1)	from(CarInformation.class)	1
+toJSONString		com.nimbusds.jose.jwk.JWK.toJSONString:<unresolvedSignature>(0)	toJSONString()	1
+of		java.util.List.of:<unresolvedSignature>(1)	of(validUser.getAttributeValue("uid"))	1
+digest	messageDigest	java.security.MessageDigest.digest:byte[](byte[])	messageDigest.digest(rawPassword.getBytes(StandardCharsets.UTF_8))	1
+apply	validator	java.util.function.Function.apply:java.lang.Object(java.lang.Object)	validator.apply(urlToRedirect)	1
+filter	MetaDataServiceMock.METADATA_ENDPOINT_RESPONSE_BEAN	java.util.stream.Stream.filter:java.util.stream.Stream(java.util.function.Predicate)	MetaDataServiceMock.METADATA_ENDPOINT_RESPONSE_BEAN.stream().filter(<lambda>)	1
+getBytes	plaintext	java.lang.String.getBytes:byte[](java.nio.charset.Charset)	plaintext.getBytes(StandardCharsets.UTF_8)	1
+stream	MetaDataServiceMock.IP_ENVIRONMENT_MAP	java.util.Collection.stream:java.util.stream.Stream()	MetaDataServiceMock.IP_ENVIRONMENT_MAP.values().stream()	1
+isEmpty	roles	java.util.List.isEmpty:boolean()	roles.isEmpty()	1
+getClass	obj	java.lang.Object.getClass:java.lang.Class()	obj.getClass()	1
+getBytes	rawPassword	java.lang.String.getBytes:byte[](java.nio.charset.Charset)	rawPassword.getBytes(StandardCharsets.UTF_8)	1
+length	contextPath	java.lang.String.length:int()	contextPath.length()	1
+get	CachePoisoningVulnerability.cache	java.util.concurrent.ConcurrentHashMap.get:java.lang.Object(java.lang.Object)	CachePoisoningVulnerability.cache.get(cacheKey)	1
+findFirst	this.symmetricAlgorithmKeySet	java.util.stream.Stream.findFirst:java.util.Optional()	this.symmetricAlgorithmKeySet.stream().filter(<lambda>).findFirst()	1
+add	map	<unresolvedNamespace>.add:<unresolvedSignature>(1)	map.computeIfAbsent(key, <lambda>).add(rowIndex)	1
+getHost		java.net.URL.getHost:java.lang.String()	new URL(url).getHost()	1
+toUpperCase	value	java.lang.String.toUpperCase:java.lang.String(java.util.Locale)	value.trim().toUpperCase(Locale.ROOT)	1
+size	AuditLogGadget.AUDIT_TRAIL	java.util.List.size:int()	AuditLogGadget.AUDIT_TRAIL.size()	1
+isEmpty	username	java.lang.String.isEmpty:boolean()	username.isEmpty()	1
+orElseGet	carInformation	<unresolvedNamespace>.orElseGet:<unresolvedSignature>(1)	carInformation.map(<lambda>).orElseGet(<lambda>)	1
+toString	xmlBuilder	java.lang.StringBuilder.toString:java.lang.String()	xmlBuilder.toString()	1
+error	DatabaseSeeder.LOGGER	org.apache.logging.log4j.Logger.error:<unresolvedSignature>(5)	DatabaseSeeder.LOGGER.error("{} failed to seed module: {} (Table: {}). Aborting startup.", seeder.toString(), 	1
+replace	path	java.lang.String.replace:java.lang.String(char,char)	path.trim().replace('\\', '/')	1
+keyID		<unresolvedNamespace>.keyID:<unresolvedSignature>(1)	keyUse(KeyUse.SIGNATURE).keyID(UUID.randomUUID().toString())	1
+newBufferedReader	Files	java.nio.file.Files.newBufferedReader:java.io.BufferedReader(java.nio.file.Path,java.nio.charset.Charset)	Files.newBufferedReader(path, StandardCharsets.UTF_8)	1
+getBytes	rawToken	java.lang.String.getBytes:byte[](java.nio.charset.Charset)	rawToken.getBytes(StandardCharsets.UTF_8)	1
+load	keyStore	java.security.KeyStore.load:void(java.io.InputStream,char[])	keyStore.load(getClass().getClassLoader().getResourceAsStream(KEY_STORE_FILE_NAME), KEY_STORE_PASSWORD.toCharA	1
+writeValue	this.objectMapper	<unresolvedNamespace>.writeValue:<unresolvedSignature>(2)	this.objectMapper.writerWithDefaultPrettyPrinter().writeValue(temp.toFile(), result)	1
+getMessage	this.messageSource	org.springframework.context.MessageSource.getMessage:<unresolvedSignature>(3)	this.messageSource.getMessage(code, args, LocaleContextHolder.getLocale())	1
+getInputStream		org.springframework.web.multipart.MultipartFile.getInputStream:<unresolvedSignature>(0)	getInputStream()	1
+ignorableWhitespace	super	org.xml.sax.helpers.XMLFilterImpl.ignorableWhitespace:void(char[],int,int)	super.ignorableWhitespace(ch, start, length)	1
+matcher	PathTraversalVulnerability.SAFE_FILE_NAME_PATTERN	java.util.regex.Pattern.matcher:java.util.regex.Matcher(java.lang.CharSequence)	PathTraversalVulnerability.SAFE_FILE_NAME_PATTERN.matcher(fileName)	1
+error	PathTraversalVulnerability.LOGGER	org.apache.logging.log4j.Logger.error:<unresolvedSignature>(2)	PathTraversalVulnerability.LOGGER.error("Following error occurred: ", e)	1
+withinRange		<unresolvedNamespace>.withinRange:<unresolvedSignature>(2)	usingRandom(secureRandom::nextInt).withinRange(33, 126)	1
+ofSeconds	Duration	java.time.Duration.ofSeconds:java.time.Duration(long)	Duration.ofSeconds(60)	1

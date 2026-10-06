@@ -1,0 +1,154 @@
+log	console	__whatwg.console:log	console.log("Updated allocations")	41
+	_tmp_3	__ecma.Array:	_tmp_3.push({                 d: threeYearsAgo + "-5-01",                 balance: 1020             })	31
+render	res	<unknownFullName>	res.render("allocations", {                 userId,                 allocations,                 environmental	23
+	_tmp_2	__ecma.Array:	_tmp_2.push({     title: "A10 Redirects",     content: "Contents here",     orphan: true })	19
+__ecma.Array.factory	__ecma.Array	__ecma.Array.factory	__ecma.Array.factory()	13
+get	app	<unknownFullName>	app.get("/", sessionHandler.displayWelcomePage)	12
+require		server.js::program:require	require("express")	11
+collection	db	_tmp_1:db:<returnValue>:<member>(db):collection	db.collection("allocations")	10
+require		app/routes/index.js::program:require	require("./session")	9
+callback		app/data/user-dao.js::program:callback	callback(null, result.ops[0])	9
+parseInt		parseInt	parseInt(userId)	9
+redirect	res	<unknownFullName>	res.redirect(req.query.url)	7
+random	Math	__ecma.Math:random	Math.random()	7
+callback		app/data/allocations-dao.js::program:callback	callback(err, null)	7
+use	app	express:<returnValue>:use	app.use("/tutorial", tutorialRouter)	7
+next		app/routes/session.js::program:next	next(err)	7
+post	app	<unknownFullName>	app.post("/login", sessionHandler.handleLoginRequest)	6
+stringify	JSON	JSON.stringify	JSON.stringify(err)	6
+callback		app/data/contributions-dao.js::program:callback	callback(err, null)	6
+	_tmp_4	__ecma.Array:	_tmp_4.push(isNaN(preTax))	6
+getUserById	userDAO	<unknownFullName>	userDAO.getUserById(userId, (err, user) => {                      if (err) return callback(err, null);        	6
+floor	Math	__ecma.Math:floor	Math.floor(Math.random() * 10)	6
+require		config/config.js::program:require	require("underscore")	5
+exit	process	<unknownFullName>	process.exit(1)	5
+	_tmp_7	__ecma.Array:	_tmp_7.push("users")	5
+callback		app/data/memos-dao.js::program:callback	callback(null, result)	5
+callback		app/data/profile-dao.js::program:callback	callback(null, user)	4
+require		app/routes/profile.js::program:require	require("node-esapi")	3
+eval		eval	eval(req.body.preTax)	3
+require		app/routes/research.js::program:require	require("needle")	3
+parseResponse		artifacts/db-reset.js::program:parseResponse	parseResponse(err, data, "countersCol.insert")	3
+callback		app/data/benefits-dao.js::program:callback	callback(null, users)	3
+write	res	<unknownFullName>	res.write("<h1>The following is the stock information you requested.</h1>\n\n")	3
+findOne	usersCol	<unknownFullName>	usersCol.findOne({             userName: userName         }, validateUserDoc)	3
+isNaN		isNaN	isNaN(preTax)	3
+next		app/routes/benefits.js::program:next	next(error)	3
+require		app/routes/session.js::program:require	require("../../config/config")	3
+require		artifacts/db-reset.js::program:require	require("mongodb")	2
+next		app/routes/profile.js::program:next	next(err)	2
+get	router	express:Router:<returnValue>:get	router.get("/", (req, res) => {     "use strict";     return res.render("tutorial/a1", {         environmental	2
+set	app	express:<returnValue>:set	app.set("view engine", "html")	2
+resolve	path	path:resolve	path.resolve(__dirname + "/../config/env/all.js")	2
+error	console	__whatwg.console:error	console.error(err.message)	2
+next		app/routes/contributions.js::program:next	next(error)	2
+require		app/routes/benefits.js::program:require	require("../data/benefits-dao")	2
+require		app/routes/allocations.js::program:require	require("../../config/config")	2
+require		app/routes/memos.js::program:require	require("../../config/config")	2
+next		app/routes/memos.js::program:next	next(err)	2
+require		app/routes/contributions.js::program:require	require("../../config/config")	2
+connect	MongoClient	mongodb:connect	MongoClient.connect(db, (err, db) =>  {     if (err) {         console.log("ERROR: connect");         console.	2
+require		app/routes/tutorial.js::program:require	require("express")	2
+$		app/assets/js/chart/chart-data-morris.js::program:$	$("#morris-chart-area")	2
+getAllNonAdminUsers	benefitsDAO	<unknownFullName>	benefitsDAO.getAllNonAdminUsers((error, users) => {              if (error) return next(error);              r	2
+static	express	express:static	express.static(`${__dirname}/app/assets`)	1
+searchCriteria		app/data/allocations-dao.js::program:<lambda>0:<lambda>4:searchCriteria	searchCriteria()	1
+toArray	usersCol	<unknownFullName>	usersCol.find({             "isAdmin": {                 $ne: true             }         }).toArray((err, user	1
+getByUserId	profile	<unknownFullName>	profile.getByUserId(parseInt(userId), (err, doc) => {             if (err) return next(err);             doc.u	1
+updateUser	profile	<unknownFullName>	profile.updateUser(             parseInt(userId),             firstName,             lastName,             ssn	1
+Router	express	express:Router	express.Router()	1
+insert	usersCol	<unknownFullName>	usersCol.insert(user, (err, result) => !err ? callback(null, result.ops[0]) : callback(err, null))	1
+encodeForHTML	ESAPI	node-esapi:encoder:<returnValue>:encodeForHTML	ESAPI.encoder().encodeForHTML(doc.website)	1
+insert	memosCol	<unknownFullName>	memosCol.insert(memos, (err, result) => !err ? callback(null, result) : callback(err, null))	1
+restart	redirectsTour	<unknownFullName>	redirectsTour.restart()	1
+updateBenefits	benefitsDAO	<unknownFullName>	benefitsDAO.updateBenefits(userId, benefitStartDate, (error) => {              if (error) return next(error); 	1
+all	Promise	Promise.all	Promise.all(dropPromises)	1
+	_tmp_36	__ecma.Array:	_tmp_36.push("Balance ($)")	1
+update	allocationsDAO	<unknownFullName>	allocationsDAO.update(user._id, stocks, funds, bonds, (err) => {             if (err) return next(err);       	1
+get	needle	needle:get	needle.get(url, (error, newResponse, body) => {                 if (!error && newResponse.statusCode === 200) 	1
+getRandomFutureDate	this	app/data/user-dao.js::program:getRandomFutureDate	this.getRandomFutureDate()	1
+getMonth	today	<unknownFullName>	today.getMonth()	1
+getByUserIdAndThreshold	allocationsDAO	<unknownFullName>	allocationsDAO.getByUserIdAndThreshold(userId, threshold, (err, allocations) => {             if (err) return 	1
+test	EMAIL_RE	<unknownFullName>	EMAIL_RE.test(email)	1
+getFullYear		__ecma.Date:getFullYear	new Date().getFullYear()	1
+update	users	<unknownFullName>	users.update({                 _id: parseInt(userId)             }, {                 $set: user             }	1
+insert	countersCol	_tmp_1:db:<returnValue>:<member>(db):collection:<returnValue>:insert	countersCol.insert({             _id: "userId",             seq: 3         }, (err, data) => {             par	1
+end	res	<unknownFullName>	res.end()	1
+regenerate	req.session	req:session:<returnValue>:<member>(session):regenerate	req.session.regenerate(() => {                         req.session.userId = user._id;                         	1
+toLowerCase	finalEnv	<unknownFullName>	finalEnv.toLowerCase()	1
+dropCollection	db	_tmp_1:db:<returnValue>:<member>(db):dropCollection	db.dropCollection(name, (err, data) => {             if (!err) {                 console.log(`Dropped collecti	1
+favicon		serve-favicon	favicon(__dirname + "/app/assets/favicon.ico")	1
+validateLogin	userDAO	<unknownFullName>	userDAO.validateLogin(userName, password, (err, user) => {             const errorMessage = "Invalid username 	1
+next		app/routes/allocations.js::program:next	next(err)	1
+setDefaults	swig	swig:setDefaults	swig.setDefaults({         // Autoescape disabled         autoescape: false         /*         // Fix for A3 -	1
+require		app/data/contributions-dao.js::program:require	require("./user-dao")	1
+comparePassword		app/data/user-dao.js::program:UserDAO:<lambda>4:comparePassword	comparePassword(password, user.password)	1
+insertMany	allocationsCol	_tmp_1:db:<returnValue>:<member>(db):collection:<returnValue>:insertMany	allocationsCol.insertMany(finalAllocations, (err, data) => {                 parseResponse(err, data, "allocat	1
+	_tmp_1	__ecma.Array:	_tmp_1.push("<script>document.write("<script src='http://" + (location.host || "localhost").split(":")[0] + ":	1
+status	res	<unknownFullName>	res.status(500)	1
+test	PASS_RE	<unknownFullName>	PASS_RE.test(password)	1
+getNextSequence	this	app/data/user-dao.js::program:getNextSequence	this.getNextSequence("userId", (err, id) => {             if (err) {                 return callback(err, null	1
+update	usersCol	<unknownFullName>	usersCol.update({                 _id: parseInt(userId)             }, {                 $set: {              	1
+json	bodyParser	body-parser:json	bodyParser.json()	1
+then	Promise	Promise.all:<returnValue>:then	Promise.all(dropPromises).then(() => {         const usersCol = db.collection("users");         const allocati	1
+sort	memosCol	<unknownFullName>	memosCol.find({}).sort({             timestamp: -1         })	1
+displayMemos	this	app/routes/memos.js::program:displayMemos	this.displayMemos(req, res, next)	1
+findOne	contributionsDB	<unknownFullName>	contributionsDB.findOne({                 userId: userId             },             (err, contributions) => { 	1
+slice	("0" + month)	<unknownFullName>	("0" + month).slice(-2)	1
+urlencoded	bodyParser	body-parser:urlencoded	bodyParser.urlencoded({         // Mandatory in Express v4         extended: false     })	1
+tryDropCollection		artifacts/db-reset.js::program:tryDropCollection	tryDropCollection(db, name)	1
+find	allocationsCol	<unknownFullName>	allocationsCol.find(searchCriteria())	1
+require		app/data/allocations-dao.js::program:require	require("./user-dao")	1
+insertMany	usersCol	_tmp_1:db:<returnValue>:<member>(db):collection:<returnValue>:insertMany	usersCol.insertMany(USERS_TO_INSERT, (err, data) => {             const finalAllocations = [];              //	1
+require		app/data/user-dao.js::program:require	require("bcrypt-nodejs")	1
+Area	Morris	<unknownFullName>	Morris.Area({             // ID of the element in which to draw the chart.             element: "morris-chart-	1
+update	allocationsCol	<unknownFullName>	allocationsCol.update({             userId: parsedUserId         }, allocations, {             upsert: true   	1
+prepareUserData		app/routes/session.js::program:SessionHandler:prepareUserData	prepareUserData(user, next)	1
+encoder	ESAPI	node-esapi:encoder	ESAPI.encoder()	1
+createServer	http	http:createServer	http.createServer(app)	1
+forEach	data.ops	data:ops:<returnValue>:<member>(ops):forEach	data.ops.forEach((user) => {                 const stocks = Math.floor((Math.random() * 40) + 1);             	1
+getAllMemos	memosDAO	<unknownFullName>	memosDAO.getAllMemos((err, docs) => {             if (err) return next(err);             return res.render("me	1
+findAndModify	db	<unknownFullName>	db.collection("counters").findAndModify({                 _id: name             }, [], {                 $inc:	1
+$		app/assets/js/tour/redirects-steps.js::program:$	$("#redirects-tour")	1
+slice	("0" + day)	<unknownFullName>	("0" + day).slice(-2)	1
+push	userAllocations	__ecma.Array:push	userAllocations.push(alloc)	1
+map	collectionNames	__ecma.Array:map	collectionNames.map((name) => tryDropCollection(db, name))	1
+forEach	finalAllocations	__ecma.Array:forEach	finalAllocations.forEach(allocation => console.log(JSON.stringify(allocation)))	1
+express		express	express()	1
+find	memosCol	<unknownFullName>	memosCol.find({})	1
+on		app/assets/js/tour/redirects-steps.js::program:$:<returnValue>:on	$("#redirects-tour").on("click", () => {     "use strict";     redirectsTour.init();     redirectsTour.restart	1
+toArray	memosCol	<unknownFullName>	memosCol.find({}).sort({             timestamp: -1         }).toArray((err, memos) => {             if (err) r	1
+validateSignup		app/routes/session.js::program:SessionHandler:validateSignup	validateSignup(userName, firstName, lastName, password, verify, email, errors)	1
+insert	memosDAO	<unknownFullName>	memosDAO.insert(req.body.memo, (err, docs) => {             if (err) return next(err);             this.displa	1
+addUser	userDAO	<unknownFullName>	userDAO.addUser(userName, firstName, lastName, password, email, (err, user) => {                      if (err)	1
+forEach	allocations	{ userId: ANY; stocks: ANY; funds: ANY; bonds: ANY; }:forEach	allocations.forEach( alloc => {                 userDAO.getUserById(alloc.userId, (err, user) => {            	1
+push	finalAllocations	__ecma.Array:push	finalAllocations.push({                     userId: user._id,                     stocks: stocks,             	1
+listen	http	http:createServer:<returnValue>:listen	http.createServer(app).listen(port, () => {         console.log(`Express http server listening on port ${port}	1
+ceil	Math	__ecma.Math:ceil	Math.ceil(Math.random() * 30)	1
+getDay	today	<unknownFullName>	today.getDay()	1
+setOptions	marked	marked:setOptions	marked.setOptions({         sanitize: true     })	1
+update	contributionsDB	<unknownFullName>	contributionsDB.update({             userId             },             contributions, {                 upsert	1
+addSteps	redirectsTour	<unknownFullName>	redirectsTour.addSteps([{     title: "A10 Redirects",     content: "Contents here",     orphan: true }, {     	1
+findOne	users	<unknownFullName>	users.findOne({                 _id: parseInt(userId)             },             (err, user) => {             	1
+writeHead	res	<unknownFullName>	res.writeHead(200, {                         "Content-Type": "text/html"                     })	1
+find	usersCol	<unknownFullName>	usersCol.find({             "isAdmin": {                 $ne: true             }         })	1
+test	regexPattern	<unknownFullName>	regexPattern.test(bankRouting)	1
+update	contributionsDAO	<unknownFullName>	contributionsDAO.update(userId, preTax, afterTax, roth, (err, contributions) => {              if (err) return	1
+routes		server.js::program:routes	routes(app, db)	1
+session		express-session	session({         // genid: (req) => {         //    return genuuid() // use UUIDs for session IDs         //}	1
+test	FNAME_RE	<unknownFullName>	FNAME_RE.test(firstName)	1
+inspect	util	util:inspect	util.inspect(config, false, null)	1
+getUserByUserName	userDAO	<unknownFullName>	userDAO.getUserByUserName(userName, (err, user) => {                  if (err) return next(err);              	1
+forEach	USERS_TO_INSERT	__ecma.Array:forEach	USERS_TO_INSERT.forEach((user) => console.log(JSON.stringify(user)))	1
+getFullYear	today	<unknownFullName>	today.getFullYear()	1
+	_tmp_35	__ecma.Array:	_tmp_35.push("balance")	1
+getByUserId	contributionsDAO	<unknownFullName>	contributionsDAO.getByUserId(userId, (error, contrib) => {             if (error) return next(error);         	1
+init	redirectsTour	<unknownFullName>	redirectsTour.init()	1
+engine	app	express:<returnValue>:engine	app.engine(".html", consolidate.swig)	1
+destroy	req.session	req:session:<returnValue>:<member>(session):destroy	req.session.destroy(() => res.redirect("/"))	1
+next	_iterator_0	<unknownFullName>	_iterator_0.next()	1
+test	LNAME_RE	<unknownFullName>	LNAME_RE.test(lastName)	1
+test	USER_RE	<unknownFullName>	USER_RE.test(userName)	1
+toArray	allocationsCol	<unknownFullName>	allocationsCol.find(searchCriteria()).toArray((err, allocations) => {             if (err) return callback(err	1
+resolve		artifacts/db-reset.js::program:resolve	resolve(undefined)	1
+some	validations	__ecma.Array:some	validations.some(validation => validation)	1

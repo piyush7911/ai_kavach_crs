@@ -1,0 +1,6949 @@
+{
+ "_about": "hybrid = community-mined + LLM-proposed gap specs (request-input sources pooled across classes)",
+ "sources": {
+  "xpath-injection": [
+   {
+    "kind": "access",
+    "name": "\\$rootScope",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-methods"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "window.location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "document.location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "data",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "\\$scope",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-trust-as-method"
+   },
+   {
+    "kind": "access",
+    "name": "href",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "access",
+    "name": "hash",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "access",
+    "name": "query",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "body",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "params",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "params",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "query",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "body",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "[\\w$]+.query",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "code-string-concat"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "PASS_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "PASS_RE.test"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "LNAME_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "LNAME_RE.test"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "USER_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "USER_RE.test"
+   }
+  ],
+  "other": [
+   {
+    "kind": "access",
+    "name": "\\$rootScope",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-methods"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "window.location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "document.location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "data",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "\\$scope",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-trust-as-method"
+   },
+   {
+    "kind": "access",
+    "name": "href",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "access",
+    "name": "hash",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "access",
+    "name": "query",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "body",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "params",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "params",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "query",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "body",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "[\\w$]+.query",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "code-string-concat"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "PASS_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "PASS_RE.test"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "LNAME_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "LNAME_RE.test"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "USER_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "USER_RE.test"
+   }
+  ],
+  "path-traversal": [
+   {
+    "kind": "access",
+    "name": "\\$rootScope",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-methods"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "window.location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "document.location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "data",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "\\$scope",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-trust-as-method"
+   },
+   {
+    "kind": "access",
+    "name": "href",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "access",
+    "name": "hash",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "access",
+    "name": "query",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "body",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "params",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "params",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "query",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "body",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "[\\w$]+.query",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "code-string-concat"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "PASS_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "PASS_RE.test"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "LNAME_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "LNAME_RE.test"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "USER_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "USER_RE.test"
+   }
+  ],
+  "command-injection": [
+   {
+    "kind": "access",
+    "name": "\\$rootScope",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-methods"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "window.location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "document.location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "data",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "\\$scope",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-trust-as-method"
+   },
+   {
+    "kind": "access",
+    "name": "href",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "access",
+    "name": "hash",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "access",
+    "name": "query",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "body",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "params",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "params",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "query",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "body",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "[\\w$]+.query",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "code-string-concat"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "PASS_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "PASS_RE.test"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "LNAME_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "LNAME_RE.test"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "USER_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "USER_RE.test"
+   }
+  ],
+  "redos": [
+   {
+    "kind": "access",
+    "name": "\\$rootScope",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-methods"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "window.location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "document.location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "data",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "\\$scope",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-trust-as-method"
+   },
+   {
+    "kind": "access",
+    "name": "href",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "access",
+    "name": "hash",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "access",
+    "name": "query",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "body",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "params",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "params",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "query",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "body",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "[\\w$]+.query",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "code-string-concat"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "PASS_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "PASS_RE.test"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "LNAME_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "LNAME_RE.test"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "USER_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "USER_RE.test"
+   }
+  ],
+  "deserialization": [
+   {
+    "kind": "access",
+    "name": "\\$rootScope",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-methods"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "window.location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "document.location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "data",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "\\$scope",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-trust-as-method"
+   },
+   {
+    "kind": "access",
+    "name": "href",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "access",
+    "name": "hash",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "access",
+    "name": "query",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "body",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "params",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "params",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "query",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "body",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "[\\w$]+.query",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "code-string-concat"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "PASS_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "PASS_RE.test"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "LNAME_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "LNAME_RE.test"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "USER_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "USER_RE.test"
+   }
+  ],
+  "nosql-injection": [
+   {
+    "kind": "access",
+    "name": "\\$rootScope",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-methods"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "window.location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "document.location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "data",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "\\$scope",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-trust-as-method"
+   },
+   {
+    "kind": "access",
+    "name": "href",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "access",
+    "name": "hash",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "access",
+    "name": "query",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "body",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "params",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "params",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "query",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "body",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "[\\w$]+.query",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "code-string-concat"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "PASS_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "PASS_RE.test"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "LNAME_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "LNAME_RE.test"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "USER_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "USER_RE.test"
+   }
+  ],
+  "ssti": [
+   {
+    "kind": "access",
+    "name": "\\$rootScope",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-methods"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "window.location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "document.location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "data",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "\\$scope",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-trust-as-method"
+   },
+   {
+    "kind": "access",
+    "name": "href",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "access",
+    "name": "hash",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "access",
+    "name": "query",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "body",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "params",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "params",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "query",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "body",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "[\\w$]+.query",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "code-string-concat"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "PASS_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "PASS_RE.test"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "LNAME_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "LNAME_RE.test"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "USER_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "USER_RE.test"
+   }
+  ],
+  "ssrf": [
+   {
+    "kind": "access",
+    "name": "\\$rootScope",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-methods"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "window.location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "document.location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "data",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "\\$scope",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-trust-as-method"
+   },
+   {
+    "kind": "access",
+    "name": "href",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "access",
+    "name": "hash",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "access",
+    "name": "query",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "body",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "params",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "params",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "query",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "body",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "[\\w$]+.query",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "code-string-concat"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "PASS_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "PASS_RE.test"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "LNAME_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "LNAME_RE.test"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "USER_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "USER_RE.test"
+   }
+  ],
+  "ldap-injection": [
+   {
+    "kind": "access",
+    "name": "\\$rootScope",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-methods"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "window.location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "document.location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "data",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "\\$scope",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-trust-as-method"
+   },
+   {
+    "kind": "access",
+    "name": "href",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "access",
+    "name": "hash",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "access",
+    "name": "query",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "body",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "params",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "params",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "query",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "body",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "[\\w$]+.query",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "code-string-concat"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "PASS_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "PASS_RE.test"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "LNAME_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "LNAME_RE.test"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "USER_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "USER_RE.test"
+   }
+  ],
+  "xss": [
+   {
+    "kind": "access",
+    "name": "\\$rootScope",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-methods"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "window.location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "document.location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "data",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "\\$scope",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-trust-as-method"
+   },
+   {
+    "kind": "access",
+    "name": "href",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "access",
+    "name": "hash",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "access",
+    "name": "query",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "body",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "params",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "params",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "query",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "body",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "[\\w$]+.query",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "code-string-concat"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "PASS_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "PASS_RE.test"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "LNAME_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "LNAME_RE.test"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "USER_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "USER_RE.test"
+   }
+  ],
+  "code-injection": [
+   {
+    "kind": "access",
+    "name": "\\$rootScope",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-methods"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "window.location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "document.location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "data",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "\\$scope",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-trust-as-method"
+   },
+   {
+    "kind": "access",
+    "name": "href",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "access",
+    "name": "hash",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "access",
+    "name": "query",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "body",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "params",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "params",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "query",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "body",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "[\\w$]+.query",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "code-string-concat"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "PASS_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "PASS_RE.test"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "LNAME_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "LNAME_RE.test"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "USER_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "USER_RE.test"
+   }
+  ],
+  "open-redirect": [
+   {
+    "kind": "access",
+    "name": "\\$rootScope",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-methods"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "window.location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "document.location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "data",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "\\$scope",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-trust-as-method"
+   },
+   {
+    "kind": "access",
+    "name": "href",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "access",
+    "name": "hash",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "access",
+    "name": "query",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "body",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "params",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "params",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "query",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "body",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "[\\w$]+.query",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "code-string-concat"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "PASS_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "PASS_RE.test"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "LNAME_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "LNAME_RE.test"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "USER_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "USER_RE.test"
+   }
+  ],
+  "xxe": [
+   {
+    "kind": "access",
+    "name": "\\$rootScope",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-methods"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "window.location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "document.location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "data",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "\\$scope",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-trust-as-method"
+   },
+   {
+    "kind": "access",
+    "name": "href",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "access",
+    "name": "hash",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "access",
+    "name": "query",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "body",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "params",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "params",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "query",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "body",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "[\\w$]+.query",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "code-string-concat"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "PASS_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "PASS_RE.test"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "LNAME_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "LNAME_RE.test"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "USER_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "USER_RE.test"
+   }
+  ],
+  "format-string": [
+   {
+    "kind": "access",
+    "name": "\\$rootScope",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-methods"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "window.location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "document.location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "data",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "\\$scope",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-trust-as-method"
+   },
+   {
+    "kind": "access",
+    "name": "href",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "access",
+    "name": "hash",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "access",
+    "name": "query",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "body",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "params",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "params",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "query",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "body",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "[\\w$]+.query",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "code-string-concat"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "PASS_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "PASS_RE.test"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "LNAME_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "LNAME_RE.test"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "USER_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "USER_RE.test"
+   }
+  ],
+  "sql-injection": [
+   {
+    "kind": "access",
+    "name": "\\$rootScope",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-methods"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "window.location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "document.location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "search",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": "data",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-taint"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "\\$scope",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-trust-as-method"
+   },
+   {
+    "kind": "access",
+    "name": "href",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "access",
+    "name": "hash",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "access",
+    "name": "query",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "body",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "params",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "params",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "query",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "body",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "cookies",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": "headers",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "access",
+    "name": ".*",
+    "ctor": false,
+    "recv": "[\\w$]+.query",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "code-string-concat"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "PASS_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "PASS_RE.test"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "LNAME_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "LNAME_RE.test"
+   },
+   {
+    "kind": "call",
+    "name": "test",
+    "recv": "USER_RE",
+    "type": null,
+    "ctor": false,
+    "arg": null,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "USER_RE.test"
+   }
+  ]
+ },
+ "sinks": {
+  "xpath-injection": [],
+  "other": [
+   {
+    "kind": "call",
+    "name": "render",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "res-render-injection"
+   },
+   {
+    "kind": "call",
+    "name": "set",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "cors-misconfiguration"
+   },
+   {
+    "kind": "call",
+    "name": "header",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "cors-misconfiguration"
+   },
+   {
+    "kind": "call",
+    "name": "setHeader",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "cors-misconfiguration"
+   },
+   {
+    "kind": "call",
+    "name": "writeHead",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "cors-misconfiguration"
+   },
+   {
+    "kind": "call",
+    "name": "assign",
+    "ctor": false,
+    "recv": "Object",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "express-data-exfiltration"
+   },
+   {
+    "kind": "call",
+    "name": "require",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "require-request"
+   }
+  ],
+  "path-traversal": [
+   {
+    "kind": "call",
+    "name": "join",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "express-path-join-resolve-traversal"
+   },
+   {
+    "kind": "call",
+    "name": "resolve",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "express-path-join-resolve-traversal"
+   },
+   {
+    "kind": "call",
+    "name": "join",
+    "ctor": false,
+    "recv": "path",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "express-path-join-resolve-traversal"
+   },
+   {
+    "kind": "call",
+    "name": "resolve",
+    "ctor": false,
+    "recv": "path",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "express-path-join-resolve-traversal"
+   },
+   {
+    "kind": "call",
+    "name": "access",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "appendFile",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "chmod",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "chown",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "close",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "copyFile",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "cp",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "createReadStream",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "createWriteStream",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "exists",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "fchmod",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "fchown",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "fdatasync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "fstat",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "fsync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "ftruncate",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "futimes",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "lchmod",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "lchown",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "lutimes",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "link",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "lstat",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "mkdir",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "mkdtemp",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "open",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "opendir",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "read",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "readdir",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "readFile",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "readlink",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "readv",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "realpath",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "native",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+.realpath",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "rename",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "rmdir",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "rm",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "stat",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "symlink",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "truncate",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "unlink",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "unwatchFile",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "utimes",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "watch",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "watchFile",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "write",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "writeFile",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "writev",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "accessSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "appendFileSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "chmodSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "chownSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "closeSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "copyFileSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "cpSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "existsSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "fchmodSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "fchownSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "fdatasyncSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "fstatSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "fsyncSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "ftruncateSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "futimesSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "lchmodSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "lchownSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "lutimesSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "linkSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "lstatSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "mkdirSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "mkdtempSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "opendirSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "openSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "readdirSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "readFileSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "readlinkSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "readSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "readvSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "realpathync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "native",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+.realpathSync",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "renameSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "rmdirSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "rmSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "statSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "symlinkSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "truncateSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "unlinkSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "utimesSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "writeFileSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "writeSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "writevSync",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "access",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "appendFile",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "chmod",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "chown",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "close",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "copyFile",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "cp",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "createReadStream",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "createWriteStream",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "exists",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "fchmod",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "fchown",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "fdatasync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "fstat",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "fsync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "ftruncate",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "futimes",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "lchmod",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "lchown",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "lutimes",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "link",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "lstat",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "mkdir",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "mkdtemp",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "open",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "opendir",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "read",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "readdir",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "readFile",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "readlink",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "readv",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "realpath",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "native",
+    "ctor": false,
+    "recv": "realpath",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "rename",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "rmdir",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "rm",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "stat",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "symlink",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "truncate",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "unlink",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "unwatchFile",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "utimes",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "watch",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "watchFile",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "write",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "writeFile",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "writev",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "accessSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "appendFileSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "chmodSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "chownSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "closeSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "copyFileSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "cpSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "existsSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "fchmodSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "fchownSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "fdatasyncSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "fstatSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "fsyncSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "ftruncateSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "futimesSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "lchmodSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "lchownSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "lutimesSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "linkSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "lstatSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "mkdirSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "mkdtempSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "opendirSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "openSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "readdirSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "readFileSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "readlinkSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "readSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "readvSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "realpathync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "native",
+    "ctor": false,
+    "recv": "realpathSync",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "renameSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "rmdirSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "rmSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "statSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "symlinkSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "truncateSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "unlinkSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "utimesSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "writeFileSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "writeSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   },
+   {
+    "kind": "call",
+    "name": "writevSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-fs-filename"
+   }
+  ],
+  "command-injection": [
+   {
+    "kind": "call",
+    "name": "exec",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "detect-child-process"
+   },
+   {
+    "kind": "call",
+    "name": "execSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "detect-child-process"
+   },
+   {
+    "kind": "call",
+    "name": "spawn",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "detect-child-process"
+   },
+   {
+    "kind": "call",
+    "name": "spawnSync",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "detect-child-process"
+   },
+   {
+    "kind": "call",
+    "name": "exec",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "detect-child-process"
+   },
+   {
+    "kind": "call",
+    "name": "execSync",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "detect-child-process"
+   },
+   {
+    "kind": "call",
+    "name": "spawn",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "detect-child-process"
+   },
+   {
+    "kind": "call",
+    "name": "spawnSync",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "detect-child-process"
+   },
+   {
+    "kind": "call",
+    "name": "run",
+    "ctor": false,
+    "recv": "Deno",
+    "type": null,
+    "arg": null,
+    "fw": "deno",
+    "rule": "deno-dangerous-run"
+   },
+   {
+    "kind": "call",
+    "name": "exec",
+    "ctor": false,
+    "recv": "child_process",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-child-process"
+   },
+   {
+    "kind": "call",
+    "name": "execSync",
+    "ctor": false,
+    "recv": "child_process",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-child-process"
+   },
+   {
+    "kind": "call",
+    "name": "spawn",
+    "ctor": false,
+    "recv": "child_process",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-child-process"
+   },
+   {
+    "kind": "call",
+    "name": "spawnSync",
+    "ctor": false,
+    "recv": "child_process",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-child-process"
+   },
+   {
+    "kind": "call",
+    "name": "eval",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "mcp",
+    "rule": "mcp-command-injection-typescript"
+   }
+  ],
+  "redos": [
+   {
+    "kind": "call",
+    "name": "RegExp",
+    "ctor": true,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-regexp"
+   },
+   {
+    "kind": "call",
+    "name": "RegExp",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-regexp"
+   }
+  ],
+  "deserialization": [],
+  "nosql-injection": [
+   {
+    "kind": "call",
+    "name": "update",
+    "recv": "contributionsDB",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "contributionsDB.update"
+   },
+   {
+    "kind": "call",
+    "name": "update",
+    "recv": "contributionsDAO",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "contributionsDAO.update"
+   },
+   {
+    "kind": "call",
+    "name": "getByUserId",
+    "recv": "contributionsDAO",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "contributionsDAO.getByUserId"
+   }
+  ],
+  "ssti": [
+   {
+    "kind": "call",
+    "name": "compile",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "express-insecure-template-usage"
+   },
+   {
+    "kind": "call",
+    "name": "compileClient",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "express-insecure-template-usage"
+   },
+   {
+    "kind": "call",
+    "name": "compileClientWithDependenciesTracked",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "express-insecure-template-usage"
+   },
+   {
+    "kind": "call",
+    "name": "render",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "express-insecure-template-usage"
+   },
+   {
+    "kind": "call",
+    "name": "template",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "express-insecure-template-usage"
+   },
+   {
+    "kind": "call",
+    "name": "renderString",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "express-insecure-template-usage"
+   }
+  ],
+  "ssrf": [
+   {
+    "kind": "call",
+    "name": "compileScript",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "chrome-remote-interface",
+    "rule": "chrome-remote-interface-compilescript-injection"
+   },
+   {
+    "kind": "call",
+    "name": "evaluate",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "chrome-remote-interface",
+    "rule": "chrome-remote-interface-compilescript-injection"
+   },
+   {
+    "kind": "call",
+    "name": "navigate",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "chrome-remote-interface",
+    "rule": "chrome-remote-interface-compilescript-injection"
+   },
+   {
+    "kind": "call",
+    "name": "printToPDF",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "chrome-remote-interface",
+    "rule": "chrome-remote-interface-compilescript-injection"
+   },
+   {
+    "kind": "call",
+    "name": "setDocumentContent",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "chrome-remote-interface",
+    "rule": "chrome-remote-interface-compilescript-injection"
+   },
+   {
+    "kind": "call",
+    "name": "open",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "express-phantom-injection"
+   },
+   {
+    "kind": "call",
+    "name": "setContent",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "express-phantom-injection"
+   },
+   {
+    "kind": "call",
+    "name": "openUrl",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "express-phantom-injection"
+   },
+   {
+    "kind": "call",
+    "name": "evaluateJavaScript",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "express-phantom-injection"
+   },
+   {
+    "kind": "call",
+    "name": "property",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "express-phantom-injection"
+   },
+   {
+    "kind": "call",
+    "name": "goto",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "express-puppeteer-injection"
+   },
+   {
+    "kind": "call",
+    "name": "evaluateHandle",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "express-puppeteer-injection"
+   },
+   {
+    "kind": "call",
+    "name": "evaluateOnNewDocument",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "express-puppeteer-injection"
+   },
+   {
+    "kind": "call",
+    "name": "generate",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "express-wkhtmltoimage-injection"
+   },
+   {
+    "kind": "call",
+    "name": "fetch",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "mcp",
+    "rule": "mcp-ssrf-typescript"
+   },
+   {
+    "kind": "call",
+    "name": "get",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "mcp",
+    "rule": "mcp-ssrf-typescript"
+   },
+   {
+    "kind": "call",
+    "name": "post",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "mcp",
+    "rule": "mcp-ssrf-typescript"
+   },
+   {
+    "kind": "call",
+    "name": "put",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "mcp",
+    "rule": "mcp-ssrf-typescript"
+   },
+   {
+    "kind": "call",
+    "name": "delete",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "mcp",
+    "rule": "mcp-ssrf-typescript"
+   },
+   {
+    "kind": "call",
+    "name": "patch",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "mcp",
+    "rule": "mcp-ssrf-typescript"
+   }
+  ],
+  "ldap-injection": [],
+  "xss": [
+   {
+    "kind": "call",
+    "name": "trustAs",
+    "ctor": false,
+    "recv": "\\$sce",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-trust-as-method"
+   },
+   {
+    "kind": "call",
+    "name": "trustAsHtml",
+    "ctor": false,
+    "recv": "\\$sce",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-trust-as-method"
+   },
+   {
+    "kind": "call",
+    "name": "concat",
+    "ctor": false,
+    "recv": "\"[\\w$]+\"",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "tainted-html-string"
+   },
+   {
+    "kind": "call",
+    "name": "format",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "tainted-html-string"
+   },
+   {
+    "kind": "call",
+    "name": "format",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "tainted-html-string"
+   },
+   {
+    "kind": "call",
+    "name": "write",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "call",
+    "name": "send",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "call",
+    "name": "format",
+    "ctor": false,
+    "recv": "util",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "raw-html-format"
+   },
+   {
+    "kind": "call",
+    "name": "createElement",
+    "ctor": false,
+    "recv": "React",
+    "type": null,
+    "arg": null,
+    "fw": "react",
+    "rule": "react-href-var"
+   },
+   {
+    "kind": "call",
+    "name": ".*",
+    "ctor": false,
+    "recv": "window.document.[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "react",
+    "rule": "react-unsanitized-method"
+   },
+   {
+    "kind": "call",
+    "name": ".*",
+    "ctor": false,
+    "recv": "document.[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "react",
+    "rule": "react-unsanitized-method"
+   },
+   {
+    "kind": "call",
+    "name": ".*",
+    "ctor": false,
+    "recv": "document",
+    "type": null,
+    "arg": null,
+    "fw": "react",
+    "rule": "react-unsanitized-method"
+   },
+   {
+    "kind": "call",
+    "name": "findOne",
+    "recv": "usersCol",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "usersCol.findOne"
+   }
+  ],
+  "code-injection": [
+   {
+    "kind": "call",
+    "name": "eval",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "tainted-eval"
+   },
+   {
+    "kind": "call",
+    "name": "Function",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "tainted-eval"
+   },
+   {
+    "kind": "call",
+    "name": "Function",
+    "ctor": true,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "tainted-eval"
+   },
+   {
+    "kind": "call",
+    "name": "runInContext",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "vm-runincontext-injection"
+   },
+   {
+    "kind": "call",
+    "name": "runInNewContext",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "vm-runincontext-injection"
+   },
+   {
+    "kind": "call",
+    "name": "runInThisContext",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "vm-runincontext-injection"
+   },
+   {
+    "kind": "call",
+    "name": "compileFunction",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "vm-runincontext-injection"
+   },
+   {
+    "kind": "call",
+    "name": "Script",
+    "ctor": true,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "vm-runincontext-injection"
+   },
+   {
+    "kind": "call",
+    "name": "SourceTextModule",
+    "ctor": true,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "vm-runincontext-injection"
+   },
+   {
+    "kind": "call",
+    "name": "runInContext",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "vm-runincontext-injection"
+   },
+   {
+    "kind": "call",
+    "name": "runInNewContext",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "vm-runincontext-injection"
+   },
+   {
+    "kind": "call",
+    "name": "runInThisContext",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "vm-runincontext-injection"
+   },
+   {
+    "kind": "call",
+    "name": "compileFunction",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "vm-runincontext-injection"
+   },
+   {
+    "kind": "call",
+    "name": "toFastProperties",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "bluebird",
+    "rule": "tofastproperties-code-execution"
+   },
+   {
+    "kind": "call",
+    "name": "toFastProperties",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "bluebird",
+    "rule": "tofastproperties-code-execution"
+   },
+   {
+    "kind": "call",
+    "name": "run",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "express-sandbox-code-injection"
+   },
+   {
+    "kind": "call",
+    "name": "VM",
+    "ctor": true,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "express-vm2-injection"
+   },
+   {
+    "kind": "call",
+    "name": "NodeVM",
+    "ctor": true,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "express-vm2-injection"
+   },
+   {
+    "kind": "call",
+    "name": "VMScript",
+    "ctor": true,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "express-vm2-injection"
+   },
+   {
+    "kind": "call",
+    "name": "require",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-non-literal-require"
+   },
+   {
+    "kind": "call",
+    "name": "eval",
+    "ctor": false,
+    "recv": "window",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-eval-with-expression"
+   },
+   {
+    "kind": "call",
+    "name": "setTimeout",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-eval-with-expression"
+   },
+   {
+    "kind": "call",
+    "name": "setInterval",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "detect-eval-with-expression"
+   },
+   {
+    "kind": "call",
+    "name": "eval",
+    "recv": null,
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": ".eval"
+   }
+  ],
+  "open-redirect": [
+   {
+    "kind": "call",
+    "name": "replace",
+    "ctor": false,
+    "recv": "location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "js-open-redirect-from-function"
+   },
+   {
+    "kind": "call",
+    "name": "replace",
+    "ctor": false,
+    "recv": "window.location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "js-open-redirect-from-function"
+   },
+   {
+    "kind": "call",
+    "name": "replace",
+    "ctor": false,
+    "recv": "this.location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "js-open-redirect-from-function"
+   },
+   {
+    "kind": "call",
+    "name": "replace",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+.location",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "js-open-redirect"
+   },
+   {
+    "kind": "call",
+    "name": "redirect",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "express-open-redirect"
+   },
+   {
+    "kind": "call",
+    "name": "assign",
+    "ctor": false,
+    "recv": "Object",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "insecure-object-assign"
+   },
+   {
+    "kind": "call",
+    "name": "redirect",
+    "recv": "res",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "res.redirect"
+   }
+  ],
+  "xxe": [
+   {
+    "kind": "call",
+    "name": "on",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "express-xml2json-xxe-event"
+   },
+   {
+    "kind": "call",
+    "name": "parse",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "express-expat-xxe"
+   },
+   {
+    "kind": "call",
+    "name": "write",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "express-expat-xxe"
+   },
+   {
+    "kind": "call",
+    "name": "toJson",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "express-xml2json-xxe"
+   }
+  ],
+  "format-string": [
+   {
+    "kind": "call",
+    "name": ".*",
+    "ctor": false,
+    "recv": "console",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "unsafe-formatstring"
+   },
+   {
+    "kind": "call",
+    "name": "format",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "unsafe-formatstring"
+   }
+  ],
+  "sql-injection": [
+   {
+    "kind": "call",
+    "name": "fromRaw",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "knex-sqli"
+   },
+   {
+    "kind": "call",
+    "name": "whereRaw",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "knex-sqli"
+   },
+   {
+    "kind": "call",
+    "name": "raw",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "knex-sqli"
+   },
+   {
+    "kind": "call",
+    "name": "query",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "mysql-sqli"
+   },
+   {
+    "kind": "call",
+    "name": "execute",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "mysql-sqli"
+   },
+   {
+    "kind": "call",
+    "name": "concat",
+    "ctor": false,
+    "recv": "\"[\\w$]+\"",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "tainted-sql-string"
+   },
+   {
+    "kind": "call",
+    "name": "format",
+    "ctor": false,
+    "recv": "util",
+    "type": null,
+    "arg": null,
+    "fw": "aws-lambda",
+    "rule": "tainted-sql-string"
+   },
+   {
+    "kind": "call",
+    "name": "query",
+    "ctor": false,
+    "recv": "sequelize",
+    "type": null,
+    "arg": null,
+    "fw": "sequelize",
+    "rule": "express-sequelize-injection"
+   },
+   {
+    "kind": "call",
+    "name": "query",
+    "ctor": false,
+    "recv": "[\\w$]+.sequelize",
+    "type": null,
+    "arg": null,
+    "fw": "sequelize",
+    "rule": "express-sequelize-injection"
+   },
+   {
+    "kind": "call",
+    "name": "updateUser",
+    "recv": "profile",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "profile.updateUser"
+   },
+   {
+    "kind": "call",
+    "name": "update",
+    "recv": "users",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "users.update"
+   },
+   {
+    "kind": "call",
+    "name": "insert",
+    "recv": "memosDAO",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "memosDAO.insert"
+   },
+   {
+    "kind": "call",
+    "name": "addUser",
+    "recv": "userDAO",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "userDAO.addUser"
+   },
+   {
+    "kind": "call",
+    "name": "findOne",
+    "recv": "users",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "users.findOne"
+   },
+   {
+    "kind": "call",
+    "name": "find",
+    "recv": "usersCol",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "usersCol.find"
+   },
+   {
+    "kind": "call",
+    "name": "getUserByUserName",
+    "recv": "userDAO",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "userDAO.getUserByUserName"
+   }
+  ]
+ },
+ "sanitizers": {
+  "xpath-injection": [],
+  "other": [],
+  "path-traversal": [
+   {
+    "kind": "call",
+    "name": "replace",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "express-path-join-resolve-traversal"
+   },
+   {
+    "kind": "call",
+    "name": "indexOf",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "express-path-join-resolve-traversal"
+   }
+  ],
+  "command-injection": [
+   {
+    "kind": "call",
+    "name": "parse",
+    "ctor": false,
+    "recv": "z",
+    "type": null,
+    "arg": null,
+    "fw": "mcp",
+    "rule": "mcp-command-injection-typescript"
+   },
+   {
+    "kind": "call",
+    "name": "parse",
+    "ctor": false,
+    "recv": "zod",
+    "type": null,
+    "arg": null,
+    "fw": "mcp",
+    "rule": "mcp-command-injection-typescript"
+   },
+   {
+    "kind": "call",
+    "name": "parse",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "mcp",
+    "rule": "mcp-command-injection-typescript"
+   }
+  ],
+  "redos": [],
+  "deserialization": [],
+  "nosql-injection": [],
+  "ssti": [],
+  "ssrf": [
+   {
+    "kind": "call",
+    "name": "parse",
+    "ctor": false,
+    "recv": "z",
+    "type": null,
+    "arg": null,
+    "fw": "mcp",
+    "rule": "mcp-ssrf-typescript"
+   },
+   {
+    "kind": "call",
+    "name": "parse",
+    "ctor": false,
+    "recv": "zod",
+    "type": null,
+    "arg": null,
+    "fw": "mcp",
+    "rule": "mcp-ssrf-typescript"
+   },
+   {
+    "kind": "call",
+    "name": "parse",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "mcp",
+    "rule": "mcp-ssrf-typescript"
+   }
+  ],
+  "ldap-injection": [],
+  "xss": [
+   {
+    "kind": "call",
+    "name": "getTrustedHtml",
+    "ctor": false,
+    "recv": "\\$sce",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-methods"
+   },
+   {
+    "kind": "call",
+    "name": "\\$sanitize",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-methods"
+   },
+   {
+    "kind": "call",
+    "name": "sanitize",
+    "ctor": false,
+    "recv": "DOMPurify",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "detect-angular-element-methods"
+   },
+   {
+    "kind": "call",
+    "name": "escapeHTML",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "call",
+    "name": "sanitize",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "call",
+    "name": "render",
+    "ctor": false,
+    "recv": "[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "browser",
+    "rule": "raw-html-concat"
+   },
+   {
+    "kind": "call",
+    "name": "type",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "express",
+    "rule": "direct-response-write"
+   },
+   {
+    "kind": "call",
+    "name": "sanitize",
+    "ctor": false,
+    "recv": "sanitizer",
+    "type": null,
+    "arg": null,
+    "fw": "angular",
+    "rule": "angular-bypasssecuritytrust"
+   },
+   {
+    "kind": "call",
+    "name": "encodeForHTML",
+    "recv": "ESAPI",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "ESAPI.encodeForHTML"
+   },
+   {
+    "kind": "call",
+    "name": "encoder",
+    "recv": "ESAPI",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "ESAPI.encoder"
+   },
+   {
+    "kind": "call",
+    "name": "setOptions",
+    "recv": "marked",
+    "type": null,
+    "ctor": false,
+    "arg": 0,
+    "fw": "llm",
+    "rule": "llm:nvidia.nemotron-nano-3-30b",
+    "classified_by": "llm",
+    "api": "marked.setOptions"
+   }
+  ],
+  "code-injection": [],
+  "open-redirect": [],
+  "xxe": [],
+  "format-string": [],
+  "sql-injection": [
+   {
+    "kind": "call",
+    "name": "parseInt",
+    "ctor": false,
+    "recv": null,
+    "type": null,
+    "arg": null,
+    "fw": "lang",
+    "rule": "node-knex-sqli"
+   },
+   {
+    "kind": "call",
+    "name": "hash",
+    "ctor": false,
+    "recv": "[\\w$]+.[\\w$]+",
+    "type": null,
+    "arg": null,
+    "fw": "sequelize",
+    "rule": "express-sequelize-injection"
+   }
+  ]
+ }
+}

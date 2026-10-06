@@ -1,0 +1,95 @@
+Response		flask.py:<module>.Response.__init__	Response(error_message_helper("Please provide a proper JSON body."), 400, mimetype = "application/json")	38
+error_message_helper		api_views/users.py:<module>.error_message_helper	error_message_helper("Please provide a proper JSON body.")	25
+get	request_data	flask.py:<module>.request.get_json.<returnValue>.get	request_data.get('book_title')	15
+dumps	json	flask.py:<module>.json.dumps	json.dumps(responseObject)	10
+Column	db	flask_sqlalchemy.py:<module>.SQLAlchemy.Column.__init__	db.Column(db.Integer, primary_key = True, autoincrement = True)	9
+staticmethod		__builtin.staticmethod	staticmethod(def get_all_books(...))	8
+filter_by	User.query	__builtin.dict.filter_by	User.query.filter_by(username = resp['sub'])	6
+token_validator		api_views/users.py:<module>.token_validator	token_validator(request.headers.get('Authorization'))	6
+str		__builtin.str<meta>	str(book_title)	5
+String	db	flask_sqlalchemy.py:<module>.SQLAlchemy.String.__init__	db.String(128)	5
+first	User.query	<unknownFullName>	User.query.filter_by(username = resp['sub']).first()	5
+get_json	request	flask.py:<module>.request.get_json	request.get_json()	5
+first	User.query	__builtin.dict.filter_by.first	User.query.filter_by(username = resp['sub']).first()	4
+get	request.headers	<unknownFullName>	request.headers.get('Authorization')	4
+jsonify		flask.py:<module>.jsonify	jsonify({'Books':Book.get_all_books()})	4
+commit	db.session	__builtin.dict.commit	db.session.commit()	4
+validate	jsonschema	jsonschema.py:<module>.validate	jsonschema.validate(request_data, add_book_schema)	4
+User		models/user_model.py:<module>.User.__init__	User(username = request_data['username'], password = request_data['password'], email = request_data['email'], 	3
+append	tmp0	<unknownFullName>	tmp0.append(Book.json(user))	3
+register_user	User	models/user_model.py:<module>.User.register_user	User.register_user("name1", "pass1", "mail1@mail.com", False)	3
+get	request.headers	__builtin.dict.get	request.headers.get('Authorization')	2
+get	vuln_app.app.config	<unknownFullName>	vuln_app.app.config.get('SECRET_KEY')	2
+__iter__	tmp2	__builtin.dict.__iter__	tmp2.__iter__()	2
+commit	db.session	flask_sqlalchemy.py:<module>.SQLAlchemy.<member>(session).commit	db.session.commit()	2
+Book		models/books_model.py:<module>.Book.__init__	Book(book_title = request_data.get('book_title'), secret_content = request_data.get('secret'), user_id = user.	2
+filter_by	User.query	<unknownFullName>	User.query.filter_by(username = resp['sub'])	2
+int		__builtin.int<meta>	int(os.getenv('vulnerable', 1))	2
+	__newInstance	<unknownFullName>	__newInstance.__init__(book_title, secret_content, user_id)	2
+search	re	re.py:<module>.search	re.search(r"^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@{1}([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$", str(reque	2
+get_user	User	models/user_model.py:<module>.User.get_user	User.get_user(username)	2
+relationship		sqlalchemy/orm.py:<module>.relationship	relationship("User", back_populates = "books")	2
+getenv	os	os.py:<module>.getenv	os.getenv('vulnerable', 1)	2
+add	db.session	<unknownFullName>	db.session.add(newBook)	2
+__next__	tmp1	<unknownFullName>	tmp1.__next__()	2
+		<unknownFullName>	class Book<meta>(...).<fakeNew>(book_title, secret_content, user_id)	2
+all	User.query	<unknownFullName>	User.query.all()	2
+filter_by	User.query	__builtin.dict.filter_by.filter_by	User.query.filter_by(username = request_data.get('username'))	2
+timedelta	datetime	datetime.py:<module>.timedelta	datetime.timedelta(days = 0, seconds = alive)	1
+models/books_model.py:<module>.Book.json		models/books_model.py:<module>.Book.json	json(self)	1
+json	Book	models/books_model.py:<module>.Book.json	Book.json(user)	1
+fetchone	query	<unknownFullName>	query.fetchone()	1
+delete_user	User	models/user_model.py:<module>.User.delete_user	User.delete_user(username)	1
+add_error_handler	vuln_app	connexion.py:<module>.App.add_error_handler	vuln_app.add_error_handler(ProblemException, custom_problem_handler)	1
+		models/books_model.py:<module>.Book..__init__	def <body>(...)()	1
+models/user_model.py:<module>.User.encode_auth_token		models/user_model.py:<module>.User.encode_auth_token	encode_auth_token(self, user_id)	1
+bool		__builtin.bool<meta>	bool(User.delete_user(username))	1
+add	db.session	__builtin.dict.add	db.session.add(user)	1
+first	User.query	models/user_model.py:<module>.User.<member>(query).filter_by.first	User.query.filter_by(username = resp['sub']).first()	1
+first	Book.query	models/user_model.py:<module>.User.<member>(query).filter_by.first	Book.query.filter_by(book_title = str(book_title)).first()	1
+split	auth_header	<unknownFullName>	auth_header.split(" ")	1
+App	connexion	connexion.py:<module>.App.__init__	connexion.App(__name__, specification_dir = './openapi_specs')	1
+get_all_users_debug	User	models/user_model.py:<module>.User.get_all_users_debug	User.get_all_users_debug()	1
+init_db_users	User	models/user_model.py:<module>.User.init_db_users	User.init_db_users()	1
+utcnow	datetime.datetime	<unknownFullName>	datetime.datetime.utcnow()	1
+json_debug	User	models/user_model.py:<module>.User.json_debug	User.json_debug(user)	1
+execute	db.session	<unknownFullName>	db.session.execute(text(user_query))	1
+getattr		__builtin.getattr	getattr(error, "detail", "An error occurred")	1
+format	"{}"	__builtin.str.format	"{}".format(vuln)	1
+run	vuln_app	connexion.py:<module>.App.run	vuln_app.run(host = '0.0.0.0', port = 5000, debug = True)	1
+filter_by	Book.query	models/user_model.py:<module>.User.<member>(query).filter_by	Book.query.filter_by(book_title = str(book_title))	1
+encode	jwt	jwt.py:<module>.encode	jwt.encode(payload, vuln_app.app.config.get('SECRET_KEY'), algorithm = 'HS256')	1
+filter_by	Book.query	__builtin.dict.filter_by	Book.query.filter_by(user = user, book_title = str(book_title))	1
+delete	User.query	<unknownFullName>	User.query.filter_by(username = username).delete()	1
+get_all_books	Book	models/books_model.py:<module>.Book.get_all_books	Book.get_all_books()	1
+models/user_model.py:<module>.User.__init__		models/user_model.py:<module>.User.__init__	__init__(self, username, password, email, admin)	1
+get_all_users	User	models/user_model.py:<module>.User.get_all_users	User.get_all_users()	1
+models/user_model.py:<module>.User.json_debug		models/user_model.py:<module>.User.json_debug	json_debug(self)	1
+randrange		random.py:<module>.randrange	randrange(100)	1
+encode_auth_token	user	<unknownFullName>	user.encode_auth_token(user.username)	1
+models/user_model.py:<module>.User.__repr__		models/user_model.py:<module>.User.__repr__	__repr__(self)	1
+create_all	db	<unknownFullName>	db.create_all()	1
+decode_auth_token	User	models/user_model.py:<module>.User.decode_auth_token	User.decode_auth_token(auth_token)	1
+utcnow	datetime.datetime	__builtin.dict.utcnow	datetime.datetime.utcnow()	1
+__iter__	tmp2	models/books_model.py:<module>.Book.<member>(query).all.__iter__	tmp2.__iter__()	1
+json	User	models/user_model.py:<module>.User.json	User.json(user)	1
+models/books_model.py:<module>.Book.__repr__		models/books_model.py:<module>.Book.__repr__	__repr__(self)	1
+		models/user_model.py:<module>.User..__init__	def <body>(...)()	1
+text		sqlalchemy/sql.py:<module>.text	text(user_query)	1
+SQLAlchemy		flask_sqlalchemy.py:<module>.SQLAlchemy.__init__	SQLAlchemy(vuln_app.app)	1
+models/books_model.py:<module>.Book.__init__		models/books_model.py:<module>.Book.__init__	__init__(self, book_title, secret_content, user_id)	1
+join	os.path	__builtin.dict.join	os.path.join(vuln_app.app.root_path, 'database/database.db')	1
+__next__	tmp1	models/books_model.py:<module>.Book.<member>(query).all.__iter__.__next__	tmp1.__next__()	1
+commit	db.session	__builtin.dict.filter_by.commit	db.session.commit()	1
+commit	db.session	<unknownFullName>	db.session.commit()	1
+all	Book.query	models/books_model.py:<module>.Book.<member>(query).all	Book.query.all()	1
+first	Book.query	__builtin.dict.first	Book.query.filter_by(user = user, book_title = request_data.get('book_title')).first()	1
+decode	jwt	jwt.py:<module>.decode	jwt.decode(auth_token, vuln_app.app.config.get('SECRET_KEY'), algorithms = ["HS256"])	1
+add_api	vuln_app	connexion.py:<module>.App.add_api	vuln_app.add_api('openapi3.yml')	1
+isinstance		__builtin.isinstance	isinstance(msg, dict)	1
+drop_all	db	<unknownFullName>	db.drop_all()	1
+filter_by	User.query	models/user_model.py:<module>.User.<member>(query).filter_by	User.query.filter_by(username = resp['sub'])	1
+ForeignKey		sqlalchemy.py:<module>.ForeignKey.__init__	ForeignKey('users.id')	1
+models/user_model.py:<module>.User.json		models/user_model.py:<module>.User.json	json(self)	1
+first	Book.query	__builtin.dict.filter_by.first	Book.query.filter_by(user = user, book_title = str(book_title)).first()	1
+filter_by	Book.query	models/books_model.py:<module>.Book.<member>(query).filter_by	Book.query.filter_by(user = user, book_title = request_data.get('book_title'))	1
