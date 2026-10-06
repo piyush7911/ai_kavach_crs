@@ -38,10 +38,23 @@ def extract_function(text: str, name: str) -> str | None:
     return None
 
 
-def _prompt(finding: dict, function_src: str) -> str:
+def _attack_repr(pov: dict) -> str:
+    """The concrete attacking request the oracle replays — the counterexample the fix must defeat."""
+    pov = pov or {}
+    inner = pov.get("differential") or pov.get("access_control") or pov.get("idor") or pov.get("write_idor") or {}
+    req = inner.get("true_request") or inner.get("request") or inner.get("foreign_request") or pov
+    s = f"{req.get('method', 'GET')} {req.get('path', '')}"
+    if req.get("body"):
+        s += f" body={req['body']}"
+    return s.strip()
+
+
+def _prompt(finding: dict, function_src: str, pov: dict | None = None) -> str:
+    attack = f"The exploit our oracle replays (your fix MUST make it stop working): {_attack_repr(pov)}\n" if pov else ""
     return (
         f"You are fixing a {finding.get('klass','security')} vulnerability (CWE "
         f"{finding.get('cwe','')}) in a Python web handler named `{finding['function']}`.\n"
+        f"{attack}"
         f"{finding.get('guidance','')}\n"
         "Rewrite ONLY this function to fix the vulnerability while preserving behaviour for "
         "legitimate requests. Return just the function definition, no prose.\n\n"
@@ -64,7 +77,7 @@ def repair(finding: dict, tree: Path, llm: Callable[[str], str], pov: dict,
     for n in range(1, attempts + 1):
         att = {"n": n}
         try:
-            reply = llm(_prompt(finding, function_src) + (f"\n\nPREVIOUS ATTEMPT REJECTED:\n{feedback}\nFix and answer again." if feedback else ""))
+            reply = llm(_prompt(finding, function_src, pov) + (f"\n\nPREVIOUS ATTEMPT REJECTED:\n{feedback}\nFix and answer again." if feedback else ""))
         except Exception as e:  # noqa: BLE001
             out.status, out.reason = "error", f"model call failed: {e}"
             out.attempts.append({**att, "stage": "model", "detail": str(e)[:160]})
@@ -82,6 +95,11 @@ def repair(finding: dict, tree: Path, llm: Callable[[str], str], pov: dict,
             continue
         verdict = _gate(tree, target_file, patched, pov, run_cmd, env, seed_path, health_path, regression)
         out.attempts.append({**att, "stage": verdict[0], "detail": verdict[1]})
+        if verdict[0] == "pov":                          # CEGIS: feed the concrete counterexample back, not "try again"
+            feedback = (f"the exploit STILL fires. Counterexample — this request must be neutralized: "
+                        f"{_attack_repr(pov)}  (oracle observed: {verdict[1]}). Your patch did not stop "
+                        f"THIS input; defend against it specifically without breaking legitimate requests.")
+            continue
         if verdict[0] == "accepted":
             out.status = "proven"
             out.reason = "exploit no longer reproduces" + ("; regression ok" if regression else "")

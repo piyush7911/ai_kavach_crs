@@ -121,3 +121,4 @@ rm -rf "/Users/piyush/Desktop/cyber hackathon/ai_kavach_crs/reports"
 - Inside `exp/` only (git-ignored, delete the folder to remove): `exp/third_party/joern` (Joern 4.0.649, Apache-2.0), `exp/third_party/jdk17` (Temurin 17, used only to run VulnerableApp),
   `exp/third_party/semgrep-rules` (community rules, Semgrep Rules License v1.0), `exp/live/venv_vampi` (Python venv for VAmPI), `exp/live/gradle_home` (Gradle cache).
 - Benchmark clones in `benchmark_workspace/public/` and `benchmark_workspace/VAmPI`.
+- 2026-10-07: tree_sitter, tree_sitter_python, tree_sitter_java, tree_sitter_javascript, tree_sitter_c, tree_sitter_cpp (conda env) — needed by src/*auto/patch.py + tests
