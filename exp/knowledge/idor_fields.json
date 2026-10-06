@@ -1,0 +1,40 @@
+{
+  "_about": "Generic IDOR/BOLA vocabulary mined from strix/skills/vulnerabilities/idor.md (Apache-2.0). Feeds a route-map candidate detector: a route whose object-id parameter matches an ownership-reference name, with no visible ownership check, is an IDOR candidate for live two-user oracle confirmation. Data only; the oracle decides.",
+  "ownership_reference_names": [
+    "parentId", "ownerId", "accountId", "tenantId", "organization", "teamId", "projectId",
+    "subscriptionId", "resourceId", "targetId", "account", "userId", "customerId", "groupId",
+    "owner_id", "tenant_id", "org_id", "account_id", "project_id", "team_id", "invoice_id",
+    "user_id", "customer_id", "resource_id", "parent_id"
+  ],
+  "ownership_header_names": [
+    "X-User-Id", "X-Organization-Id", "X-Tenant-ID", "X-Account-Id", "X-Org-Id"
+  ],
+  "expansion_projection_knobs": [
+    "fields", "include", "expand", "projection", "with", "select", "populate"
+  ],
+  "pagination_cursor_names": [
+    "page[offset]", "page[limit]", "cursor", "nextPageToken", "offset", "limit"
+  ],
+  "reference_locations": [
+    "path", "query", "body", "form-data", "header", "cookie", "jwt-claim",
+    "graphql-arg", "websocket-message", "grpc-message"
+  ],
+  "identifier_forms": [
+    "integer", "uuid", "uuidv1", "ulid", "cuid", "snowflake", "slug", "composite", "opaque", "base64", "hex"
+  ],
+  "guessable_identifier_forms": [
+    "integer", "uuidv1", "ulid", "snowflake"
+  ],
+  "ownership_check_markers": [
+    "@PreAuthorize", "@PostAuthorize", "@Secured", "hasPermission", "hasRole",
+    "getCurrentUser", "getPrincipal", "session.user", "request.user", "current_user",
+    "ownerId ==", "owner_id ==", ".getOwner()", "isOwner", "checkAccess", "authorize",
+    "ensureOwner", "assertOwner", "belongsTo", "@login_required", "current_identity"
+  ],
+  "enumeration_techniques": [
+    "type-confusion", "edge-values", "parameter-pollution", "duplicate-keys", "case-aliasing",
+    "virtual-fs-traversal", "id-leak-from-logs-exports-jsbundles"
+  ],
+  "scope_types": ["horizontal", "vertical", "cross-tenant", "cross-service"],
+  "source": "strix/skills/vulnerabilities/idor.md (Apache-2.0, usestrix/strix)"
+}
