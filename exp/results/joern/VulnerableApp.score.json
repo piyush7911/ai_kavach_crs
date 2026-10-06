@@ -1,0 +1,129 @@
+{
+ "true_total": 135,
+ "in_scope_vulnerable": 52,
+ "found": 46,
+ "missed_n": 6,
+ "secure_in_scope": 32,
+ "secure_flagged": 19,
+ "tpr": 0.885,
+ "fpr": 0.594,
+ "youden": 0.291,
+ "out_of_scope": {
+  "vuln": 83,
+  "secure": 13
+ },
+ "by_class": {
+  "sql-injection": {
+   "tn": 10,
+   "tp": 9,
+   "fp": 2
+  },
+  "xss": {
+   "fp": 8,
+   "tp": 19,
+   "tn": 3,
+   "fn": 5
+  },
+  "command-injection": {
+   "fp": 1,
+   "tp": 5
+  },
+  "code-injection": {
+   "tp": 1
+  },
+  "deserialization": {
+   "fp": 1,
+   "tp": 2
+  },
+  "ldap-injection": {
+   "fp": 2,
+   "tp": 4
+  },
+  "ssrf": {
+   "fp": 1,
+   "tp": 4
+  },
+  "xxe": {
+   "fp": 4,
+   "fn": 1,
+   "tp": 2
+  }
+ },
+ "found_ids": [
+  "AuthenticationVulnerability.level1SQLi",
+  "CachePoisoningVulnerability.getVulnerablePayloadLevel3",
+  "CachePoisoningVulnerability.getVulnerablePayloadLevel2",
+  "CachePoisoningVulnerability.getVulnerablePayloadLevel1",
+  "CommandInjection.getVulnerablePayloadLevel5",
+  "CommandInjection.getVulnerablePayloadLevel4",
+  "CommandInjection.getVulnerablePayloadLevel3",
+  "CommandInjection.getVulnerablePayloadLevel2",
+  "CommandInjection.getVulnerablePayloadLevel1",
+  "InsecureDeserializationVulnerability.getVulnerablePayloadLevel4",
+  "InsecureDeserializationVulnerability.getVulnerablePayloadLevel2",
+  "InsecureDeserializationVulnerability.getVulnerablePayloadLevel1",
+  "UnrestrictedFileUpload.getVulnerablePayloadLevel2",
+  "UnrestrictedFileUpload.getVulnerablePayloadLevel1",
+  "LDAPInjectionVulnerability.level5",
+  "LDAPInjectionVulnerability.level3",
+  "LDAPInjectionVulnerability.level2",
+  "LDAPInjectionVulnerability.level1",
+  "BlindSQLInjectionVulnerability.getCarInformationLevel2",
+  "BlindSQLInjectionVulnerability.getCarInformationLevel1",
+  "ErrorBasedSQLInjectionVulnerability.doesCarInformationExistsLevel4",
+  "ErrorBasedSQLInjectionVulnerability.doesCarInformationExistsLevel3",
+  "ErrorBasedSQLInjectionVulnerability.doesCarInformationExistsLevel2",
+  "ErrorBasedSQLInjectionVulnerability.doesCarInformationExistsLevel1",
+  "UnionBasedSQLInjectionVulnerability.getCarInformationLevel2",
+  "UnionBasedSQLInjectionVulnerability.getCarInformationLevel1",
+  "SSRFVulnerability.getVulnerablePayloadLevel4",
+  "SSRFVulnerability.getVulnerablePayloadLevel3",
+  "SSRFVulnerability.getVulnerablePayloadLevel2",
+  "SSRFVulnerability.getVulnerablePayloadLevel1",
+  "PersistentXSSInHTMLTagVulnerability.getVulnerablePayloadLevel6",
+  "PersistentXSSInHTMLTagVulnerability.getVulnerablePayloadLevel5",
+  "PersistentXSSInHTMLTagVulnerability.getVulnerablePayloadLevel4",
+  "PersistentXSSInHTMLTagVulnerability.getVulnerablePayloadLevel3",
+  "PersistentXSSInHTMLTagVulnerability.getVulnerablePayloadLevel2",
+  "PersistentXSSInHTMLTagVulnerability.getVulnerablePayloadLevel1",
+  "XSSInImgTagAttribute.getVulnerablePayloadLevel5",
+  "XSSInImgTagAttribute.getVulnerablePayloadLevel4",
+  "XSSInImgTagAttribute.getVulnerablePayloadLevel3",
+  "XSSInImgTagAttribute.getVulnerablePayloadLevel2",
+  "XSSInImgTagAttribute.getVulnerablePayloadLevel1",
+  "XSSWithHtmlTagInjection.getVulnerablePayloadLevel3",
+  "XSSWithHtmlTagInjection.getVulnerablePayloadLevel2",
+  "XSSWithHtmlTagInjection.getVulnerablePayloadLevel1",
+  "XXEVulnerability.getVulnerablePayloadLevel2",
+  "XXEVulnerability.getVulnerablePayloadLevel1"
+ ],
+ "missed_ids": [
+  "UnrestrictedFileUpload.getVulnerablePayloadLevel7",
+  "UnrestrictedFileUpload.getVulnerablePayloadLevel6",
+  "UnrestrictedFileUpload.getVulnerablePayloadLevel5",
+  "UnrestrictedFileUpload.getVulnerablePayloadLevel4",
+  "UnrestrictedFileUpload.getVulnerablePayloadLevel3",
+  "XXEVulnerability.getVulnerablePayloadLevel6"
+ ],
+ "flagged_secure_ids": [
+  "CachePoisoningVulnerability.getSecurePayloadLevel5",
+  "CommandInjection.getVulnerablePayloadLevel6",
+  "InsecureDeserializationVulnerability.getSecurePayloadLevel3",
+  "LDAPInjectionVulnerability.level6",
+  "LDAPInjectionVulnerability.level4",
+  "BlindSQLInjectionVulnerability.getCarInformationLevel4",
+  "UnionBasedSQLInjectionVulnerability.getCarInformationLevel3",
+  "SSRFVulnerability.getVulnerablePayloadLevel5",
+  "PersistentXSSInHTMLTagVulnerability.getSecurePayloadLevel9",
+  "PersistentXSSInHTMLTagVulnerability.getSecurePayloadLevel8",
+  "PersistentXSSInHTMLTagVulnerability.getVulnerablePayloadLevel7",
+  "XSSInImgTagAttribute.getVulnerablePayloadLevelSecure",
+  "XSSInImgTagAttribute.getVulnerablePayloadLevel6",
+  "XSSWithHtmlTagInjection.getSecurePayloadLevel5",
+  "XSSWithHtmlTagInjection.getSecurePayloadLevel4",
+  "XXEVulnerability.getVulnerablePayloadLevel7",
+  "XXEVulnerability.getVulnerablePayloadLevel5",
+  "XXEVulnerability.getVulnerablePayloadLevel4",
+  "XXEVulnerability.getVulnerablePayloadLevel3"
+ ]
+}

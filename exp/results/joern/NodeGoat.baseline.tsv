@@ -1,0 +1,5 @@
+FLOW	nosql-injection	app/data/allocations-dao.js	77	searchCriteria	app/data/allocations-dao.js	77	searchCriteria
+FLOW	eval-injection	app/routes/contributions.js	32	handleContributionsUpdate	app/routes/contributions.js	32	handleContributionsUpdate
+FLOW	open-redirect	app/routes/index.js	72	<anonymous@70>	app/routes/index.js	72	<anonymous@70>
+FLOW	xss	app/routes/profile.js	65	handleProfileUpdate	app/routes/profile.js	65	handleProfileUpdate
+FLOW	ssrf	app/routes/research.js	16	displayResearch	app/routes/research.js	16	displayResearch

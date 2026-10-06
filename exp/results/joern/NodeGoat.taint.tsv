@@ -1,0 +1,22 @@
+META	sources	23
+META	sinks:command-injection	0
+META	sinks:deserialization	0
+META	sinks:eval-injection	3
+FLOW	eval-injection	app/routes/contributions.js	33	<lambda>2	app/routes/contributions.js	33	<lambda>2
+FLOW	eval-injection	app/routes/contributions.js	34	<lambda>2	app/routes/contributions.js	34	<lambda>2
+FLOW	eval-injection	app/routes/contributions.js	32	<lambda>2	app/routes/contributions.js	32	<lambda>2
+META	sinks:open-redirect	14
+FLOW	open-redirect	app/routes/index.js	72	<lambda>1	app/routes/profile.js	50	<lambda>2
+FLOW	open-redirect	app/routes/index.js	72	<lambda>1	app/routes/index.js	72	<lambda>1
+META	sinks:ssrf	3
+FLOW	ssrf	app/routes/research.js	16	<lambda>0	app/routes/research.js	15	<lambda>0
+META	sinks:path-traversal	0
+META	sinks:xss	7
+FLOW	xss	app/routes/research.js	27	<lambda>1	app/routes/research.js	15	<lambda>0
+FLOW	xss	app/routes/research.js	25	<lambda>1	app/routes/research.js	15	<lambda>0
+META	sinks:nosql-injection	59
+FLOW	nosql-injection	app/routes/contributions.js	65	<lambda>2	app/routes/contributions.js	34	<lambda>2
+FLOW	nosql-injection	app/routes/contributions.js	65	<lambda>2	app/routes/contributions.js	33	<lambda>2
+FLOW	nosql-injection	app/routes/session.js	20	prepareUserData	app/routes/session.js	198	<lambda>12
+FLOW	nosql-injection	app/routes/contributions.js	65	<lambda>2	app/routes/contributions.js	32	<lambda>2
+META	sinks:sql-injection	0

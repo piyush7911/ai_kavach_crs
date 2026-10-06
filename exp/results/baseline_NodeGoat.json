@@ -1,0 +1,970 @@
+{
+  "findings": [
+    {
+      "id": "JS-001",
+      "source": "flow",
+      "klass": "nosql-injection",
+      "file": "app/data/allocations-dao.js",
+      "line": 77,
+      "end_line": 79,
+      "function": "searchCriteria",
+      "rule": "flow:$where",
+      "cwe": "CWE-943",
+      "owasp": "",
+      "severity": "high",
+      "confidence": "high",
+      "message": "user-controlled ``this.userId == ${parsedUserId} && this.stocks > '${threshol` reaches $where() via displayAllocations -> getByUserIdAndThreshold",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "flow:$where",
+          "kavach-js-nosql-where"
+        ],
+        "callee": "$where",
+        "arg_index": 0,
+        "tainted_expr": "`this.userId == ${parsedUserId} && this.stocks > '${threshold}'`",
+        "tainted_fields": [
+          [
+            "params",
+            "userId"
+          ],
+          [
+            "query",
+            "threshold"
+          ]
+        ],
+        "chain": [
+          "app/routes/allocations.js:displayAllocations",
+          "app/data/allocations-dao.js:getByUserIdAndThreshold"
+        ],
+        "entry": {
+          "function": "displayAllocations",
+          "file": "app/routes/allocations.js",
+          "line": 11,
+          "route": {
+            "method": "GET",
+            "path": "/allocations/:userId"
+          },
+          "via": "route",
+          "request_param": [
+            "req"
+          ],
+          "request_fields": [
+            [
+              "params",
+              "userId"
+            ],
+            [
+              "query",
+              "threshold"
+            ]
+          ]
+        },
+        "classified_by": "catalog",
+        "lines": [
+          77,
+          78
+        ],
+        "detected_by": [
+          "flow",
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-002",
+      "source": "flow",
+      "klass": "idor",
+      "file": "app/routes/allocations.js",
+      "line": 17,
+      "end_line": 17,
+      "function": "displayAllocations",
+      "rule": "flow:allocationsDAO.getByUserIdAndThreshold",
+      "cwe": "CWE-639",
+      "owasp": "",
+      "severity": "high",
+      "confidence": "medium",
+      "message": "user-controlled `allocationsDAO.getByUserIdAndThreshold(userId, threshold, (e` reaches allocationsDAO.getByUserIdAndThreshold() via displayAllocations",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "flow:allocationsDAO.getByUserIdAndThreshold"
+        ],
+        "callee": "allocationsDAO.getByUserIdAndThreshold",
+        "arg_index": 0,
+        "tainted_expr": "allocationsDAO.getByUserIdAndThreshold(userId, threshold, (err, allocations) => {\n            if (err) return next(err);",
+        "tainted_fields": [
+          [
+            "params",
+            "userId"
+          ]
+        ],
+        "chain": [
+          "app/routes/allocations.js:displayAllocations"
+        ],
+        "entry": {
+          "function": "displayAllocations",
+          "file": "app/routes/allocations.js",
+          "line": 11,
+          "route": {
+            "method": "GET",
+            "path": "/allocations/:userId"
+          },
+          "via": "route",
+          "request_param": [
+            "req"
+          ],
+          "request_fields": [
+            [
+              "params",
+              "userId"
+            ],
+            [
+              "query",
+              "threshold"
+            ]
+          ]
+        },
+        "classified_by": "catalog",
+        "lookup": "allocationsDAO.getByUserIdAndThreshold",
+        "identifier": "userId",
+        "lookup_line": 23,
+        "authorization_check": "none found: the identifier is never compared with the authenticated identity and the route has no authorisation middleware",
+        "route_middleware": [
+          "isLoggedIn"
+        ],
+        "lines": [
+          17
+        ],
+        "detected_by": [
+          "flow"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-003",
+      "source": "flow",
+      "klass": "idor",
+      "file": "app/routes/benefits.js",
+      "line": 31,
+      "end_line": 31,
+      "function": "updateBenefits",
+      "rule": "flow:benefitsDAO.updateBenefits",
+      "cwe": "CWE-639",
+      "owasp": "",
+      "severity": "high",
+      "confidence": "medium",
+      "message": "user-controlled `benefitsDAO.updateBenefits(userId, benefitStartDate, (error)` reaches benefitsDAO.updateBenefits() via updateBenefits",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "flow:benefitsDAO.updateBenefits"
+        ],
+        "callee": "benefitsDAO.updateBenefits",
+        "arg_index": 0,
+        "tainted_expr": "benefitsDAO.updateBenefits(userId, benefitStartDate, (error) => {\n\n            if (error) return next(error);\n\n         ",
+        "tainted_fields": [
+          [
+            "body",
+            "userId"
+          ]
+        ],
+        "chain": [
+          "app/routes/benefits.js:updateBenefits"
+        ],
+        "entry": {
+          "function": "updateBenefits",
+          "file": "app/routes/benefits.js",
+          "line": 29,
+          "route": {
+            "method": "POST",
+            "path": "/benefits"
+          },
+          "via": "route",
+          "request_param": [
+            "req"
+          ],
+          "request_fields": [
+            [
+              "body",
+              "userId"
+            ],
+            [
+              "body",
+              "benefitStartDate"
+            ]
+          ]
+        },
+        "classified_by": "catalog",
+        "lookup": "benefitsDAO.updateBenefits",
+        "identifier": "userId",
+        "lookup_line": 35,
+        "authorization_check": "none found: the identifier is never compared with the authenticated identity and the route has no authorisation middleware",
+        "route_middleware": [
+          "isLoggedIn"
+        ],
+        "lines": [
+          31
+        ],
+        "detected_by": [
+          "flow"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-004",
+      "source": "flow",
+      "klass": "eval-injection",
+      "file": "app/routes/contributions.js",
+      "line": 32,
+      "end_line": 34,
+      "function": "handleContributionsUpdate",
+      "rule": "flow:eval",
+      "cwe": "CWE-95",
+      "owasp": "",
+      "severity": "critical",
+      "confidence": "high",
+      "message": "user-controlled `req.body.preTax` reaches eval() via handleContributionsUpdate",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "code-string-concat",
+          "flow:eval",
+          "kavach-js-code-injection"
+        ],
+        "callee": "eval",
+        "arg_index": 0,
+        "tainted_expr": "req.body.preTax",
+        "tainted_fields": [
+          [
+            "body",
+            "preTax"
+          ]
+        ],
+        "chain": [
+          "app/routes/contributions.js:handleContributionsUpdate"
+        ],
+        "entry": {
+          "function": "handleContributionsUpdate",
+          "file": "app/routes/contributions.js",
+          "line": 28,
+          "route": {
+            "method": "POST",
+            "path": "/contributions"
+          },
+          "via": "route",
+          "request_param": [
+            "req"
+          ],
+          "request_fields": [
+            [
+              "body",
+              "preTax"
+            ],
+            [
+              "body",
+              "afterTax"
+            ],
+            [
+              "body",
+              "roth"
+            ]
+          ]
+        },
+        "classified_by": "catalog",
+        "lines": [
+          32,
+          33,
+          34
+        ],
+        "detected_by": [
+          "flow",
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-005",
+      "source": "flow",
+      "klass": "open-redirect",
+      "file": "app/routes/index.js",
+      "line": 72,
+      "end_line": 72,
+      "function": "<anonymous@70>",
+      "rule": "flow:res.redirect",
+      "cwe": "CWE-601",
+      "owasp": "",
+      "severity": "medium",
+      "confidence": "high",
+      "message": "user-controlled `req.query.url` reaches res.redirect() via <anonymous@70>",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "express-open-redirect",
+          "flow:res.redirect"
+        ],
+        "callee": "res.redirect",
+        "arg_index": 0,
+        "tainted_expr": "req.query.url",
+        "tainted_fields": [
+          [
+            "query",
+            "url"
+          ]
+        ],
+        "chain": [
+          "app/routes/index.js:<anonymous@70>"
+        ],
+        "entry": {
+          "function": "<anonymous@70>",
+          "file": "app/routes/index.js",
+          "line": 70,
+          "route": {
+            "method": "GET",
+            "path": "/learn"
+          },
+          "via": "route",
+          "request_param": [
+            "req"
+          ],
+          "request_fields": [
+            [
+              "query",
+              "url"
+            ]
+          ]
+        },
+        "classified_by": "catalog",
+        "lines": [
+          72
+        ],
+        "detected_by": [
+          "flow",
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-006",
+      "source": "semgrep",
+      "klass": "redos",
+      "file": "app/routes/profile.js",
+      "line": 59,
+      "end_line": 59,
+      "function": "handleProfileUpdate",
+      "rule": "kavach-js-redos-nested-quantifier",
+      "cwe": "CWE-1333",
+      "owasp": "A05:2021",
+      "severity": "medium",
+      "confidence": "low",
+      "message": "A regular expression has a nested quantifier such as (a+)+, which backtracks catastrophically.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "kavach-js-redos-nested-quantifier"
+        ],
+        "col": 29,
+        "function_lines": [
+          40,
+          107
+        ],
+        "lines": [
+          59
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-007",
+      "source": "flow",
+      "klass": "xss",
+      "file": "app/routes/profile.js",
+      "line": 65,
+      "end_line": 65,
+      "function": "handleProfileUpdate",
+      "rule": "flow:render(profile)",
+      "cwe": "CWE-79",
+      "owasp": "",
+      "severity": "high",
+      "confidence": "high",
+      "message": "user-controlled `firstNameSafeString` reaches render(profile)() via handleProfileUpdate",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "flow:render(profile)"
+        ],
+        "callee": "render(profile)",
+        "arg_index": 1,
+        "tainted_expr": "firstNameSafeString",
+        "tainted_fields": [
+          [
+            "body",
+            "firstName"
+          ]
+        ],
+        "chain": [
+          "app/routes/profile.js:handleProfileUpdate"
+        ],
+        "entry": {
+          "function": "handleProfileUpdate",
+          "file": "app/routes/profile.js",
+          "line": 40,
+          "route": {
+            "method": "POST",
+            "path": "/profile"
+          },
+          "via": "route",
+          "request_param": [
+            "req"
+          ],
+          "request_fields": [
+            [
+              "body",
+              "firstName"
+            ],
+            [
+              "body",
+              "lastName"
+            ],
+            [
+              "body",
+              "ssn"
+            ],
+            [
+              "body",
+              "dob"
+            ],
+            [
+              "body",
+              "address"
+            ],
+            [
+              "body",
+              "bankAcc"
+            ],
+            [
+              "body",
+              "bankRouting"
+            ]
+          ]
+        },
+        "classified_by": "catalog",
+        "template": "app/views/profile.html",
+        "template_line": 78,
+        "context": "url-start",
+        "raw": false,
+        "variable": "firstNameSafeString",
+        "lines": [
+          65
+        ],
+        "detected_by": [
+          "flow"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-008",
+      "source": "flow",
+      "klass": "ssrf",
+      "file": "app/routes/research.js",
+      "line": 16,
+      "end_line": 16,
+      "function": "displayResearch",
+      "rule": "flow:needle.get",
+      "cwe": "CWE-918",
+      "owasp": "",
+      "severity": "high",
+      "confidence": "high",
+      "message": "user-controlled `url` reaches needle.get() via displayResearch",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "flow:needle.get",
+          "kavach-js-ssrf"
+        ],
+        "callee": "needle.get",
+        "arg_index": 0,
+        "tainted_expr": "url",
+        "tainted_fields": [
+          [
+            "query",
+            "url"
+          ],
+          [
+            "query",
+            "symbol"
+          ]
+        ],
+        "chain": [
+          "app/routes/research.js:displayResearch"
+        ],
+        "entry": {
+          "function": "displayResearch",
+          "file": "app/routes/research.js",
+          "line": 12,
+          "route": {
+            "method": "GET",
+            "path": "/research"
+          },
+          "via": "route",
+          "request_param": [
+            "req"
+          ],
+          "request_fields": [
+            [
+              "query",
+              "symbol"
+            ],
+            [
+              "query",
+              "url"
+            ]
+          ]
+        },
+        "classified_by": "catalog",
+        "lines": [
+          16
+        ],
+        "detected_by": [
+          "flow",
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-009",
+      "source": "semgrep",
+      "klass": "private-key-in-repo",
+      "file": "artifacts/cert/server.key",
+      "line": 1,
+      "end_line": 2,
+      "function": "",
+      "rule": "detected-private-key",
+      "cwe": "CWE-798",
+      "owasp": "",
+      "severity": "high",
+      "confidence": "low",
+      "message": "Private Key detected. This is a sensitive credential and should not be hardcoded here. Instead, store this in a separate, private file.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "detected-private-key"
+        ],
+        "col": 0,
+        "lines": [
+          1
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-010",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "artifacts/db-reset.js",
+      "line": 13,
+      "end_line": 37,
+      "function": "",
+      "rule": "kavach-js-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A02:2021",
+      "severity": "low",
+      "confidence": "medium",
+      "message": "A secret-looking property is set to a literal string in source.",
+      "status": "informational",
+      "reason": "credential in a test, seed or local-development file; reported for review, not counted as a production defect",
+      "evidence": {
+        "rules": [
+          "kavach-js-hardcoded-secret"
+        ],
+        "col": 4,
+        "lines": [
+          13,
+          21,
+          29
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-011",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "config/env/all.js",
+      "line": 5,
+      "end_line": 13,
+      "function": "",
+      "rule": "kavach-js-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A02:2021",
+      "severity": "medium",
+      "confidence": "medium",
+      "message": "A secret-looking property is set to a literal string in source.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "kavach-js-hardcoded-secret"
+        ],
+        "col": 17,
+        "lines": [
+          5
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-012",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "config/env/development.js",
+      "line": 1,
+      "end_line": 14,
+      "function": "",
+      "rule": "kavach-js-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A02:2021",
+      "severity": "low",
+      "confidence": "medium",
+      "message": "A secret-looking property is set to a literal string in source.",
+      "status": "informational",
+      "reason": "credential in a test, seed or local-development file; reported for review, not counted as a production defect",
+      "evidence": {
+        "rules": [
+          "kavach-js-hardcoded-secret"
+        ],
+        "col": 17,
+        "lines": [
+          1
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-013",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "config/env/test.js",
+      "line": 1,
+      "end_line": 8,
+      "function": "",
+      "rule": "kavach-js-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A02:2021",
+      "severity": "low",
+      "confidence": "medium",
+      "message": "A secret-looking property is set to a literal string in source.",
+      "status": "informational",
+      "reason": "credential in a test, seed or local-development file; reported for review, not counted as a production defect",
+      "evidence": {
+        "rules": [
+          "kavach-js-hardcoded-secret"
+        ],
+        "col": 17,
+        "lines": [
+          1
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-014",
+      "source": "semgrep",
+      "klass": "insecure-session-cookie",
+      "file": "server.js",
+      "line": 78,
+      "end_line": 102,
+      "function": "<anonymous@30>",
+      "rule": "express-cookie-session-default-name",
+      "cwe": "CWE-522",
+      "owasp": "",
+      "severity": "medium",
+      "confidence": "medium",
+      "message": "Don\u2019t use the default session cookie name Using the default session cookie name can open your app to attacks. The security issue posed is similar to X-Powered-By: a potential attacker can use it to fingerprint the server and target attacks ",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "express-cookie-session-default-name",
+          "express-cookie-session-no-domain",
+          "express-cookie-session-no-expires",
+          "express-cookie-session-no-httponly",
+          "express-cookie-session-no-path",
+          "express-cookie-session-no-secure"
+        ],
+        "col": 12,
+        "function_lines": [
+          30,
+          157
+        ],
+        "lines": [
+          78
+        ],
+        "detected_by": [
+          "semgrep"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JS-015",
+      "source": "flow",
+      "klass": "csrf-missing",
+      "file": "server.js",
+      "line": 107,
+      "end_line": 107,
+      "function": "",
+      "rule": "flow:application",
+      "cwe": "CWE-352",
+      "owasp": "",
+      "severity": "medium",
+      "confidence": "high",
+      "message": "user-controlled `` reaches application() via ",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "rules": [
+          "flow:application"
+        ],
+        "callee": "application",
+        "arg_index": 0,
+        "tainted_expr": "",
+        "tainted_fields": [],
+        "chain": [],
+        "entry": {
+          "function": "",
+          "file": "server.js",
+          "line": 107,
+          "route": null,
+          "via": "application",
+          "request_param": [],
+          "request_fields": []
+        },
+        "classified_by": "catalog",
+        "session_modules": [
+          "express-session"
+        ],
+        "state_changing_routes": 7,
+        "disabled_protection_in_comment": true,
+        "routes": [
+          "POST /benefits",
+          "POST /contributions",
+          "POST /login",
+          "POST /memos",
+          "POST /profile",
+          "POST /signup"
+        ],
+        "lines": [
+          107
+        ],
+        "detected_by": [
+          "flow"
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    }
+  ],
+  "suppressed": [
+    {
+      "id": "",
+      "source": "semgrep",
+      "klass": "detected-bcrypt-hash",
+      "file": "artifacts/db-reset.js",
+      "line": 19,
+      "end_line": 19,
+      "function": "",
+      "rule": "detected-bcrypt-hash",
+      "cwe": "CWE-798",
+      "owasp": "",
+      "severity": "high",
+      "confidence": "low",
+      "message": "bcrypt hash detected",
+      "status": "suppressed",
+      "reason": "a bcrypt hash is a stored credential digest in seed data, not a leaked secret",
+      "evidence": {
+        "rules": [
+          "detected-bcrypt-hash"
+        ],
+        "col": 24
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "",
+      "source": "semgrep",
+      "klass": "detected-bcrypt-hash",
+      "file": "artifacts/db-reset.js",
+      "line": 28,
+      "end_line": 28,
+      "function": "",
+      "rule": "detected-bcrypt-hash",
+      "cwe": "CWE-798",
+      "owasp": "",
+      "severity": "high",
+      "confidence": "low",
+      "message": "bcrypt hash detected",
+      "status": "suppressed",
+      "reason": "a bcrypt hash is a stored credential digest in seed data, not a leaked secret",
+      "evidence": {
+        "rules": [
+          "detected-bcrypt-hash"
+        ],
+        "col": 25
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "",
+      "source": "semgrep",
+      "klass": "detected-bcrypt-hash",
+      "file": "artifacts/db-reset.js",
+      "line": 36,
+      "end_line": 36,
+      "function": "",
+      "rule": "detected-bcrypt-hash",
+      "cwe": "CWE-798",
+      "owasp": "",
+      "severity": "high",
+      "confidence": "low",
+      "message": "bcrypt hash detected",
+      "status": "suppressed",
+      "reason": "a bcrypt hash is a stored credential digest in seed data, not a leaked secret",
+      "evidence": {
+        "rules": [
+          "detected-bcrypt-hash"
+        ],
+        "col": 24
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    }
+  ],
+  "dependency_audit_error": "skipped (--no-deps)",
+  "dependency_totals": {},
+  "semgrep_errors": [],
+  "seconds": 4.4,
+  "target": "benchmark_workspace/NodeGoat"
+}

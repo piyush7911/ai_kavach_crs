@@ -1,0 +1,68 @@
+{
+ "true_total": 12,
+ "in_scope": [
+  "nosql",
+  "eval",
+  "xss",
+  "ssrf",
+  "open-redirect"
+ ],
+ "found": [
+  "eval",
+  "ssrf",
+  "open-redirect"
+ ],
+ "missed": [
+  "nosql",
+  "xss"
+ ],
+ "out_of_scope": [
+  "idor-alloc",
+  "idor-benefits",
+  "hardcoded-secret",
+  "private-key",
+  "session-cookie",
+  "csrf",
+  "redos"
+ ],
+ "flows": 12,
+ "flows_unmatched": 6,
+ "unmatched": [
+  [
+   "xss",
+   "app/routes/research.js",
+   "27",
+   "<lambda>1"
+  ],
+  [
+   "xss",
+   "app/routes/research.js",
+   "25",
+   "<lambda>1"
+  ],
+  [
+   "nosql-injection",
+   "app/routes/contributions.js",
+   "65",
+   "<lambda>2"
+  ],
+  [
+   "nosql-injection",
+   "app/routes/contributions.js",
+   "65",
+   "<lambda>2"
+  ],
+  [
+   "nosql-injection",
+   "app/routes/session.js",
+   "20",
+   "prepareUserData"
+  ],
+  [
+   "nosql-injection",
+   "app/routes/contributions.js",
+   "65",
+   "<lambda>2"
+  ]
+ ]
+}

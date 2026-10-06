@@ -1,0 +1,30 @@
+{
+ "true_total": 10,
+ "in_scope": [
+  "sqli"
+ ],
+ "found": [
+  "sqli"
+ ],
+ "missed": [],
+ "out_of_scope": [
+  "bola-password",
+  "bola-email",
+  "bola-books",
+  "mass-assign",
+  "data-exposure",
+  "enumeration",
+  "regexdos",
+  "rate-limit",
+  "weak-jwt"
+ ],
+ "flows": 2,
+ "unmatched": [
+  [
+   "sql-injection",
+   "models/user_model.py",
+   "73",
+   "get_user"
+  ]
+ ]
+}

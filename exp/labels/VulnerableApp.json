@@ -1,0 +1,2175 @@
+{
+ "target": "VulnerableApp",
+ "source": "author annotations (@AttackVector = vulnerable level)",
+ "labels": [
+  {
+   "id": "AuthenticationVulnerability.level10LowIterationHashing",
+   "file": "org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java",
+   "function": "level10LowIterationHashing",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "WEAK_PASSWORD_HASHING"
+   ],
+   "line": 364,
+   "end_line": 404
+  },
+  {
+   "id": "AuthenticationVulnerability.level9Secure",
+   "file": "org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java",
+   "function": "level9Secure",
+   "vulnerable": false,
+   "secure": true,
+   "types": [
+    "USERNAME_ENUMERATION"
+   ],
+   "line": 340,
+   "end_line": 360
+  },
+  {
+   "id": "AuthenticationVulnerability.level8WeakPassword",
+   "file": "org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java",
+   "function": "level8WeakPassword",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "WEAK_PASSWORD_HASHING"
+   ],
+   "line": 302,
+   "end_line": 337
+  },
+  {
+   "id": "AuthenticationVulnerability.level7UsernameEnumeration",
+   "file": "org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java",
+   "function": "level7UsernameEnumeration",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "USERNAME_ENUMERATION"
+   ],
+   "line": 265,
+   "end_line": 298
+  },
+  {
+   "id": "AuthenticationVulnerability.level6Sha256NoSalt",
+   "file": "org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java",
+   "function": "level6Sha256NoSalt",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "WEAK_PASSWORD_HASHING"
+   ],
+   "line": 227,
+   "end_line": 262
+  },
+  {
+   "id": "AuthenticationVulnerability.level5Sha1",
+   "file": "org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java",
+   "function": "level5Sha1",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "WEAK_PASSWORD_HASHING"
+   ],
+   "line": 188,
+   "end_line": 223
+  },
+  {
+   "id": "AuthenticationVulnerability.level4Md5",
+   "file": "org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java",
+   "function": "level4Md5",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "WEAK_PASSWORD_HASHING"
+   ],
+   "line": 150,
+   "end_line": 185
+  },
+  {
+   "id": "AuthenticationVulnerability.level3Plaintext",
+   "file": "org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java",
+   "function": "level3Plaintext",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "PLAINTEXT_PASSWORD_STORAGE"
+   ],
+   "line": 112,
+   "end_line": 147
+  },
+  {
+   "id": "AuthenticationVulnerability.level2Logging",
+   "file": "org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java",
+   "function": "level2Logging",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "PLAINTEXT_PASSWORD_STORAGE"
+   ],
+   "line": 76,
+   "end_line": 109
+  },
+  {
+   "id": "AuthenticationVulnerability.level1SQLi",
+   "file": "org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.java",
+   "function": "level1SQLi",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "ERROR_BASED_SQL_INJECTION"
+   ],
+   "line": 40,
+   "end_line": 73
+  },
+  {
+   "id": "CachePoisoningVulnerability.getSecurePayloadLevel5",
+   "file": "org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java",
+   "function": "getSecurePayloadLevel5",
+   "vulnerable": false,
+   "secure": true,
+   "types": [
+    "WEB_CACHE_POISONING"
+   ],
+   "line": 232,
+   "end_line": 259
+  },
+  {
+   "id": "CachePoisoningVulnerability.getVulnerablePayloadLevel4",
+   "file": "org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java",
+   "function": "getVulnerablePayloadLevel4",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "WEB_CACHE_POISONING"
+   ],
+   "line": 203,
+   "end_line": 230
+  },
+  {
+   "id": "CachePoisoningVulnerability.getVulnerablePayloadLevel3",
+   "file": "org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java",
+   "function": "getVulnerablePayloadLevel3",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "REFLECTED_XSS",
+    "WEB_CACHE_POISONING"
+   ],
+   "line": 156,
+   "end_line": 201
+  },
+  {
+   "id": "CachePoisoningVulnerability.getVulnerablePayloadLevel2",
+   "file": "org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java",
+   "function": "getVulnerablePayloadLevel2",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "REFLECTED_XSS",
+    "WEB_CACHE_POISONING"
+   ],
+   "line": 112,
+   "end_line": 154
+  },
+  {
+   "id": "CachePoisoningVulnerability.getVulnerablePayloadLevel1",
+   "file": "org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java",
+   "function": "getVulnerablePayloadLevel1",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "REFLECTED_XSS",
+    "WEB_CACHE_POISONING"
+   ],
+   "line": 68,
+   "end_line": 110
+  },
+  {
+   "id": "ClickjackingVulnerability.overlayAttackSameOrigin",
+   "file": "org/sasanlabs/service/vulnerability/clickjacking/ClickjackingVulnerability.java",
+   "function": "overlayAttackSameOrigin",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "CLICKJACKING"
+   ],
+   "line": 192,
+   "end_line": 216
+  },
+  {
+   "id": "ClickjackingVulnerability.overlayAttackNoProtection",
+   "file": "org/sasanlabs/service/vulnerability/clickjacking/ClickjackingVulnerability.java",
+   "function": "overlayAttackNoProtection",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "CLICKJACKING"
+   ],
+   "line": 165,
+   "end_line": 185
+  },
+  {
+   "id": "ClickjackingVulnerability.cspFrameAncestorsNone",
+   "file": "org/sasanlabs/service/vulnerability/clickjacking/ClickjackingVulnerability.java",
+   "function": "cspFrameAncestorsNone",
+   "vulnerable": false,
+   "secure": true,
+   "types": [],
+   "line": 148,
+   "end_line": 158
+  },
+  {
+   "id": "ClickjackingVulnerability.xFrameOptionsDeny",
+   "file": "org/sasanlabs/service/vulnerability/clickjacking/ClickjackingVulnerability.java",
+   "function": "xFrameOptionsDeny",
+   "vulnerable": false,
+   "secure": true,
+   "types": [],
+   "line": 132,
+   "end_line": 142
+  },
+  {
+   "id": "ClickjackingVulnerability.xFrameOptionsSameOrigin",
+   "file": "org/sasanlabs/service/vulnerability/clickjacking/ClickjackingVulnerability.java",
+   "function": "xFrameOptionsSameOrigin",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "CLICKJACKING"
+   ],
+   "line": 102,
+   "end_line": 126
+  },
+  {
+   "id": "ClickjackingVulnerability.xFrameOptionsAllowAll",
+   "file": "org/sasanlabs/service/vulnerability/clickjacking/ClickjackingVulnerability.java",
+   "function": "xFrameOptionsAllowAll",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "CLICKJACKING"
+   ],
+   "line": 72,
+   "end_line": 96
+  },
+  {
+   "id": "ClickjackingVulnerability.noFramingProtection",
+   "file": "org/sasanlabs/service/vulnerability/clickjacking/ClickjackingVulnerability.java",
+   "function": "noFramingProtection",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "CLICKJACKING"
+   ],
+   "line": 46,
+   "end_line": 66
+  },
+  {
+   "id": "CommandInjection.getVulnerablePayloadLevel6",
+   "file": "org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
+   "function": "getVulnerablePayloadLevel6",
+   "vulnerable": false,
+   "secure": true,
+   "types": [],
+   "line": 232,
+   "end_line": 249
+  },
+  {
+   "id": "CommandInjection.getVulnerablePayloadLevel5",
+   "file": "org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
+   "function": "getVulnerablePayloadLevel5",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "COMMAND_INJECTION"
+   ],
+   "line": 197,
+   "end_line": 230
+  },
+  {
+   "id": "CommandInjection.getVulnerablePayloadLevel4",
+   "file": "org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
+   "function": "getVulnerablePayloadLevel4",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "COMMAND_INJECTION"
+   ],
+   "line": 161,
+   "end_line": 194
+  },
+  {
+   "id": "CommandInjection.getVulnerablePayloadLevel3",
+   "file": "org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
+   "function": "getVulnerablePayloadLevel3",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "COMMAND_INJECTION"
+   ],
+   "line": 124,
+   "end_line": 157
+  },
+  {
+   "id": "CommandInjection.getVulnerablePayloadLevel2",
+   "file": "org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
+   "function": "getVulnerablePayloadLevel2",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "COMMAND_INJECTION"
+   ],
+   "line": 90,
+   "end_line": 121
+  },
+  {
+   "id": "CommandInjection.getVulnerablePayloadLevel1",
+   "file": "org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
+   "function": "getVulnerablePayloadLevel1",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "COMMAND_INJECTION"
+   ],
+   "line": 65,
+   "end_line": 88
+  },
+  {
+   "id": "CryptographicFailuresVulnerability.getSecurePayloadLevel11",
+   "file": "org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java",
+   "function": "getSecurePayloadLevel11",
+   "vulnerable": false,
+   "secure": true,
+   "types": [
+    "USE_OF_BROKEN_CRYPTOGRAPHIC_ALGORITHM"
+   ],
+   "line": 614,
+   "end_line": 670
+  },
+  {
+   "id": "CryptographicFailuresVulnerability.getSecurePayloadLevel10",
+   "file": "org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java",
+   "function": "getSecurePayloadLevel10",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "USE_OF_BROKEN_CRYPTOGRAPHIC_ALGORITHM"
+   ],
+   "line": 552,
+   "end_line": 611
+  },
+  {
+   "id": "CryptographicFailuresVulnerability.getSecurePayloadLevel6",
+   "file": "org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java",
+   "function": "getSecurePayloadLevel6",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "WEAK_CRYPTOGRAPHIC_HASH"
+   ],
+   "line": 494,
+   "end_line": 549
+  },
+  {
+   "id": "CryptographicFailuresVulnerability.getSecurePayloadLevel5",
+   "file": "org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java",
+   "function": "getSecurePayloadLevel5",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "WEAK_CRYPTOGRAPHIC_HASH"
+   ],
+   "line": 436,
+   "end_line": 491
+  },
+  {
+   "id": "CryptographicFailuresVulnerability.getVulnerablePayloadLevel7",
+   "file": "org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java",
+   "function": "getVulnerablePayloadLevel7",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "WEAK_CRYPTOGRAPHIC_HASH"
+   ],
+   "line": 381,
+   "end_line": 433
+  },
+  {
+   "id": "CryptographicFailuresVulnerability.getVulnerablePayloadLevel6",
+   "file": "org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java",
+   "function": "getVulnerablePayloadLevel6",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "WEAK_CRYPTOGRAPHIC_HASH"
+   ],
+   "line": 324,
+   "end_line": 378
+  },
+  {
+   "id": "CryptographicFailuresVulnerability.getVulnerablePayloadLevel5",
+   "file": "org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java",
+   "function": "getVulnerablePayloadLevel5",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "WEAK_CRYPTOGRAPHIC_HASH"
+   ],
+   "line": 268,
+   "end_line": 321
+  },
+  {
+   "id": "CryptographicFailuresVulnerability.getVulnerablePayloadLevel4",
+   "file": "org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java",
+   "function": "getVulnerablePayloadLevel4",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "USE_OF_BROKEN_CRYPTOGRAPHIC_ALGORITHM"
+   ],
+   "line": 213,
+   "end_line": 265
+  },
+  {
+   "id": "CryptographicFailuresVulnerability.getVulnerablePayloadLevel3",
+   "file": "org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java",
+   "function": "getVulnerablePayloadLevel3",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "USE_OF_BROKEN_CRYPTOGRAPHIC_ALGORITHM"
+   ],
+   "line": 157,
+   "end_line": 210
+  },
+  {
+   "id": "CryptographicFailuresVulnerability.getVulnerablePayloadLevel2",
+   "file": "org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java",
+   "function": "getVulnerablePayloadLevel2",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "INSECURE_CRYPTOGRAPHIC_STORAGE"
+   ],
+   "line": 100,
+   "end_line": 154
+  },
+  {
+   "id": "CryptographicFailuresVulnerability.getVulnerablePayloadLevel1",
+   "file": "org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java",
+   "function": "getVulnerablePayloadLevel1",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "INSECURE_CRYPTOGRAPHIC_STORAGE"
+   ],
+   "line": 48,
+   "end_line": 97
+  },
+  {
+   "id": "InsecureDeserializationVulnerability.getVulnerablePayloadLevel4",
+   "file": "org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationVulnerability.java",
+   "function": "getVulnerablePayloadLevel4",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "INSECURE_DESERIALIZATION",
+    "REMOTE_CODE_EXECUTION"
+   ],
+   "line": 160,
+   "end_line": 201
+  },
+  {
+   "id": "InsecureDeserializationVulnerability.getSecurePayloadLevel3",
+   "file": "org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationVulnerability.java",
+   "function": "getSecurePayloadLevel3",
+   "vulnerable": false,
+   "secure": true,
+   "types": [
+    "INSECURE_DESERIALIZATION"
+   ],
+   "line": 137,
+   "end_line": 157
+  },
+  {
+   "id": "InsecureDeserializationVulnerability.getVulnerablePayloadLevel2",
+   "file": "org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationVulnerability.java",
+   "function": "getVulnerablePayloadLevel2",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "IMPROPER_AUTHORIZATION",
+    "INSECURE_DESERIALIZATION"
+   ],
+   "line": 102,
+   "end_line": 134
+  },
+  {
+   "id": "InsecureDeserializationVulnerability.getVulnerablePayloadLevel1",
+   "file": "org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationVulnerability.java",
+   "function": "getVulnerablePayloadLevel1",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "INSECURE_DESERIALIZATION"
+   ],
+   "line": 58,
+   "end_line": 99
+  },
+  {
+   "id": "UnrestrictedFileUpload.getVulnerablePayloadLevel12",
+   "file": "org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
+   "function": "getVulnerablePayloadLevel12",
+   "vulnerable": false,
+   "secure": true,
+   "types": [
+    "UNCONTROLLED_RESOURCE_CONSUMPTION",
+    "UNRESTRICTED_FILE_UPLOAD"
+   ],
+   "line": 660,
+   "end_line": 679
+  },
+  {
+   "id": "UnrestrictedFileUpload.getVulnerablePayloadLevel11",
+   "file": "org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
+   "function": "getVulnerablePayloadLevel11",
+   "vulnerable": false,
+   "secure": true,
+   "types": [
+    "PATH_TRAVERSAL",
+    "PERSISTENT_XSS",
+    "UNRESTRICTED_FILE_UPLOAD"
+   ],
+   "line": 633,
+   "end_line": 652
+  },
+  {
+   "id": "UnrestrictedFileUpload.getVulnerablePayloadLevel10",
+   "file": "org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
+   "function": "getVulnerablePayloadLevel10",
+   "vulnerable": false,
+   "secure": true,
+   "types": [
+    "PERSISTENT_XSS",
+    "UNRESTRICTED_FILE_UPLOAD"
+   ],
+   "line": 598,
+   "end_line": 623
+  },
+  {
+   "id": "UnrestrictedFileUpload.getVulnerablePayloadLevel9",
+   "file": "org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
+   "function": "getVulnerablePayloadLevel9",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "DENIAL_OF_SERVICE",
+    "PATH_TRAVERSAL",
+    "UNCONTROLLED_RESOURCE_CONSUMPTION"
+   ],
+   "line": 560,
+   "end_line": 594
+  },
+  {
+   "id": "UnrestrictedFileUpload.getVulnerablePayloadLevel8",
+   "file": "org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
+   "function": "getVulnerablePayloadLevel8",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "PATH_TRAVERSAL"
+   ],
+   "line": 535,
+   "end_line": 558
+  },
+  {
+   "id": "UnrestrictedFileUpload.getVulnerablePayloadLevel7",
+   "file": "org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
+   "function": "getVulnerablePayloadLevel7",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "PERSISTENT_XSS",
+    "REFLECTED_XSS",
+    "UNRESTRICTED_FILE_UPLOAD"
+   ],
+   "line": 479,
+   "end_line": 533
+  },
+  {
+   "id": "UnrestrictedFileUpload.getVulnerablePayloadLevel6",
+   "file": "org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
+   "function": "getVulnerablePayloadLevel6",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "PERSISTENT_XSS",
+    "REFLECTED_XSS",
+    "UNRESTRICTED_FILE_UPLOAD"
+   ],
+   "line": 428,
+   "end_line": 476
+  },
+  {
+   "id": "UnrestrictedFileUpload.getVulnerablePayloadLevel5",
+   "file": "org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
+   "function": "getVulnerablePayloadLevel5",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "PERSISTENT_XSS",
+    "REFLECTED_XSS",
+    "UNRESTRICTED_FILE_UPLOAD"
+   ],
+   "line": 375,
+   "end_line": 425
+  },
+  {
+   "id": "UnrestrictedFileUpload.getVulnerablePayloadLevel4",
+   "file": "org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
+   "function": "getVulnerablePayloadLevel4",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "PERSISTENT_XSS",
+    "REFLECTED_XSS",
+    "UNRESTRICTED_FILE_UPLOAD"
+   ],
+   "line": 327,
+   "end_line": 373
+  },
+  {
+   "id": "UnrestrictedFileUpload.getVulnerablePayloadLevel3",
+   "file": "org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
+   "function": "getVulnerablePayloadLevel3",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "PERSISTENT_XSS",
+    "REFLECTED_XSS",
+    "UNRESTRICTED_FILE_UPLOAD"
+   ],
+   "line": 279,
+   "end_line": 325
+  },
+  {
+   "id": "UnrestrictedFileUpload.getVulnerablePayloadLevel2",
+   "file": "org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
+   "function": "getVulnerablePayloadLevel2",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "PERSISTENT_XSS",
+    "REFLECTED_XSS",
+    "UNRESTRICTED_FILE_UPLOAD"
+   ],
+   "line": 237,
+   "end_line": 276
+  },
+  {
+   "id": "UnrestrictedFileUpload.getVulnerablePayloadLevel1",
+   "file": "org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
+   "function": "getVulnerablePayloadLevel1",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "PATH_TRAVERSAL",
+    "PERSISTENT_XSS",
+    "REFLECTED_XSS",
+    "UNRESTRICTED_FILE_UPLOAD"
+   ],
+   "line": 181,
+   "end_line": 234
+  },
+  {
+   "id": "IDORVulnerability.level5",
+   "file": "org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java",
+   "function": "level5",
+   "vulnerable": false,
+   "secure": true,
+   "types": [
+    "INSECURE_DIRECT_OBJECT_REFERENCE"
+   ],
+   "line": 231,
+   "end_line": 276
+  },
+  {
+   "id": "IDORVulnerability.level4",
+   "file": "org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java",
+   "function": "level4",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "INSECURE_DIRECT_OBJECT_REFERENCE"
+   ],
+   "line": 182,
+   "end_line": 229
+  },
+  {
+   "id": "IDORVulnerability.level3",
+   "file": "org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java",
+   "function": "level3",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "INSECURE_DIRECT_OBJECT_REFERENCE"
+   ],
+   "line": 133,
+   "end_line": 180
+  },
+  {
+   "id": "IDORVulnerability.level2",
+   "file": "org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java",
+   "function": "level2",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "INSECURE_DIRECT_OBJECT_REFERENCE"
+   ],
+   "line": 97,
+   "end_line": 131
+  },
+  {
+   "id": "IDORVulnerability.level1",
+   "file": "org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java",
+   "function": "level1",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "INSECURE_DIRECT_OBJECT_REFERENCE"
+   ],
+   "line": 58,
+   "end_line": 95
+  },
+  {
+   "id": "JWTVulnerability.getVulnerablePayloadLevel16CookieBased",
+   "file": "org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java",
+   "function": "getVulnerablePayloadLevel16CookieBased",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "INSECURE_CONFIGURATION_JWT"
+   ],
+   "line": 1041,
+   "end_line": 1118
+  },
+  {
+   "id": "JWTVulnerability.getVulnerablePayloadLevel15CookieBased",
+   "file": "org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java",
+   "function": "getVulnerablePayloadLevel15CookieBased",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "SERVER_SIDE_VULNERABLE_JWT"
+   ],
+   "line": 966,
+   "end_line": 1037
+  },
+  {
+   "id": "JWTVulnerability.getVulnerablePayloadLevel14CookieBased",
+   "file": "org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java",
+   "function": "getVulnerablePayloadLevel14CookieBased",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "INSECURE_CONFIGURATION_JWT"
+   ],
+   "line": 892,
+   "end_line": 963
+  },
+  {
+   "id": "JWTVulnerability.getHeaderInjectionVulnerability",
+   "file": "org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java",
+   "function": "getHeaderInjectionVulnerability",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "HEADER_INJECTION"
+   ],
+   "line": 827,
+   "end_line": 889
+  },
+  {
+   "id": "JWTVulnerability.getVulnerablePayloadLevelUnsecure10CookieBased",
+   "file": "org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java",
+   "function": "getVulnerablePayloadLevelUnsecure10CookieBased",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "CLIENT_SIDE_VULNERABLE_JWT",
+    "SERVER_SIDE_VULNERABLE_JWT"
+   ],
+   "line": 689,
+   "end_line": 762
+  },
+  {
+   "id": "JWTVulnerability.getVulnerablePayloadLevelUnsecure9CookieBased",
+   "file": "org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java",
+   "function": "getVulnerablePayloadLevelUnsecure9CookieBased",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "CLIENT_SIDE_VULNERABLE_JWT",
+    "SERVER_SIDE_VULNERABLE_JWT"
+   ],
+   "line": 618,
+   "end_line": 687
+  },
+  {
+   "id": "JWTVulnerability.getVulnerablePayloadLevelUnsecure8CookieBased",
+   "file": "org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java",
+   "function": "getVulnerablePayloadLevelUnsecure8CookieBased",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "CLIENT_SIDE_VULNERABLE_JWT",
+    "SERVER_SIDE_VULNERABLE_JWT"
+   ],
+   "line": 545,
+   "end_line": 616
+  },
+  {
+   "id": "JWTVulnerability.getVulnerablePayloadLevelUnsecure7CookieBased",
+   "file": "org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java",
+   "function": "getVulnerablePayloadLevelUnsecure7CookieBased",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "CLIENT_SIDE_VULNERABLE_JWT"
+   ],
+   "line": 491,
+   "end_line": 543
+  },
+  {
+   "id": "JWTVulnerability.getVulnerablePayloadLevelUnsecure6CookieBased",
+   "file": "org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java",
+   "function": "getVulnerablePayloadLevelUnsecure6CookieBased",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "CLIENT_SIDE_VULNERABLE_JWT",
+    "SERVER_SIDE_VULNERABLE_JWT"
+   ],
+   "line": 410,
+   "end_line": 484
+  },
+  {
+   "id": "JWTVulnerability.getVulnerablePayloadLevelUnsecure5CookieBased",
+   "file": "org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java",
+   "function": "getVulnerablePayloadLevelUnsecure5CookieBased",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "CLIENT_SIDE_VULNERABLE_JWT",
+    "SERVER_SIDE_VULNERABLE_JWT"
+   ],
+   "line": 335,
+   "end_line": 408
+  },
+  {
+   "id": "JWTVulnerability.getVulnerablePayloadLevelUnsecure4CookieBased",
+   "file": "org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java",
+   "function": "getVulnerablePayloadLevelUnsecure4CookieBased",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "CLIENT_SIDE_VULNERABLE_JWT",
+    "INSECURE_CONFIGURATION_JWT"
+   ],
+   "line": 260,
+   "end_line": 333
+  },
+  {
+   "id": "JWTVulnerability.getVulnerablePayloadLevelUnsecure3CookieBased",
+   "file": "org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java",
+   "function": "getVulnerablePayloadLevelUnsecure3CookieBased",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "CLIENT_SIDE_VULNERABLE_JWT"
+   ],
+   "line": 199,
+   "end_line": 258
+  },
+  {
+   "id": "JWTVulnerability.getVulnerablePayloadLevelUnsecure2CookieBased",
+   "file": "org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java",
+   "function": "getVulnerablePayloadLevelUnsecure2CookieBased",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "CLIENT_SIDE_VULNERABLE_JWT"
+   ],
+   "line": 137,
+   "end_line": 197
+  },
+  {
+   "id": "JWTVulnerability.getVulnerablePayloadLevelUnsecure",
+   "file": "org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java",
+   "function": "getVulnerablePayloadLevelUnsecure",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "CLIENT_SIDE_VULNERABLE_JWT"
+   ],
+   "line": 96,
+   "end_line": 135
+  },
+  {
+   "id": "LDAPInjectionVulnerability.level6",
+   "file": "org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java",
+   "function": "level6",
+   "vulnerable": false,
+   "secure": true,
+   "types": [
+    "LDAP_INJECTION"
+   ],
+   "line": 337,
+   "end_line": 374
+  },
+  {
+   "id": "LDAPInjectionVulnerability.level5",
+   "file": "org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java",
+   "function": "level5",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "LDAP_INJECTION"
+   ],
+   "line": 289,
+   "end_line": 334
+  },
+  {
+   "id": "LDAPInjectionVulnerability.level4",
+   "file": "org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java",
+   "function": "level4",
+   "vulnerable": false,
+   "secure": true,
+   "types": [
+    "LDAP_INJECTION"
+   ],
+   "line": 247,
+   "end_line": 286
+  },
+  {
+   "id": "LDAPInjectionVulnerability.level3",
+   "file": "org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java",
+   "function": "level3",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "LDAP_INJECTION"
+   ],
+   "line": 181,
+   "end_line": 244
+  },
+  {
+   "id": "LDAPInjectionVulnerability.level2",
+   "file": "org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java",
+   "function": "level2",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "LDAP_INJECTION"
+   ],
+   "line": 142,
+   "end_line": 178
+  },
+  {
+   "id": "LDAPInjectionVulnerability.level1",
+   "file": "org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java",
+   "function": "level1",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "LDAP_INJECTION"
+   ],
+   "line": 103,
+   "end_line": 139
+  },
+  {
+   "id": "Http3xxStatusCodeBasedInjection.getVulnerablePayloadLevel12",
+   "file": "org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java",
+   "function": "getVulnerablePayloadLevel12",
+   "vulnerable": false,
+   "secure": true,
+   "types": [
+    "OPEN_REDIRECT_3XX_STATUS_CODE"
+   ],
+   "line": 402,
+   "end_line": 420
+  },
+  {
+   "id": "Http3xxStatusCodeBasedInjection.getVulnerablePayloadLevel11",
+   "file": "org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java",
+   "function": "getVulnerablePayloadLevel11",
+   "vulnerable": false,
+   "secure": true,
+   "types": [
+    "OPEN_REDIRECT_3XX_STATUS_CODE"
+   ],
+   "line": 382,
+   "end_line": 400
+  },
+  {
+   "id": "Http3xxStatusCodeBasedInjection.getVulnerablePayloadLevel10",
+   "file": "org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java",
+   "function": "getVulnerablePayloadLevel10",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "OPEN_REDIRECT_3XX_STATUS_CODE"
+   ],
+   "line": 360,
+   "end_line": 380
+  },
+  {
+   "id": "Http3xxStatusCodeBasedInjection.getVulnerablePayloadLevel9",
+   "file": "org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java",
+   "function": "getVulnerablePayloadLevel9",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "OPEN_REDIRECT_3XX_STATUS_CODE"
+   ],
+   "line": 335,
+   "end_line": 355
+  },
+  {
+   "id": "Http3xxStatusCodeBasedInjection.getVulnerablePayloadLevel8",
+   "file": "org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java",
+   "function": "getVulnerablePayloadLevel8",
+   "vulnerable": false,
+   "secure": true,
+   "types": [],
+   "line": 324,
+   "end_line": 331
+  },
+  {
+   "id": "Http3xxStatusCodeBasedInjection.getVulnerablePayloadLevel7",
+   "file": "org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java",
+   "function": "getVulnerablePayloadLevel7",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "OPEN_REDIRECT_3XX_STATUS_CODE"
+   ],
+   "line": 285,
+   "end_line": 321
+  },
+  {
+   "id": "Http3xxStatusCodeBasedInjection.getVulnerablePayloadLevel6",
+   "file": "org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java",
+   "function": "getVulnerablePayloadLevel6",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "OPEN_REDIRECT_3XX_STATUS_CODE"
+   ],
+   "line": 255,
+   "end_line": 283
+  },
+  {
+   "id": "Http3xxStatusCodeBasedInjection.getVulnerablePayloadLevel5",
+   "file": "org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java",
+   "function": "getVulnerablePayloadLevel5",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "OPEN_REDIRECT_3XX_STATUS_CODE"
+   ],
+   "line": 219,
+   "end_line": 251
+  },
+  {
+   "id": "Http3xxStatusCodeBasedInjection.getVulnerablePayloadLevel4",
+   "file": "org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java",
+   "function": "getVulnerablePayloadLevel4",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "OPEN_REDIRECT_3XX_STATUS_CODE"
+   ],
+   "line": 182,
+   "end_line": 213
+  },
+  {
+   "id": "Http3xxStatusCodeBasedInjection.getVulnerablePayloadLevel3",
+   "file": "org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java",
+   "function": "getVulnerablePayloadLevel3",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "OPEN_REDIRECT_3XX_STATUS_CODE"
+   ],
+   "line": 149,
+   "end_line": 179
+  },
+  {
+   "id": "Http3xxStatusCodeBasedInjection.getVulnerablePayloadLevel2",
+   "file": "org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java",
+   "function": "getVulnerablePayloadLevel2",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "OPEN_REDIRECT_3XX_STATUS_CODE"
+   ],
+   "line": 115,
+   "end_line": 144
+  },
+  {
+   "id": "Http3xxStatusCodeBasedInjection.getVulnerablePayloadLevel1",
+   "file": "org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java",
+   "function": "getVulnerablePayloadLevel1",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "OPEN_REDIRECT_3XX_STATUS_CODE"
+   ],
+   "line": 89,
+   "end_line": 109
+  },
+  {
+   "id": "OTPVulnerability.level5RequestOTP",
+   "file": "org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java",
+   "function": "level5RequestOTP",
+   "vulnerable": false,
+   "secure": true,
+   "types": [],
+   "line": 173,
+   "end_line": 182
+  },
+  {
+   "id": "OTPVulnerability.level4RequestOTP",
+   "file": "org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java",
+   "function": "level4RequestOTP",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "NO_LOGIN_RATE_LIMITING"
+   ],
+   "line": 140,
+   "end_line": 162
+  },
+  {
+   "id": "OTPVulnerability.level3RequestOTP",
+   "file": "org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java",
+   "function": "level3RequestOTP",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "NO_LOGIN_RATE_LIMITING",
+    "REUSABLE_PASSWORD_RESET_TOKEN"
+   ],
+   "line": 104,
+   "end_line": 129
+  },
+  {
+   "id": "OTPVulnerability.level2RequestOTP",
+   "file": "org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java",
+   "function": "level2RequestOTP",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "NO_LOGIN_RATE_LIMITING",
+    "PASSWORD_RESET_TOKEN_WITHOUT_EXPIRY",
+    "WEAK_RANDOM_NUMBER_GENERATION"
+   ],
+   "line": 67,
+   "end_line": 93
+  },
+  {
+   "id": "OTPVulnerability.level1RequestOTP",
+   "file": "org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java",
+   "function": "level1RequestOTP",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "NO_LOGIN_RATE_LIMITING",
+    "PASSWORD_RESET_TOKEN_WITHOUT_EXPIRY",
+    "WEAK_RANDOM_NUMBER_GENERATION"
+   ],
+   "line": 30,
+   "end_line": 56
+  },
+  {
+   "id": "PasswordResetVulnerability.level10Secure",
+   "file": "org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java",
+   "function": "level10Secure",
+   "vulnerable": false,
+   "secure": true,
+   "types": [],
+   "line": 297,
+   "end_line": 305
+  },
+  {
+   "id": "PasswordResetVulnerability.level9",
+   "file": "org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java",
+   "function": "level9",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "NO_LOGIN_RATE_LIMITING"
+   ],
+   "line": 278,
+   "end_line": 295
+  },
+  {
+   "id": "PasswordResetVulnerability.level8",
+   "file": "org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java",
+   "function": "level8",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "PREDICTABLE_PASSWORD_RESET_TOKEN"
+   ],
+   "line": 254,
+   "end_line": 276
+  },
+  {
+   "id": "PasswordResetVulnerability.level7",
+   "file": "org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java",
+   "function": "level7",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "PASSWORD_RESET_TOKEN_EXPOSED_VIA_REFERRER"
+   ],
+   "line": 230,
+   "end_line": 252
+  },
+  {
+   "id": "PasswordResetVulnerability.level6",
+   "file": "org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java",
+   "function": "level6",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "WEAK_RANDOM_NUMBER_GENERATION"
+   ],
+   "line": 206,
+   "end_line": 228
+  },
+  {
+   "id": "PasswordResetVulnerability.level5",
+   "file": "org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java",
+   "function": "level5",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "INSECURE_PASSWORD_RESET_LINK"
+   ],
+   "line": 182,
+   "end_line": 204
+  },
+  {
+   "id": "PasswordResetVulnerability.level4",
+   "file": "org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java",
+   "function": "level4",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "USERNAME_ENUMERATION"
+   ],
+   "line": 152,
+   "end_line": 180
+  },
+  {
+   "id": "PasswordResetVulnerability.level3",
+   "file": "org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java",
+   "function": "level3",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "REUSABLE_PASSWORD_RESET_TOKEN"
+   ],
+   "line": 116,
+   "end_line": 150
+  },
+  {
+   "id": "PasswordResetVulnerability.level2",
+   "file": "org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java",
+   "function": "level2",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "PASSWORD_RESET_TOKEN_WITHOUT_EXPIRY"
+   ],
+   "line": 74,
+   "end_line": 114
+  },
+  {
+   "id": "PasswordResetVulnerability.level1",
+   "file": "org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java",
+   "function": "level1",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "PREDICTABLE_PASSWORD_RESET_TOKEN"
+   ],
+   "line": 38,
+   "end_line": 72
+  },
+  {
+   "id": "PathTraversalVulnerability.getVulnerablePayloadLevel15",
+   "file": "org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+   "function": "getVulnerablePayloadLevel15",
+   "vulnerable": false,
+   "secure": true,
+   "types": [],
+   "line": 561,
+   "end_line": 581
+  },
+  {
+   "id": "PathTraversalVulnerability.getVulnerablePayloadLevel14",
+   "file": "org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+   "function": "getVulnerablePayloadLevel14",
+   "vulnerable": false,
+   "secure": true,
+   "types": [],
+   "line": 522,
+   "end_line": 554
+  },
+  {
+   "id": "PathTraversalVulnerability.getVulnerablePayloadLevel13",
+   "file": "org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+   "function": "getVulnerablePayloadLevel13",
+   "vulnerable": false,
+   "secure": true,
+   "types": [],
+   "line": 495,
+   "end_line": 514
+  },
+  {
+   "id": "PathTraversalVulnerability.getVulnerablePayloadLevel12",
+   "file": "org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+   "function": "getVulnerablePayloadLevel12",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "PATH_TRAVERSAL"
+   ],
+   "line": 455,
+   "end_line": 493
+  },
+  {
+   "id": "PathTraversalVulnerability.getVulnerablePayloadLevel11",
+   "file": "org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+   "function": "getVulnerablePayloadLevel11",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "PATH_TRAVERSAL"
+   ],
+   "line": 415,
+   "end_line": 453
+  },
+  {
+   "id": "PathTraversalVulnerability.getVulnerablePayloadLevel10",
+   "file": "org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+   "function": "getVulnerablePayloadLevel10",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "PATH_TRAVERSAL"
+   ],
+   "line": 375,
+   "end_line": 413
+  },
+  {
+   "id": "PathTraversalVulnerability.getVulnerablePayloadLevel9",
+   "file": "org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+   "function": "getVulnerablePayloadLevel9",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "PATH_TRAVERSAL"
+   ],
+   "line": 336,
+   "end_line": 373
+  },
+  {
+   "id": "PathTraversalVulnerability.getVulnerablePayloadLevel8",
+   "file": "org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+   "function": "getVulnerablePayloadLevel8",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "PATH_TRAVERSAL"
+   ],
+   "line": 297,
+   "end_line": 334
+  },
+  {
+   "id": "PathTraversalVulnerability.getVulnerablePayloadLevel7",
+   "file": "org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+   "function": "getVulnerablePayloadLevel7",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "PATH_TRAVERSAL"
+   ],
+   "line": 250,
+   "end_line": 295
+  },
+  {
+   "id": "PathTraversalVulnerability.getVulnerablePayloadLevel6",
+   "file": "org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+   "function": "getVulnerablePayloadLevel6",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "PATH_TRAVERSAL"
+   ],
+   "line": 224,
+   "end_line": 246
+  },
+  {
+   "id": "PathTraversalVulnerability.getVulnerablePayloadLevel5",
+   "file": "org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+   "function": "getVulnerablePayloadLevel5",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "PATH_TRAVERSAL"
+   ],
+   "line": 196,
+   "end_line": 222
+  },
+  {
+   "id": "PathTraversalVulnerability.getVulnerablePayloadLevel4",
+   "file": "org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+   "function": "getVulnerablePayloadLevel4",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "PATH_TRAVERSAL"
+   ],
+   "line": 168,
+   "end_line": 194
+  },
+  {
+   "id": "PathTraversalVulnerability.getVulnerablePayloadLevel3",
+   "file": "org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+   "function": "getVulnerablePayloadLevel3",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "PATH_TRAVERSAL"
+   ],
+   "line": 144,
+   "end_line": 166
+  },
+  {
+   "id": "PathTraversalVulnerability.getVulnerablePayloadLevel2",
+   "file": "org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+   "function": "getVulnerablePayloadLevel2",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "PATH_TRAVERSAL"
+   ],
+   "line": 120,
+   "end_line": 142
+  },
+  {
+   "id": "PathTraversalVulnerability.getVulnerablePayloadLevel1",
+   "file": "org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+   "function": "getVulnerablePayloadLevel1",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "PATH_TRAVERSAL"
+   ],
+   "line": 88,
+   "end_line": 118
+  },
+  {
+   "id": "UrlParamBasedRFI.getVulnerablePayloadLevelUnsecureLevel2",
+   "file": "org/sasanlabs/service/vulnerability/rfi/UrlParamBasedRFI.java",
+   "function": "getVulnerablePayloadLevelUnsecureLevel2",
+   "vulnerable": false,
+   "secure": false,
+   "types": [],
+   "line": 56,
+   "end_line": 74
+  },
+  {
+   "id": "UrlParamBasedRFI.getVulnerablePayloadLevelUnsecure",
+   "file": "org/sasanlabs/service/vulnerability/rfi/UrlParamBasedRFI.java",
+   "function": "getVulnerablePayloadLevelUnsecure",
+   "vulnerable": false,
+   "secure": false,
+   "types": [],
+   "line": 36,
+   "end_line": 54
+  },
+  {
+   "id": "SessionManagementVulnerability.level6SecureSessionManagement",
+   "file": "org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java",
+   "function": "level6SecureSessionManagement",
+   "vulnerable": false,
+   "secure": true,
+   "types": [],
+   "line": 276,
+   "end_line": 299
+  },
+  {
+   "id": "SessionManagementVulnerability.level5NoLoginRateLimiting",
+   "file": "org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java",
+   "function": "level5NoLoginRateLimiting",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "NO_LOGIN_RATE_LIMITING"
+   ],
+   "line": 230,
+   "end_line": 267
+  },
+  {
+   "id": "SessionManagementVulnerability.level4MissingLogoutInvalidation",
+   "file": "org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java",
+   "function": "level4MissingLogoutInvalidation",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "MISSING_LOGOUT_INVALIDATION"
+   ],
+   "line": 182,
+   "end_line": 219
+  },
+  {
+   "id": "SessionManagementVulnerability.level3ObscuredPredictableSessionId",
+   "file": "org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java",
+   "function": "level3ObscuredPredictableSessionId",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "OBSCURED_PREDICTABLE_SESSION_ID"
+   ],
+   "line": 133,
+   "end_line": 171
+  },
+  {
+   "id": "SessionManagementVulnerability.level2PredictableSessionId",
+   "file": "org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java",
+   "function": "level2PredictableSessionId",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "PREDICTABLE_SESSION_ID"
+   ],
+   "line": 85,
+   "end_line": 122
+  },
+  {
+   "id": "SessionManagementVulnerability.level1SessionFixation",
+   "file": "org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java",
+   "function": "level1SessionFixation",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "SESSION_FIXATION"
+   ],
+   "line": 36,
+   "end_line": 74
+  },
+  {
+   "id": "BlindSQLInjectionVulnerability.getCarInformationLevel5",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java",
+   "function": "getCarInformationLevel5",
+   "vulnerable": false,
+   "secure": true,
+   "types": [],
+   "line": 196,
+   "end_line": 212
+  },
+  {
+   "id": "BlindSQLInjectionVulnerability.getCarInformationLevel4",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java",
+   "function": "getCarInformationLevel4",
+   "vulnerable": false,
+   "secure": true,
+   "types": [],
+   "line": 169,
+   "end_line": 193
+  },
+  {
+   "id": "BlindSQLInjectionVulnerability.getCarInformationLevel3",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java",
+   "function": "getCarInformationLevel3",
+   "vulnerable": false,
+   "secure": true,
+   "types": [],
+   "line": 145,
+   "end_line": 166
+  },
+  {
+   "id": "BlindSQLInjectionVulnerability.getCarInformationLevel2",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java",
+   "function": "getCarInformationLevel2",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "BLIND_SQL_INJECTION"
+   ],
+   "line": 103,
+   "end_line": 143
+  },
+  {
+   "id": "BlindSQLInjectionVulnerability.getCarInformationLevel1",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java",
+   "function": "getCarInformationLevel1",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "BLIND_SQL_INJECTION"
+   ],
+   "line": 47,
+   "end_line": 101
+  },
+  {
+   "id": "ErrorBasedSQLInjectionVulnerability.doesCarInformationExistsLevel5",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+   "function": "doesCarInformationExistsLevel5",
+   "vulnerable": false,
+   "secure": true,
+   "types": [],
+   "line": 305,
+   "end_line": 353
+  },
+  {
+   "id": "ErrorBasedSQLInjectionVulnerability.doesCarInformationExistsLevel4",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+   "function": "doesCarInformationExistsLevel4",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "ERROR_BASED_SQL_INJECTION"
+   ],
+   "line": 240,
+   "end_line": 303
+  },
+  {
+   "id": "ErrorBasedSQLInjectionVulnerability.doesCarInformationExistsLevel3",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+   "function": "doesCarInformationExistsLevel3",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "ERROR_BASED_SQL_INJECTION"
+   ],
+   "line": 174,
+   "end_line": 236
+  },
+  {
+   "id": "ErrorBasedSQLInjectionVulnerability.doesCarInformationExistsLevel2",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+   "function": "doesCarInformationExistsLevel2",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "ERROR_BASED_SQL_INJECTION"
+   ],
+   "line": 113,
+   "end_line": 171
+  },
+  {
+   "id": "ErrorBasedSQLInjectionVulnerability.doesCarInformationExistsLevel1",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+   "function": "doesCarInformationExistsLevel1",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "ERROR_BASED_SQL_INJECTION"
+   ],
+   "line": 54,
+   "end_line": 111
+  },
+  {
+   "id": "UnionBasedSQLInjectionVulnerability.getCarInformationLevel9",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
+   "function": "getCarInformationLevel9",
+   "vulnerable": false,
+   "secure": true,
+   "types": [],
+   "line": 210,
+   "end_line": 222
+  },
+  {
+   "id": "UnionBasedSQLInjectionVulnerability.getCarInformationLevel8",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
+   "function": "getCarInformationLevel8",
+   "vulnerable": false,
+   "secure": true,
+   "types": [],
+   "line": 196,
+   "end_line": 208
+  },
+  {
+   "id": "UnionBasedSQLInjectionVulnerability.getCarInformationLevel7",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
+   "function": "getCarInformationLevel7",
+   "vulnerable": false,
+   "secure": true,
+   "types": [],
+   "line": 178,
+   "end_line": 194
+  },
+  {
+   "id": "UnionBasedSQLInjectionVulnerability.getCarInformationLevel6",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
+   "function": "getCarInformationLevel6",
+   "vulnerable": false,
+   "secure": true,
+   "types": [],
+   "line": 163,
+   "end_line": 176
+  },
+  {
+   "id": "UnionBasedSQLInjectionVulnerability.getCarInformationLevel5",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
+   "function": "getCarInformationLevel5",
+   "vulnerable": false,
+   "secure": true,
+   "types": [],
+   "line": 147,
+   "end_line": 161
+  },
+  {
+   "id": "UnionBasedSQLInjectionVulnerability.getCarInformationLevel4",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
+   "function": "getCarInformationLevel4",
+   "vulnerable": false,
+   "secure": true,
+   "types": [],
+   "line": 133,
+   "end_line": 145
+  },
+  {
+   "id": "UnionBasedSQLInjectionVulnerability.getCarInformationLevel3",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
+   "function": "getCarInformationLevel3",
+   "vulnerable": false,
+   "secure": true,
+   "types": [
+    "UNION_BASED_SQL_INJECTION"
+   ],
+   "line": 118,
+   "end_line": 131
+  },
+  {
+   "id": "UnionBasedSQLInjectionVulnerability.getCarInformationLevel2",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
+   "function": "getCarInformationLevel2",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "UNION_BASED_SQL_INJECTION"
+   ],
+   "line": 88,
+   "end_line": 116
+  },
+  {
+   "id": "UnionBasedSQLInjectionVulnerability.getCarInformationLevel1",
+   "file": "org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
+   "function": "getCarInformationLevel1",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "UNION_BASED_SQL_INJECTION"
+   ],
+   "line": 59,
+   "end_line": 86
+  },
+  {
+   "id": "SSRFVulnerability.getVulnerablePayloadLevel5",
+   "file": "org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.java",
+   "function": "getVulnerablePayloadLevel5",
+   "vulnerable": false,
+   "secure": true,
+   "types": [
+    "SIMPLE_SSRF"
+   ],
+   "line": 198,
+   "end_line": 212
+  },
+  {
+   "id": "SSRFVulnerability.getVulnerablePayloadLevel4",
+   "file": "org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.java",
+   "function": "getVulnerablePayloadLevel4",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "SIMPLE_SSRF"
+   ],
+   "line": 170,
+   "end_line": 196
+  },
+  {
+   "id": "SSRFVulnerability.getVulnerablePayloadLevel3",
+   "file": "org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.java",
+   "function": "getVulnerablePayloadLevel3",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "SIMPLE_SSRF"
+   ],
+   "line": 142,
+   "end_line": 168
+  },
+  {
+   "id": "SSRFVulnerability.getVulnerablePayloadLevel2",
+   "file": "org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.java",
+   "function": "getVulnerablePayloadLevel2",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "SIMPLE_SSRF"
+   ],
+   "line": 116,
+   "end_line": 140
+  },
+  {
+   "id": "SSRFVulnerability.getVulnerablePayloadLevel1",
+   "file": "org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.java",
+   "function": "getVulnerablePayloadLevel1",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "SIMPLE_SSRF"
+   ],
+   "line": 92,
+   "end_line": 114
+  },
+  {
+   "id": "PersistentXSSInHTMLTagVulnerability.getSecurePayloadLevel9",
+   "file": "org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java",
+   "function": "getSecurePayloadLevel9",
+   "vulnerable": false,
+   "secure": true,
+   "types": [],
+   "line": 331,
+   "end_line": 351
+  },
+  {
+   "id": "PersistentXSSInHTMLTagVulnerability.getSecurePayloadLevel8",
+   "file": "org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java",
+   "function": "getSecurePayloadLevel8",
+   "vulnerable": false,
+   "secure": true,
+   "types": [],
+   "line": 303,
+   "end_line": 328
+  },
+  {
+   "id": "PersistentXSSInHTMLTagVulnerability.getVulnerablePayloadLevel7",
+   "file": "org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java",
+   "function": "getVulnerablePayloadLevel7",
+   "vulnerable": false,
+   "secure": true,
+   "types": [],
+   "line": 278,
+   "end_line": 300
+  },
+  {
+   "id": "PersistentXSSInHTMLTagVulnerability.getVulnerablePayloadLevel6",
+   "file": "org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java",
+   "function": "getVulnerablePayloadLevel6",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "PERSISTENT_XSS"
+   ],
+   "line": 242,
+   "end_line": 275
+  },
+  {
+   "id": "PersistentXSSInHTMLTagVulnerability.getVulnerablePayloadLevel5",
+   "file": "org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java",
+   "function": "getVulnerablePayloadLevel5",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "PERSISTENT_XSS"
+   ],
+   "line": 209,
+   "end_line": 240
+  },
+  {
+   "id": "PersistentXSSInHTMLTagVulnerability.getVulnerablePayloadLevel4",
+   "file": "org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java",
+   "function": "getVulnerablePayloadLevel4",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "PERSISTENT_XSS"
+   ],
+   "line": 177,
+   "end_line": 207
+  },
+  {
+   "id": "PersistentXSSInHTMLTagVulnerability.getVulnerablePayloadLevel3",
+   "file": "org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java",
+   "function": "getVulnerablePayloadLevel3",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "PERSISTENT_XSS"
+   ],
+   "line": 146,
+   "end_line": 174
+  },
+  {
+   "id": "PersistentXSSInHTMLTagVulnerability.getVulnerablePayloadLevel2",
+   "file": "org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java",
+   "function": "getVulnerablePayloadLevel2",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "PERSISTENT_XSS"
+   ],
+   "line": 118,
+   "end_line": 143
+  },
+  {
+   "id": "PersistentXSSInHTMLTagVulnerability.getVulnerablePayloadLevel1",
+   "file": "org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java",
+   "function": "getVulnerablePayloadLevel1",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "PERSISTENT_XSS"
+   ],
+   "line": 95,
+   "end_line": 116
+  },
+  {
+   "id": "XSSInImgTagAttribute.getVulnerablePayloadLevelSecure",
+   "file": "org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java",
+   "function": "getVulnerablePayloadLevelSecure",
+   "vulnerable": false,
+   "secure": true,
+   "types": [],
+   "line": 241,
+   "end_line": 263
+  },
+  {
+   "id": "XSSInImgTagAttribute.getVulnerablePayloadLevel6",
+   "file": "org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java",
+   "function": "getVulnerablePayloadLevel6",
+   "vulnerable": false,
+   "secure": true,
+   "types": [
+    "REFLECTED_XSS"
+   ],
+   "line": 204,
+   "end_line": 236
+  },
+  {
+   "id": "XSSInImgTagAttribute.getVulnerablePayloadLevel5",
+   "file": "org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java",
+   "function": "getVulnerablePayloadLevel5",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "REFLECTED_XSS"
+   ],
+   "line": 162,
+   "end_line": 200
+  },
+  {
+   "id": "XSSInImgTagAttribute.getVulnerablePayloadLevel4",
+   "file": "org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java",
+   "function": "getVulnerablePayloadLevel4",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "REFLECTED_XSS"
+   ],
+   "line": 129,
+   "end_line": 158
+  },
+  {
+   "id": "XSSInImgTagAttribute.getVulnerablePayloadLevel3",
+   "file": "org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java",
+   "function": "getVulnerablePayloadLevel3",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "REFLECTED_XSS"
+   ],
+   "line": 99,
+   "end_line": 124
+  },
+  {
+   "id": "XSSInImgTagAttribute.getVulnerablePayloadLevel2",
+   "file": "org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java",
+   "function": "getVulnerablePayloadLevel2",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "REFLECTED_XSS"
+   ],
+   "line": 73,
+   "end_line": 95
+  },
+  {
+   "id": "XSSInImgTagAttribute.getVulnerablePayloadLevel1",
+   "file": "org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java",
+   "function": "getVulnerablePayloadLevel1",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "REFLECTED_XSS"
+   ],
+   "line": 47,
+   "end_line": 69
+  },
+  {
+   "id": "XSSWithHtmlTagInjection.getSecurePayloadLevel5",
+   "file": "org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
+   "function": "getSecurePayloadLevel5",
+   "vulnerable": false,
+   "secure": true,
+   "types": [
+    "REFLECTED_XSS"
+   ],
+   "line": 154,
+   "end_line": 181
+  },
+  {
+   "id": "XSSWithHtmlTagInjection.getSecurePayloadLevel4",
+   "file": "org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
+   "function": "getSecurePayloadLevel4",
+   "vulnerable": false,
+   "secure": true,
+   "types": [
+    "REFLECTED_XSS"
+   ],
+   "line": 124,
+   "end_line": 151
+  },
+  {
+   "id": "XSSWithHtmlTagInjection.getVulnerablePayloadLevel3",
+   "file": "org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
+   "function": "getVulnerablePayloadLevel3",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "REFLECTED_XSS"
+   ],
+   "line": 93,
+   "end_line": 121
+  },
+  {
+   "id": "XSSWithHtmlTagInjection.getVulnerablePayloadLevel2",
+   "file": "org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
+   "function": "getVulnerablePayloadLevel2",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "REFLECTED_XSS"
+   ],
+   "line": 61,
+   "end_line": 87
+  },
+  {
+   "id": "XSSWithHtmlTagInjection.getVulnerablePayloadLevel1",
+   "file": "org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
+   "function": "getVulnerablePayloadLevel1",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "REFLECTED_XSS"
+   ],
+   "line": 33,
+   "end_line": 55
+  },
+  {
+   "id": "XXEVulnerability.getVulnerablePayloadLevel7",
+   "file": "org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
+   "function": "getVulnerablePayloadLevel7",
+   "vulnerable": false,
+   "secure": true,
+   "types": [
+    "XXE"
+   ],
+   "line": 378,
+   "end_line": 405
+  },
+  {
+   "id": "XXEVulnerability.getVulnerablePayloadLevel6",
+   "file": "org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
+   "function": "getVulnerablePayloadLevel6",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "XXE"
+   ],
+   "line": 340,
+   "end_line": 376
+  },
+  {
+   "id": "XXEVulnerability.getVulnerablePayloadLevel5",
+   "file": "org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
+   "function": "getVulnerablePayloadLevel5",
+   "vulnerable": false,
+   "secure": true,
+   "types": [
+    "XXE"
+   ],
+   "line": 301,
+   "end_line": 338
+  },
+  {
+   "id": "XXEVulnerability.getVulnerablePayloadLevel4",
+   "file": "org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
+   "function": "getVulnerablePayloadLevel4",
+   "vulnerable": false,
+   "secure": true,
+   "types": [
+    "XXE"
+   ],
+   "line": 263,
+   "end_line": 298
+  },
+  {
+   "id": "XXEVulnerability.getVulnerablePayloadLevel3",
+   "file": "org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
+   "function": "getVulnerablePayloadLevel3",
+   "vulnerable": false,
+   "secure": true,
+   "types": [
+    "XXE"
+   ],
+   "line": 226,
+   "end_line": 259
+  },
+  {
+   "id": "XXEVulnerability.getVulnerablePayloadLevel2",
+   "file": "org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
+   "function": "getVulnerablePayloadLevel2",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "XXE"
+   ],
+   "line": 192,
+   "end_line": 222
+  },
+  {
+   "id": "XXEVulnerability.getVulnerablePayloadLevel1",
+   "file": "org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
+   "function": "getVulnerablePayloadLevel1",
+   "vulnerable": true,
+   "secure": false,
+   "types": [
+    "XXE"
+   ],
+   "line": 90,
+   "end_line": 125
+  }
+ ]
+}

@@ -1,0 +1,1766 @@
+{
+  "findings": [
+    {
+      "id": "JAVA-001",
+      "source": "semgrep",
+      "klass": "weak-crypto",
+      "file": "org/sasanlabs/internal/utility/EncryptionUtils.java",
+      "line": 88,
+      "end_line": 88,
+      "function": "encrypt",
+      "rule": "kavach-java-weak-crypto",
+      "cwe": "CWE-327",
+      "owasp": "A02:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A weak hash or cipher is used (cryptographic failure).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          85,
+          102
+        ],
+        "lines": [
+          88
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-002",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "org/sasanlabs/service/email/EmailServiceImpl.java",
+      "line": 23,
+      "end_line": 23,
+      "function": "",
+      "rule": "kavach-java-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A secret, key, password or token is assigned a hard-coded string literal.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          0,
+          0
+        ],
+        "lines": [
+          23
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-003",
+      "source": "semgrep",
+      "klass": "sql-injection",
+      "file": "org/sasanlabs/service/vulnerability/authentication/AuthLoginService.java",
+      "line": 43,
+      "end_line": 44,
+      "function": "authenticateLevel1SQLi",
+      "rule": "kavach-java-sql-injection",
+      "cwe": "CWE-89",
+      "owasp": "A03:2021",
+      "severity": "error",
+      "confidence": "high",
+      "message": "A SQL string built by concatenation can reach a query (SQL injection).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          40,
+          60
+        ],
+        "lines": [
+          43
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-004",
+      "source": "semgrep",
+      "klass": "sql-injection",
+      "file": "org/sasanlabs/service/vulnerability/authentication/AuthLoginService.java",
+      "line": 43,
+      "end_line": 45,
+      "function": "authenticateLevel1SQLi",
+      "rule": "kavach-java-sql-injection",
+      "cwe": "CWE-89",
+      "owasp": "A03:2021",
+      "severity": "error",
+      "confidence": "high",
+      "message": "A SQL string built by concatenation can reach a query (SQL injection).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          40,
+          60
+        ],
+        "lines": [
+          43
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-005",
+      "source": "semgrep",
+      "klass": "sql-injection",
+      "file": "org/sasanlabs/service/vulnerability/authentication/AuthLoginService.java",
+      "line": 43,
+      "end_line": 46,
+      "function": "authenticateLevel1SQLi",
+      "rule": "kavach-java-sql-injection",
+      "cwe": "CWE-89",
+      "owasp": "A03:2021",
+      "severity": "error",
+      "confidence": "high",
+      "message": "A SQL string built by concatenation can reach a query (SQL injection).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          40,
+          60
+        ],
+        "lines": [
+          43
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-006",
+      "source": "semgrep",
+      "klass": "sql-injection",
+      "file": "org/sasanlabs/service/vulnerability/authentication/AuthLoginService.java",
+      "line": 43,
+      "end_line": 47,
+      "function": "authenticateLevel1SQLi",
+      "rule": "kavach-java-sql-injection",
+      "cwe": "CWE-89",
+      "owasp": "A03:2021",
+      "severity": "error",
+      "confidence": "high",
+      "message": "A SQL string built by concatenation can reach a query (SQL injection).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          40,
+          60
+        ],
+        "lines": [
+          43
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-007",
+      "source": "semgrep",
+      "klass": "command-injection",
+      "file": "org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
+      "line": 48,
+      "end_line": 48,
+      "function": "getResponseFromPingCommand",
+      "rule": "kavach-java-command-injection",
+      "cwe": "CWE-78",
+      "owasp": "A03:2021",
+      "severity": "error",
+      "confidence": "high",
+      "message": "A non-constant value reaches Runtime.exec / ProcessBuilder (command injection).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          41,
+          63
+        ],
+        "lines": [
+          48
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-008",
+      "source": "semgrep",
+      "klass": "command-injection",
+      "file": "org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
+      "line": 53,
+      "end_line": 53,
+      "function": "getResponseFromPingCommand",
+      "rule": "kavach-java-command-injection",
+      "cwe": "CWE-78",
+      "owasp": "A03:2021",
+      "severity": "error",
+      "confidence": "high",
+      "message": "A non-constant value reaches Runtime.exec / ProcessBuilder (command injection).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          41,
+          63
+        ],
+        "lines": [
+          53
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-009",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java",
+      "line": 45,
+      "end_line": 45,
+      "function": "",
+      "rule": "kavach-java-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A secret, key, password or token is assigned a hard-coded string literal.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          0,
+          0
+        ],
+        "lines": [
+          45
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-010",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java",
+      "line": 84,
+      "end_line": 84,
+      "function": "seed",
+      "rule": "kavach-java-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A secret, key, password or token is assigned a hard-coded string literal.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          45,
+          98
+        ],
+        "lines": [
+          84
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-011",
+      "source": "semgrep",
+      "klass": "path-traversal",
+      "file": "org/sasanlabs/service/vulnerability/fileupload/PreflightController.java",
+      "line": 58,
+      "end_line": 58,
+      "function": "fetchFile",
+      "rule": "kavach-java-path-traversal",
+      "cwe": "CWE-22",
+      "owasp": "A01:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A non-constant path reaches a file API (path traversal / LFI).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          43,
+          64
+        ],
+        "lines": [
+          58
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-012",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "org/sasanlabs/service/vulnerability/idor/IDORLoginController.java",
+      "line": 25,
+      "end_line": 25,
+      "function": "",
+      "rule": "kavach-java-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A secret, key, password or token is assigned a hard-coded string literal.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          0,
+          0
+        ],
+        "lines": [
+          25
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-013",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "org/sasanlabs/service/vulnerability/idor/IDORLoginController.java",
+      "line": 26,
+      "end_line": 26,
+      "function": "",
+      "rule": "kavach-java-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A secret, key, password or token is assigned a hard-coded string literal.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          0,
+          0
+        ],
+        "lines": [
+          26
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-014",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "org/sasanlabs/service/vulnerability/idor/IDORLoginController.java",
+      "line": 27,
+      "end_line": 27,
+      "function": "",
+      "rule": "kavach-java-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A secret, key, password or token is assigned a hard-coded string literal.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          0,
+          0
+        ],
+        "lines": [
+          27
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-015",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "org/sasanlabs/service/vulnerability/idor/IDORLoginController.java",
+      "line": 28,
+      "end_line": 28,
+      "function": "",
+      "rule": "kavach-java-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A secret, key, password or token is assigned a hard-coded string literal.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          0,
+          0
+        ],
+        "lines": [
+          28
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-016",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "org/sasanlabs/service/vulnerability/idor/IDORLoginController.java",
+      "line": 29,
+      "end_line": 29,
+      "function": "",
+      "rule": "kavach-java-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A secret, key, password or token is assigned a hard-coded string literal.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          0,
+          0
+        ],
+        "lines": [
+          29
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-017",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "org/sasanlabs/service/vulnerability/idor/IDORLoginService.java",
+      "line": 25,
+      "end_line": 25,
+      "function": "",
+      "rule": "kavach-java-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A secret, key, password or token is assigned a hard-coded string literal.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          0,
+          0
+        ],
+        "lines": [
+          25
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-018",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java",
+      "line": 25,
+      "end_line": 25,
+      "function": "",
+      "rule": "kavach-java-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A secret, key, password or token is assigned a hard-coded string literal.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          0,
+          0
+        ],
+        "lines": [
+          25
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-019",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java",
+      "line": 26,
+      "end_line": 26,
+      "function": "",
+      "rule": "kavach-java-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A secret, key, password or token is assigned a hard-coded string literal.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          0,
+          0
+        ],
+        "lines": [
+          26
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-020",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java",
+      "line": 38,
+      "end_line": 38,
+      "function": "",
+      "rule": "kavach-java-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A secret, key, password or token is assigned a hard-coded string literal.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          0,
+          0
+        ],
+        "lines": [
+          38
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-021",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java",
+      "line": 39,
+      "end_line": 39,
+      "function": "",
+      "rule": "kavach-java-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A secret, key, password or token is assigned a hard-coded string literal.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          0,
+          0
+        ],
+        "lines": [
+          39
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-022",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java",
+      "line": 40,
+      "end_line": 40,
+      "function": "",
+      "rule": "kavach-java-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A secret, key, password or token is assigned a hard-coded string literal.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          0,
+          0
+        ],
+        "lines": [
+          40
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-023",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java",
+      "line": 41,
+      "end_line": 41,
+      "function": "",
+      "rule": "kavach-java-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A secret, key, password or token is assigned a hard-coded string literal.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          0,
+          0
+        ],
+        "lines": [
+          41
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-024",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java",
+      "line": 42,
+      "end_line": 42,
+      "function": "",
+      "rule": "kavach-java-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A secret, key, password or token is assigned a hard-coded string literal.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          0,
+          0
+        ],
+        "lines": [
+          42
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-025",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "org/sasanlabs/service/vulnerability/jwt/bean/JWTUtils.java",
+      "line": 44,
+      "end_line": 46,
+      "function": "",
+      "rule": "kavach-java-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A secret, key, password or token is assigned a hard-coded string literal.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          0,
+          0
+        ],
+        "lines": [
+          44
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-026",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "org/sasanlabs/service/vulnerability/jwt/bean/JWTUtils.java",
+      "line": 48,
+      "end_line": 50,
+      "function": "",
+      "rule": "kavach-java-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A secret, key, password or token is assigned a hard-coded string literal.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          0,
+          0
+        ],
+        "lines": [
+          48
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-027",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "org/sasanlabs/service/vulnerability/jwt/bean/JWTUtils.java",
+      "line": 65,
+      "end_line": 65,
+      "function": "",
+      "rule": "kavach-java-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A secret, key, password or token is assigned a hard-coded string literal.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          0,
+          0
+        ],
+        "lines": [
+          65
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-028",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "org/sasanlabs/service/vulnerability/jwt/bean/JWTUtils.java",
+      "line": 67,
+      "end_line": 67,
+      "function": "",
+      "rule": "kavach-java-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A secret, key, password or token is assigned a hard-coded string literal.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          0,
+          0
+        ],
+        "lines": [
+          67
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-029",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "org/sasanlabs/service/vulnerability/jwt/bean/JWTUtils.java",
+      "line": 68,
+      "end_line": 68,
+      "function": "",
+      "rule": "kavach-java-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A secret, key, password or token is assigned a hard-coded string literal.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          0,
+          0
+        ],
+        "lines": [
+          68
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-030",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "org/sasanlabs/service/vulnerability/jwt/bean/JWTUtils.java",
+      "line": 69,
+      "end_line": 69,
+      "function": "",
+      "rule": "kavach-java-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A secret, key, password or token is assigned a hard-coded string literal.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          0,
+          0
+        ],
+        "lines": [
+          69
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-031",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "org/sasanlabs/service/vulnerability/jwt/keys/JWTAlgorithmKMS.java",
+      "line": 41,
+      "end_line": 41,
+      "function": "",
+      "rule": "kavach-java-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A secret, key, password or token is assigned a hard-coded string literal.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          0,
+          0
+        ],
+        "lines": [
+          41
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-032",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "org/sasanlabs/service/vulnerability/passwordReset/PasswordResetSeeder.java",
+      "line": 11,
+      "end_line": 12,
+      "function": "",
+      "rule": "kavach-java-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A secret, key, password or token is assigned a hard-coded string literal.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          0,
+          0
+        ],
+        "lines": [
+          11
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-033",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "org/sasanlabs/service/vulnerability/passwordReset/PasswordResetService.java",
+      "line": 41,
+      "end_line": 41,
+      "function": "",
+      "rule": "kavach-java-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A secret, key, password or token is assigned a hard-coded string literal.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          0,
+          0
+        ],
+        "lines": [
+          41
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-034",
+      "source": "semgrep",
+      "klass": "sql-injection",
+      "file": "org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java",
+      "line": 93,
+      "end_line": 93,
+      "function": "getCarInformationLevel1",
+      "rule": "kavach-java-sql-injection",
+      "cwe": "CWE-89",
+      "owasp": "A03:2021",
+      "severity": "error",
+      "confidence": "high",
+      "message": "A SQL string built by concatenation can reach a query (SQL injection).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          47,
+          101
+        ],
+        "lines": [
+          93
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-035",
+      "source": "semgrep",
+      "klass": "sql-injection",
+      "file": "org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java",
+      "line": 135,
+      "end_line": 135,
+      "function": "getCarInformationLevel2",
+      "rule": "kavach-java-sql-injection",
+      "cwe": "CWE-89",
+      "owasp": "A03:2021",
+      "severity": "error",
+      "confidence": "high",
+      "message": "A SQL string built by concatenation can reach a query (SQL injection).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          103,
+          143
+        ],
+        "lines": [
+          135
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-036",
+      "source": "semgrep",
+      "klass": "sql-injection",
+      "file": "org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java",
+      "line": 135,
+      "end_line": 135,
+      "function": "getCarInformationLevel2",
+      "rule": "kavach-java-sql-injection",
+      "cwe": "CWE-89",
+      "owasp": "A03:2021",
+      "severity": "error",
+      "confidence": "high",
+      "message": "A SQL string built by concatenation can reach a query (SQL injection).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          103,
+          143
+        ],
+        "lines": [
+          135
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-037",
+      "source": "semgrep",
+      "klass": "sql-injection",
+      "file": "org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java",
+      "line": 185,
+      "end_line": 185,
+      "function": "getCarInformationLevel4",
+      "rule": "kavach-java-sql-injection",
+      "cwe": "CWE-89",
+      "owasp": "A03:2021",
+      "severity": "error",
+      "confidence": "high",
+      "message": "A SQL string built by concatenation can reach a query (SQL injection).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          169,
+          193
+        ],
+        "lines": [
+          185
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-038",
+      "source": "semgrep",
+      "klass": "sql-injection",
+      "file": "org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+      "line": 83,
+      "end_line": 83,
+      "function": "doesCarInformationExistsLevel1",
+      "rule": "kavach-java-sql-injection",
+      "cwe": "CWE-89",
+      "owasp": "A03:2021",
+      "severity": "error",
+      "confidence": "high",
+      "message": "A SQL string built by concatenation can reach a query (SQL injection).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          54,
+          111
+        ],
+        "lines": [
+          83
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-039",
+      "source": "semgrep",
+      "klass": "sql-injection",
+      "file": "org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+      "line": 143,
+      "end_line": 143,
+      "function": "doesCarInformationExistsLevel2",
+      "rule": "kavach-java-sql-injection",
+      "cwe": "CWE-89",
+      "owasp": "A03:2021",
+      "severity": "error",
+      "confidence": "high",
+      "message": "A SQL string built by concatenation can reach a query (SQL injection).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          113,
+          171
+        ],
+        "lines": [
+          143
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-040",
+      "source": "semgrep",
+      "klass": "sql-injection",
+      "file": "org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+      "line": 143,
+      "end_line": 143,
+      "function": "doesCarInformationExistsLevel2",
+      "rule": "kavach-java-sql-injection",
+      "cwe": "CWE-89",
+      "owasp": "A03:2021",
+      "severity": "error",
+      "confidence": "high",
+      "message": "A SQL string built by concatenation can reach a query (SQL injection).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          113,
+          171
+        ],
+        "lines": [
+          143
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-041",
+      "source": "semgrep",
+      "klass": "sql-injection",
+      "file": "org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+      "line": 206,
+      "end_line": 206,
+      "function": "doesCarInformationExistsLevel3",
+      "rule": "kavach-java-sql-injection",
+      "cwe": "CWE-89",
+      "owasp": "A03:2021",
+      "severity": "error",
+      "confidence": "high",
+      "message": "A SQL string built by concatenation can reach a query (SQL injection).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          174,
+          236
+        ],
+        "lines": [
+          206
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-042",
+      "source": "semgrep",
+      "klass": "sql-injection",
+      "file": "org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+      "line": 206,
+      "end_line": 206,
+      "function": "doesCarInformationExistsLevel3",
+      "rule": "kavach-java-sql-injection",
+      "cwe": "CWE-89",
+      "owasp": "A03:2021",
+      "severity": "error",
+      "confidence": "high",
+      "message": "A SQL string built by concatenation can reach a query (SQL injection).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          174,
+          236
+        ],
+        "lines": [
+          206
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-043",
+      "source": "semgrep",
+      "klass": "sql-injection",
+      "file": "org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+      "line": 272,
+      "end_line": 272,
+      "function": "doesCarInformationExistsLevel4",
+      "rule": "kavach-java-sql-injection",
+      "cwe": "CWE-89",
+      "owasp": "A03:2021",
+      "severity": "error",
+      "confidence": "high",
+      "message": "A SQL string built by concatenation can reach a query (SQL injection).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          240,
+          303
+        ],
+        "lines": [
+          272
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-044",
+      "source": "semgrep",
+      "klass": "sql-injection",
+      "file": "org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+      "line": 272,
+      "end_line": 272,
+      "function": "doesCarInformationExistsLevel4",
+      "rule": "kavach-java-sql-injection",
+      "cwe": "CWE-89",
+      "owasp": "A03:2021",
+      "severity": "error",
+      "confidence": "high",
+      "message": "A SQL string built by concatenation can reach a query (SQL injection).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          240,
+          303
+        ],
+        "lines": [
+          272
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-045",
+      "source": "semgrep",
+      "klass": "sql-injection",
+      "file": "org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
+      "line": 85,
+      "end_line": 85,
+      "function": "getCarInformationLevel1",
+      "rule": "kavach-java-sql-injection",
+      "cwe": "CWE-89",
+      "owasp": "A03:2021",
+      "severity": "error",
+      "confidence": "high",
+      "message": "A SQL string built by concatenation can reach a query (SQL injection).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          59,
+          86
+        ],
+        "lines": [
+          85
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-046",
+      "source": "semgrep",
+      "klass": "sql-injection",
+      "file": "org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
+      "line": 115,
+      "end_line": 115,
+      "function": "getCarInformationLevel2",
+      "rule": "kavach-java-sql-injection",
+      "cwe": "CWE-89",
+      "owasp": "A03:2021",
+      "severity": "error",
+      "confidence": "high",
+      "message": "A SQL string built by concatenation can reach a query (SQL injection).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          88,
+          116
+        ],
+        "lines": [
+          115
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-047",
+      "source": "semgrep",
+      "klass": "sql-injection",
+      "file": "org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
+      "line": 115,
+      "end_line": 115,
+      "function": "getCarInformationLevel2",
+      "rule": "kavach-java-sql-injection",
+      "cwe": "CWE-89",
+      "owasp": "A03:2021",
+      "severity": "error",
+      "confidence": "high",
+      "message": "A SQL string built by concatenation can reach a query (SQL injection).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          88,
+          116
+        ],
+        "lines": [
+          115
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-048",
+      "source": "semgrep",
+      "klass": "sql-injection",
+      "file": "org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
+      "line": 130,
+      "end_line": 130,
+      "function": "getCarInformationLevel3",
+      "rule": "kavach-java-sql-injection",
+      "cwe": "CWE-89",
+      "owasp": "A03:2021",
+      "severity": "error",
+      "confidence": "high",
+      "message": "A SQL string built by concatenation can reach a query (SQL injection).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          118,
+          131
+        ],
+        "lines": [
+          130
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-049",
+      "source": "semgrep",
+      "klass": "sql-injection",
+      "file": "org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
+      "line": 130,
+      "end_line": 130,
+      "function": "getCarInformationLevel3",
+      "rule": "kavach-java-sql-injection",
+      "cwe": "CWE-89",
+      "owasp": "A03:2021",
+      "severity": "error",
+      "confidence": "high",
+      "message": "A SQL string built by concatenation can reach a query (SQL injection).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          118,
+          131
+        ],
+        "lines": [
+          130
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-050",
+      "source": "semgrep",
+      "klass": "xxe",
+      "file": "org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
+      "line": 214,
+      "end_line": 214,
+      "function": "getVulnerablePayloadLevel2",
+      "rule": "kavach-java-xxe",
+      "cwe": "CWE-611",
+      "owasp": "A05:2021",
+      "severity": "warning",
+      "confidence": "low",
+      "message": "An XML parser is created without disabling external entities (XXE).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          192,
+          222
+        ],
+        "lines": [
+          214
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-051",
+      "source": "semgrep",
+      "klass": "xxe",
+      "file": "org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
+      "line": 249,
+      "end_line": 249,
+      "function": "getVulnerablePayloadLevel3",
+      "rule": "kavach-java-xxe",
+      "cwe": "CWE-611",
+      "owasp": "A05:2021",
+      "severity": "warning",
+      "confidence": "low",
+      "message": "An XML parser is created without disabling external entities (XXE).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          226,
+          259
+        ],
+        "lines": [
+          249
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-052",
+      "source": "semgrep",
+      "klass": "xxe",
+      "file": "org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
+      "line": 286,
+      "end_line": 286,
+      "function": "getVulnerablePayloadLevel4",
+      "rule": "kavach-java-xxe",
+      "cwe": "CWE-611",
+      "owasp": "A05:2021",
+      "severity": "warning",
+      "confidence": "low",
+      "message": "An XML parser is created without disabling external entities (XXE).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          263,
+          298
+        ],
+        "lines": [
+          286
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-053",
+      "source": "semgrep",
+      "klass": "xxe",
+      "file": "org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
+      "line": 324,
+      "end_line": 324,
+      "function": "getVulnerablePayloadLevel5",
+      "rule": "kavach-java-xxe",
+      "cwe": "CWE-611",
+      "owasp": "A05:2021",
+      "severity": "warning",
+      "confidence": "low",
+      "message": "An XML parser is created without disabling external entities (XXE).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          301,
+          338
+        ],
+        "lines": [
+          324
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-054",
+      "source": "semgrep",
+      "klass": "xxe",
+      "file": "org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
+      "line": 363,
+      "end_line": 363,
+      "function": "getVulnerablePayloadLevel6",
+      "rule": "kavach-java-xxe",
+      "cwe": "CWE-611",
+      "owasp": "A05:2021",
+      "severity": "warning",
+      "confidence": "low",
+      "message": "An XML parser is created without disabling external entities (XXE).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          340,
+          376
+        ],
+        "lines": [
+          363
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "JAVA-055",
+      "source": "semgrep",
+      "klass": "xxe",
+      "file": "org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
+      "line": 390,
+      "end_line": 390,
+      "function": "getVulnerablePayloadLevel7",
+      "rule": "kavach-java-xxe",
+      "cwe": "CWE-611",
+      "owasp": "A05:2021",
+      "severity": "warning",
+      "confidence": "low",
+      "message": "An XML parser is created without disabling external entities (XXE).",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          378,
+          405
+        ],
+        "lines": [
+          390
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    }
+  ],
+  "seconds": 1.38,
+  "target": "benchmark_workspace/public/VulnerableApp/src/main/java"
+}

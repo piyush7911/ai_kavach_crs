@@ -1,0 +1,134 @@
+{
+  "findings": [
+    {
+      "id": "PY-001",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "api_views/users.py",
+      "line": 122,
+      "end_line": 122,
+      "function": "token_validator",
+      "rule": "kavach-py-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A secret, key, password or token is assigned a hard-coded string literal.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          117,
+          129
+        ],
+        "lines": [
+          122
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "PY-002",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "api_views/users.py",
+      "line": 124,
+      "end_line": 124,
+      "function": "token_validator",
+      "rule": "kavach-py-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A secret, key, password or token is assigned a hard-coded string literal.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          117,
+          129
+        ],
+        "lines": [
+          124
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "PY-003",
+      "source": "semgrep",
+      "klass": "debug-enabled",
+      "file": "app.py",
+      "line": 17,
+      "end_line": 17,
+      "function": "",
+      "rule": "kavach-py-flask-debug",
+      "cwe": "CWE-489",
+      "owasp": "A05:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A Flask app running with debug=True exposes the interactive debugger (RCE) in production.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          0,
+          0
+        ],
+        "lines": [
+          17
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    },
+    {
+      "id": "PY-004",
+      "source": "semgrep",
+      "klass": "hardcoded-secret",
+      "file": "config.py",
+      "line": 13,
+      "end_line": 13,
+      "function": "",
+      "rule": "kavach-py-hardcoded-secret",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "severity": "warning",
+      "confidence": "medium",
+      "message": "A secret, key, password or token is assigned a hard-coded string literal.",
+      "status": "candidate",
+      "reason": "",
+      "evidence": {
+        "function_lines": [
+          0,
+          0
+        ],
+        "lines": [
+          13
+        ]
+      },
+      "exploit": null,
+      "stride": "",
+      "reachability": "",
+      "exploitability": "",
+      "cvss": "",
+      "poc": {}
+    }
+  ],
+  "seconds": 1.1,
+  "target": "benchmark_workspace/VAmPI"
+}
