@@ -28,7 +28,7 @@ from src.pyauto import probe_policy
 # field names whose presence in a response body is a data-exposure signal, and benign fillers by name
 # A sensitive field with an ACTUAL VALUE (JSON key:value) — real data exposure, e.g. "password":"hunter2".
 # Must require the value: a bare "(password)" also matches an HTML form field (name="password"), which is
-# expected on a login page and NOT a leak (that was a false positive on NodeGoat's /login).
+# expected on a login page and NOT a leak (a login page has a password field, which is expected, not a leak).
 _SENSITIVE = re.compile(r'"(password|passwd|pwd|token|secret|ssn|api[_-]?key|credit[_-]?card)"\s*:\s*"[^"]+"', re.I)
 _BENIGN = {"email": "probe@kavach.test", "password": "ProbePass1!", "book_title": "probebook",
            "secret": "x", "username": "probeuser"}

@@ -45,7 +45,7 @@ def regression_from_routes(routes, base_url: str, auth: dict | None = None, limi
 def verify_patch(base_url: str, pov: dict, regression: list[dict]) -> dict:
     """Replay the PoC (must now FAIL = bug fixed) and the regression flows (must all PASS = behavior
     preserved) against the CURRENT (patched) app. Returns a structured fix_verification record."""
-    from benchmarks.nodegoat.exploit import run_exploit
+    from benchmarks.oracles import run_exploit
     from src.pyauto.repair import _flow_ok_stable
     still, pov_detail = run_exploit(base_url, pov)
     broken = []
