@@ -610,6 +610,11 @@ def main(argv=None) -> int:
         from src.jsauto.findings import dump
         dump(findings, args.out, {"coverage": cov} if cov else None)
         print(f"wrote {args.out}")
+        from pathlib import Path as _Pc                 # required CSV vuln report (confirmed only)
+        from src.autonomy.report_csv import write_csv
+        csv_path = str(_Pc(args.out).with_suffix(".csv"))
+        n_csv = write_csv(findings, csv_path)
+        print(f"wrote {csv_path} ({n_csv} confirmed vuln rows)")
         if routes:                                     # evidenced coverage ledger beside the findings
             from pathlib import Path as _P
             from src.autonomy.coverage_ledger import ledger_from_run
