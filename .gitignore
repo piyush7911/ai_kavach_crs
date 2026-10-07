@@ -86,3 +86,6 @@ exp/third_party/
 exp/results/ossf/*.pre.findings.json
 exp/live/gradle_home/
 .kavach_cache/
+reports/coverage.json
+reports/exchanges.jsonl
+reports/llm_trace.jsonl

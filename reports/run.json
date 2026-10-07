@@ -1,9 +1,9 @@
 {
- "target": "http://127.0.0.1:4000",
+ "target": "benchmark_workspace/NodeGoat",
  "url": "http://127.0.0.1:4000",
- "generated_at": "2026-10-07 01:34:15 UTC",
+ "generated_at": "2026-10-07 01:37:11 UTC",
  "confirmed": 4,
- "candidates": 0,
+ "candidates": 15,
  "confirmed_by_class": {
   "clickjacking": 1,
   "cookie-samesite": 1,
@@ -23,8 +23,8 @@
   "attack_coverage_pct": 14.3
  },
  "artifacts": {
-  "findings_json": "demo.json",
-  "report_csv": "demo.csv",
+  "findings_json": "report.json",
+  "report_csv": "report.csv",
   "coverage_ledger": "coverage.json",
   "http_exchanges": "exchanges.jsonl",
   "llm_trace": "llm_trace.jsonl"
