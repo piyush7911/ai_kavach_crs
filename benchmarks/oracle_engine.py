@@ -126,13 +126,36 @@ class Session:
         # authenticated class therefore cannot be confirmed without an --auth spec (login simply fails here).
         return False
 
+    def _set_static_cookies(self) -> None:
+        """Preset cookies from the auth spec (e.g. DVWA's security=low) into the jar."""
+        import http.cookiejar
+        host = (self.base_url.split("//", 1)[-1].split("/")[0].split(":")[0])
+        for name, value in (self.auth or {}).get("cookies", {}).items():
+            self.jar.set_cookie(http.cookiejar.Cookie(
+                0, name, str(value), None, False, host, False, False, "/", True,
+                False, None, True, None, None, {}))
+
+    def _csrf_token(self, a: dict) -> dict:
+        """Fetch the login page and scrape a hidden CSRF token (field name from `csrf_field`) — common on
+        form logins (DVWA user_token, Django csrfmiddlewaretoken, Rails authenticity_token)."""
+        field = a.get("csrf_field")
+        if not field:
+            return {}
+        r = self.request("GET", a.get("csrf_from", a["login_path"]))
+        m = re.search(rf'name=["\']{re.escape(field)}["\'][^>]*value=["\']([^"\']+)["\']', r.body) or \
+            re.search(rf'value=["\']([^"\']+)["\'][^>]*name=["\']{re.escape(field)}["\']', r.body)
+        return {field: m.group(1)} if m else {}
+
     def _login_via_spec(self, role: str) -> bool:
         a = self.auth
         roles = a.get("roles", {})
         if role not in roles:
             raise ValueError(f"unknown login role {role!r} for this app")
         user, pw = roles[role]
+        self._set_static_cookies()
         body = {a.get("user_field", "username"): user, a.get("pass_field", "password"): pw}
+        body.update(a.get("extra_fields", {}))           # e.g. DVWA {"Login": "Login"}
+        body.update(self._csrf_token(a))                 # CSRF-protected form logins
         # a login that posts JSON needs the JSON content-type even if body_json is off elsewhere
         prev, self.auth = self.auth, {**a, "body_json": a.get("kind") == "bearer_json" or a.get("body_json")}
         r = self.request("POST", a["login_path"], body=body)

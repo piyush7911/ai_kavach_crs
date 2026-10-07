@@ -1,0 +1,18 @@
+{
+ "login_path": "/login.php",
+ "user_field": "username",
+ "pass_field": "password",
+ "csrf_field": "user_token",
+ "extra_fields": {
+  "Login": "Login"
+ },
+ "cookies": {
+  "security": "low"
+ },
+ "roles": {
+  "user": [
+   "admin",
+   "password"
+  ]
+ }
+}
