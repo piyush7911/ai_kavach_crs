@@ -1,19 +1,16 @@
 # AI Kavach CRS — Architecture (web application track)
 
-> Written for the finale jury/mentors and for teammates or new developers reading the code for the first
-> time. It describes the **web-application Cyber Reasoning System** ("kavach") that runs in the finale: how
-> it finds vulnerabilities, proves them by exploitation, fixes them, and reports — language-agnostically and
-> without false positives. A separate, earlier binary/C-fuzzing path also exists in the tree; it is **not**
-> the finale system and is listed, clearly separated, in Appendix B.
+> Architecture reference for the **AI Kavach** web-application Cyber Reasoning System ("kavach"): how it
+> finds vulnerabilities, proves them by exploitation, fixes them, and reports — language-agnostically and
+> without false positives.
 
 ---
 
-## 1. Purpose & finale scope
+## 1. Purpose & scope
 
-The finale runs our system **autonomously against an unknown web application** provisioned on an isolated
-per-team VM, with no manual developer intervention, scored on four jury parameters: autonomous bug discovery
-(precision & efficiency), automated patch generation (quality, correctness, speed), regression proof, and
-scalability/architecture.
+Kavach runs **autonomously against an unknown web application** on an isolated per-team VM, with no manual
+intervention. It is evaluated on four parameters: autonomous bug discovery (precision & efficiency),
+automated patch generation (quality, correctness, speed), regression proof, and scalability/architecture.
 
 Kavach is a single pipeline — **FIND → PROVE → FIX → REPORT** — driven by one command
 (`python -m benchmarks.kavach`). It treats the target as a black box over HTTP for confirmation and, when a
@@ -181,7 +178,7 @@ route). Every live finding records its actual request for the evidence trail.
      patched file (not just the one input); if not, the failure is fed back as a counterexample;
    - a failed PoV feeds the concrete attacking request back to the model (CEGIS), not a vague "try again".
    After acceptance, **sibling-sink review** re-scans for the same class at other files and surfaces any twins
-   as candidates. Java builds `--offline` (incremental daemon; no finale network hang).
+   as candidates. Java builds `--offline` (incremental daemon; no network hang on an offline host).
 
 ---
 
@@ -212,7 +209,7 @@ Together these satisfy the RoE audit requirement ("all runs, fuzzing logs, LLM q
   Specs: `config/nodegoat_auth.json`, `config/dvwa_auth.json`.
 - **9.4 LLM wiring** (`benchmarks/kavach._build_probe_llm`): OpenAI-compatible `/chat/completions` over
   stdlib `urllib` — no SDK in the probe path, air-gap-install-free. Env: `OPENAI_BASE_URL`, `MODEL_PROBE`
-  (falls back to `MODEL`), key in env only. (The legacy orchestrator in Appendix B uses the `openai` SDK.)
+  (falls back to `MODEL`), key in env only.
 - **9.5 Air-gap**: loopback-only OOB; dependency fixes advisory; Java `--offline`; models local.
 
 ## 10. Data model & config
@@ -247,8 +244,7 @@ catches those).
 Own-instance only (no cross-tenant); throttled (global rate cap, no unthrottled fuzzing); non-destructive
 oracles (expr markers, loopback OOB — never delete/wipe); code-level **or config** patches only, advisory for
 dependencies, no persistence/backdoors; declared local model endpoints; full audit bundle (§8). Shared-state
-oracles (cache-poisoning, request-smuggling) are enabled because the finale target is an **isolated per-team
-VM** (see memory `finale-environment`).
+oracles (cache-poisoning, request-smuggling) are enabled because the target runs on an **isolated per-team VM** (no cross-tenant spill).
 
 ## 13. Module map (web CRS)
 
@@ -302,8 +298,8 @@ ledger, IDOR vocab and exchange-log ideas are adapted from Strix (Apache-2.0); s
 Shannon (AGPL, ideas only); taint-rule mining and the Joern pilot from the `exp/` research. Patching draws on
 TBar/TemVUR (templates) and CEGIS (counterexample-guided repair).
 
-## Appendix B — Legacy binary/C-fuzzing path (NOT the web finale system)
+## Appendix B — Legacy binary/C-fuzzing path (not the web CRS)
 An earlier CRS for C/C++ fuzzing lives under `src/{agent_orchestrator, analysis_engine, fuzz_pipeline,
 patch_validator, context_engine}` and `src/main.py` (LangGraph-style agents + libFuzzer/AFL++/driller + CASR
 triage; uses the `openai` SDK via `src/agent_orchestrator/llm_client.py`). It is retained for reference and
-its own benchmarks; the web-application finale runs the kavach pipeline described above, not this path.
+its own benchmarks; the web-application CRS described above is the kavach pipeline, not this path.
