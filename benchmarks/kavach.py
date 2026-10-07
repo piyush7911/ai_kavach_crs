@@ -622,7 +622,43 @@ def main(argv=None) -> int:
             lpath = str(_P(args.out).with_name("coverage.json"))
             ledger.dump(lpath)
             print(f"[coverage] ledger: {ledger.counts()} -> {lpath}")
+        _write_run_manifest(args, findings, cov)
     return 0
+
+
+def _write_run_manifest(args, findings, cov):
+    """A single index (run.json) beside the outputs: target, time, counts, and every artifact a jury audits."""
+    import datetime
+    import json as _j
+    from collections import Counter
+    from pathlib import Path as _P
+    out = _P(args.out)
+    conf = [f for f in findings if f.status == "confirmed"]
+    d = out.parent
+
+    def _rel(name):
+        p = d / name
+        return name if p.exists() else None
+    manifest = {
+        "target": args.target or args.url,
+        "url": args.url,
+        "generated_at": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
+        "confirmed": len(conf),
+        "candidates": len(findings) - len(conf),
+        "confirmed_by_class": dict(Counter(f.klass for f in conf)),
+        "confirmed_by_severity": dict(Counter(getattr(f, "severity", "") for f in conf)),
+        "coverage": cov or {},
+        "artifacts": {k: v for k, v in {
+            "findings_json": out.name,
+            "report_csv": out.with_suffix(".csv").name,
+            "coverage_ledger": _rel("coverage.json"),
+            "http_exchanges": _rel("exchanges.jsonl"),
+            "llm_trace": _rel("llm_trace.jsonl"),
+        }.items() if v},
+    }
+    mpath = d / "run.json"
+    mpath.write_text(_j.dumps(manifest, indent=1, default=str))
+    print(f"wrote {mpath} (run manifest — index of all artifacts)")
 
 
 if __name__ == "__main__":

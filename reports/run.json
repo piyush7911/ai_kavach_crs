@@ -1,0 +1,32 @@
+{
+ "target": "http://127.0.0.1:4000",
+ "url": "http://127.0.0.1:4000",
+ "generated_at": "2026-10-07 01:34:15 UTC",
+ "confirmed": 4,
+ "candidates": 0,
+ "confirmed_by_class": {
+  "clickjacking": 1,
+  "cookie-samesite": 1,
+  "csrf-missing": 1,
+  "no-rate-limit": 1
+ },
+ "confirmed_by_severity": {
+  "low": 3,
+  "medium": 1
+ },
+ "coverage": {
+  "routes_examined": 21,
+  "routes_exercised": 21,
+  "routes_attacked": 3,
+  "attack_gap": 18,
+  "routes_confirmed_a_bug": 0,
+  "attack_coverage_pct": 14.3
+ },
+ "artifacts": {
+  "findings_json": "demo.json",
+  "report_csv": "demo.csv",
+  "coverage_ledger": "coverage.json",
+  "http_exchanges": "exchanges.jsonl",
+  "llm_trace": "llm_trace.jsonl"
+ }
+}

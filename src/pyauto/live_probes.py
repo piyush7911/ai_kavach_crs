@@ -64,11 +64,15 @@ class Live:
         except requests.RequestException:
             return None
 
-    def add(self, route, klass, detail):
+    def add(self, route, klass, detail, request=None):
+        req = request or route                           # the actual request the oracle sent (>= the route)
         f = Finding(id=f"live:{klass}:{route}", source="live", klass=klass, file="(runtime)",
                     rule="live-oracle", status="confirmed", confidence="high",
-                    message=detail, reason=detail, evidence={"route": route, "detail": detail})
-        self.findings.append(apply_security(f, "EXTERNAL", detail))
+                    message=detail, reason=detail,
+                    evidence={"route": route, "request": req, "detail": detail})
+        f = apply_security(f, "EXTERNAL", detail)
+        f.poc = {**(f.poc or {}), "request": req}        # concrete request for the CSV's evidence column
+        self.findings.append(f)
 
 
 def _url(L, r):
