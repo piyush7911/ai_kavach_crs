@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Kavach Flowchart</title>
+<style>
+  :root{--ink:#0D1524;--saffron:#F29F3D;--teal:#3FB6A8;--red:#E5604D;--blue:#6CA8F0;--muted:#9FB0C8;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#05080F;font-family:"Avenir Next","Segoe UI",Helvetica,Arial,sans-serif}
+  #wrap{display:grid;place-items:start center;min-height:100vh;padding:20px}
+  svg{width:min(96vw,920px);height:auto;background:var(--ink);border-radius:18px;
+    box-shadow:0 24px 70px rgba(0,0,0,.6)}
+  @media print{@page{size:1000px 2160px;margin:0}html,body{background:#fff}#wrap{padding:0}
+    svg{width:1000px;border-radius:0;box-shadow:none}}
+</style>
+</head>
+<body>
+<div id="wrap">
+<svg viewBox="0 0 1460 2140" xmlns="http://www.w3.org/2000/svg" font-family="Avenir Next, Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="a" markerWidth="12" markerHeight="12" refX="8" refY="4" orient="auto">
+      <path d="M0,0 L9,4 L0,8 Z" fill="#9FB0C8"/></marker>
+    <marker id="ag" markerWidth="12" markerHeight="12" refX="8" refY="4" orient="auto">
+      <path d="M0,0 L9,4 L0,8 Z" fill="#3FB6A8"/></marker>
+    <marker id="ar" markerWidth="12" markerHeight="12" refX="8" refY="4" orient="auto">
+      <path d="M0,0 L9,4 L0,8 Z" fill="#E5604D"/></marker>
+    <marker id="asf" markerWidth="12" markerHeight="12" refX="8" refY="4" orient="auto">
+      <path d="M0,0 L9,4 L0,8 Z" fill="#F29F3D"/></marker>
+  </defs>
+
+  <!-- ===== title ===== -->
+  <text x="60" y="64" fill="#F4F1EA" font-size="40" font-weight="800">AI Kavach</text>
+  <text x="60" y="98" fill="#9FB0C8" font-size="20" font-weight="600">Autonomous web-app CRS &#183; execution flow</text>
+  <text x="1400" y="70" text-anchor="end" fill="#F29F3D" font-size="18" font-weight="700">Propose freely &#183; the oracle decides</text>
+  <text x="1400" y="96" text-anchor="end" fill="#9FB0C8" font-size="15">Air-gapped &#183; local models &#183; 0 false positives in the claimed tier</text>
+
+  <!-- ===== connectors (drawn first, under nodes) ===== -->
+  <!-- spine -->
+  <path d="M560,150 V190"   stroke="#9FB0C8" stroke-width="3" fill="none" marker-end="url(#a)"/>
+  <path d="M560,380 V430"   stroke="#F29F3D" stroke-width="3" fill="none" marker-end="url(#asf)"/>
+  <path d="M560,560 V600"   stroke="#9FB0C8" stroke-width="3" fill="none" marker-end="url(#a)"/>
+  <path d="M560,750 V810"   stroke="#3FB6A8" stroke-width="3" fill="none" marker-end="url(#ag)"/>
+  <path d="M560,960 V1020"  stroke="#3FB6A8" stroke-width="3" fill="none" marker-end="url(#ag)"/>
+  <path d="M560,1104 V1150" stroke="#9FB0C8" stroke-width="3" fill="none" marker-end="url(#a)"/>
+  <path d="M560,1310 V1372" stroke="#E5604D" stroke-width="3" fill="none" marker-end="url(#ar)"/>
+  <path d="M560,1476 V1500" stroke="#9FB0C8" stroke-width="3" fill="none" marker-end="url(#a)"/>
+  <path d="M560,1700 V1760" stroke="#E5604D" stroke-width="3" fill="none" marker-end="url(#ar)"/>
+  <path d="M560,1844 V1900" stroke="#6CA8F0" stroke-width="3" fill="none" marker-end="url(#a)" style="stroke:#6CA8F0"/>
+
+  <!-- D1 no -> candidate -->
+  <path d="M740,680 H1150 V820" stroke="#9FB0C8" stroke-width="2.5" fill="none" marker-end="url(#a)"/>
+  <!-- D2 no -> candidate -->
+  <path d="M740,890 H1060 V910 H1000" stroke="#9FB0C8" stroke-width="2.5" fill="none" marker-end="url(#a)"/>
+  <!-- D3 yes -> deterministic patch -->
+  <path d="M740,1230 H1150 V1226" stroke="#E5604D" stroke-width="2.5" fill="none" marker-end="url(#ar)"/>
+  <!-- deterministic patch -> accepted (verified by re-scan) -->
+  <path d="M1150,1226 V1802 H790" stroke="#E5604D" stroke-width="2.5" fill="none" marker-end="url(#ar)"/>
+  <!-- D4 no -> CEGIS (counterexample loop) -->
+  <path d="M360,1588 H170 V1424 H340" stroke="#F29F3D" stroke-width="2.8" fill="none" marker-end="url(#asf)" stroke-dasharray="9 6"/>
+
+  <!-- ===== node: INPUTS ===== -->
+  <g>
+    <rect x="360" y="100" width="400" height="50" rx="12" fill="#152238" stroke="#9FB0C8" stroke-width="2"/>
+    <text x="560" y="131" text-anchor="middle" fill="#F4F1EA" font-size="19" font-weight="700">INPUTS &#160; source tree &#183; URL &#183; routes &#183; auth</text>
+  </g>
+
+  <!-- ===== node: FIND ===== -->
+  <g>
+    <rect x="300" y="190" width="520" height="190" rx="16" fill="#172230" stroke="#F29F3D" stroke-width="2.5"/>
+    <rect x="300" y="190" width="10" height="190" rx="5" fill="#F29F3D"/>
+    <text x="330" y="232" fill="#F29F3D" font-size="24" font-weight="800">FIND &#8201;&#183;&#8201; candidate generators</text>
+    <text x="330" y="270" fill="#F4F1EA" font-size="17">Per-lang static (260) &#183; Opengrep taint (2,069) &#183; Joern CPG</text>
+    <text x="330" y="300" fill="#F4F1EA" font-size="17">Route map &#183; Parameter discovery (0-FP) &#183; IDOR / GraphQL</text>
+    <text x="330" y="330" fill="#F4F1EA" font-size="17">Misuse literals (confirmed) &#183; ZAP/Nuclei/Trivy ingest</text>
+    <text x="330" y="360" fill="#9FB0C8" font-size="16">LLM proposer &#8201;&#8212;&#8201; 1 of 13 sources, gap routes only</text>
+  </g>
+  <text x="590" y="412" fill="#F29F3D" font-size="16" font-weight="700">candidates</text>
+
+  <!-- ===== node: PROVE oracle ===== -->
+  <g>
+    <rect x="330" y="430" width="460" height="130" rx="16" fill="#172230" stroke="#3FB6A8" stroke-width="2.5"/>
+    <rect x="330" y="430" width="10" height="130" rx="5" fill="#3FB6A8"/>
+    <text x="360" y="472" fill="#3FB6A8" font-size="24" font-weight="800">PROVE &#8201;&#183;&#8201; oracle engine</text>
+    <text x="360" y="506" fill="#F4F1EA" font-size="17">6 self-validating mechanisms: differential, marker,</text>
+    <text x="360" y="534" fill="#F4F1EA" font-size="17">OOB callback, two-user, content facts, timing</text>
+  </g>
+
+  <!-- ===== diamond D1 ===== -->
+  <g>
+    <polygon points="560,600 740,680 560,760 380,680" fill="#1D2A3D" stroke="#F29F3D" stroke-width="2.5"/>
+    <text x="560" y="672" text-anchor="middle" fill="#F4F1EA" font-size="17" font-weight="700">Exploit fires or</text>
+    <text x="560" y="696" text-anchor="middle" fill="#F4F1EA" font-size="17" font-weight="700">fact observed?</text>
+  </g>
+  <text x="566" y="788" fill="#3FB6A8" font-size="15" font-weight="700">yes</text>
+  <text x="752" y="672" fill="#9FB0C8" font-size="15" font-weight="700">no</text>
+
+  <!-- ===== diamond D2 (reporting gate) ===== -->
+  <g>
+    <polygon points="560,810 740,890 560,970 380,890" fill="#1D2A3D" stroke="#3FB6A8" stroke-width="2.5"/>
+    <text x="560" y="878" text-anchor="middle" fill="#F4F1EA" font-size="16" font-weight="700">Reporting gate:</text>
+    <text x="560" y="901" text-anchor="middle" fill="#F4F1EA" font-size="16" font-weight="700">6 fields met?</text>
+  </g>
+  <text x="566" y="998" fill="#3FB6A8" font-size="15" font-weight="700">yes</text>
+  <text x="752" y="882" fill="#9FB0C8" font-size="15" font-weight="700">no &#183; downgrade</text>
+
+  <!-- ===== node: CONFIRMED ===== -->
+  <g>
+    <rect x="340" y="1020" width="440" height="84" rx="16" fill="rgba(63,182,168,0.16)" stroke="#3FB6A8" stroke-width="2.5"/>
+    <text x="560" y="1058" text-anchor="middle" fill="#3FB6A8" font-size="23" font-weight="800">CONFIRMED &#160; 0 false positives</text>
+    <text x="560" y="1086" text-anchor="middle" fill="#F4F1EA" font-size="16">replayable PoC + logged HTTP exchange ids</text>
+  </g>
+
+  <!-- ===== diamond D3 (template?) ===== -->
+  <g>
+    <polygon points="560,1150 740,1230 560,1310 380,1230" fill="#1D2A3D" stroke="#E5604D" stroke-width="2.5"/>
+    <text x="560" y="1218" text-anchor="middle" fill="#F4F1EA" font-size="16" font-weight="700">Safe template or</text>
+    <text x="560" y="1242" text-anchor="middle" fill="#F4F1EA" font-size="16" font-weight="700">config fix exists?</text>
+  </g>
+  <text x="566" y="1352" fill="#9FB0C8" font-size="15" font-weight="700">no</text>
+  <text x="752" y="1216" fill="#E5604D" font-size="15" font-weight="700">yes</text>
+
+  <!-- ===== node: deterministic patch (right) ===== -->
+  <g>
+    <rect x="980" y="1140" width="340" height="86" rx="14" fill="#172230" stroke="#E5604D" stroke-width="2"/>
+    <text x="1150" y="1176" text-anchor="middle" fill="#E5604D" font-size="18" font-weight="800">Tier 1 / 2 &#183; deterministic</text>
+    <text x="1150" y="1202" text-anchor="middle" fill="#F4F1EA" font-size="15">template &#38; config, zero variance</text>
+  </g>
+  <text x="1160" y="1430" fill="#E5604D" font-size="14" font-weight="700" transform="rotate(90 1160 1430)">verified by re-scan</text>
+
+  <!-- ===== node: CEGIS ===== -->
+  <g>
+    <rect x="340" y="1372" width="440" height="104" rx="16" fill="#172230" stroke="#E5604D" stroke-width="2.5"/>
+    <rect x="340" y="1372" width="10" height="104" rx="5" fill="#E5604D"/>
+    <text x="370" y="1412" fill="#E5604D" font-size="22" font-weight="800">FIX &#8201;&#183;&#8201; Tier 3 CEGIS LLM</text>
+    <text x="370" y="1444" fill="#F4F1EA" font-size="16">rewrite one function, splice by AST (3 backends)</text>
+    <text x="370" y="1468" fill="#9FB0C8" font-size="15">only where no safe template exists</text>
+  </g>
+  <text x="60" y="1490" fill="#F29F3D" font-size="14" font-weight="700" text-anchor="start">counterexample</text>
+  <text x="60" y="1510" fill="#9FB0C8" font-size="13" text-anchor="start">attacking req / residual flow</text>
+
+  <!-- ===== diamond D4 (4-way gate) ===== -->
+  <g>
+    <polygon points="560,1500 760,1588 560,1676 360,1588" fill="#1D2A3D" stroke="#E5604D" stroke-width="2.5"/>
+    <text x="560" y="1566" text-anchor="middle" fill="#F4F1EA" font-size="16" font-weight="700">4-way gate passes?</text>
+    <text x="560" y="1592" text-anchor="middle" fill="#9FB0C8" font-size="13">PoV-gone &#183; regression</text>
+    <text x="560" y="1610" text-anchor="middle" fill="#9FB0C8" font-size="13">re-scan &#183; sibling</text>
+  </g>
+  <text x="566" y="1730" fill="#3FB6A8" font-size="15" font-weight="700">yes</text>
+  <text x="372" y="1566" fill="#F29F3D" font-size="15" font-weight="700" text-anchor="end">no</text>
+
+  <!-- ===== node: ACCEPTED ===== -->
+  <g>
+    <rect x="340" y="1760" width="440" height="84" rx="16" fill="rgba(229,96,77,0.14)" stroke="#E5604D" stroke-width="2.5"/>
+    <text x="560" y="1798" text-anchor="middle" fill="#E5604D" font-size="22" font-weight="800">Patch accepted</text>
+    <text x="560" y="1826" text-anchor="middle" fill="#F4F1EA" font-size="16">+ sibling-sink review across the tree</text>
+  </g>
+
+  <!-- ===== node: REPORT ===== -->
+  <g>
+    <rect x="300" y="1900" width="520" height="160" rx="16" fill="#172230" stroke="#6CA8F0" stroke-width="2.5"/>
+    <rect x="300" y="1900" width="10" height="160" rx="5" fill="#6CA8F0"/>
+    <text x="330" y="1942" fill="#6CA8F0" font-size="24" font-weight="800">REPORT &#8201;&#183;&#8201; 6 audit artifacts</text>
+    <text x="330" y="1980" fill="#F4F1EA" font-size="17">report.csv (deliverable, confirmed only) &#183; findings.json</text>
+    <text x="330" y="2010" fill="#F4F1EA" font-size="17">coverage.json (ledger) &#183; exchanges.jsonl (replayable)</text>
+    <text x="330" y="2040" fill="#F4F1EA" font-size="17">llm_trace.jsonl &#183; run.json (manifest)</text>
+  </g>
+
+  <!-- ===== node: CANDIDATE (right, dead-end) ===== -->
+  <g>
+    <rect x="1000" y="820" width="340" height="90" rx="14" fill="#152238" stroke="#9FB0C8" stroke-width="2" stroke-dasharray="7 5"/>
+    <text x="1170" y="856" text-anchor="middle" fill="#9FB0C8" font-size="19" font-weight="800">candidate</text>
+    <text x="1170" y="884" text-anchor="middle" fill="#9FB0C8" font-size="15">kept in JSON, never claimed</text>
+  </g>
+
+  <!-- ===== cross-cutting footer ===== -->
+  <line x1="60" y1="2095" x2="1400" y2="2095" stroke="#243654" stroke-width="1.5"/>
+  <text x="60" y="2122" fill="#9FB0C8" font-size="15">Cross-cutting: throttle (rate cap) &#183; scan cache &#183; CSRF-aware auth &#183; LLM over urllib (no SDK) &#183; loopback OOB</text>
+  <text x="1400" y="2122" text-anchor="end" fill="#F29F3D" font-size="15" font-weight="700">Team Pramaan</text>
+</svg>
+</div>
+</body>
+</html>

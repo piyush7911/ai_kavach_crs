@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Kavach CRS</title>
+<style>
+  :root{
+    --ink:#0D1524; --ink2:#152238; --paper:#F4F1EA; --paper2:#E9E4D8;
+    --saffron:#F29F3D; --teal:#3FB6A8; --red:#E5604D;
+    --muted-d:#9FB0C8; --muted-l:#55607A;
+    --sans: "Avenir Next","Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --mono: "SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:#05080F;overflow:hidden;font-family:var(--sans)}
+  #viewport{position:fixed;inset:0;display:grid;place-items:center}
+  #deck{position:relative;width:1920px;height:1080px;transform-origin:center center}
+  .slide{position:absolute;inset:0;padding:120px 140px;display:flex;flex-direction:column;
+    opacity:0;pointer-events:none;transition:opacity .5s ease}
+  .slide.active{opacity:1;pointer-events:auto}
+  .dark{background:var(--ink);color:var(--paper)}
+  .dark2{background:radial-gradient(circle at 80% 20%, #1D3150 0%, var(--ink) 60%);color:var(--paper)}
+  .light{background:var(--paper);color:var(--ink)}
+  .accent{background:var(--saffron);color:var(--ink)}
+
+  .r{opacity:0;transform:translateY(28px);transition:opacity .6s ease, transform .6s ease}
+  .active .r{opacity:1;transform:none}
+  .active .d1{transition-delay:.15s}.active .d2{transition-delay:.3s}.active .d3{transition-delay:.45s}
+  .active .d4{transition-delay:.6s}.active .d5{transition-delay:.75s}.active .d6{transition-delay:.9s}
+
+  .eyebrow{font-size:28px;letter-spacing:6px;text-transform:uppercase;font-weight:700;color:var(--saffron)}
+  .light .eyebrow{color:#B96A10}
+  h1{font-size:150px;line-height:1;font-weight:800;letter-spacing:-3px}
+  h2{font-size:88px;line-height:1.05;font-weight:800;letter-spacing:-1.5px}
+  h3{font-size:44px;font-weight:700;line-height:1.15}
+  p{font-size:34px;line-height:1.4}
+  .muted{color:var(--muted-d)} .light .muted{color:var(--muted-l)}
+  .hl{color:var(--saffron)} .light .hl{color:#B96A10}
+  .teal{color:var(--teal)} .red{color:var(--red)}
+  .grow{flex:1}
+  .row{display:flex;gap:40px}
+  .card{flex:1;border-radius:24px;padding:48px;display:flex;flex-direction:column;gap:20px}
+  .dark .card,.dark2 .card{background:var(--ink2);border:1px solid #243654}
+  .light .card{background:#FFFDF8;border:1px solid #DDD6C6}
+  .num{font-size:30px;font-weight:800;font-family:var(--mono);color:var(--saffron)}
+  .light .num{color:#B96A10}
+  .big{font-size:140px;font-weight:800;line-height:1;letter-spacing:-6px}
+  .footer{position:absolute;left:140px;right:140px;bottom:56px;display:flex;justify-content:space-between;font-size:24px;opacity:.55}
+  .pill{display:inline-block;padding:10px 26px;border-radius:999px;font-size:26px;font-weight:700}
+  .mono{font-family:var(--mono)}
+
+  #bar{position:fixed;left:0;bottom:0;height:5px;background:var(--saffron);transition:width .4s ease;z-index:5}
+  #count{position:fixed;right:18px;bottom:14px;color:#8894AA;font:14px var(--sans);z-index:5;opacity:.7}
+  #hint{position:fixed;left:18px;bottom:14px;color:#8894AA;font:14px var(--sans);z-index:5;opacity:.5}
+  @media print{
+    @page{size:1920px 1080px;margin:0}
+    html,body{overflow:visible;background:none}
+    #viewport{position:static;display:block}
+    #deck{transform:none!important;width:auto;height:auto}
+    .slide{position:relative;opacity:1;page-break-after:always;width:1920px;height:1080px}
+    .r{opacity:1;transform:none}
+    #bar,#count,#hint{display:none}
+  }
+</style>
+</head>
+<body>
+<div id="viewport"><div id="deck">
+
+<!-- 1 COVER -->
+<section class="slide dark2" style="justify-content:center">
+  <svg class="r" style="position:absolute;right:140px;top:50%;transform:translateY(-50%);width:560px;height:640px" viewBox="0 0 280 320" aria-hidden="true">
+    <path d="M140 10 L260 55 V150 C260 230 205 285 140 310 C75 285 20 230 20 150 V55 Z" fill="none" stroke="#F29F3D" stroke-width="6"/>
+    <path d="M140 42 L230 76 V150 C230 212 190 256 140 278 C90 256 50 212 50 150 V76 Z" fill="#F29F3D" opacity=".12"/>
+    <path d="M95 160 L128 193 L190 125" fill="none" stroke="#3FB6A8" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <div class="eyebrow r">AI Kavach Grand Finale · Team Pramaan</div>
+  <h1 class="r d1" style="margin-top:36px">AI Kavach</h1>
+  <p class="r d2 muted" style="font-size:44px;margin-top:40px;max-width:1100px;line-height:1.3">
+    An autonomous cyber reasoning system for web apps.<br>
+    Finds the bug. Proves it. Fixes it. <span class="hl">Proves the fix.</span>
+  </p>
+</section>
+
+<!-- 2 PROBLEM -->
+<section class="slide light">
+  <div class="eyebrow r">The problem</div>
+  <h2 class="r d1" style="margin-top:24px">One weak route, one breach</h2>
+  <div class="grow"></div>
+  <table style="width:100%;border-collapse:collapse;font-size:34px">
+    <tr class="r d1" style="text-align:left;color:#55607A;font-size:26px;text-transform:uppercase;letter-spacing:3px">
+      <th style="padding:14px 0;width:32%">Web bug</th><th style="width:38%">In plain words</th><th>Attacker gets</th></tr>
+    <tr class="r d2" style="border-top:2px solid #DDD6C6"><td style="padding:22px 0"><b>SQL injection</b></td><td style="color:#55607A">Input becomes part of the query</td><td class="red"><b>Reads the whole database</b></td></tr>
+    <tr class="r d2" style="border-top:2px solid #DDD6C6"><td style="padding:22px 0"><b>Command injection</b></td><td style="color:#55607A">Input handed to the system shell</td><td class="red"><b>Runs any command</b></td></tr>
+    <tr class="r d3" style="border-top:2px solid #DDD6C6"><td style="padding:22px 0"><b>IDOR and BOLA</b></td><td style="color:#55607A">No check on whose record it is</td><td class="red"><b>Reads other users' data</b></td></tr>
+    <tr class="r d3" style="border-top:2px solid #DDD6C6"><td style="padding:22px 0"><b>SSRF and XXE</b></td><td style="color:#55607A">Server fetches an attacker URL</td><td class="red"><b>Reaches internal systems</b></td></tr>
+    <tr class="r d4" style="border-top:2px solid #DDD6C6"><td style="padding:22px 0"><b>Path traversal</b></td><td style="color:#55607A"><span class="mono">../</span> sneaks out of a folder</td><td class="red"><b>Reads secret files</b></td></tr>
+  </table>
+  <div class="grow"></div>
+  <p class="r d5" style="font-size:32px"><span class="muted">OWASP Top 10 bugs. Everywhere, and still shipping to production.</span></p>
+</section>
+
+<!-- 3 Today manual -->
+<section class="slide dark">
+  <div class="eyebrow r">Today</div>
+  <h2 class="r d1" style="margin-top:24px">Finding and fixing is slow</h2>
+  <div class="grow"></div>
+  <div class="row">
+    <div class="card r d2"><div class="num">01</div><h3>Find</h3><p class="muted">A needle in the whole app</p></div>
+    <div class="card r d3"><div class="num">02</div><h3>Prove</h3><p class="muted">Is it real or a false alarm</p></div>
+    <div class="card r d4"><div class="num">03</div><h3>Fix</h3><p class="muted">Write the patch</p></div>
+    <div class="card r d5"><div class="num">04</div><h3>Check</h3><p class="muted">Did it work, did it break anything</p></div>
+  </div>
+  <div class="grow"></div>
+  <p class="r d6" style="font-size:40px">Hours to days <span class="muted">per bug, by an expert. Too many bugs, too few experts.</span></p>
+</section>
+
+<!-- 4 AI can lie -->
+<section class="slide light">
+  <div class="eyebrow r">The catch</div>
+  <h2 class="r d1" style="margin-top:24px">AI fixes sound right.<br>Some are not.</h2>
+  <div class="grow"></div>
+  <div class="row">
+    <div class="card r d2"><h3 class="red">Doesn't fix it</h3><p class="muted">The bug is still there</p></div>
+    <div class="card r d3"><h3 class="red">Blocks one input</h3><p class="muted">Stops one payload, sink still reachable</p></div>
+    <div class="card r d4"><h3 class="red">Switches it off</h3><p class="muted">No bug because no feature</p></div>
+  </div>
+  <div class="grow"></div>
+  <p class="r d5" style="font-size:36px">Trusting a bad fix is worse than knowing you are broken.</p>
+</section>
+
+<!-- 5 Why not coding agents -->
+<section class="slide dark">
+  <div class="eyebrow r">Fair question</div>
+  <h2 class="r d1" style="margin-top:24px">Why not Claude Code or Codex?</h2>
+  <div class="grow"></div>
+  <table style="width:100%;border-collapse:collapse;font-size:36px">
+    <tr class="r d1" style="text-align:left;font-size:26px;text-transform:uppercase;letter-spacing:3px">
+      <th style="padding:14px 0;width:46%;color:#9FB0C8">Coding agents</th><th style="color:#F29F3D">AI Kavach</th></tr>
+    <tr class="r d2" style="border-top:2px solid #243654"><td style="padding:24px 0;color:#9FB0C8">Wait for a human to ask</td><td><b>Hunts bugs on its own</b></td></tr>
+    <tr class="r d3" style="border-top:2px solid #243654"><td style="padding:24px 0;color:#9FB0C8">Same AI writes the fix and judges it</td><td><b>AI suggests, a deterministic oracle judges</b></td></tr>
+    <tr class="r d4" style="border-top:2px solid #243654"><td style="padding:24px 0;color:#9FB0C8">Runs tests it picked or wrote itself</td><td><b>Replays the real attack, every time</b></td></tr>
+    <tr class="r d5" style="border-top:2px solid #243654"><td style="padding:24px 0;color:#9FB0C8">Can quietly game its own tests</td><td><b>Attacks its own fix to catch cheats</b></td></tr>
+  </table>
+  <div class="grow"></div>
+  <p class="r d6" style="font-size:34px">They are brilliant engineers. <span class="hl">We are the independent inspector.</span></p>
+</section>
+
+<!-- 6 Statement -->
+<section class="slide accent" style="justify-content:center;align-items:center;text-align:center">
+  <div class="eyebrow r" style="color:#0D1524;opacity:.7">Our rule</div>
+  <h1 class="r d1" style="font-size:140px;margin-top:40px">Propose freely.<br>The oracle decides.</h1>
+  <p class="r d2" style="font-size:40px;margin-top:56px;opacity:.8">Nothing is claimed until an oracle confirms it. So breadth costs zero false positives.</p>
+</section>
+
+<!-- 7 Pipeline -->
+<section class="slide dark">
+  <div class="eyebrow r">How it works</div>
+  <h2 class="r d1" style="margin-top:24px">One loop, no human needed</h2>
+  <div class="grow"></div>
+  <div class="row" style="gap:24px;align-items:stretch">
+    <div class="card r d1" style="align-items:flex-start"><div class="num">1</div><h3>Find</h3><p class="muted" style="font-size:28px">Static-first, 13 sources</p></div>
+    <div class="card r d2" style="border-color:#3FB6A8"><div class="num" style="color:#3FB6A8">2</div><h3>Prove</h3><p class="muted" style="font-size:28px">Replay a real exploit</p></div>
+    <div class="card r d3"><div class="num">3</div><h3>Fix</h3><p class="muted" style="font-size:28px">Template first, LLM last</p></div>
+    <div class="card r d4" style="border-color:#F29F3D"><div class="num">4</div><h3>Verify</h3><p class="muted" style="font-size:28px">Gate the fix, prove the run</p></div>
+  </div>
+  <div class="grow"></div>
+  <p class="r d6 muted" style="font-size:32px">Prove and Verify are what make it trustworthy.</p>
+</section>
+
+<!-- 8 FIND numbers -->
+<section class="slide light">
+  <div class="eyebrow r">Step 1 · Find</div>
+  <h2 class="r d1" style="margin-top:24px">Cast a wide net, cheaply</h2>
+  <div class="grow"></div>
+  <div class="row" style="gap:48px">
+    <div class="r d2" style="flex:1"><div class="big">2,329</div><p class="muted">taint and pattern rules, vendored offline</p></div>
+    <div class="r d3" style="flex:1"><div class="big">13</div><p class="muted">detection sources, only 1 LLM-assisted</p></div>
+    <div class="r d4" style="flex:1"><div class="big">6</div><p class="muted">languages: Py, JS, Java, Ruby, Go, PHP</p></div>
+  </div>
+  <div class="grow"></div>
+  <p class="r d5" style="font-size:34px">Static analysis, Opengrep taint, Joern cross-file graphs, live HTTP probes. <b>The model is not the bug finder.</b></p>
+</section>
+
+<!-- 9 PROVE oracles -->
+<section class="slide dark">
+  <div class="eyebrow r">Step 2 · Prove</div>
+  <h2 class="r d1" style="margin-top:24px">Six self-validating oracles</h2>
+  <div class="grow"></div>
+  <div class="row">
+    <div class="card r d2"><h3>Differential</h3><p class="muted" style="font-size:28px">SQL and NoSQL. A reflected echo cannot flip true versus false.</p></div>
+    <div class="card r d3"><h3>Marker</h3><p class="muted" style="font-size:28px">The result of the attack, absent from the payload. 31338, 1337, root:x:0:0.</p></div>
+    <div class="card r d4" style="border-color:#3FB6A8"><h3 class="teal">OOB callback</h3><p class="muted" style="font-size:28px">The target hits a one-time loopback listener. The callback decides.</p></div>
+  </div>
+  <div class="row" style="margin-top:32px">
+    <div class="card r d4"><h3>Two-user</h3><p class="muted" style="font-size:28px">IDOR and BOLA. Authorized versus unauthorized, own versus foreign id.</p></div>
+    <div class="card r d5"><h3>Content facts</h3><p class="muted" style="font-size:28px">Headers, cookies, CORS, JWT, rate-limit. A fact or a unique marker read back.</p></div>
+    <div class="card r d5"><h3>Timing</h3><p class="muted" style="font-size:28px">Request smuggling. Probabilistic, so candidate only, never confirmed.</p></div>
+  </div>
+  <div class="grow"></div>
+  <p class="r d6" style="font-size:30px">A static flag becomes a proven bug by mapping file to route and resolving the parameter. <span class="hl">No LLM in the proof loop.</span></p>
+</section>
+
+<!-- 10 FIX tiers -->
+<section class="slide light">
+  <div class="eyebrow r">Step 3 · Fix</div>
+  <h2 class="r d1" style="margin-top:24px">Deterministic first, LLM last</h2>
+  <div class="grow"></div>
+  <div class="row">
+    <div class="card r d2"><div class="num">Tier 1</div><h3>Templates</h3><p class="muted" style="font-size:28px">Literal swaps. MD5 to SHA-256, Random to SecureRandom. Always compile.</p></div>
+    <div class="card r d3"><div class="num">Tier 2</div><h3>Config fixes</h3><p class="muted" style="font-size:28px">9 classes across Express, Spring, Flask, Django, Rails.</p></div>
+    <div class="card r d4"><div class="num">Tier 3</div><h3>Gated LLM</h3><p class="muted" style="font-size:28px">One function rewritten by AST, only where no safe template exists.</p></div>
+  </div>
+  <div class="grow"></div>
+  <p class="r d5" style="font-size:34px"><b class="hl">Zero</b> model variance on tiers 1 and 2. Dependency bugs are reported, never version-bumped.</p>
+</section>
+
+<!-- 11 VERIFY gate -->
+<section class="slide dark2">
+  <div class="eyebrow r">Step 4 · Verify</div>
+  <h2 class="r d1" style="margin-top:24px">A fix passes four checks</h2>
+  <div class="grow"></div>
+  <div style="display:flex;flex-direction:column;gap:18px">
+    <div class="row r d1" style="align-items:center;gap:32px"><span class="pill" style="background:#F29F3D;color:#0D1524;width:90px;text-align:center">1</span><h3>Replay the real exploit. <span class="hl">Still fires? Rejected.</span></h3></div>
+    <div class="row r d2" style="align-items:center;gap:32px"><span class="pill" style="background:#152238;color:#F4F1EA;width:90px;text-align:center;border:1px solid #243654">2</span><h3>Observed good traffic still returns the same answers</h3></div>
+    <div class="row r d3" style="align-items:center;gap:32px"><span class="pill" style="background:#152238;color:#F4F1EA;width:90px;text-align:center;border:1px solid #243654">3</span><h3>Re-scan: the bug class is gone, not just one input</h3></div>
+    <div class="row r d4" style="align-items:center;gap:32px"><span class="pill" style="background:#152238;color:#F4F1EA;width:90px;text-align:center;border:1px solid #243654">4</span><h3>Every twin call site surfaced, so the scope is honest</h3></div>
+  </div>
+  <div class="grow"></div>
+  <p class="r d5 muted" style="font-size:30px">The regression set is derived from the app's own traffic, never model-invented. Six audit artifacts per run, every exploit replayable.</p>
+</section>
+
+<!-- 12 RESULTS -->
+<section class="slide light">
+  <div class="eyebrow r">Results</div>
+  <h2 class="r d1" style="margin-top:24px">Measured, not claimed</h2>
+  <div class="grow"></div>
+  <div class="row" style="gap:48px">
+    <div class="r d2" style="flex:1"><div class="big">14</div><p class="muted">bugs confirmed across NodeGoat and VulnerableApp</p></div>
+    <div class="r d3" style="flex:1"><div class="big">0</div><p class="muted">false positives in the claimed tier</p></div>
+    <div class="r d4" style="flex:1"><div class="big">64<span style="color:#B96A10">/64</span></div><p class="muted">weak-literal patches verified on BenchmarkJava</p></div>
+  </div>
+  <div class="grow"></div>
+  <p class="r d5" style="font-size:32px">VulnerableApp: <b>10 distinct bugs confirmed with the LLM switched off</b>, from 375 cross-file taint flows. <span class="muted">NodeGoat: 4 confirmed, coverage ledger clears 33 routes with evidence.</span></p>
+  <div class="footer" style="color:#0D1524"><span>NodeGoat (JS) · VulnerableApp (Java) · BenchmarkJava</span><span>AI Kavach</span></div>
+</section>
+
+<!-- 13 USP -->
+<section class="slide dark">
+  <div class="eyebrow r">What sets it apart</div>
+  <h2 class="r d1" style="margin-top:24px">Four differentiators</h2>
+  <div class="grow"></div>
+  <div class="row">
+    <div class="card r d2"><h3 class="hl">Zero FP by construction</h3><p class="muted" style="font-size:28px">Candidate versus confirmed. Only a replayed exploit or a fact is ever claimed.</p></div>
+    <div class="card r d3"><h3 class="hl">LLM-minimal, air-gapped</h3><p class="muted" style="font-size:28px">1 of 13 sources is model-assisted. Runs end to end with the model switched off.</p></div>
+  </div>
+  <div class="row" style="margin-top:32px">
+    <div class="card r d4"><h3 class="hl">Language-agnostic</h3><p class="muted" style="font-size:28px">Six languages, backend-agnostic HTTP oracles. A new target needs data, not code.</p></div>
+    <div class="card r d5"><h3 class="hl">Executable regression proof</h3><p class="muted" style="font-size:28px">Regression derived from real traffic, never invented. Every run fully auditable.</p></div>
+  </div>
+  <div class="grow"></div>
+</section>
+
+<!-- 14 Field ready -->
+<section class="slide light">
+  <div class="eyebrow r">Built for the field</div>
+  <h2 class="r d1" style="margin-top:24px">Runs offline, on your own model</h2>
+  <div class="grow"></div>
+  <div class="row">
+    <div class="card r d2"><div class="num">Air-gap</div><h3>No internet</h3><p class="muted" style="font-size:28px">Rules and vocabularies vendored. Points at an in-house model.</p></div>
+    <div class="card r d3"><div class="num">Data-driven</div><h3>Scales by data</h3><p class="muted" style="font-size:28px">A new language or class is new data, not new code.</p></div>
+    <div class="card r d4"><div class="num">Audited</div><h3>Every run</h3><p class="muted" style="font-size:28px">Six artifacts: findings, exploits, LLM trace, coverage, manifest.</p></div>
+  </div>
+  <div class="grow"></div>
+  <p class="r d5 muted" style="font-size:32px">Cheap because free deterministic tools do the heavy checking. A small local model is enough.</p>
+</section>
+
+<!-- 15 Mapped to judging -->
+<section class="slide dark">
+  <div class="eyebrow r">Mapped to judging</div>
+  <h2 class="r d1" style="margin-top:24px">How it answers each criterion</h2>
+  <div class="grow"></div>
+  <table style="width:100%;border-collapse:collapse;font-size:32px">
+    <tr class="r d2" style="border-top:2px solid #243654"><td style="padding:22px 0;width:48%"><b>Bug discovery, precision and efficiency</b></td><td class="hl">0-FP tier, 13 static-first sources, 2,329 offline rules</td></tr>
+    <tr class="r d3" style="border-top:2px solid #243654"><td style="padding:22px 0"><b>Patch quality, correctness, speed</b></td><td class="hl">Template-first, three tiers, four-way gate</td></tr>
+    <tr class="r d4" style="border-top:2px solid #243654"><td style="padding:22px 0"><b>Regression proof</b></td><td class="hl">Executable regression from observed traffic, coverage ledger</td></tr>
+    <tr class="r d5" style="border-top:2px solid #243654"><td style="padding:22px 0"><b>Scalability and architecture</b></td><td class="hl">Data-driven, cached graphs, parallel, six languages</td></tr>
+  </table>
+  <div class="grow"></div>
+</section>
+
+<!-- 16 Honest promise -->
+<section class="slide accent">
+  <div class="eyebrow r" style="color:#0D1524;opacity:.7">What we promise</div>
+  <h2 class="r d1" style="margin-top:24px;font-size:110px">If a fix cannot be proven,<br>we do not call it fixed.</h2>
+  <div class="grow"></div>
+  <div class="row r d2" style="gap:24px">
+    <span class="pill" style="background:#0D1524;color:#F4F1EA">Candidates never claimed</span>
+    <span class="pill" style="background:#0D1524;color:#F4F1EA">Every fix re-attacked</span>
+    <span class="pill" style="background:#0D1524;color:#F4F1EA">Every run auditable</span>
+  </div>
+</section>
+
+<!-- 17 Close -->
+<section class="slide dark2" style="justify-content:center;align-items:center;text-align:center">
+  <h1 class="r" style="font-size:170px">Find. Prove. <span class="hl">Fix.</span></h1>
+  <p class="r d2 muted" style="font-size:44px;margin-top:48px">AI Kavach · a shield that checks its own armour.</p>
+  <p class="r d3" style="font-size:34px;margin-top:40px"><span class="hl" style="font-weight:800;letter-spacing:4px">TEAM PRAMAAN</span></p>
+</section>
+
+</div></div>
+<div id="bar"></div><div id="count"></div><div id="hint">&larr; &rarr; / click · F fullscreen</div>
+<script>
+  const slides=[...document.querySelectorAll('.slide')], deck=document.getElementById('deck');
+  let i=Math.min(Math.max(parseInt(location.hash.slice(1))-1||0,0),slides.length-1);
+  function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);deck.style.transform=`scale(${s})`}
+  function show(n){i=Math.max(0,Math.min(n,slides.length-1));
+    slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+    document.getElementById('bar').style.width=((i+1)/slides.length*100)+'%';
+    document.getElementById('count').textContent=`${i+1} / ${slides.length}`;
+    history.replaceState(null,'','#'+(i+1))}
+  addEventListener('resize',fit);
+  addEventListener('keydown',e=>{
+    if(['ArrowRight','PageDown',' ','Enter'].includes(e.key))show(i+1);
+    else if(['ArrowLeft','PageUp','Backspace'].includes(e.key))show(i-1);
+    else if(e.key==='Home')show(0); else if(e.key==='End')show(slides.length-1);
+    else if(e.key==='f'||e.key==='F')(document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen());
+  });
+  addEventListener('click',e=>show(e.clientX>innerWidth/3?i+1:i-1));
+  fit();show(i);
+</script>
+</body>
+</html>

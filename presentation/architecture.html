@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Kavach Architecture</title>
+<style>
+  :root{
+    --ink:#0D1524; --ink2:#152238; --panel:#172230; --edge:#243654;
+    --paper:#F4F1EA; --saffron:#F29F3D; --teal:#3FB6A8; --red:#E5604D;
+    --blue:#6CA8F0; --muted:#9FB0C8; --muted2:#6B7A92;
+    --sans:"Avenir Next","Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --mono:"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#05080F;font-family:var(--sans);color:var(--paper)}
+  #wrap{display:grid;place-items:start center;min-height:100vh;padding:24px}
+  #poster{width:1680px;background:var(--ink);border-radius:20px;padding:46px 50px 40px;
+    box-shadow:0 30px 90px rgba(0,0,0,.6);transform-origin:top center}
+
+  .head{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;margin-bottom:8px}
+  .title{font-size:40px;font-weight:800;letter-spacing:-1px;line-height:1}
+  .title .sub{display:block;font-size:19px;font-weight:600;color:var(--muted);letter-spacing:0;margin-top:10px}
+  .shield{width:64px;height:72px;flex:none}
+  .cmd{font-family:var(--mono);font-size:15px;color:var(--saffron);text-align:right;line-height:1.5}
+  .cmd span{color:var(--muted2)}
+
+  .invariants{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 26px}
+  .pill{font-size:14px;font-weight:700;padding:8px 16px;border-radius:999px;background:var(--ink2);
+    border:1px solid var(--edge);color:var(--paper)}
+  .pill b{color:var(--saffron)}
+
+  .flow{display:grid;grid-template-columns:150px 1fr 1fr 1fr 1fr;gap:0;align-items:stretch}
+  .arrowcol{display:flex;align-items:center;justify-content:center}
+  .col{position:relative;padding:0 15px}
+  .col+.col{border-left:1px dashed var(--edge)}
+  .stage{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+  .stage .dot{width:12px;height:12px;border-radius:50%}
+  .stage h3{font-size:22px;font-weight:800;letter-spacing:.5px}
+  .stage .tag{font-size:12px;color:var(--muted2);font-family:var(--mono);margin-left:auto}
+  .flowlabel{font-family:var(--mono);font-size:12px;font-weight:700;text-align:center;
+    color:var(--ink);background:var(--saffron);border-radius:6px;padding:4px 6px;margin:0 2px}
+
+  .card{background:var(--panel);border:1px solid var(--edge);border-left-width:4px;border-radius:10px;
+    padding:11px 13px;margin-bottom:9px}
+  .card h4{font-size:15px;font-weight:700;line-height:1.15}
+  .card p{font-size:12px;color:var(--muted);line-height:1.3;margin-top:3px}
+  .card .n{font-family:var(--mono);font-size:11px;color:var(--saffron);font-weight:700}
+  .find{border-left-color:var(--saffron)}
+  .prove{border-left-color:var(--teal)}
+  .fix{border-left-color:var(--red)}
+  .report{border-left-color:var(--blue)}
+  .solid-find{background:rgba(242,159,61,.14);border-color:var(--saffron)}
+  .solid-teal{background:rgba(63,182,168,.14);border-color:var(--teal)}
+
+  .inbox{background:var(--ink2);border:1px solid var(--edge);border-radius:10px;padding:11px 12px;margin-bottom:12px}
+  .inbox h4{font-size:14px;font-weight:700}
+  .inbox p{font-size:11px;color:var(--muted2);font-family:var(--mono);margin-top:2px}
+
+  .gate{background:rgba(229,96,77,.1);border:1px dashed var(--red);border-radius:10px;padding:10px 12px;margin-top:4px}
+  .gate .gh{font-size:13px;font-weight:800;color:var(--red);margin-bottom:6px;letter-spacing:.3px}
+  .gate ol{margin:0;padding-left:20px}
+  .gate li{font-size:12px;color:var(--paper);line-height:1.5}
+  .gate li b{color:#F3A89B}
+
+  .arr{font-size:26px;color:var(--saffron);font-weight:800}
+  .arr-in{font-size:20px;color:var(--muted2)}
+
+  .rail{margin-top:26px;background:var(--ink2);border:1px solid var(--edge);border-radius:14px;
+    padding:16px 20px;display:grid;grid-template-columns:auto repeat(5,1fr);gap:18px;align-items:center}
+  .rail .lbl{font-size:13px;font-weight:800;color:var(--saffron);letter-spacing:1px;text-transform:uppercase;writing-mode:horizontal-tb}
+  .rail .item h5{font-size:14px;font-weight:700}
+  .rail .item p{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.3}
+
+  .legend{display:flex;gap:24px;align-items:center;margin-top:22px;font-size:13px;color:var(--muted)}
+  .legend .k{display:flex;align-items:center;gap:8px}
+  .legend .sw{width:16px;height:10px;border-radius:3px}
+  .foot{margin-top:18px;display:flex;justify-content:space-between;font-size:13px;color:var(--muted2)}
+  .foot b{color:var(--saffron)}
+
+  @media print{
+    @page{size:1760px 1180px;margin:0}
+    html,body{background:#fff}
+    #wrap{padding:0}
+    #poster{transform:none!important;box-shadow:none;border-radius:0}
+  }
+</style>
+</head>
+<body>
+<div id="wrap"><div id="poster">
+
+  <div class="head">
+    <div>
+      <div class="title">AI Kavach &mdash; System Architecture
+        <span class="sub">Autonomous web-app Cyber Reasoning System &nbsp;·&nbsp; FIND &rarr; PROVE &rarr; FIX &rarr; REPORT &nbsp;·&nbsp; one command, one loop</span>
+      </div>
+    </div>
+    <svg class="shield" viewBox="0 0 280 320" aria-hidden="true">
+      <path d="M140 10 L260 55 V150 C260 230 205 285 140 310 C75 285 20 230 20 150 V55 Z" fill="none" stroke="#F29F3D" stroke-width="10"/>
+      <path d="M95 160 L128 193 L190 125" fill="none" stroke="#3FB6A8" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <div class="cmd">python -m benchmarks.kavach<br>
+      <span>--target</span> ./app <span>--url</span> http://10.0.0.5:8080<br>
+      <span>--routes</span> routes.json <span>--auth</span> auth.json<br>
+      <span>--opengrep --live --misuse --idor --fix</span></div>
+  </div>
+
+  <div class="invariants">
+    <span class="pill"><b>Invariant 1 &middot;</b> Propose freely, the oracle decides</span>
+    <span class="pill"><b>Invariant 2 &middot;</b> Zero false positives in the claimed tier</span>
+    <span class="pill"><b>Invariant 3 &middot;</b> Language-agnostic (6 languages, HTTP confirmation)</span>
+    <span class="pill"><b>Invariant 4 &middot;</b> Air-gapped, local models only</span>
+    <span class="pill"><b>Invariant 5 &middot;</b> No target hardcoding (neutral engine)</span>
+  </div>
+
+  <div class="flow">
+
+    <!-- INPUTS -->
+    <div class="col" style="border-left:none;padding-left:0">
+      <div class="stage"><span class="dot" style="background:var(--muted)"></span><h3 style="font-size:16px">INPUTS</h3></div>
+      <div class="inbox"><h4>Source tree</h4><p>--target</p></div>
+      <div class="inbox"><h4>Running target</h4><p>--url</p></div>
+      <div class="inbox"><h4>Route map</h4><p>--routes</p></div>
+      <div class="inbox"><h4>Auth spec</h4><p>--auth (CSRF-aware)</p></div>
+      <div style="text-align:center;margin-top:8px"><span class="arr-in">&#9656;</span></div>
+    </div>
+
+    <!-- FIND -->
+    <div class="col">
+      <div class="stage"><span class="dot" style="background:var(--saffron)"></span><h3>FIND</h3><span class="tag">candidates</span></div>
+      <div class="card find"><h4>Per-language static <span class="n">260 rules</span></h4><p>JS flow engine + Py/Java tree-sitter &amp; Semgrep</p></div>
+      <div class="card find"><h4>Opengrep corpus <span class="n">2,069 rules</span></h4><p>Community taint, cached by tree fingerprint</p></div>
+      <div class="card find"><h4>Joern taint</h4><p>Cross-file CPG, source&rarr;sink flows</p></div>
+      <div class="card find"><h4>Route map</h4><p>OpenAPI / Spring / Express / Flask / servlet</p></div>
+      <div class="card find solid-find"><h4>Misuse literals <span class="n">confirmed</span></h4><p>Weak hash / cipher / random, cookie flags</p></div>
+      <div class="card find"><h4>Parameter discovery</h4><p>Chunked binary-search, 0-FP junk baseline</p></div>
+      <div class="card find"><h4>IDOR / BOLA + GraphQL</h4><p>Ownership vocab, introspection map</p></div>
+      <div class="card find"><h4>External scanners</h4><p>ZAP / Nuclei / Trivy, re-confirmed by oracle</p></div>
+      <div class="card find"><h4>LLM proposers <span class="n">1 of 13</span></h4><p>Gap routes only, 7-class allowlist, oracle still decides</p></div>
+    </div>
+
+    <!-- PROVE -->
+    <div class="col">
+      <div class="stage"><span class="dot" style="background:var(--teal)"></span><h3>PROVE</h3><span class="tag">confirm</span></div>
+      <div class="card prove solid-teal"><h4>Oracle engine &middot; run_exploit <span class="n">6 mechanisms</span></h4>
+        <p>differential (SQLi) &middot; marker (cmdi/traversal/SSTI/XSS/redirect) &middot; OOB callback (SSRF/XXE/deser) &middot; two-user (IDOR/BOLA) &middot; content facts (headers/JWT/CORS/mass-assign/cache) &middot; timing (smuggling, candidate)</p></div>
+      <div class="card prove"><h4>Live HTTP stage</h4><p>Language-agnostic probes; app-global config collapses to one finding</p></div>
+      <div class="card prove"><h4>Correlate bridge <span class="n">no LLM</span></h4><p>file&rarr;route (route map), param from source (file-local-first)</p></div>
+      <div class="card prove"><h4>Candidate sanity</h4><p>Drop hallucinated file:line, demote no-ingress injection</p></div>
+      <div class="card prove"><h4>Reporting gate <span class="n">6 fields</span></h4><p>poc / evidence / counterevidence / confidence / severity-change / fix-verification. Fail &rarr; downgrade to candidate</p></div>
+      <div class="card prove"><h4>Severity honesty</h4><p>Only lowers or flags, never inflates</p></div>
+      <div class="gate" style="border-style:solid;border-color:var(--teal);background:rgba(63,182,168,.08)">
+        <div class="gh" style="color:var(--teal)">OUTPUT &middot; two tiers</div>
+        <ol style="list-style:none;padding-left:0">
+          <li><b style="color:var(--teal)">confirmed</b> &rarr; replayable PoC + exchange ids (the CSV)</li>
+          <li style="color:var(--muted)">candidate &rarr; kept in JSON, never claimed</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- FIX -->
+    <div class="col">
+      <div class="stage"><span class="dot" style="background:var(--red)"></span><h3>FIX</h3><span class="tag">patch</span></div>
+      <div class="card fix"><h4>Tier 1 &middot; Templates <span class="n">0 variance</span></h4><p>Literal swaps: MD5&rarr;SHA-256, Random&rarr;SecureRandom, cookie flags. Line-scoped, always compile</p></div>
+      <div class="card fix"><h4>Tier 2 &middot; Config remediation</h4><p>9 classes &times; Express/Spring/Flask/Django/Rails, auto-detected</p></div>
+      <div class="card fix"><h4>Tier 3 &middot; CEGIS LLM <span class="n">3 backends</span></h4><p>One function rewritten, spliced by AST, only where no safe template</p></div>
+      <div class="gate">
+        <div class="gh">FOUR-WAY ACCEPTANCE GATE</div>
+        <ol>
+          <li><b>PoV-gone</b> &mdash; exploit no longer fires</li>
+          <li><b>Regression</b> &mdash; observed traffic unchanged</li>
+          <li><b>Static re-scan</b> &mdash; class gone, not one input</li>
+          <li><b>Sibling review</b> &mdash; twin sites surfaced</li>
+        </ol>
+      </div>
+      <div class="card fix" style="margin-top:9px"><h4>Dependencies</h4><p>Advisory only &mdash; named, never version-bumped (offline target)</p></div>
+    </div>
+
+    <!-- REPORT -->
+    <div class="col">
+      <div class="stage"><span class="dot" style="background:var(--blue)"></span><h3>REPORT</h3><span class="tag">audit</span></div>
+      <div class="card report" style="border-left-color:var(--blue);background:rgba(108,168,240,.12)"><h4>report.csv <span class="n">deliverable</span></h4><p>Confirmed only, severity-sorted, full evidence</p></div>
+      <div class="card report"><h4>findings.json</h4><p>All findings incl. candidates, full records</p></div>
+      <div class="card report"><h4>coverage.json <span class="n">5 outcomes</span></h4><p>Every (route,class) examined, evidenced negative space</p></div>
+      <div class="card report"><h4>exchanges.jsonl</h4><p>Every confirmed exploit, numbered; verify() rejects fakes</p></div>
+      <div class="card report"><h4>llm_trace.jsonl</h4><p>Every model query, response, timing</p></div>
+      <div class="card report"><h4>run.json</h4><p>Manifest: target, counts, coverage, artifact index</p></div>
+    </div>
+  </div>
+
+  <!-- stage flow strip -->
+  <div style="display:grid;grid-template-columns:150px 1fr 1fr 1fr 1fr;gap:0;margin-top:14px">
+    <div></div>
+    <div style="text-align:center"><span class="flowlabel">candidates (file / func / class / param &nbsp;|&nbsp; route / param)</span></div>
+    <div style="text-align:center"><span class="flowlabel" style="background:var(--teal)">confirmed &middot; 0 false positives</span></div>
+    <div style="text-align:center"><span class="flowlabel" style="background:var(--red);color:#fff">patched + verified</span></div>
+    <div style="text-align:center"><span class="flowlabel" style="background:var(--blue);color:#fff">6 audit artifacts</span></div>
+  </div>
+
+  <!-- cross-cutting rail -->
+  <div class="rail">
+    <div class="lbl">Cross<br>cutting</div>
+    <div class="item"><h5>Throttle</h5><p>Lock-serialized global rate cap (RoE)</p></div>
+    <div class="item"><h5>Scan cache</h5><p>Tree fingerprint, instant re-run</p></div>
+    <div class="item"><h5>Auth</h5><p>Roles, CSRF token, cookies, bearer</p></div>
+    <div class="item"><h5>LLM wiring</h5><p>OpenAI-compat over urllib, no SDK</p></div>
+    <div class="item"><h5>Air-gap</h5><p>Loopback OOB, local model, offline build</p></div>
+  </div>
+
+  <div class="legend">
+    <div class="k"><span class="sw" style="background:var(--saffron)"></span>FIND (propose)</div>
+    <div class="k"><span class="sw" style="background:var(--teal)"></span>PROVE (confirm)</div>
+    <div class="k"><span class="sw" style="background:var(--red)"></span>FIX (patch + gate)</div>
+    <div class="k"><span class="sw" style="background:var(--blue)"></span>REPORT (audit)</div>
+    <div class="k" style="margin-left:auto">Data model: <b style="color:var(--paper);font-family:var(--mono);font-size:12px">&nbsp;Finding{ status: candidate | confirmed, exploit, evidence, http_exchange_ids, patch }</b></div>
+  </div>
+
+  <div class="foot">
+    <span>6 languages &middot; JS &middot; Python &middot; Java &middot; PHP &middot; Ruby &nbsp;|&nbsp; identical HTTP confirmation oracle across all</span>
+    <span><b>Team Pramaan</b> &middot; AI Kavach Grand Finale</span>
+  </div>
+
+</div></div>
+<script>
+  // scale poster to fit viewport width (print uses @page, ignores this)
+  function fit(){
+    const p=document.getElementById('poster');
+    const avail=Math.min(window.innerWidth-48, 1680);
+    p.style.transform='scale('+(avail/1680)+')';
+  }
+  addEventListener('resize',fit); fit();
+</script>
+</body>
+</html>
