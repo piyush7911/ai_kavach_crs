@@ -15,7 +15,7 @@ ENV MONGODB_URI=mongodb://mongo:27017/nodegoat PORT=4000 NODE_ENV=production
 # The app lives at a mutable path (so patches + restart.sh take effect), exactly
 # like the finale "codebase at a path" on the VM.
 WORKDIR /opt/app
-COPY benchmark_workspace/nodegoat/ ./
+COPY benchmark_workspace/NodeGoat/ ./
 RUN rm -rf node_modules && npm install --production --no-cache
 
 # Also ship the source as a tar.gz, to rehearse the "pull the codebase" step.

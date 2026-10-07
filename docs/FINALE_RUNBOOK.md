@@ -130,7 +130,7 @@ ls target            # sanity: source is here
 
 ### Phase 1 — route map (deterministic, from the local source)
 ```bash
-python exp/scripts/route_map.py ./target routes.json   
+python exp/scripts/route_map.py ./target routes.json
 wc -l routes.json
 ```
 

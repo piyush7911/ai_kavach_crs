@@ -89,3 +89,12 @@ exp/live/gradle_home/
 reports/coverage.json
 reports/exchanges.jsonl
 reports/llm_trace.jsonl
+
+# finale rehearsal / per-run artifacts (not committed)
+/target.tar.gz
+/routes.json
+reports/report.json
+reports/report.csv
+reports/run.json
+reports/verify*
+reports/patches/
