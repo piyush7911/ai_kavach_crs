@@ -130,7 +130,7 @@ ls target            # sanity: source is here
 
 ### Phase 1 — route map (deterministic, from the local source)
 ```bash
-python exp/scripts/route_map.py ./target > routes.json
+python exp/scripts/route_map.py ./target routes.json   
 wc -l routes.json
 ```
 
@@ -284,7 +284,7 @@ findings still confirm. Reference specs: `config/nodegoat_auth.json`, `config/dv
 # fill §0 coordinates, then:
 sshpass -p "$VM_PASS" scp -P "$VM_PORT" "$VM_USER@$VM_HOST:$TARBALL" ./target.tar.gz
 rm -rf target && mkdir target && tar xzf target.tar.gz -C target --strip-components=1
-python exp/scripts/route_map.py ./target > routes.json
+python exp/scripts/route_map.py ./target routes.json   
 python -m benchmarks.kavach --target ./target --url "$LIVE" --routes routes.json \
    --opengrep --live --misuse --idor --fix --out reports/report.json
 # apply each reports/patches/*.diff on the VM -> $RESTART -> replay PoV on $LIVE -> verify gone
