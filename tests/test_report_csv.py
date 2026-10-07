@@ -17,13 +17,13 @@ def test_header_and_confirmed_only(tmp_path):
     assert n == 1
     rows = list(csv.reader(io.StringIO(p.read_text())))
     assert rows[0] == _HEADER
-    assert rows[1][1] == "SQL Injection" and rows[1][2] == "high" and rows[1][4] == "GET /x?id=1"
+    assert rows[1][1] == "SQL Injection" and rows[1][2] == "High" and rows[1][4] == "GET /x?id=1"
 
 
 def test_severity_bucketing_and_order():
     fs = [_f("clickjacking", "low"), _f("command-injection", "critical"), _f("xss", "medium")]
     rows = to_rows(fs)
-    assert [r[2] for r in rows] == ["critical", "med", "low"]   # sorted critical->low, medium->med
+    assert [r[2] for r in rows] == ["Critical", "Medium", "Low"]   # sorted critical->low, medium->med
     assert rows[0][1] == "Command Injection"
 
 

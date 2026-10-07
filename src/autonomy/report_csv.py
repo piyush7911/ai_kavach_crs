@@ -8,8 +8,8 @@ from __future__ import annotations
 
 import csv
 
-_HEADER = ["s. no.", "vuln title", "severity", "description", "vuln code location/path",
-           "steps to reproduce (evidence)"]
+_HEADER = ["S. No.", "Vulnerability Title", "Severity", "Description", "Code Location / Path",
+           "Steps to Reproduce (Evidence)"]
 
 # human titles per class (fallback: title-case the class)
 _TITLE = {
@@ -32,8 +32,9 @@ _TITLE = {
     "server-error": "Unhandled Server Error", "header-injection": "HTTP Response Header Injection",
     "predictable-session-id": "Predictable Session ID", "hardcoded-secret": "Hardcoded Secret",
 }
-_SEV_OUT = {"critical": "critical", "high": "high", "medium": "med", "med": "med", "low": "low", "info": "low"}
-_SEV_RANK = {"critical": 0, "high": 1, "med": 2, "low": 3}
+_SEV_OUT = {"critical": "Critical", "high": "High", "medium": "Medium", "med": "Medium",
+            "low": "Low", "info": "Low"}
+_SEV_RANK = {"Critical": 0, "High": 1, "Medium": 2, "Low": 3}
 
 
 def _title(klass: str) -> str:
