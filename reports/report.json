@@ -97,14 +97,14 @@
       "owasp": "",
       "severity": "low",
       "confidence": "high",
-      "message": "anti-CSRF token field present but rendered empty (site-wide: 3 routes affected)",
+      "message": "anti-CSRF token field present but rendered empty (site-wide: 4 routes affected)",
       "status": "confirmed",
-      "reason": "anti-CSRF token field present but rendered empty (site-wide: 3 routes affected)",
+      "reason": "anti-CSRF token field present but rendered empty (site-wide: 4 routes affected)",
       "evidence": {
         "route": "POST /signup",
         "request": "POST /signup",
         "detail": "anti-CSRF token field present but rendered empty",
-        "affected_routes": 3
+        "affected_routes": 4
       },
       "exploit": null,
       "stride": "Tampering",
@@ -122,7 +122,7 @@
       "counterevidence": "a deterministic observation; a benign baseline did not exhibit the signal",
       "confidence_rationale": "",
       "severity_change_conditions": "raise if it reaches sensitive data/privilege; lower if authentication gates the route | honesty: no demonstrated cross-user/state-changing consequence \u2192 floored to low",
-      "evidence_text": "anti-CSRF token field present but rendered empty (site-wide: 3 routes affected)",
+      "evidence_text": "anti-CSRF token field present but rendered empty (site-wide: 4 routes affected)",
       "fix_verification": "advisory config remediation; re-run the same live oracle after applying; the class must no longer confirm",
       "http_exchange_ids": []
     },
@@ -139,13 +139,13 @@
       "owasp": "",
       "severity": "medium",
       "confidence": "high",
-      "message": "20 wrong-password attempts, statuses [500], no lockout (site-wide: 2 routes affected)",
+      "message": "20 wrong-password attempts, statuses [200], no lockout (site-wide: 2 routes affected)",
       "status": "confirmed",
-      "reason": "20 wrong-password attempts, statuses [500], no lockout (site-wide: 2 routes affected)",
+      "reason": "20 wrong-password attempts, statuses [200], no lockout (site-wide: 2 routes affected)",
       "evidence": {
         "route": "POST /login",
         "request": "POST /login",
-        "detail": "20 wrong-password attempts, statuses [500], no lockout",
+        "detail": "20 wrong-password attempts, statuses [200], no lockout",
         "affected_routes": 2
       },
       "exploit": null,
@@ -157,14 +157,14 @@
         "payload": "",
         "request": "POST /login",
         "expected": "request denied / no sensitive data",
-        "actual": "20 wrong-password attempts, statuses [500], no lockout"
+        "actual": "20 wrong-password attempts, statuses [200], no lockout"
       },
       "patch": "",
       "patch_note": "config-fix (express): app.use('/login', require('express-rate-limit')({ windowMs: 60000, max: 5 }));  [add in: before the auth route]",
       "counterevidence": "a deterministic observation; a benign baseline did not exhibit the signal",
       "confidence_rationale": "",
       "severity_change_conditions": "raise if it reaches sensitive data/privilege; lower if authentication gates the route",
-      "evidence_text": "20 wrong-password attempts, statuses [500], no lockout (site-wide: 2 routes affected)",
+      "evidence_text": "20 wrong-password attempts, statuses [200], no lockout (site-wide: 2 routes affected)",
       "fix_verification": "advisory config remediation; re-run the same live oracle after applying; the class must no longer confirm",
       "http_exchange_ids": []
     },

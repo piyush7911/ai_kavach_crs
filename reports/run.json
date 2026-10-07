@@ -1,17 +1,16 @@
 {
- "target": "benchmark_workspace/NodeGoat",
- "url": "http://127.0.0.1:4000",
- "generated_at": "2026-10-07 01:37:11 UTC",
- "confirmed": 4,
- "candidates": 15,
+ "target": "http://localhost:4100",
+ "url": "http://localhost:4100",
+ "generated_at": "2026-10-07 04:04:56 UTC",
+ "confirmed": 3,
+ "candidates": 0,
  "confirmed_by_class": {
-  "clickjacking": 1,
   "cookie-samesite": 1,
   "csrf-missing": 1,
   "no-rate-limit": 1
  },
  "confirmed_by_severity": {
-  "low": 3,
+  "low": 2,
   "medium": 1
  },
  "coverage": {
@@ -23,8 +22,8 @@
   "attack_coverage_pct": 14.3
  },
  "artifacts": {
-  "findings_json": "report.json",
-  "report_csv": "report.csv",
+  "findings_json": "verify2.json",
+  "report_csv": "verify2.csv",
   "coverage_ledger": "coverage.json",
   "http_exchanges": "exchanges.jsonl",
   "llm_trace": "llm_trace.jsonl"

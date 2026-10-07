@@ -1,7 +1,18 @@
 #!/bin/sh
 # Emulates the finale VM's restart.sh: (re)start the app from /opt/app so that
 # any patch we scp into the source takes effect. Exit 0 = app healthy, non-zero = failed.
+#
+# Found by actually running the rehearsal: restart.sh is invoked over SSH (the only path the real
+# finale flow has), and an SSH login shell does NOT inherit the container's Docker `ENV` vars — only
+# PID 1's own process tree sees them (confirmed: /proc/1/environ had MONGODB_URI/NODE_ENV/PORT, the
+# SSH shell's env did not). Without this, a restarted app silently falls back to `localhost:27017` for
+# Mongo and `NODE_ENV=development`, both wrong. Setting them explicitly here makes restart.sh correct
+# regardless of what the calling shell's environment looks like — general SSH-restart hygiene, not
+# just an emulator quirk.
 set -e
+export MONGODB_URI="${MONGODB_URI:-mongodb://mongo:27017/nodegoat}"
+export NODE_ENV="${NODE_ENV:-production}"
+export PORT="${PORT:-4000}"
 cd /opt/app
 
 echo "[restart] stopping old app..."
