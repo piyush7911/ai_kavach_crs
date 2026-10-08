@@ -1,0 +1,11 @@
+--- a/routes/auth_routes.py
++++ b/routes/auth_routes.py
+@@ -21,7 +21,7 @@
+     if Wallet.query.filter_by(wallet_name=wallet_name).first():
+         return jsonify({'error': 'Wallet name already exists'}), 400
+ 
+-    password_hash = hashlib.md5(password.encode()).hexdigest()
++    password_hash = hashlib.sha256(password.encode()).hexdigest()
+     insert_query = (
+         "INSERT INTO wallet (wallet_name, password_hash, htc_balance) "
+         f"VALUES ('{wallet_name}', '{password_hash}', 0000.00)"

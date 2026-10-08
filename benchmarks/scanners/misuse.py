@@ -15,7 +15,8 @@ from pathlib import Path
 from src.jsauto.findings import Finding
 
 _EXTS = (".java", ".py", ".kt")
-_SKIP = ("node_modules", "/test/", "/tests/", "/build/", "/.git/", "/target/")
+_SKIP = ("node_modules", "/test/", "/tests/", "/build/", "/.git/", "/target/",
+         "/.venv/", "/venv/", "/env/", "/site-packages/", "/__pycache__/", "/.tox/")
 
 # (class, cwe, compiled pattern) — direct, literal, FP-safe sink calls only
 _RULES = [

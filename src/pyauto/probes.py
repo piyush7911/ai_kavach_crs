@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Callable, Optional
 
 from benchmarks.oracles import run_exploit
@@ -116,6 +117,32 @@ def routes_from_wsgi(app) -> list[Route]:
         op_id = f"{module}.{getattr(fn, '__name__', '')}" if module else ""
         for method in sorted(m for m in rule.methods if m not in ("HEAD", "OPTIONS")):
             out.append(Route(method, path, sorted(rule.arguments), [], [], False, op_id))
+    return out
+
+
+def routes_from_routemap(path: str) -> list[Route]:
+    """Routes from exp/scripts/route_map.py's JSON output (deterministic, AST-based, language-agnostic:
+    Spring/Servlet/Express/Flask). This is the fix for the crawl-based sources above going empty on a
+    pure JSON API with no HTML links to follow: the route map already knows every route from the SOURCE,
+    no crawling needed. Path params come from the framework's own syntax (<int:id>, :id, {id}), normalized
+    to the {name} convention the rest of this module expects; query/body fields are left for
+    `enrich_routes`/`discover_params` to fill in, same as the live-WSGI path."""
+    import json as _json
+    try:
+        data = _json.loads(Path(path).read_text())
+    except (OSError, ValueError):
+        return []
+    out = []
+    for r in data.get("routes", []):
+        method, raw_path = (r.get("method") or "GET").upper(), r.get("path") or ""
+        if not raw_path or method not in ("GET", "POST", "PUT", "DELETE", "PATCH"):
+            continue
+        norm = re.sub(r"<(?:[^:>]+:)?([^>]+)>", r"{\1}", raw_path)   # Flask/Werkzeug: <int:id> -> {id}
+        norm = re.sub(r":(\w+)", r"{\1}", norm)                      # Express: :id -> {id}
+        path_params = re.findall(r"\{(\w+)\}", norm)
+        op_id = f"{r.get('file', '')}::{r.get('function', '')}" if r.get("function") else ""
+        out.append(Route(method, norm, path_params, list(r.get("body_fields") or []),
+                         list(r.get("query_fields") or []), False, op_id))
     return out
 
 

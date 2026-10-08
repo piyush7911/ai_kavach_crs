@@ -54,15 +54,19 @@ def _static(stack: str, target: Path) -> list[Finding]:
 
 def _dynamic(url: str, zap_report: str | None = None, nuclei_report: str | None = None,
              llm: object | None = None, surface: bool = False, attacks: bool = False,
-             target: str | None = None) -> tuple:
+             target: str | None = None, routes_file: str | None = None, auth: dict | None = None) -> tuple:
     from src.pyauto.probes import (ProbeCtx, enrich_routes, mine_params, probe,
-                                   routes_from_crawl, routes_from_sitemap, Route)
+                                   routes_from_crawl, routes_from_routemap, routes_from_sitemap, Route)
     pu = urlparse(url.rstrip("/"))
     origin = f"{pu.scheme}://{pu.netloc}"
     ctx_path = pu.path.rstrip("/")
     sources = (routes_from_crawl(origin, seeds=((ctx_path + "/") or "/",))
                + routes_from_sitemap(f"{origin}{ctx_path}/sitemap.xml")
                + routes_from_sitemap(f"{origin}/sitemap.xml"))
+    if routes_file:          # the deterministic AST route map (no crawl needed; works on pure JSON APIs)
+        rm = routes_from_routemap(routes_file)
+        print(f"[dynamic] +{len(rm)} routes from the route map (no crawl needed)")
+        sources += rm
     if surface and llm:                                # Slice A: LLM reads the app's HTML/JS -> routes+params
         from src.pyauto.llm_surface import gather_surface_text, propose_routes
         lr = propose_routes(gather_surface_text(origin, ctx_path), llm)
@@ -80,9 +84,14 @@ def _dynamic(url: str, zap_report: str | None = None, nuclei_report: str | None 
         sources += nr
     merged: dict = {}
     for r in sources:
-        merged.setdefault((r.method, r.path), set()).update(r.query_fields)
-    routes = [Route(m, p, query_fields=sorted(ps)) for (m, p), ps in sorted(merged.items())]
-    ctx = ProbeCtx(origin, auth={}, reseed=None)
+        key = (r.method, r.path)
+        q, pp, bf = merged.setdefault(key, (set(), set(), set()))
+        q.update(r.query_fields)
+        pp.update(r.path_params)
+        bf.update(r.body_fields)
+    routes = [Route(m, p, path_params=sorted(pp), body_fields=sorted(bf), query_fields=sorted(q))
+              for (m, p), (q, pp, bf) in sorted(merged.items())]
+    ctx = ProbeCtx(origin, auth=auth or {}, reseed=None)
     from src.pyauto.param_discovery import discover_params
     discover_params(origin, routes, ctx)               # chunked binary-search param discovery (fast, 0-FP)
     enrich_routes(routes, ctx)
@@ -364,8 +373,11 @@ def main(argv=None) -> int:
     cov, routes = None, []
     if args.url:
         print(f"[dynamic] discovering + confirming on {args.url} ...")
+        import json as _json
+        auth_spec = _json.load(open(args.auth)) if args.auth else None
         d, cov, routes = _dynamic(args.url, zap_report=args.zap, nuclei_report=args.nuclei,
-                                  llm=llm, surface=args.llm_surface, attacks=args.llm_attacks, target=args.target)
+                                  llm=llm, surface=args.llm_surface, attacks=args.llm_attacks, target=args.target,
+                                  routes_file=args.routes, auth=auth_spec)
         print(f"[dynamic] {len(d)} CONFIRMED")
         print(f"[coverage] examined {cov['routes_examined']} routes; actively ATTACKED "
               f"{cov['routes_attacked']} ({cov['attack_coverage_pct']}%); attack-gap {cov['attack_gap']} "

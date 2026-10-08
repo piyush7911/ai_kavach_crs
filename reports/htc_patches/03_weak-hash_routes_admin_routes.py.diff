@@ -1,0 +1,11 @@
+--- a/routes/admin_routes.py
++++ b/routes/admin_routes.py
+@@ -322,7 +322,7 @@
+     payload = data.get('payload', '')
+     expected_hash = data.get('hash', '')
+ 
+-    computed = hashlib.sha1(payload.encode()).hexdigest()
++    computed = hashlib.sha256(payload.encode()).hexdigest()
+ 
+     return jsonify({
+         'valid': computed == expected_hash,

@@ -1,0 +1,9 @@
+{
+ "login_path": "/api/login",
+ "user_field": "wallet_name",
+ "pass_field": "password",
+ "roles": {
+  "user": ["alice", "password123"],
+  "user2": ["bob", "password123"]
+ }
+}

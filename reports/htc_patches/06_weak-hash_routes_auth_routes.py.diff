@@ -1,0 +1,11 @@
+--- a/routes/auth_routes.py
++++ b/routes/auth_routes.py
+@@ -168,7 +168,7 @@
+     data = request.get_json()
+     wallet_name = data.get('wallet_name', '')
+     wallet = Wallet.query.filter_by(wallet_name=wallet_name).first()
+-    token = hashlib.md5(wallet_name.encode()).hexdigest()
++    token = hashlib.sha256(wallet_name.encode()).hexdigest()
+     if wallet:
+         wallet.reset_token = token
+         db.session.commit()

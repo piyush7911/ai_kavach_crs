@@ -1,0 +1,11 @@
+--- a/routes/admin_routes.py
++++ b/routes/admin_routes.py
+@@ -336,7 +336,7 @@
+     data = request.get_json()
+     seed = data.get('seed', '')
+ 
+-    token = hashlib.md5(f"{seed}{current_wallet.id}".encode()).hexdigest()
++    token = hashlib.sha256(f"{seed}{current_wallet.id}".encode()).hexdigest()
+ 
+     return jsonify({'api_token': token})
+ 

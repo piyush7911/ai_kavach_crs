@@ -1,0 +1,22 @@
+S. No.,Vulnerability Title,Severity,Description,Code Location / Path,Steps to Reproduce (Evidence)
+1,CORS Misconfiguration,Medium,ACAO=https://kvevil.example credentials=True (site-wide: 41 routes affected),POST /api/transfer,"Request: POST /api/transfer
+Expected (if secure): request denied / no sensitive data
+Observed: ACAO=https://kvevil.example credentials=True"
+2,Missing Rate Limiting,Medium,"20 wrong-password attempts, statuses [401], no lockout (site-wide: 4 routes affected)",POST /api/admin/import-session,"Request: POST /api/admin/import-session
+Expected (if secure): request denied / no sensitive data
+Observed: 20 wrong-password attempts, statuses [401], no lockout"
+3,Open Redirect,Medium,open-redirect via query field 'url' on GET /api/redirect,GET /api/redirect,"Payload: /api/redirect?url=https%3A%2F%2Fkavach-probe.invalid%2Flanding
+Request: GET /api/redirect?url=https%3A%2F%2Fkavach-probe.invalid%2Flanding
+Expected (if secure): request denied / no sensitive data
+Observed: redirect=https://kavach-probe.invalid/landing
+Logged exchange ids: 1"
+4,Weak Password Hash,Medium,weak-hash: self.password_hash = hashlib.md5(password.encode()).hexdigest(),models.py:38,Observed: direct weak-hash literal at models.py:38
+5,Weak Password Hash,Medium,weak-hash: return self.password_hash == hashlib.md5(password.encode()).hexdigest(),models.py:41,Observed: direct weak-hash literal at models.py:41
+6,Weak Password Hash,Medium,weak-hash: computed = hashlib.sha1(payload.encode()).hexdigest(),routes/admin_routes.py:325,Observed: direct weak-hash literal at routes/admin_routes.py:325
+7,Weak Password Hash,Medium,"weak-hash: token = hashlib.md5(f""{seed}{current_wallet.id}"".encode()).hexdigest()",routes/admin_routes.py:339,Observed: direct weak-hash literal at routes/admin_routes.py:339
+8,Weak Password Hash,Medium,weak-hash: password_hash = hashlib.md5(password.encode()).hexdigest(),routes/auth_routes.py:24,Observed: direct weak-hash literal at routes/auth_routes.py:24
+9,Weak Password Hash,Medium,weak-hash: token = hashlib.md5(wallet_name.encode()).hexdigest(),routes/auth_routes.py:171,Observed: direct weak-hash literal at routes/auth_routes.py:171
+10,Weak Password Hash,Medium,weak-hash: if token != hashlib.md5(wallet_name.encode()).hexdigest():,routes/auth_routes.py:195,Observed: direct weak-hash literal at routes/auth_routes.py:195
+11,Clickjacking (missing framing protection),Low,X-Frame-Options=absent; CSP frame-ancestors=absent (site-wide: 41 routes affected),POST /api/transfer,"Request: POST /api/transfer
+Expected (if secure): request denied / no sensitive data
+Observed: X-Frame-Options=absent; CSP frame-ancestors=absent"

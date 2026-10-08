@@ -16,7 +16,8 @@ from ruamel.yaml import YAML
 
 JAVA = Parser(Language(tree_sitter_java.language()))
 JS = Parser(Language(tree_sitter_javascript.language()))
-SKIP = ("node_modules", "/test/", "/tests/", "/build/", "/.git/", "/frontend/", "/public/", "/artifacts/")
+SKIP = ("node_modules", "/test/", "/tests/", "/build/", "/.git/", "/frontend/", "/public/", "/artifacts/",
+        "/.venv/", "/venv/", "/env/", "/site-packages/", "/__pycache__/")
 def skipped(f, root): return any(s in "/" + str(f.relative_to(root)).replace("\\", "/") for s in SKIP)
 
 def txt(src, n): return src[n.start_byte:n.end_byte].decode("utf-8", "replace")
@@ -158,6 +159,27 @@ def express_routes(root):
     return out
 
 # ---------------- Flask ----------------
+def _flask_body_query_fields(fn_node):
+    """Walk a Flask handler's body for `request.args.get("x")` / `request.form.get("x")` (query) and
+    `<anything>.get("x", ...)` off a get_json()-derived dict (body) — the field names the oracle needs
+    as attack carriers but a bare decorator/url_map never declares. Heuristic: any 2+-char .get("str")
+    call is a body field unless its receiver chain contains "args" or "form" (then it's a query field)."""
+    query, body = set(), set()
+    for n in ast.walk(fn_node):
+        if not (isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute) and n.func.attr == "get"
+                and n.args and isinstance(n.args[0], ast.Constant) and isinstance(n.args[0].value, str)):
+            continue
+        name = n.args[0].value
+        chain = ast.unparse(n.func.value) if hasattr(ast, "unparse") else ""
+        if "args" in chain or "form" in chain:
+            query.add(name)
+        elif "headers" in chain or "cookies" in chain or "environ" in chain:
+            continue                                     # not a body/query attack surface
+        else:
+            body.add(name)
+    return sorted(query), sorted(body)
+
+
 def flask_routes(root):
     out = []
     for f in Path(root).rglob("*.py"):
@@ -171,9 +193,11 @@ def flask_routes(root):
                     methods = [d.func.attr.upper()] if d.func.attr != "route" else ["GET"]
                     for kw in d.keywords:
                         if kw.arg == "methods" and isinstance(kw.value, (ast.List, ast.Tuple)): methods = [e.value for e in kw.value.elts if isinstance(e, ast.Constant)]
+                    query_fields, body_fields = _flask_body_query_fields(n)
                     for m in methods:
                         out.append({"framework": "flask", "method": m, "path": d.args[0].value, "file": str(f.relative_to(root)), "function": n.name,
-                                    "params": [a.arg for a in n.args.args], "param_annotations": [], "middleware": [ast.unparse(x) for x in n.decorator_list if x is not d], "line": n.lineno})
+                                    "params": [a.arg for a in n.args.args], "param_annotations": [], "middleware": [ast.unparse(x) for x in n.decorator_list if x is not d], "line": n.lineno,
+                                    "query_fields": query_fields, "body_fields": body_fields})
     return out
 
 def main():

@@ -45,10 +45,17 @@ def _enclosing_function(source: bytes, line: int) -> tuple[str, int, int]:
     return name, best.start_point[0] + 1, best.end_point[0] + 1
 
 
+# Directories that are never application source: dependency/build/vendor trees, never the target's own code.
+EXCLUDES = ("node_modules", "vendor", "dist", "build", ".git", ".venv", "venv", "env", ".env",
+            "site-packages", "__pycache__", ".tox", ".mypy_cache", ".pytest_cache", ".eggs")
+
+
 def scan(target: str | Path, rules: Path = RULES) -> list[Finding]:
     target = Path(target)
     cmd = ["semgrep", "--config", str(rules), str(target), "--quiet", "--json",
            "--metrics", "off", "--disable-version-check"]
+    for pattern in EXCLUDES:
+        cmd += ["--exclude", pattern]
     r = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
     if r.returncode not in (0, 1):   # 1 = findings present; anything else is a real failure
         raise RuntimeError(f"semgrep failed (rc={r.returncode}): {r.stderr[-400:]}")

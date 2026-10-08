@@ -1,0 +1,11 @@
+--- a/routes/auth_routes.py
++++ b/routes/auth_routes.py
+@@ -192,7 +192,7 @@
+     wallet = Wallet.query.filter_by(wallet_name=wallet_name).first()
+     if not wallet:
+         return jsonify({'error': 'Wallet not found'}), 404
+-    if token != hashlib.md5(wallet_name.encode()).hexdigest():
++    if token != hashlib.sha256(wallet_name.encode()).hexdigest():
+         return jsonify({'error': 'Invalid wallet reset token'}), 403
+ 
+     wallet.set_password(new_password)

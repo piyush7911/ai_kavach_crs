@@ -85,6 +85,11 @@ def findings_from_opengrep(target: str | Path, rules: Path = None, binary: str =
     cmd = [binary, "scan", "--quiet", "--json"]
     for c in configs:
         cmd += ["--config", c]
+    # Dependency/vendor trees are never application source; scanning them produces findings inside
+    # libraries we didn't write and can't fix, which is exactly the false-positive risk we can't afford.
+    for pattern in ("node_modules", "vendor", "dist", "build", ".git", ".venv", "venv", "env",
+                    "site-packages", "__pycache__", ".tox"):
+        cmd += ["--exclude", pattern]
     cmd.append(str(target))
     try:
         r = subprocess.run(cmd, capture_output=True, text=True, timeout=1800)

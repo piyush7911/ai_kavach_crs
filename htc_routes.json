@@ -1,0 +1,865 @@
+{
+ "root": "htc-wallet 2/backend",
+ "routes": [
+  {
+   "framework": "flask",
+   "method": "POST",
+   "path": "/api/transfer",
+   "file": "routes/transaction_routes.py",
+   "function": "transfer",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 15,
+   "query_fields": [],
+   "body_fields": [
+    "amount",
+    "memo",
+    "receiver_wallet_id"
+   ]
+  },
+  {
+   "framework": "flask",
+   "method": "GET",
+   "path": "/api/transactions",
+   "file": "routes/transaction_routes.py",
+   "function": "get_transactions",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 62,
+   "query_fields": [
+    "wallet_id"
+   ],
+   "body_fields": []
+  },
+  {
+   "framework": "flask",
+   "method": "GET",
+   "path": "/api/transactions/<int:transaction_id>",
+   "file": "routes/transaction_routes.py",
+   "function": "get_transaction",
+   "params": [
+    "current_wallet",
+    "transaction_id"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 74,
+   "query_fields": [],
+   "body_fields": []
+  },
+  {
+   "framework": "flask",
+   "method": "GET",
+   "path": "/api/transactions/search",
+   "file": "routes/transaction_routes.py",
+   "function": "search_transactions",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 87,
+   "query_fields": [
+    "memo"
+   ],
+   "body_fields": []
+  },
+  {
+   "framework": "flask",
+   "method": "POST",
+   "path": "/api/quickpay",
+   "file": "routes/transaction_routes.py",
+   "function": "quickpay",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "cookie_auth"
+   ],
+   "line": 100,
+   "query_fields": [
+    "amount",
+    "memo",
+    "receiver_wallet_id"
+   ],
+   "body_fields": [
+    "amount",
+    "memo",
+    "receiver_wallet_id"
+   ]
+  },
+  {
+   "framework": "flask",
+   "method": "GET",
+   "path": "/api/transactions/<int:transaction_id>/receipt",
+   "file": "routes/transaction_routes.py",
+   "function": "transaction_receipt",
+   "params": [
+    "transaction_id"
+   ],
+   "param_annotations": [],
+   "middleware": [],
+   "line": 131,
+   "query_fields": [],
+   "body_fields": []
+  },
+  {
+   "framework": "flask",
+   "method": "POST",
+   "path": "/api/shared-payment",
+   "file": "routes/transaction_routes.py",
+   "function": "shared_payment",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 161,
+   "query_fields": [],
+   "body_fields": [
+    "amount",
+    "destination_wallet_id",
+    "memo",
+    "source_wallet_id"
+   ]
+  },
+  {
+   "framework": "flask",
+   "method": "POST",
+   "path": "/api/admin/generate-report",
+   "file": "routes/admin_routes.py",
+   "function": "generate_report",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 33,
+   "query_fields": [],
+   "body_fields": [
+    "date_range",
+    "report_type"
+   ]
+  },
+  {
+   "framework": "flask",
+   "method": "GET",
+   "path": "/api/admin/system-status",
+   "file": "routes/admin_routes.py",
+   "function": "system_status",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 46,
+   "query_fields": [
+    "service"
+   ],
+   "body_fields": []
+  },
+  {
+   "framework": "flask",
+   "method": "POST",
+   "path": "/api/admin/ping",
+   "file": "routes/admin_routes.py",
+   "function": "ping_host",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 56,
+   "query_fields": [],
+   "body_fields": [
+    "host"
+   ]
+  },
+  {
+   "framework": "flask",
+   "method": "GET",
+   "path": "/api/admin/dns-lookup",
+   "file": "routes/admin_routes.py",
+   "function": "dns_lookup",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 76,
+   "query_fields": [
+    "domain"
+   ],
+   "body_fields": []
+  },
+  {
+   "framework": "flask",
+   "method": "POST",
+   "path": "/api/admin/webhook-test",
+   "file": "routes/admin_routes.py",
+   "function": "test_webhook",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 92,
+   "query_fields": [],
+   "body_fields": [
+    "url"
+   ]
+  },
+  {
+   "framework": "flask",
+   "method": "POST",
+   "path": "/api/admin/fetch-avatar",
+   "file": "routes/admin_routes.py",
+   "function": "fetch_avatar",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 108,
+   "query_fields": [],
+   "body_fields": [
+    "avatar_url"
+   ]
+  },
+  {
+   "framework": "flask",
+   "method": "GET",
+   "path": "/api/admin/download-statement",
+   "file": "routes/admin_routes.py",
+   "function": "download_statement",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 120,
+   "query_fields": [
+    "filename"
+   ],
+   "body_fields": []
+  },
+  {
+   "framework": "flask",
+   "method": "GET",
+   "path": "/api/admin/view-log",
+   "file": "routes/admin_routes.py",
+   "function": "view_log",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 129,
+   "query_fields": [
+    "file"
+   ],
+   "body_fields": []
+  },
+  {
+   "framework": "flask",
+   "method": "POST",
+   "path": "/api/admin/import-data",
+   "file": "routes/admin_routes.py",
+   "function": "import_data",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 140,
+   "query_fields": [],
+   "body_fields": []
+  },
+  {
+   "framework": "flask",
+   "method": "POST",
+   "path": "/api/admin/import-session",
+   "file": "routes/admin_routes.py",
+   "function": "import_session",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 160,
+   "query_fields": [],
+   "body_fields": [
+    "session_data"
+   ]
+  },
+  {
+   "framework": "flask",
+   "method": "POST",
+   "path": "/api/admin/export-session",
+   "file": "routes/admin_routes.py",
+   "function": "export_session",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 172,
+   "query_fields": [],
+   "body_fields": []
+  },
+  {
+   "framework": "flask",
+   "method": "PUT",
+   "path": "/api/admin/wallets/<int:wallet_id>",
+   "file": "routes/admin_routes.py",
+   "function": "update_wallet",
+   "params": [
+    "current_wallet",
+    "wallet_id"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 185,
+   "query_fields": [],
+   "body_fields": []
+  },
+  {
+   "framework": "flask",
+   "method": "POST",
+   "path": "/api/admin/preview-email",
+   "file": "routes/admin_routes.py",
+   "function": "preview_email",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 201,
+   "query_fields": [],
+   "body_fields": [
+    "recipient",
+    "template"
+   ]
+  },
+  {
+   "framework": "flask",
+   "method": "GET",
+   "path": "/api/redirect",
+   "file": "routes/admin_routes.py",
+   "function": "open_redirect",
+   "params": [],
+   "param_annotations": [],
+   "middleware": [],
+   "line": 212,
+   "query_fields": [
+    "url"
+   ],
+   "body_fields": []
+  },
+  {
+   "framework": "flask",
+   "method": "POST",
+   "path": "/api/admin/audit",
+   "file": "routes/admin_routes.py",
+   "function": "create_audit_entry",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 222,
+   "query_fields": [],
+   "body_fields": [
+    "action",
+    "details"
+   ]
+  },
+  {
+   "framework": "flask",
+   "method": "GET",
+   "path": "/api/admin/wallets",
+   "file": "routes/admin_routes.py",
+   "function": "list_all_wallets",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 243,
+   "query_fields": [],
+   "body_fields": []
+  },
+  {
+   "framework": "flask",
+   "method": "DELETE",
+   "path": "/api/admin/wallets/<int:wallet_id>/delete",
+   "file": "routes/admin_routes.py",
+   "function": "delete_wallet",
+   "params": [
+    "current_wallet",
+    "wallet_id"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 258,
+   "query_fields": [],
+   "body_fields": []
+  },
+  {
+   "framework": "flask",
+   "method": "GET",
+   "path": "/api/admin/search-wallets",
+   "file": "routes/admin_routes.py",
+   "function": "search_wallets_regex",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 269,
+   "query_fields": [
+    "pattern"
+   ],
+   "body_fields": []
+  },
+  {
+   "framework": "flask",
+   "method": "POST",
+   "path": "/api/admin/calculate",
+   "file": "routes/admin_routes.py",
+   "function": "calculate",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 284,
+   "query_fields": [],
+   "body_fields": [
+    "expression"
+   ]
+  },
+  {
+   "framework": "flask",
+   "method": "POST",
+   "path": "/api/admin/run-script",
+   "file": "routes/admin_routes.py",
+   "function": "run_script",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 297,
+   "query_fields": [],
+   "body_fields": [
+    "result",
+    "script"
+   ]
+  },
+  {
+   "framework": "flask",
+   "method": "POST",
+   "path": "/api/admin/format-data",
+   "file": "routes/admin_routes.py",
+   "function": "format_data",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 309,
+   "query_fields": [],
+   "body_fields": [
+    "format",
+    "output"
+   ]
+  },
+  {
+   "framework": "flask",
+   "method": "POST",
+   "path": "/api/admin/verify-integrity",
+   "file": "routes/admin_routes.py",
+   "function": "verify_integrity",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 322,
+   "query_fields": [],
+   "body_fields": [
+    "hash",
+    "payload"
+   ]
+  },
+  {
+   "framework": "flask",
+   "method": "POST",
+   "path": "/api/admin/generate-token",
+   "file": "routes/admin_routes.py",
+   "function": "generate_api_token",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 337,
+   "query_fields": [],
+   "body_fields": [
+    "seed"
+   ]
+  },
+  {
+   "framework": "flask",
+   "method": "POST",
+   "path": "/api/admin/master-login",
+   "file": "routes/admin_routes.py",
+   "function": "master_login",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 348,
+   "query_fields": [],
+   "body_fields": [
+    "password"
+   ]
+  },
+  {
+   "framework": "flask",
+   "method": "POST",
+   "path": "/api/admin/sensitive-action",
+   "file": "routes/admin_routes.py",
+   "function": "sensitive_action",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 360,
+   "query_fields": [],
+   "body_fields": [
+    "action"
+   ]
+  },
+  {
+   "framework": "flask",
+   "method": "POST",
+   "path": "/api/admin/export-report",
+   "file": "routes/admin_routes.py",
+   "function": "export_report",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 371,
+   "query_fields": [],
+   "body_fields": [
+    "content"
+   ]
+  },
+  {
+   "framework": "flask",
+   "method": "GET",
+   "path": "/api/admin/dashboard-data",
+   "file": "routes/admin_routes.py",
+   "function": "dashboard_data",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 384,
+   "query_fields": [],
+   "body_fields": []
+  },
+  {
+   "framework": "flask",
+   "method": "POST",
+   "path": "/api/register",
+   "file": "routes/auth_routes.py",
+   "function": "register",
+   "params": [],
+   "param_annotations": [],
+   "middleware": [],
+   "line": 16,
+   "query_fields": [],
+   "body_fields": [
+    "password",
+    "wallet_name"
+   ]
+  },
+  {
+   "framework": "flask",
+   "method": "POST",
+   "path": "/api/login",
+   "file": "routes/auth_routes.py",
+   "function": "login",
+   "params": [],
+   "param_annotations": [],
+   "middleware": [],
+   "line": 37,
+   "query_fields": [],
+   "body_fields": [
+    "password",
+    "wallet_name"
+   ]
+  },
+  {
+   "framework": "flask",
+   "method": "POST",
+   "path": "/api/logout",
+   "file": "routes/auth_routes.py",
+   "function": "logout",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 95,
+   "query_fields": [],
+   "body_fields": []
+  },
+  {
+   "framework": "flask",
+   "method": "GET",
+   "path": "/api/me",
+   "file": "routes/auth_routes.py",
+   "function": "get_current_wallet",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 101,
+   "query_fields": [],
+   "body_fields": []
+  },
+  {
+   "framework": "flask",
+   "method": "GET",
+   "path": "/api/profile",
+   "file": "routes/auth_routes.py",
+   "function": "get_profile",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 112,
+   "query_fields": [],
+   "body_fields": [
+    "address",
+    "fullName",
+    "network",
+    "phone",
+    "walletAddress"
+   ]
+  },
+  {
+   "framework": "flask",
+   "method": "PUT",
+   "path": "/api/profile",
+   "file": "routes/auth_routes.py",
+   "function": "update_profile",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 126,
+   "query_fields": [],
+   "body_fields": [
+    "address",
+    "email",
+    "fullName",
+    "network",
+    "phone",
+    "walletAddress"
+   ]
+  },
+  {
+   "framework": "flask",
+   "method": "POST",
+   "path": "/api/update-password",
+   "file": "routes/auth_routes.py",
+   "function": "update_password",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 153,
+   "query_fields": [],
+   "body_fields": [
+    "new_password",
+    "wallet_id"
+   ]
+  },
+  {
+   "framework": "flask",
+   "method": "POST",
+   "path": "/api/forgot-password",
+   "file": "routes/auth_routes.py",
+   "function": "forgot_password",
+   "params": [],
+   "param_annotations": [],
+   "middleware": [],
+   "line": 167,
+   "query_fields": [],
+   "body_fields": [
+    "wallet_name"
+   ]
+  },
+  {
+   "framework": "flask",
+   "method": "POST",
+   "path": "/api/reset-password",
+   "file": "routes/auth_routes.py",
+   "function": "reset_password",
+   "params": [],
+   "param_annotations": [],
+   "middleware": [],
+   "line": 186,
+   "query_fields": [],
+   "body_fields": [
+    "new_password",
+    "token",
+    "wallet_name"
+   ]
+  },
+  {
+   "framework": "flask",
+   "method": "POST",
+   "path": "/api/profile/import",
+   "file": "routes/auth_routes.py",
+   "function": "import_profile",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 206,
+   "query_fields": [],
+   "body_fields": [
+    "profile_yaml"
+   ]
+  },
+  {
+   "framework": "flask",
+   "method": "POST",
+   "path": "/api/upload-avatar",
+   "file": "routes/upload_routes.py",
+   "function": "upload_avatar",
+   "params": [
+    "current_wallet"
+   ],
+   "param_annotations": [],
+   "middleware": [
+    "token_required"
+   ],
+   "line": 16,
+   "query_fields": [],
+   "body_fields": []
+  },
+  {
+   "framework": "flask",
+   "method": "GET",
+   "path": "/uploads/<path:filename>",
+   "file": "routes/upload_routes.py",
+   "function": "serve_upload",
+   "params": [
+    "filename"
+   ],
+   "param_annotations": [],
+   "middleware": [],
+   "line": 44,
+   "query_fields": [],
+   "body_fields": []
+  }
+ ]
+}
