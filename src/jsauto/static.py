@@ -130,7 +130,7 @@ def _run_semgrep(root: Path) -> dict:
     configs = sorted(RULES_DIR.glob("*.yaml"))
     if not configs:
         raise RuntimeError(f"no vendored rules found in {RULES_DIR}")
-    cmd = [semgrep_binary(), "--metrics=off", "--disable-version-check", "--quiet", "--json"]
+    cmd = [semgrep_binary(), "--metrics=off", "--disable-version-check", "--no-git-ignore", "--quiet", "--json"]
     for c in configs:
         cmd += ["--config", str(c)]
     for pattern in EXCLUDES + TEST_DIRS:

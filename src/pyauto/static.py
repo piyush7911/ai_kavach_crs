@@ -53,7 +53,7 @@ EXCLUDES = ("node_modules", "vendor", "dist", "build", ".git", ".venv", "venv", 
 def scan(target: str | Path, rules: Path = RULES) -> list[Finding]:
     target = Path(target)
     cmd = ["semgrep", "--config", str(rules), str(target), "--quiet", "--json",
-           "--metrics", "off", "--disable-version-check"]
+           "--metrics", "off", "--disable-version-check", "--no-git-ignore"]
     for pattern in EXCLUDES:
         cmd += ["--exclude", pattern]
     r = subprocess.run(cmd, capture_output=True, text=True, timeout=600)

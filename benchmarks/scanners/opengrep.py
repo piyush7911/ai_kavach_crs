@@ -82,7 +82,7 @@ def findings_from_opengrep(target: str | Path, rules: Path = None, binary: str =
         return []
     target = Path(target)
     configs = _rule_configs(Path(rules), target)        # language-matched subdirs for the corpus
-    cmd = [binary, "scan", "--quiet", "--json"]
+    cmd = [binary, "scan", "--quiet", "--json", "--no-git-ignore"]
     for c in configs:
         cmd += ["--config", c]
     # Dependency/vendor trees are never application source; scanning them produces findings inside
